@@ -76,6 +76,8 @@ public class VoiceRecognizer: NSObject {
                     self.retryCount += 1
                     self.isRetry = true
                     self.scheduleRestart()
+                } else {
+                    print("VoiceRecognizer: 达到最大重试次数，停止自动重试。")
                 }
             }
         }

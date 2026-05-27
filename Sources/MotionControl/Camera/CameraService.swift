@@ -16,6 +16,9 @@ class CameraService: NSObject {
     var onFPSUpdate: ((Double, Int) -> Void)?
     private var frameTimestamps: [Date] = []
 
+    /// 当前帧的尺寸（像素）
+    var currentFrameSize: CGSize? = nil
+
     // MARK: - Public API
     func start() {
         if !isConfigured {
@@ -102,6 +105,9 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
+        guard let pb = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        currentFrameSize = CGSize(width: CGFloat(CVPixelBufferGetWidth(pb)),
+                                  height: CGFloat(CVPixelBufferGetHeight(pb)))
         let now = Date()
         frameTimestamps.append(now)
         if frameTimestamps.count > 10 { frameTimestamps.removeFirst() }

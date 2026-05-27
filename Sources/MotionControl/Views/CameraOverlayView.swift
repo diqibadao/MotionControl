@@ -6,12 +6,14 @@ struct CameraOverlayView: NSViewRepresentable {
     var handKeypoints: [CGPoint] = []
     var faceKeypoints: [CGPoint] = []
     var isCommandActive: Bool = false
+    var frameSize: CGSize = .zero
 
     func makeNSView(context: Context) -> OverlayNSView {
         let view = OverlayNSView()
         view.handKeypoints = handKeypoints
         view.faceKeypoints = faceKeypoints
         view.isCommandActive = isCommandActive
+        view.frameSize = frameSize
         return view
     }
 
@@ -19,6 +21,7 @@ struct CameraOverlayView: NSViewRepresentable {
         nsView.handKeypoints = handKeypoints
         nsView.faceKeypoints = faceKeypoints
         nsView.isCommandActive = isCommandActive
+        nsView.frameSize = frameSize
         nsView.needsDisplay = true
     }
 }
@@ -28,6 +31,7 @@ class OverlayNSView: NSView {
     var handKeypoints: [CGPoint] = []
     var faceKeypoints: [CGPoint] = []
     var isCommandActive: Bool = false
+    var frameSize: CGSize = .zero
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -37,8 +41,13 @@ class OverlayNSView: NSView {
         let w = bounds.width
         let h = bounds.height
 
-        // 1. 计算视频画面在视图中的实际矩形（4:3 aspect ratio，.resizeAspect）
-        let cameraAspect: CGFloat = 640.0 / 480.0
+        // 1. 计算视频画面在视图中的实际矩形（使用实际的帧尺寸，若不可用则回退 4:3）
+        let cameraAspect: CGFloat
+        if frameSize.width > 0 && frameSize.height > 0 {
+            cameraAspect = frameSize.width / frameSize.height
+        } else {
+            cameraAspect = 640.0 / 480.0  // 默认
+        }
         let viewAspect = w / h
         let videoRect: CGRect
         if viewAspect > cameraAspect {

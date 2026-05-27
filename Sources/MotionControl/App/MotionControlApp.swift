@@ -30,7 +30,8 @@ struct ContentView: View {
                     CameraOverlayView(
                         handKeypoints: handKeypoints,
                         faceKeypoints: faceKeypoints,
-                        isCommandActive: Date().timeIntervalSince(commandTriggeredAt) < 1.0
+                        isCommandActive: Date().timeIntervalSince(commandTriggeredAt) < 1.0,
+                        frameSize: cameraService.currentFrameSize ?? .zero
                     )
                     VStack(alignment: .leading, spacing: 2) {
                         Text(String(format: "FPS: %.1f", state.currentFPS))

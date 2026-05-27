@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// 手势映射列表视图，支持编辑、新增和恢复默认。
-public struct GestureMappingView: View {
+struct GestureMappingView: View {
     @State private var mappings: [GestureType: SystemCommand] = [
         .pinch: .missionControl,
         .point: .launchpad
@@ -9,7 +9,7 @@ public struct GestureMappingView: View {
     @State private var selectedGesture: GestureType = .pinch
     @State private var selectedCommand: SystemCommand = .missionControl
 
-    public var body: some View {
+    var body: some View {
         VStack(alignment: .leading) {
             Text("手势映射")
                 .font(.title2)

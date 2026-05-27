@@ -20,13 +20,11 @@ enum GestureType: String, Codable, CaseIterable {
     case ok = "OK"
     case none = "NONE"
     
-    // 新增手势（共6个）
+    // 新增手势（共4个）
     case indexTap = "INDEX_TAP"
     case indexDoubleTap = "INDEX_DOUBLE_TAP"
     case dualTap = "DUAL_TAP"
     case dualRelease = "DUAL_RELEASE"
-    case swipeUpAlt = "SWIPE_UP_ALT"      // 因已有 swipeUp，改用不同名称
-    case swipeDownAlt = "SWIPE_DOWN_ALT"  // 因已有 swipeDown，改用不同名称
     
     var displayName: String {
         switch self {
@@ -39,8 +37,8 @@ enum GestureType: String, Codable, CaseIterable {
         case .fist: return "握拳"
         case .swipeLeft: return "挥手向左"
         case .swipeRight: return "挥手向右"
-        case .swipeUp: return "挥手向上"
-        case .swipeDown: return "挥手向下"
+        case .swipeUp: return "上挥"
+        case .swipeDown: return "下挥"
         case .openPalm: return "五指张开推掌"
         case .fivePinch: return "五指捏合"
         case .drag: return "单指拖拽"
@@ -52,8 +50,6 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "食指双击"
         case .dualTap: return "双指按下"
         case .dualRelease: return "双指收回"
-        case .swipeUpAlt: return "上挥"
-        case .swipeDownAlt: return "下挥"
         }
     }
     
@@ -78,8 +74,6 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "hand.point.up.fill"
         case .dualTap: return "hand.two.fingers"
         case .dualRelease: return "hand.two.fingers"
-        case .swipeUpAlt: return "hand.wave"
-        case .swipeDownAlt: return "hand.wave"
         }
     }
 }
@@ -211,8 +205,6 @@ struct GestureConfig: Codable {
         map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
         map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .rightClick, actionName: "右键点击")
         map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .leftClick, actionName: "左键点击")
-        map["SWIPE_UP_ALT"] = GestureAction(gesture: .swipeUpAlt, actionType: .systemCommand, actionValue: "MISSION_CONTROL", actionName: "Mission Control")
-        map["SWIPE_DOWN_ALT"] = GestureAction(gesture: .swipeDownAlt, actionType: .systemCommand, actionValue: "APP_EXPOSE", actionName: "App Exposé")
         return map
     }
     

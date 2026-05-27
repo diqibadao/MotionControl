@@ -44,8 +44,6 @@ class OverlayPreviewNSView: NSView {
     var isCommandActive: Bool = false
     var frameSize: CGSize = .zero
 
-    override var isFlipped: Bool { true }
-
     // 手部骨骼连接索引（与 MovementsApp.swift 保持一致）
     private let handConnections: [(Int, Int)] = [
         (0,3), (3,2), (2,1),                                     // 拇指
@@ -62,9 +60,9 @@ class OverlayPreviewNSView: NSView {
         guard let ctx = NSGraphicsContext.current?.cgContext,
               let previewLayer = previewLayer else { return }
 
-        // Vision 归一化坐标 → 视图坐标（y‑up → y‑down）
+        // Vision 归一化坐标 → 视图坐标（y‑up → y‑up）
         func visionPointToView(_ point: CGPoint) -> CGPoint {
-            let devicePoint = CGPoint(x: point.x, y: 1.0 - point.y)
+            let devicePoint = CGPoint(x: point.x, y: point.y)
             return previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint)
         }
 

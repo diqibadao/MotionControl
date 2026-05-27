@@ -57,13 +57,30 @@ class OverlayPreviewNSView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
-        guard let ctx = NSGraphicsContext.current?.cgContext,
-              let previewLayer = previewLayer else { return }
+        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
 
-        // Vision 归一化坐标 → 视图坐标（y‑up → y‑up）
+        // Vision 归一化坐标 → 视图坐标（手动计算 videoRect）
         func visionPointToView(_ point: CGPoint) -> CGPoint {
-            let devicePoint = CGPoint(x: point.x, y: point.y)
-            return previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint)
+            let camW = frameSize.width > 0 ? frameSize.width : 1920
+            let camH = frameSize.height > 0 ? frameSize.height : 1080
+            let cameraAspect = camW / camH
+            let viewAspect = bounds.width / bounds.height
+            let videoRect: CGRect
+            if viewAspect > cameraAspect {
+                let videoH = bounds.height
+                let videoW = videoH * cameraAspect
+                let xOff = (bounds.width - videoW) / 2
+                videoRect = CGRect(x: xOff, y: 0, width: videoW, height: videoH)
+            } else {
+                let videoW = bounds.width
+                let videoH = videoW / cameraAspect
+                let yOff = (bounds.height - videoH) / 2
+                videoRect = CGRect(x: 0, y: yOff, width: videoW, height: videoH)
+            }
+            // View 坐标系 y 向上，与 Vision 一致，无需翻转
+            let x = point.x * videoRect.width + videoRect.origin.x
+            let y = point.y * videoRect.height + videoRect.origin.y
+            return CGPoint(x: x, y: y)
         }
 
         // --- 绘制手部骨骼连线 ---

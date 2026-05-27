@@ -70,7 +70,7 @@ struct GestureMappingView: View {
                     // 添加或修改映射
                     mappings[pickerGesture] = pickerCommand
                     // 写回 ConfigManager
-                    configManager.currentConfig.gestureMappings = mappings
+                    configManager.currentConfig.gestureMapping = mappings
                     // 显式通知 ObservableObject
                     configManager.objectWillChange.send()
                 }
@@ -81,7 +81,7 @@ struct GestureMappingView: View {
                         .point: .launchpad
                     ]
                     mappings = defaultMappings
-                    configManager.currentConfig.gestureMappings = defaultMappings
+                    configManager.currentConfig.gestureMapping = defaultMappings
                     configManager.objectWillChange.send()
                 }
             }
@@ -90,7 +90,7 @@ struct GestureMappingView: View {
         .padding()
         .onAppear {
             // 从 ConfigManager 加载映射
-            mappings = configManager.currentConfig.gestureMappings
+            mappings = configManager.currentConfig.gestureMapping
 
             // 初始化 Picker 显示第一个已有的映射，若无则保持默认
             if let first = mappings.keys.sorted(by: { $0.rawValue < $1.rawValue }).first {

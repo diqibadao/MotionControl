@@ -1,10 +1,11 @@
 import SwiftUI
 
 /// 配置面板主容器，三页 Tab
-public struct ConfigPanelView: View {
+struct ConfigPanelView: View {
+    @Bindable var state: SystemState
     @State private var selectedTab = 0
 
-    public var body: some View {
+    var body: some View {
         TabView(selection: $selectedTab) {
             GestureMappingView()
                 .tabItem {

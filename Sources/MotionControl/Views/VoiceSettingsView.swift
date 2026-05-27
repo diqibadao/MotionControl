@@ -1,13 +1,13 @@
 import SwiftUI
 
 /// 语音设置视图
-public struct VoiceSettingsView: View {
+struct VoiceSettingsView: View {
     @State private var voiceEnabled = true
     @State private var mouthOpenThreshold: Float = 0.6
     @State private var mouthCloseThreshold: Float = 0.4
     @State private var showPrivacyInfo = false
 
-    public var body: some View {
+    var body: some View {
         Form {
             Section("语音控制") {
                 Toggle("启用语音输入", isOn: $voiceEnabled)

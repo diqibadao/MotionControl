@@ -1,12 +1,17 @@
 import SwiftUI
 
 /// 状态菜单视图（菜单栏下拉视图）
-public struct StatusMenuView: View {
+struct StatusMenuView: View {
+    @Bindable var state: SystemState
+    
+    init(state: SystemState) {
+        self.state = state
+    }
     @State private var detectionActive = true
     @State private var gestureEnabled = true
     @State private var voiceEnabled = true
 
-    public var body: some View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // 标题
             Text("MotionControl")
@@ -48,7 +53,7 @@ public struct StatusMenuView: View {
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
                               styleMask: [.titled, .closable, .resizable],
                               backing: .buffered, defer: false)
-        window.contentView = NSHostingView(rootView: ConfigPanelView())
+        window.contentView = NSHostingView(rootView: ConfigPanelView(state: SystemState()))
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }

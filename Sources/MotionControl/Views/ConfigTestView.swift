@@ -1,14 +1,14 @@
 import SwiftUI
 
 /// 底部测试区，显示实时手势、注视、嘴型数据及捏合阈值对比条。
-public struct ConfigTestView: View {
+struct ConfigTestView: View {
     @State private var gesture: GestureType = .none
     @State private var gaze: CGPoint = .zero
     @State private var mouthRatio: Float = 0.0
     @State private var pinchDist: CGFloat = 0.0
     @State private var pinchThreshold: CGFloat = 0.05
 
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 12) {
             HStack {
                 Text("手势: \(gesture.displayName)")

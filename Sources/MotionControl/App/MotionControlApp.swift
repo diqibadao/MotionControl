@@ -26,8 +26,9 @@ struct ContentView: View {
         HSplitView {
             VStack {
                 ZStack(alignment: .topLeading) {
-                    CameraPreviewView(session: cameraService.cameraSession)
-                    CameraOverlayView(
+                    // 预览与叠加层合并
+                    CameraPreviewView(
+                        session: cameraService.cameraSession,
                         handKeypoints: handKeypoints,
                         faceKeypoints: faceKeypoints,
                         isCommandActive: Date().timeIntervalSince(commandTriggeredAt) < 1.0,

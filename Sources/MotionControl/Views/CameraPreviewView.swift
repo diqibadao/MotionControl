@@ -111,7 +111,7 @@ extension OverlayPreviewNSView: CALayerDelegate {
                 print("[OVERLAY] bounds=\(bounds) videoRect=\(videoRect) frameSize=\(frameSize) firstPt=\(point)")
             }
             // View 坐标系 y 向上，与 Vision 一致，无需翻转
-            let x = point.x * videoRect.width + videoRect.origin.x
+            let x = (1.0 - point.x) * videoRect.width + videoRect.origin.x
             let y = point.y * videoRect.height + videoRect.origin.y
             return CGPoint(x: x, y: y)
         }

@@ -8,6 +8,9 @@ struct CameraPreviewView: NSViewRepresentable {
     var faceKeypoints: [CGPoint] = []
     var isCommandActive: Bool = false
     var frameSize: CGSize = .zero
+    // 新增属性：注视追踪开关以及头部偏移方向（-1…1）
+    var gazeTrackingEnabled: Bool = false
+    var headOffset: CGPoint = .zero
 
     func makeNSView(context: Context) -> OverlayPreviewNSView {
         let view = OverlayPreviewNSView()
@@ -26,6 +29,8 @@ struct CameraPreviewView: NSViewRepresentable {
         nsView.faceKeypoints = faceKeypoints
         nsView.isCommandActive = isCommandActive
         nsView.frameSize = frameSize
+        nsView.gazeTrackingEnabled = gazeTrackingEnabled
+        nsView.headOffset = headOffset
 
         // 更新 previewLayer 尺寸
         if let layer = nsView.previewLayer {
@@ -45,6 +50,9 @@ class OverlayPreviewNSView: NSView {
     var faceKeypoints: [CGPoint] = []
     var isCommandActive: Bool = false
     var frameSize: CGSize = .zero
+    // 新增属性
+    var gazeTrackingEnabled: Bool = false
+    var headOffset: CGPoint = .zero
 
     // 手部骨骼连接索引（与 MovementsApp.swift 保持一致）
     private let handConnections: [(Int, Int)] = [
@@ -164,6 +172,36 @@ extension OverlayPreviewNSView: CALayerDelegate {
                                   width: 8, height: 8)
                 ctx.fillEllipse(in: rect)
             }
+        }
+
+        // --- 在画面中央绘制半透明十字准心，指示头部偏移方向 ---
+        if gazeTrackingEnabled {
+            let centerX = layer.bounds.midX
+            let centerY = layer.bounds.midY
+            let maxRadius: CGFloat = 30.0
+            let offsetX = headOffset.x * maxRadius
+            let offsetY = headOffset.y * maxRadius
+            let crosshairCenter = CGPoint(x: centerX + offsetX, y: centerY + offsetY)
+
+            // 垂直线
+            ctx.setStrokeColor(NSColor.white.withAlphaComponent(0.5).cgColor)
+            ctx.setLineWidth(1.5)
+            ctx.beginPath()
+            ctx.move(to: CGPoint(x: crosshairCenter.x, y: crosshairCenter.y - 10))
+            ctx.addLine(to: CGPoint(x: crosshairCenter.x, y: crosshairCenter.y + 10))
+            ctx.strokePath()
+
+            // 水平线
+            ctx.beginPath()
+            ctx.move(to: CGPoint(x: crosshairCenter.x - 10, y: crosshairCenter.y))
+            ctx.addLine(to: CGPoint(x: crosshairCenter.x + 10, y: crosshairCenter.y))
+            ctx.strokePath()
+
+            // 可选圆环
+            ctx.setStrokeColor(NSColor.white.withAlphaComponent(0.3).cgColor)
+            ctx.setLineWidth(1.0)
+            ctx.strokeEllipse(in: CGRect(x: crosshairCenter.x - 15, y: crosshairCenter.y - 15,
+                                         width: 30, height: 30))
         }
     }
 }

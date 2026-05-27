@@ -1,0 +1,62 @@
+import Foundation
+import AppKit
+import AVFoundation
+import Speech
+
+class PermissionManager {
+    static let shared = PermissionManager()
+    
+    func checkAll() async -> (camera: Bool, mic: Bool, speech: Bool, accessibility: Bool) {
+        async let camera = checkCamera()
+        async let mic = checkMicrophone()
+        async let speech = checkSpeech()
+        let accessibility = checkAccessibility()
+        return await (camera, mic, speech, accessibility)
+    }
+    
+    func checkCamera() async -> Bool {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized: return true
+        case .notDetermined: return await AVCaptureDevice.requestAccess(for: .video)
+        case .denied, .restricted: return false
+        @unknown default: return false
+        }
+    }
+    
+    func checkMicrophone() async -> Bool {
+        let status = AVCaptureDevice.authorizationStatus(for: .audio)
+        switch status {
+        case .authorized: return true
+        case .notDetermined: return await AVCaptureDevice.requestAccess(for: .audio)
+        case .denied, .restricted: return false
+        @unknown default: return false
+        }
+    }
+    
+    func checkSpeech() async -> Bool {
+        let status = SFSpeechRecognizer.authorizationStatus()
+        switch status {
+        case .authorized: return true
+        case .notDetermined:
+            return await withCheckedContinuation { continuation in
+                SFSpeechRecognizer.requestAuthorization { status in
+                    continuation.resume(returning: status == .authorized)
+                }
+            }
+        case .denied, .restricted: return false
+        @unknown default: return false
+        }
+    }
+    
+    func checkAccessibility() -> Bool {
+        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: false]
+        return AXIsProcessTrustedWithOptions(options)
+    }
+    
+    func openAccessibilityPreference() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+}

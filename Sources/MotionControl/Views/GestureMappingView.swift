@@ -3,14 +3,14 @@
 import SwiftUI
 
 /// 手势映射列表视图，支持编辑、新增和恢复默认。
-/// ・列表行可点击选中，选中后下方 Picker 自动填充手势和动作
-/// ・按钮文字根据当前手势是否已有映射显示“添加”或“修改”
-/// ・映射数据从 ConfigManager 读取，修改后写回 ConfigManager
+/// ・列表行按 GestureType.allCases 顺序显示，不依赖字典 keys
+/// ・Picker 使用 ActionType（而非 SystemCommand）
+/// ・映射数据以 [GestureType.rawValue: GestureAction] 形式存储
 struct GestureMappingView: View {
     @ObservedObject private var configManager = ConfigManager.shared
 
-    /// 当前手势映射字典（从 ConfigManager 加载）
-    @State private var mappings: [GestureType: SystemCommand] = [:]
+    /// 当前手势映射字典（rawValue -> GestureAction）
+    @State private var mappings: [String: GestureAction] = [:]
 
     /// 列表中被选中的手势（高亮行）
     @State private var selectedGesture: GestureType? = nil
@@ -18,28 +18,28 @@ struct GestureMappingView: View {
     /// Picker 中当前选择的手势
     @State private var pickerGesture: GestureType = .pinch
 
-    /// Picker 中当前选择的命令
-    @State private var pickerCommand: SystemCommand = .missionControl
+    /// Picker 中当前选择的动作类型（ActionType）
+    @State private var pickerAction: ActionType = .leftClick
 
     var body: some View {
         VStack(alignment: .leading) {
             Text("手势映射")
                 .font(.title2)
 
-            // 映射列表
+            // 映射列表（按 GestureType 顺序）
             List {
-                ForEach(Array(mappings.keys.sorted(by: { $0.rawValue < $1.rawValue })), id: \.self) { gesture in
+                ForEach(GestureType.allCases, id: \.self) { gesture in
                     HStack {
                         Text(gesture.displayName)
                         Spacer()
-                        Text(mappings[gesture]?.displayName ?? "")
+                        Text(mappings[gesture.rawValue]?.actionName ?? "")
                     }
-                    .contentShape(Rectangle()) // 使整个区域可点击
+                    .contentShape(Rectangle())
                     .onTapGesture {
-                        // 选中该行
                         selectedGesture = gesture
                         pickerGesture = gesture
-                        pickerCommand = mappings[gesture] ?? .missionControl
+                        // 若已有映射则使用其 actionType，否则保持默认
+                        pickerAction = mappings[gesture.rawValue]?.actionType ?? .leftClick
                     }
                     .background(selectedGesture == gesture
                                 ? Color.accentColor.opacity(0.2)
@@ -56,33 +56,56 @@ struct GestureMappingView: View {
                         Text(g.displayName).tag(g)
                     }
                 }
-                Picker("命令", selection: $pickerCommand) {
-                    ForEach(SystemCommand.allCases, id: \.self) { cmd in
-                        Text(cmd.displayName).tag(cmd)
+                Picker("动作", selection: $pickerAction) {
+                    ForEach(ActionType.allCases, id: \.self) { action in
+                        Text(action.displayName).tag(action)
                     }
                 }
 
                 // 按钮文字根据是否有映射决定
-                let gestureExists = mappings[pickerGesture] != nil
+                let gestureExists = mappings[pickerGesture.rawValue] != nil
                 let buttonLabel = gestureExists ? "修改" : "添加"
 
                 Button(buttonLabel) {
-                    // 添加或修改映射
-                    mappings[pickerGesture] = pickerCommand
+                    // 构造新的 GestureAction
+                    let newAction = GestureAction(
+                        id: UUID(),
+                        gesture: pickerGesture,
+                        actionType: pickerAction,
+                        actionValue: nil,
+                        actionName: pickerAction.displayName,
+                        systemIcon: nil,
+                        isEnabled: true
+                    )
+                    mappings[pickerGesture.rawValue] = newAction
                     // 写回 ConfigManager
                     configManager.currentConfig.gestureMapping = mappings
-                    // 显式通知 ObservableObject
                     configManager.objectWillChange.send()
                 }
 
                 Button("恢复默认") {
-                    let defaultMappings: [GestureType: SystemCommand] = [
-                        .pinch: .missionControl,
-                        .point: .launchpad
+                    // 提供一组示例默认映射（可根据需求调整）
+                    let defaultMappings: [String: GestureAction] = [
+                        GestureType.pinch.rawValue: GestureAction(
+                            gesture: .pinch,
+                            actionType: .scroll,
+                            actionName: ActionType.scroll.displayName
+                        ),
+                        GestureType.point.rawValue: GestureAction(
+                            gesture: .point,
+                            actionType: .leftClick,
+                            actionName: ActionType.leftClick.displayName
+                        )
                     ]
                     mappings = defaultMappings
                     configManager.currentConfig.gestureMapping = defaultMappings
                     configManager.objectWillChange.send()
+
+                    // 重置 Picker 状态
+                    if let first = GestureType.allCases.first {
+                        pickerGesture = first
+                        pickerAction = defaultMappings[first.rawValue]?.actionType ?? .leftClick
+                    }
                 }
             }
             .padding()
@@ -92,10 +115,10 @@ struct GestureMappingView: View {
             // 从 ConfigManager 加载映射
             mappings = configManager.currentConfig.gestureMapping
 
-            // 初始化 Picker 显示第一个已有的映射，若无则保持默认
-            if let first = mappings.keys.sorted(by: { $0.rawValue < $1.rawValue }).first {
+            // 初始化第一个手势的 Picker
+            if let first = GestureType.allCases.first {
                 pickerGesture = first
-                pickerCommand = mappings[first] ?? .missionControl
+                pickerAction = mappings[first.rawValue]?.actionType ?? .leftClick
             }
         }
     }

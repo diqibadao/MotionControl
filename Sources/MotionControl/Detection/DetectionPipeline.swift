@@ -23,6 +23,8 @@ class DetectionPipeline: CameraOutputDelegate {
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
     var onGaze: ((GazePoint) -> Void)?
+    var onHandResult: ((HandPoseResult) -> Void)?
+    var onFaceResult: ((FaceResult) -> Void)?
 
     // 运行状态
     private var isRunning = false
@@ -64,6 +66,7 @@ class DetectionPipeline: CameraOutputDelegate {
                 let gestureEvent = self.gestureAnalyzer.analyze(handResult)
                 DispatchQueue.main.async {
                     self.onGesture?(gestureEvent)
+                    self.onHandResult?(handResult)
                 }
             }
             // 人脸检测
@@ -74,6 +77,7 @@ class DetectionPipeline: CameraOutputDelegate {
                 let mouthEvent = self.mouthDetector.detect(from: faceResult)
                 DispatchQueue.main.async {
                     self.onMouthEvent?(mouthEvent)
+                    self.onFaceResult?(faceResult)
                 }
                 // 新增人脸凝视估计
                 self.didOutputFace(faceResult)

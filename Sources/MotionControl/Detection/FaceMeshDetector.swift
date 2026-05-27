@@ -120,9 +120,20 @@ class FaceMeshDetector {
     }
 
     // MARK: - 私有辅助方法
+    /// 将人脸特征点从人脸框相对坐标转为图像绝对坐标。
+    private static func landmarkPoints(from landmark: VNFaceLandmarkRegion2D?, in boundingBox: CGRect) -> [CGPoint]? {
+        guard let points = landmark?.normalizedPoints else { return nil }
+        return points.map { point in
+            let x = boundingBox.origin.x + point.x * boundingBox.width
+            let y = boundingBox.origin.y + point.y * boundingBox.height
+            return CGPoint(x: x, y: y)
+        }
+    }
+
     /// 从 VNFaceObservation 构建 FaceResult。
     private static func faceResult(from observation: VNFaceObservation) -> FaceResult {
         let landmarks = observation.landmarks
+        let bbox = observation.boundingBox
 
         // 头部姿态（欧拉角）
         let roll = observation.roll?.floatValue
@@ -130,19 +141,19 @@ class FaceMeshDetector {
         let yaw = observation.yaw?.floatValue
 
         // 眼睑轮廓
-        let leftEye = landmarks?.leftEye?.normalizedPoints
-        let rightEye = landmarks?.rightEye?.normalizedPoints
+        let leftEye = Self.landmarkPoints(from: landmarks?.leftEye, in: bbox)
+        let rightEye = Self.landmarkPoints(from: landmarks?.rightEye, in: bbox)
 
         // 瞳孔（每个区域只有一个点）
-        let leftPupil = landmarks?.leftPupil?.normalizedPoints.first
-        let rightPupil = landmarks?.rightPupil?.normalizedPoints.first
+        let leftPupil = Self.landmarkPoints(from: landmarks?.leftPupil, in: bbox)?.first
+        let rightPupil = Self.landmarkPoints(from: landmarks?.rightPupil, in: bbox)?.first
 
         // 嘴唇
-        let outerLips = landmarks?.outerLips?.normalizedPoints
-        let innerLips = landmarks?.innerLips?.normalizedPoints
+        let outerLips = Self.landmarkPoints(from: landmarks?.outerLips, in: bbox)
+        let innerLips = Self.landmarkPoints(from: landmarks?.innerLips, in: bbox)
 
         // 面部轮廓
-        let faceContour = landmarks?.faceContour?.normalizedPoints
+        let faceContour = Self.landmarkPoints(from: landmarks?.faceContour, in: bbox)
 
         return FaceResult(
             roll: roll,

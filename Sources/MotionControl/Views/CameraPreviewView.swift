@@ -39,6 +39,7 @@ struct CameraPreviewView: NSViewRepresentable {
 // MARK: - 自定义 NSView，完成预览+叠加绘制
 class OverlayPreviewNSView: NSView {
     var previewLayer: AVCaptureVideoPreviewLayer?
+    var overlayLayer: CALayer?
     var handKeypoints: [CGPoint] = []
     var faceKeypoints: [CGPoint] = []
     var isCommandActive: Bool = false
@@ -54,20 +55,47 @@ class OverlayPreviewNSView: NSView {
         (3,7), (7,11), (11,15), (15,19)                         // 掌骨
     ]
 
+    override func viewDidMoveToSuperview() {
+        super.viewDidMoveToSuperview()
+        // 在 previewLayer 上方加一个透明叠加层用于绘制
+        if overlayLayer == nil, let superLayer = self.layer {
+            let ol = CALayer()
+            ol.frame = self.bounds
+            ol.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
+            ol.isOpaque = false
+            ol.delegate = self
+            superLayer.addSublayer(ol)  // 加到 previewLayer 上方
+            self.overlayLayer = ol
+        }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        // 空的，所有绘制挪到 overlayLayer 的 delegate 方法中
+    }
 
-        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+    override func viewDidEndLiveResize() {
+        super.viewDidEndLiveResize()
+        overlayLayer?.frame = bounds
+    }
+}
 
+extension OverlayPreviewNSView: CALayerDelegate {
+    func draw(_ layer: CALayer, in ctx: CGContext) {
+        guard layer === overlayLayer else { return }
+        
+        // 调试：打印坐标系信息
+        print("[OVERLAY-CTX] isFlipped=\(isFlipped) ctm=\(ctx.ctm) bounds=\(layer.bounds)")
+        
         // Vision 归一化坐标 → 视图坐标（手动计算 videoRect）
         func visionPointToView(_ point: CGPoint) -> CGPoint {
             let camW = frameSize.width > 0 ? frameSize.width : 1920
             let camH = frameSize.height > 0 ? frameSize.height : 1080
             let cameraAspect = camW / camH
-            let viewAspect = bounds.width / bounds.height
+            let viewAspect = layer.bounds.width / layer.bounds.height
             let videoRect: CGRect
             if viewAspect > cameraAspect {
-                let videoH = bounds.height
+                let videoH = layer.bounds.height
                 let videoW = videoH * cameraAspect
                 let xOff = (bounds.width - videoW) / 2
                 videoRect = CGRect(x: xOff, y: 0, width: videoW, height: videoH)
@@ -76,6 +104,10 @@ class OverlayPreviewNSView: NSView {
                 let videoH = videoW / cameraAspect
                 let yOff = (bounds.height - videoH) / 2
                 videoRect = CGRect(x: 0, y: yOff, width: videoW, height: videoH)
+            }
+            // 调试：打印第一帧的坐标信息
+            if point == handKeypoints.first ?? point {
+                print("[OVERLAY] bounds=\(bounds) videoRect=\(videoRect) frameSize=\(frameSize) firstPt=\(point)")
             }
             // View 坐标系 y 向上，与 Vision 一致，无需翻转
             let x = point.x * videoRect.width + videoRect.origin.x
@@ -126,6 +158,7 @@ class OverlayPreviewNSView: NSView {
             )
             for point in handKeypoints {
                 let displayPoint = visionPointToView(point)
+                print("[OVERLAY-DRAW] pt=\(point) display=\(displayPoint) bounds=\(bounds)")
                 let rect = CGRect(x: displayPoint.x - 4, y: displayPoint.y - 4,
                                   width: 8, height: 8)
                 ctx.fillEllipse(in: rect)

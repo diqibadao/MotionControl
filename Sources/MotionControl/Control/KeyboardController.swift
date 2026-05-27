@@ -50,7 +50,7 @@ class KeyboardController {
             break
         case .showDesktop:
             // F11
-            break
+            sendKeyCombo(0x67, flags: [])
         case .appExpose:
             // control+down
             break

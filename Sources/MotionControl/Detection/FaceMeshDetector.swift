@@ -32,10 +32,16 @@ struct FaceResult {
     /// 基于外嘴唇包围盒的高度/宽度比，0 ~ 1 之间。
     var mouthOpenRatio: Float {
         guard let lips = outerLips, lips.count >= 4 else { return 0 }
-        let minX = lips.min(by: { $0.x < $1.x })!.x
-        let maxX = lips.max(by: { $0.x < $1.x })!.x
-        let minY = lips.min(by: { $0.y < $1.y })!.y
-        let maxY = lips.max(by: { $0.y < $1.y })!.y
+        var minX = CGFloat.greatestFiniteMagnitude
+        var maxX = CGFloat.leastNormalMagnitude
+        var minY = CGFloat.greatestFiniteMagnitude
+        var maxY = CGFloat.leastNormalMagnitude
+        for point in lips {
+            minX = min(minX, point.x)
+            maxX = max(maxX, point.x)
+            minY = min(minY, point.y)
+            maxY = max(maxY, point.y)
+        }
         let width = maxX - minX
         let height = maxY - minY
         guard width > 0 else { return 0 }

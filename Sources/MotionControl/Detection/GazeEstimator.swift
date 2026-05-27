@@ -1,3 +1,8 @@
+//
+//  GazeEstimator.swift
+//  MotionControl
+//
+
 import CoreGraphics
 
 /// 根据面部检测结果（头部姿态与瞳孔位置）估算用户注视屏幕的位置。
@@ -13,7 +18,8 @@ struct GazePoint {
     }
 }
 
-class GazeEstimator {
+/// 注视估算器，使用 actor 保证 smoothedRawPosition 的线程安全。
+actor GazeEstimator {
     /// 指数平滑因子（0~1），值越大对新数据响应越快。
     var smoothFactor: Float = 0.3
 

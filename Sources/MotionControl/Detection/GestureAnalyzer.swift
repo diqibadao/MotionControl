@@ -28,16 +28,11 @@ struct GestureEvent {
 /// 手势分析引擎，利用 HandPoseResult 的关键点判断手势。
 class GestureAnalyzer {
 
-    // MARK: - 距离阈值 (像素坐标)
-    private let pinchThreshold: CGFloat = 40
-    private let openPalmThreshold: CGFloat = 100
-    private let fistThreshold: CGFloat = 50
-    private let thumbsUpMinDist: CGFloat = 80
-    private let pointRatio: CGFloat = 1.5
-    // 冷却时间（秒），避免同一手势短时间内重复触发
-    private let cooldownInterval: TimeInterval = 0.3
-    // 双击捏合时间窗口
-    private let doublePinchWindow: TimeInterval = 0.5
+    // MARK: - 距离阈值 (像素坐标)  —— 以下常量将从 ConfigManager 读取
+    private let openPalmThreshold: CGFloat = 100        // 暂未有对应配置，保留硬编码
+    private let fistThreshold: CGFloat = 50             // 同上
+    private let thumbsUpMinDist: CGFloat = 80           // 同上
+    private let pointRatio: CGFloat = 1.5               // 同上
 
     // 记录上次捏合事件的时间
     private var lastPinchTime: Date?
@@ -51,6 +46,13 @@ class GestureAnalyzer {
     /// - Parameter hand: 手部关键点数据
     /// - Returns: 手势事件（若无手势则 type 为 .none，confidience 为 0）
     func analyze(_ hand: HandPoseResult) -> GestureEvent {
+        let config = ConfigManager.shared.currentConfig
+
+        // 从配置读取动态阈值（单位统一）
+        let pinchThreshold = CGFloat(config.pinchThreshold)
+        let gestureCooldown = TimeInterval(config.gestureCooldown) / 1000.0
+        let doublePinchWindow = TimeInterval(config.doubleTapWindow) / 1000.0
+
         var bestEvent: GestureEvent? = nil
 
         // 辅助函数：比较并保存置信度最高的事件
@@ -195,9 +197,9 @@ class GestureAnalyzer {
 
         // --- 冷却与去重 ---
         if let event = bestEvent {
-            // 如果冷却时间内出现相同事件且在 0.3s 内，标记为重复
+            // 如果冷却时间内出现相同事件且在 cooldownInterval 内，标记为重复
             let isRepeat: Bool
-            if event.gestureType == lastEventType && now.timeIntervalSince(lastEventTime) < cooldownInterval {
+            if event.gestureType == lastEventType && now.timeIntervalSince(lastEventTime) < gestureCooldown {
                 isRepeat = true
             } else {
                 isRepeat = false

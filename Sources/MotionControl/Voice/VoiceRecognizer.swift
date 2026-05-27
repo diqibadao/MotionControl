@@ -1,0 +1,118 @@
+import Foundation
+import Speech
+
+/// 语音识别委托协议
+public protocol VoiceRecognizerDelegate: AnyObject {
+    func voiceRecognizerDidReceiveText(_ text: String)
+    func voiceRecognizerDidDetectVoice(_ isSpeaking: Bool)
+    func voiceRecognizerDidEncounterError(_ error: Error)
+}
+
+/// 语音识别器，封装 SFSpeechRecognizer，支持自动重新启动。
+public class VoiceRecognizer: NSObject {
+    public weak var delegate: VoiceRecognizerDelegate?
+
+    private let speechRecognizer: SFSpeechRecognizer?
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private let audioEngine = AVAudioEngine()
+    private let queue = DispatchQueue(label: "com.motioncontrol.voice")
+
+    private var isRunning = false
+    private var restartTimer: Timer?
+
+    /// 1 分钟自动重启间隔
+    private let restartInterval: TimeInterval = 60
+
+    public override init() {
+        self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "zh-CN"))
+        super.init()
+        speechRecognizer?.delegate = self
+    }
+
+    /// 启动语音识别
+    public func start() throws {
+        guard let recognizer = speechRecognizer, recognizer.isAvailable else {
+            throw NSError(domain: "VoiceRecognizer", code: 1, userInfo: [NSLocalizedDescriptionKey: "语音识别不可用"])
+        }
+
+        if isRunning { stop() }
+
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        guard let request = recognitionRequest else { return }
+        request.shouldReportPartialResults = true
+
+        let inputNode = audioEngine.inputNode
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
+            self?.recognitionRequest?.append(buffer)
+        }
+
+        recognitionTask = recognizer.recognitionTask(with: request) { [weak self] result, error in
+            guard let self = self else { return }
+            if let result = result {
+                let text = result.bestTranscription.formattedString
+                self.delegate?.voiceRecognizerDidReceiveText(text)
+            }
+            if let error = error {
+                self.delegate?.voiceRecognizerDidEncounterError(error)
+                self.stop()
+                // 错误后自动重试
+                self.scheduleRestart()
+            }
+        }
+
+        audioEngine.prepare()
+        try audioEngine.start()
+        isRunning = true
+
+        // 1分钟自动重启
+        restartTimer = Timer.scheduledTimer(withTimeInterval: restartInterval, repeats: false) { [weak self] _ in
+            self?.restart()
+        }
+    }
+
+    /// 停止语音识别
+    public func stop() {
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        recognitionTask?.cancel()
+        recognitionRequest = nil
+        recognitionTask = nil
+        restartTimer?.invalidate()
+        restartTimer = nil
+        isRunning = false
+    }
+
+    private func scheduleRestart() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.restart()
+        }
+    }
+
+    private func restart() {
+        stop()
+        do {
+            try start()
+        } catch {
+            delegate?.voiceRecognizerDidEncounterError(error)
+        }
+    }
+
+    deinit {
+        stop()
+    }
+}
+
+extension VoiceRecognizer: SFSpeechRecognizerDelegate {
+    public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
+        if available {
+            // 可尝试重启
+        }
+    }
+}

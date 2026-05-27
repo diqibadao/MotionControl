@@ -12,6 +12,10 @@ class CameraService: NSObject {
     /// Callback invoked every time a new video frame is captured.
     var onSampleBuffer: ((CMSampleBuffer) -> Void)?
 
+    /// Callback invoked with current FPS and the number of timestamps used.
+    var onFPSUpdate: ((Double, Int) -> Void)?
+    private var frameTimestamps: [Date] = []
+
     // MARK: - Public API
     func start() {
         if !isConfigured {
@@ -94,6 +98,16 @@ extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
+        let now = Date()
+        frameTimestamps.append(now)
+        if frameTimestamps.count > 10 { frameTimestamps.removeFirst() }
+        if frameTimestamps.count >= 2 {
+            let interval = now.timeIntervalSince(frameTimestamps.first!)
+            if interval > 0 {
+                let fps = Double(frameTimestamps.count - 1) / interval
+                onFPSUpdate?(fps, frameTimestamps.count)
+            }
+        }
         onSampleBuffer?(sampleBuffer)
     }
 }

@@ -25,6 +25,12 @@ public class VoiceRecognizer: NSObject {
     /// 1 分钟自动重启间隔
     private let restartInterval: TimeInterval = 60
 
+    // MARK: - 错误重试上限
+    private var retryCount = 0
+    private let maxRetryCount = 5
+    /// 标记本次启动是否由错误重试触发（不影响重试计数）
+    private var isRetry = false
+
     public override init() {
         self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "zh-CN"))
         super.init()
@@ -33,6 +39,11 @@ public class VoiceRecognizer: NSObject {
 
     /// 启动语音识别
     public func start() throws {
+        // 非重试时重置计数，以便手动启动后重新计数
+        if !isRetry {
+            retryCount = 0
+        }
+
         guard let recognizer = speechRecognizer, recognizer.isAvailable else {
             throw NSError(domain: "VoiceRecognizer", code: 1, userInfo: [NSLocalizedDescriptionKey: "语音识别不可用"])
         }
@@ -54,12 +65,18 @@ public class VoiceRecognizer: NSObject {
             if let result = result {
                 let text = result.bestTranscription.formattedString
                 self.delegate?.didReceiveText(text)
+                // 成功接收到识别结果，重置重试次数
+                self.retryCount = 0
             }
             if let error = error {
                 self.delegate?.didEncounterError(error)
                 self.stop()
-                // 错误后自动重试
-                self.scheduleRestart()
+                // 未超过上限则安排重试
+                if self.retryCount < self.maxRetryCount {
+                    self.retryCount += 1
+                    self.isRetry = true
+                    self.scheduleRestart()
+                }
             }
         }
 
@@ -67,8 +84,12 @@ public class VoiceRecognizer: NSObject {
         try audioEngine.start()
         isRunning = true
 
+        isRetry = false // 清除重试标记，避免影响后续自动重启
+
         // 1分钟自动重启
         restartTimer = Timer.scheduledTimer(withTimeInterval: restartInterval, repeats: false) { [weak self] _ in
+            // 定时重启属于正常重新连接，应清空重试计数
+            self?.isRetry = false
             self?.restart()
         }
     }

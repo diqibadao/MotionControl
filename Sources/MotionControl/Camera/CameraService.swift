@@ -34,18 +34,32 @@ public class CameraService: NSObject {
         stop()
     }
 
+    // MARK: - Device Selection
+    /// 优先选择外接摄像头，若不可用则使用内置前摄
+    private func bestAvailableCamera() -> AVCaptureDevice? {
+        let externalDevices = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.external],
+            mediaType: .video,
+            position: .unspecified
+        ).devices
+        if !externalDevices.isEmpty {
+            return externalDevices.first
+        }
+        return AVCaptureDevice.default(
+            .builtInWideAngleCamera,
+            for: .video,
+            position: .front
+        )
+    }
+
     // MARK: - Session Configuration
     private func configureSession() {
         session.beginConfiguration()
         defer { session.commitConfiguration() }
 
-        // 1. Input – front camera
-        guard let device = AVCaptureDevice.default(
-            .builtInWideAngleCamera,
-            for: .video,
-            position: .front
-        ) else {
-            print("CameraService: front camera unavailable")
+        // 1. Input – 优先外接摄像头
+        guard let device = bestAvailableCamera() else {
+            print("CameraService: no camera available")
             return
         }
 

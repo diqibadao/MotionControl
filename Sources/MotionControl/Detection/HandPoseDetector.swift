@@ -131,15 +131,61 @@ class HandPoseDetector {
     /// - Parameter sampleBuffer: 视频帧样本缓冲
     /// - Returns: 检测结果，若未检测到手则返回 nil
     func detect(in sampleBuffer: CMSampleBuffer) -> HandPoseResult? {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return nil }
-        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+        // 获取图像尺寸
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let width: Int
+        let height: Int
+        if let pb = pixelBuffer {
+            width = CVPixelBufferGetWidth(pb)
+            height = CVPixelBufferGetHeight(pb)
+        } else {
+            width = 0
+            height = 0
+        }
+        let frameSizeStr = "\(width)x\(height)"
+        let input = "hand_detect \(frameSizeStr)"
+
+        guard let pb = pixelBuffer else {
+            let output = "detected=false landmarks=nil confidence=0"
+            EventLogger.log(event: "hand_detect", frame: nil, input: input, output: output, duration: nil)
+            return nil
+        }
+
+        let handler = VNImageRequestHandler(cvPixelBuffer: pb, options: [:])
         do {
             try handler.perform([request])
         } catch {
             print("HandPose detection failed: \(error)")
+            let output = "detected=false landmarks=nil confidence=0"
+            EventLogger.log(event: "hand_detect", frame: nil, input: input, output: output, duration: nil)
             return nil
         }
-        guard let observation = request.results?.first else { return nil }
-        return HandPoseResult(observation: observation)
+
+        guard let observation = request.results?.first else {
+            let output = "detected=false landmarks=nil confidence=0"
+            EventLogger.log(event: "hand_detect", frame: nil, input: input, output: output, duration: nil)
+            return nil
+        }
+
+        let result = HandPoseResult(observation: observation)
+
+        // 获取手腕置信度作为代表
+        let wristConfidence: Float
+        if let allPoints = try? observation.recognizedPoints(.all),
+           let wristPoint = allPoints[.wrist] {
+            wristConfidence = wristPoint.confidence
+        } else {
+            wristConfidence = 0
+        }
+
+        let output: String
+        if result != nil {
+            output = "detected=true landmarks=21 confidence=\(wristConfidence)"
+        } else {
+            output = "detected=false landmarks=nil confidence=0"
+        }
+
+        EventLogger.log(event: "hand_detect", frame: nil, input: input, output: output, duration: nil)
+        return result
     }
 }

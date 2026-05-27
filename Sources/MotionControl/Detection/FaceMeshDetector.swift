@@ -58,14 +58,6 @@ struct FaceResult {
     }
 }
 
-// MARK: - VNFaceLandmarkRegion2D 便捷扩展
-extension VNFaceLandmarkRegion2D {
-    /// 以 `[CGPoint]` 返回该区域的所有归一化点（0~1）。
-    var normalizedPoints: [CGPoint] {
-        return (0..<pointCount).map { self.point(at: $0) }
-    }
-}
-
 // MARK: - 面部特征点检测器
 /// 使用 Vision 框架的 VNDetectFaceLandmarksRequest 检测 76 点面部星座。
 class FaceMeshDetector {

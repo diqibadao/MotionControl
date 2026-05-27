@@ -80,7 +80,7 @@ struct ContentView: View {
             // 其它回调
             detectionPipeline.onMouthEvent = { event in
                 state.mouthStatus = event.status
-                state.mouthOpenRatio = event.openRatio
+                state.mouthOpenRatio = event.ratio
             }
             detectionPipeline.onGaze = { gazeResult in
                 state.gazeActive = true

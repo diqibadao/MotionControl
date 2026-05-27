@@ -32,9 +32,19 @@ struct ContentView: View {
                         faceKeypoints: faceKeypoints,
                         isCommandActive: Date().timeIntervalSince(commandTriggeredAt) < 1.0
                     )
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(String(format: "FPS: %.1f", state.currentFPS))
+                        Text("手势: \(state.currentGesture)  \(String(format: "%.2f", state.gestureConfidence))")
+                        Text("嘴型: \(state.mouthStatus == .open ? "open" : state.mouthStatus == .closed ? "closed" : "unknown")")
+                    }
+                    .font(.caption)
+                    .foregroundColor(.white)
+                    .padding(6)
+                    .background(Color.black.opacity(0.5))
+                    .cornerRadius(4)
+                    .padding(8)
                 }
                 .frame(height: 360)
-                StatusPanelView(state: state)
             }
             ConfigPanelView(state: state)
         }

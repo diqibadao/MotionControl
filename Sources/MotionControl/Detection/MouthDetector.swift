@@ -55,9 +55,16 @@ class MouthDetector {
             let leftCorner = points[0]
             let rightCorner = points[4]
             let width = hypot(rightCorner.x - leftCorner.x, rightCorner.y - leftCorner.y)
+
+            // 宽度为零时直接返回关闭状态
             guard width > 0 else {
-                ratio = 0.0
+                return MouthEvent(status: .closed,
+                                  confirmedStatus: .closed,
+                                  ratio: 0.0,
+                                  justOpened: false,
+                                  justClosed: false)
             }
+
             // 上嘴唇中点 points[2] 下嘴唇中点 points[6]
             let upperLip = points[2]
             let lowerLip = points[6]

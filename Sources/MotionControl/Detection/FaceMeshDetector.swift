@@ -62,7 +62,7 @@ struct FaceResult {
 extension VNFaceLandmarkRegion2D {
     /// 以 `[CGPoint]` 返回该区域的所有归一化点（0~1）。
     var normalizedPoints: [CGPoint] {
-        return (0..<pointCount).map { self.normalizedPoints[$0] }
+        return (0..<pointCount).map { self.point(at: $0) }
     }
 }
 

@@ -1,7 +1,7 @@
 import Foundation
 import CoreGraphics
 
-/// 代表一个检测到的手势事件。
+/// 手势事件，包含类型、置信度和时间戳。
 public struct GestureEvent {
     /// 手势类型。
     public let gestureType: GestureType
@@ -17,137 +17,190 @@ public struct GestureEvent {
     }
 }
 
-/// 支持的手势类型枚举。
+/// 支持的手势类型（仅包含手部手势）。
 public enum GestureType: String, Codable, CaseIterable {
-    case blink
-    case winkLeft
-    case winkRight
-    case mouthOpen
-    case headNod
-    case headShake
-    case smile
-    case eyebrowRaise
+    case pinch
+    case point
+    case openPalm
+    case fist
+    case thumbsUp
+    case ok
 }
 
-/// 手势分析引擎，通过面部特征点检测结果产生手势事件。
+/// 手部姿态结果，包含归一化坐标的关键点。
+/// 调用方需根据实际检测结果填充对应属性。
+/// 若无某关节，则置为 nil，分析时会跳过依赖该点的手势。
+public struct HandPoseResult {
+    public let thumbTip: CGPoint?
+    public let thumbIP: CGPoint?
+    public let indexTip: CGPoint?
+    public let indexPIP: CGPoint?
+    public let middleTip: CGPoint?
+    public let middlePIP: CGPoint?
+    public let ringTip: CGPoint?
+    public let ringPIP: CGPoint?
+    public let littleTip: CGPoint?
+    public let littlePIP: CGPoint?
+    public let wrist: CGPoint?
+
+    public init(
+        thumbTip: CGPoint? = nil,
+        thumbIP: CGPoint? = nil,
+        indexTip: CGPoint? = nil,
+        indexPIP: CGPoint? = nil,
+        middleTip: CGPoint? = nil,
+        middlePIP: CGPoint? = nil,
+        ringTip: CGPoint? = nil,
+        ringPIP: CGPoint? = nil,
+        littleTip: CGPoint? = nil,
+        littlePIP: CGPoint? = nil,
+        wrist: CGPoint? = nil
+    ) {
+        self.thumbTip = thumbTip
+        self.thumbIP = thumbIP
+        self.indexTip = indexTip
+        self.indexPIP = indexPIP
+        self.middleTip = middleTip
+        self.middlePIP = middlePIP
+        self.ringTip = ringTip
+        self.ringPIP = ringPIP
+        self.littleTip = littleTip
+        self.littlePIP = littlePIP
+        self.wrist = wrist
+    }
+}
+
+/// 手部手势分析引擎，通过手部关键点检测产生手势事件。
 public class GestureAnalyzer {
+
     // MARK: - 可调阈值
-    private let blinkThreshold: CGFloat = 0.2          // 眼睛纵横比（EAR）低于此值视为闭合
-    private let mouthOpenThreshold: CGFloat = 0.6       // 嘴巴纵横比（MAR）高于此值视为张开
-    private let nodAngleThreshold: Double = 0.3        // 弧度
-    private let shakeAngleThreshold: Double = 0.3
+    /// 捏合手势的距离阈值（归一化坐标）
+    private let pinchDistanceThreshold: CGFloat = 0.05
+    /// 张开手掌时指尖到手腕的最小距离阈值
+    private let openPalmDistanceThreshold: CGFloat = 0.15
+    /// 握拳时指尖到手腕的最大距离阈值
+    private let fistDistanceThreshold: CGFloat = 0.08
+    /// 翘拇指时拇指到手腕的最小距离阈值
+    private let thumbsUpMinDist: CGFloat = 0.12
+    /// 指点手势中食指长度相对于其他手指平均长度的最小比例
+    private let pointRatio: CGFloat = 1.5
 
     public init() {}
 
-    /// 分析单个人脸特征点结果，返回检测到的手势事件列表。
-    /// - Parameter face: FaceMeshDetector 返回的人脸特征点数据。
+    /// 分析单只手的姿态结果，返回检测到的手势事件列表。
+    /// - Parameter hand: 手部关键点数据（归一化坐标 0~1）。
     /// - Returns: 当前帧检测到的手势事件数组。
-    public func analyze(_ face: FaceResult) -> [GestureEvent] {
+    public func analyze(_ hand: HandPoseResult) -> [GestureEvent] {
         var events: [GestureEvent] = []
         let now = Date()
 
-        // --- 眼睛手势 ---
-        if let leftEye = face.leftEye, let rightEye = face.rightEye {
-            let leftEAR = computeEAR(leftEye)
-            let rightEAR = computeEAR(rightEye)
-
-            // 双眼闭合 → 眨眼
-            if leftEAR < blinkThreshold && rightEAR < blinkThreshold {
-                let blink = GestureEvent(gestureType: .blink,
-                                         confidence: Double(1.0 - (leftEAR + rightEAR) / (2 * blinkThreshold)),
-                                         timestamp: now)
-                events.append(blink)
-            }
-
-            // 左眼闭合、右眼睁开 → 左眼 wink
-            if leftEAR < blinkThreshold && rightEAR >= blinkThreshold {
-                let winkLeft = GestureEvent(gestureType: .winkLeft,
-                                            confidence: Double(1.0 - leftEAR / blinkThreshold),
-                                            timestamp: now)
-                events.append(winkLeft)
-            }
-
-            // 右眼闭合、左眼睁开 → 右眼 wink
-            if rightEAR < blinkThreshold && leftEAR >= blinkThreshold {
-                let winkRight = GestureEvent(gestureType: .winkRight,
-                                             confidence: Double(1.0 - rightEAR / blinkThreshold),
-                                             timestamp: now)
-                events.append(winkRight)
+        // --- 捏合手势（pinch） ---
+        if let thumb = hand.thumbTip, let index = hand.indexTip {
+            let dist = hypot(thumb.x - index.x, thumb.y - index.y)
+            if dist < pinchDistanceThreshold {
+                let confidence = max(0.0, 1.0 - Double(dist / pinchDistanceThreshold))
+                events.append(GestureEvent(gestureType: .pinch,
+                                           confidence: confidence,
+                                           timestamp: now))
             }
         }
 
-        // --- 嘴巴手势 ---
-        if let outerLips = face.outerLips {
-            let mar = computeMAR(outerLips)
-            if mar > mouthOpenThreshold {
-                let mouthOpen = GestureEvent(gestureType: .mouthOpen,
-                                             confidence: Double(mar - mouthOpenThreshold) / Double(1.0 - mouthOpenThreshold),
-                                             timestamp: now)
-                events.append(mouthOpen)
+        // --- 指点手势（point） ---
+        // 要求食指伸直，其他手指弯曲
+        if let indexTip = hand.indexTip,
+           let indexPIP = hand.indexPIP,
+           let middleTip = hand.middleTip,
+           let ringTip = hand.ringTip,
+           let littleTip = hand.littleTip,
+           let wrist = hand.wrist {
+            let indexLen = hypot(indexTip.x - wrist.x, indexTip.y - wrist.y)
+            let middleLen = hypot(middleTip.x - wrist.x, middleTip.y - wrist.y)
+            let ringLen = hypot(ringTip.x - wrist.x, ringTip.y - wrist.y)
+            let littleLen = hypot(littleTip.x - wrist.x, littleTip.y - wrist.y)
+
+            let avgOther = (middleLen + ringLen + littleLen) / 3.0
+            // 食指长度明显大于其他手指，并且自身达到一定长度
+            if indexLen > avgOther * pointRatio && indexLen > openPalmDistanceThreshold {
+                let confidence = min(1.0, Double(indexLen / (openPalmDistanceThreshold * 2)))
+                events.append(GestureEvent(gestureType: .point,
+                                           confidence: confidence,
+                                           timestamp: now))
             }
         }
 
-        // --- 头部手势（利用欧拉角） ---
-        if let pitch = face.pitch?.doubleValue,
-           let yaw = face.yaw?.doubleValue {
-            // 点头：pitch 变化（正值表示低头）
-            if abs(pitch) > nodAngleThreshold {
-                let nod = GestureEvent(gestureType: .headNod,
-                                       confidence: min(Double(abs(pitch)) / (2 * nodAngleThreshold), 1.0),
-                                       timestamp: now)
-                events.append(nod)
-            }
+        // --- 张开手掌（openPalm） ---
+        // 五指伸展，指尖到手腕的距离均大于阈值
+        if let thumb = hand.thumbTip,
+           let index = hand.indexTip,
+           let middle = hand.middleTip,
+           let ring = hand.ringTip,
+           let little = hand.littleTip,
+           let wrist = hand.wrist {
+            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
+            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
+            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
+            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
+            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
 
-            // 摇头：yaw 变化（正值表示右转）
-            if abs(yaw) > shakeAngleThreshold {
-                let shake = GestureEvent(gestureType: .headShake,
-                                         confidence: min(Double(abs(yaw)) / (2 * shakeAngleThreshold), 1.0),
-                                         timestamp: now)
-                events.append(shake)
+            let minDist = min(thumbDist, indexDist, middleDist, ringDist, littleDist)
+            if minDist > openPalmDistanceThreshold {
+                let avgDist = (thumbDist + indexDist + middleDist + ringDist + littleDist) / 5.0
+                let confidence = min(1.0, Double(avgDist / (openPalmDistanceThreshold * 3)))
+                events.append(GestureEvent(gestureType: .openPalm,
+                                           confidence: confidence,
+                                           timestamp: now))
             }
         }
 
-        // 其他手势（微笑、眉毛上抬等）可在后续扩展中添加
-        // 目前暂未实现
+        // --- 握拳（fist） ---
+        // 所有手指弯曲，指尖到手腕的距离均小于阈值
+        if let thumb = hand.thumbTip,
+           let index = hand.indexTip,
+           let middle = hand.middleTip,
+           let ring = hand.ringTip,
+           let little = hand.littleTip,
+           let wrist = hand.wrist {
+            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
+            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
+            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
+            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
+            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
+
+            let maxDist = max(thumbDist, indexDist, middleDist, ringDist, littleDist)
+            if maxDist < fistDistanceThreshold {
+                let avgDist = (thumbDist + indexDist + middleDist + ringDist + littleDist) / 5.0
+                let confidence = max(0.0, 1.0 - Double(avgDist / fistDistanceThreshold))
+                events.append(GestureEvent(gestureType: .fist,
+                                           confidence: confidence,
+                                           timestamp: now))
+            }
+        }
+
+        // --- 翘拇指（thumbsUp） ---
+        // 拇指伸直，其余手指弯曲
+        if let thumb = hand.thumbTip,
+           let index = hand.indexTip,
+           let middle = hand.middleTip,
+           let ring = hand.ringTip,
+           let little = hand.littleTip,
+           let wrist = hand.wrist {
+            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
+            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
+            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
+            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
+            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
+
+            let otherMax = max(indexDist, middleDist, ringDist, littleDist)
+            if thumbDist > thumbsUpMinDist && otherMax < fistDistanceThreshold {
+                let confidence = min(1.0, Double(thumbDist / (thumbsUpMinDist * 3)))
+                events.append(GestureEvent(gestureType: .thumbsUp,
+                                           confidence: confidence,
+                                           timestamp: now))
+            }
+        }
+
+        // 后续可扩展 OK 手势等（需要更多关键点信息）
 
         return events
-    }
-
-    // MARK: - 私有辅助方法
-
-    /// 计算眼睛纵横比（Eye Aspect Ratio, EAR）。
-    /// 典型的眼睑点数组包含 6 个点，本方法使用其中的首尾与上下四点。
-    private func computeEAR(_ points: [CGPoint]) -> CGFloat {
-        guard points.count >= 6 else { return 1.0 }
-
-        // 假设索引：0 = 左外眼角，1 = 上眼睑中部，3 = 右外眼角，4 = 下眼睑中部
-        let left = points[0]
-        let right = points[3]
-        let top = points[1]
-        let bottom = points[4]
-
-        let verticalDist = hypot(top.x - bottom.x, top.y - bottom.y)
-        let horizontalDist = hypot(left.x - right.x, left.y - right.y)
-
-        guard horizontalDist > 0 else { return 1.0 }
-        return verticalDist / (2 * horizontalDist)
-    }
-
-    /// 计算嘴巴纵横比（Mouth Aspect Ratio, MAR）。
-    /// 外唇点集通常包含 12 个点，这里使用左、右、上、下四个代表性点。
-    private func computeMAR(_ points: [CGPoint]) -> CGFloat {
-        guard points.count >= 10 else { return 0.0 }
-
-        // 假设索引：0 = 左嘴角，6 = 右嘴角，3 = 上唇中部，9 = 下唇中部
-        let left = points[0]
-        let right = points[6]
-        let top = points[3]
-        let bottom = points[9]
-
-        let verticalDist = hypot(top.x - bottom.x, top.y - bottom.y)
-        let horizontalDist = hypot(left.x - right.x, left.y - right.y)
-
-        guard horizontalDist > 0 else { return 0.0 }
-        return verticalDist / horizontalDist
     }
 }

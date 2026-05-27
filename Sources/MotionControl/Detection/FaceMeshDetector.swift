@@ -5,6 +5,7 @@
 
 import Vision
 import CoreGraphics
+import Foundation
 
 // MARK: - 面部检测结果
 /// 存储检测到的面部结构：头部姿态、眼睑轮廓、瞳孔、嘴唇及面部轮廓。
@@ -74,6 +75,8 @@ class FaceMeshDetector {
     /// - Parameter pixelBuffer: 视频帧的 CVPixelBuffer。
     /// - Returns: 包含所有检测到的人脸的 `FaceResult` 数组，若无检测则返回 nil。
     func detect(pixelBuffer: CVPixelBuffer) -> [FaceResult]? {
+        let start = CFAbsoluteTimeGetCurrent()
+
         let request = VNDetectFaceLandmarksRequest()
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
@@ -81,11 +84,47 @@ class FaceMeshDetector {
         do {
             try handler.perform([request])
         } catch {
+            let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            EventLogger.log(event: "face_detect",
+                            frame: nil,
+                            input: "face_detect",
+                            output: output,
+                            duration: duration)
             print("面部检测失败：\(error)")
             return nil
         }
-        guard let observations = request.results as? [VNFaceObservation] else { return nil }
-        return observations.map { Self.faceResult(from: $0) }
+        guard let observations = request.results as? [VNFaceObservation] else {
+            let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            EventLogger.log(event: "face_detect",
+                            frame: nil,
+                            input: "face_detect",
+                            output: output,
+                            duration: duration)
+            return nil
+        }
+
+        let results = observations.map { Self.faceResult(from: $0) }
+
+        let output: String
+        if let first = results.first {
+            let rollStr = first.roll.map { "\($0)" } ?? "nil"
+            let pitchStr = first.pitch.map { "\($0)" } ?? "nil"
+            let yawStr = first.yaw.map { "\($0)" } ?? "nil"
+            output = "detected=true landmarks=76 roll=\(rollStr) pitch=\(pitchStr) yaw=\(yawStr)"
+        } else {
+            output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
+        }
+
+        let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+        EventLogger.log(event: "face_detect",
+                        frame: nil,
+                        input: "face_detect",
+                        output: output,
+                        duration: duration)
+
+        return results
     }
 
     // MARK: - 私有辅助方法

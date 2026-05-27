@@ -144,11 +144,11 @@ class GestureAnalyzer {
     // MARK: - 时间序列检测
     private func detectSequence(currentTime: Date) -> GestureEvent? {
         // 常数阈值（Vision 坐标归一化到 0~1）
-        let tapDropThreshold: CGFloat = 0.005
-        let tapRiseThreshold: CGFloat = 0.003
-        let dualDropThreshold: CGFloat = 0.005
-        let dualRiseThreshold: CGFloat = 0.003
-        let swipeThreshold: CGFloat = 0.015
+        let tapDropThreshold: CGFloat = 0.001
+        let tapRiseThreshold: CGFloat = 0.0005
+        let dualDropThreshold: CGFloat = 0.001
+        let dualRiseThreshold: CGFloat = 0.0005
+        let swipeThreshold: CGFloat = 0.003
         let tapDropMaxDuration: TimeInterval = 0.2
         let tapRiseMaxDuration: TimeInterval = 0.2
         let doubleTapInterval: TimeInterval = 0.4

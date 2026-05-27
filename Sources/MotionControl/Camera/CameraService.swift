@@ -1,9 +1,10 @@
 import AVFoundation
 import Foundation
 
-public class CameraService: NSObject {
+class CameraService: NSObject {
     // MARK: - Properties
     private let session = AVCaptureSession()
+    var cameraSession: AVCaptureSession { session }
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sessionQueue = DispatchQueue(label: "camera.session.queue")
     private var isConfigured = false
@@ -13,14 +14,11 @@ public class CameraService: NSObject {
 
     // MARK: - Public API
     func start() {
-        sessionQueue.async { [weak self] in
-            guard let self = self else { return }
-            if !self.isConfigured {
-                self.configureSession()
-            }
-            if !self.session.isRunning {
-                self.session.startRunning()
-            }
+        if !isConfigured {
+            configureSession()
+        }
+        if !session.isRunning {
+            session.startRunning()
         }
     }
 
@@ -48,7 +46,7 @@ public class CameraService: NSObject {
         return AVCaptureDevice.default(
             .builtInWideAngleCamera,
             for: .video,
-            position: .front
+            position: .unspecified
         )
     }
 
@@ -89,7 +87,7 @@ public class CameraService: NSObject {
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension CameraService: AVCaptureVideoDataOutputSampleBufferDelegate {
-    public func captureOutput(
+    func captureOutput(
         _ output: AVCaptureOutput,
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection

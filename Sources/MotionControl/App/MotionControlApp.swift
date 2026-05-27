@@ -98,6 +98,7 @@ struct ContentView: View {
                 state.gazePosition = gazeResult.screenPosition
             }
             detectionPipeline.onHandResult = { handResult in
+                guard let handResult = handResult else { handKeypoints = []; return }
                 var points: [CGPoint] = []
                 if let p = handResult.wrist { points.append(p) }
                 if let p = handResult.thumbTip { points.append(p) }
@@ -122,6 +123,7 @@ struct ContentView: View {
                 handKeypoints = points
             }
             detectionPipeline.onFaceResult = { faceResult in
+                guard let faceResult = faceResult else { faceKeypoints = []; return }
                 var points: [CGPoint] = []
                 if let contour = faceResult.faceContour { points.append(contentsOf: contour) }
                 if let leftEye = faceResult.leftEye { points.append(contentsOf: leftEye) }

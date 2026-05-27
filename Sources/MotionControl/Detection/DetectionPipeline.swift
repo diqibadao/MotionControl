@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import Vision
+import AppKit
 
 /// 摄像头输出代理协议（由 DetectionPipeline 实现）
 protocol CameraOutputDelegate: AnyObject {
@@ -21,7 +22,7 @@ class DetectionPipeline: CameraOutputDelegate {
     // 输出闭包
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
-    var onGaze: ((GazeResult) -> Void)?
+    var onGaze: ((GazePoint) -> Void)?
 
     // 运行状态
     private var isRunning = false
@@ -59,7 +60,8 @@ class DetectionPipeline: CameraOutputDelegate {
                 }
             }
             // 人脸检测
-            if let faceResults = self.faceMeshDetector.detect(pixelBuffer: CMSampleBufferGetImageBuffer(sampleBuffer)!),
+            guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+            if let faceResults = self.faceMeshDetector.detect(pixelBuffer: pixelBuffer),
               let faceResult = faceResults.first {
                 self.lastFace = faceResult
                 let mouthEvent = self.mouthDetector.detect(from: faceResult)
@@ -73,9 +75,12 @@ class DetectionPipeline: CameraOutputDelegate {
     }
 
     func didOutputFace(_ face: FaceResult) {
-        let gazeResult = gazeEstimator.estimate(from: face)
-        DispatchQueue.main.async {
-            self.onGaze?(gazeResult)
+        let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
+        Task {
+            let gazeResult = await gazeEstimator.estimate(from: face, screenSize: screenSize)
+            DispatchQueue.main.async {
+                self.onGaze?(gazeResult)
+            }
         }
     }
 

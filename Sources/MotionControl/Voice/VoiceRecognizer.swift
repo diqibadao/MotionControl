@@ -4,9 +4,9 @@ import AVFoundation
 
 /// 语音识别委托协议
 public protocol VoiceRecognizerDelegate: AnyObject {
-    func voiceRecognizerDidReceiveText(_ text: String)
-    func voiceRecognizerDidDetectVoice(_ isSpeaking: Bool)
-    func voiceRecognizerDidEncounterError(_ error: Error)
+    func didReceiveText(_ text: String)
+    func didDetectVoice(_ isSpeaking: Bool)
+    func didEncounterError(_ error: Error)
 }
 
 /// 语音识别器，封装 SFSpeechRecognizer，支持自动重新启动。
@@ -53,10 +53,10 @@ public class VoiceRecognizer: NSObject {
             guard let self = self else { return }
             if let result = result {
                 let text = result.bestTranscription.formattedString
-                self.delegate?.voiceRecognizerDidReceiveText(text)
+                self.delegate?.didReceiveText(text)
             }
             if let error = error {
-                self.delegate?.voiceRecognizerDidEncounterError(error)
+                self.delegate?.didEncounterError(error)
                 self.stop()
                 // 错误后自动重试
                 self.scheduleRestart()
@@ -97,7 +97,7 @@ public class VoiceRecognizer: NSObject {
         do {
             try start()
         } catch {
-            delegate?.voiceRecognizerDidEncounterError(error)
+            delegate?.didEncounterError(error)
         }
     }
 

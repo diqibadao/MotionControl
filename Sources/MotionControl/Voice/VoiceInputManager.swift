@@ -45,16 +45,16 @@ class VoiceInputManager: VoiceRecognizerDelegate {
     }
 
     // MARK: - VoiceRecognizerDelegate
-    func voiceRecognizerDidReceiveText(_ text: String) {
+    func didReceiveText(_ text: String) {
         // 将识别的文本注入
         textInjector.injectText(text)
     }
 
-    func voiceRecognizerDidDetectVoice(_ isSpeaking: Bool) {
+    func didDetectVoice(_ isSpeaking: Bool) {
         // 可扩展
     }
 
-    func voiceRecognizerDidEncounterError(_ error: Error) {
+    func didEncounterError(_ error: Error) {
         print("语音识别错误: \(error)")
     }
 }

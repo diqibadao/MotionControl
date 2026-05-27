@@ -58,6 +58,11 @@ class MouthDetector {
 
             // 宽度为零时直接返回关闭状态
             guard width > 0 else {
+                // 日志记录
+                let logInput = "mouth_detect ratio=0.0"
+                let logOutput = "status=CLOSED confirmed=CLOSED"
+                EventLogger.log(event: "mouth_detect", frame: nil, input: logInput, output: logOutput, duration: nil)
+
                 return MouthEvent(status: .closed,
                                   confirmedStatus: .closed,
                                   ratio: 0.0,
@@ -109,6 +114,11 @@ class MouthDetector {
         let confirmedStatus = stableStatus
         lastConfirmed = confirmedStatus
         previousStatus = currentStatus
+
+        // 记录日志
+        let logInput = "mouth_detect ratio=\(ratio)"
+        let logOutput = "status=\(currentStatus.rawValue.uppercased()) confirmed=\(confirmedStatus.rawValue.uppercased())"
+        EventLogger.log(event: "mouth_detect", frame: nil, input: logInput, output: logOutput, duration: nil)
 
         return MouthEvent(status: currentStatus,
                           confirmedStatus: confirmedStatus,

@@ -58,6 +58,7 @@ struct ContentView: View {
             }
             // 手势事件 → 执行映射动作
             detectionPipeline.onGesture = { event in
+                print("[DEBUG] onGesture called, type=\(event.gestureType)")
                 guard !event.isRepeat else { return }
                 let config = ConfigManager.shared.currentConfig
                 guard let action = config.gestureMapping[event.gestureType.rawValue], action.isEnabled else { return }
@@ -93,6 +94,7 @@ struct ContentView: View {
             }
             // 注视回调（接收 GazeEstimate）
             detectionPipeline.onGaze = { gazeEstimate in
+                print("[DEBUG] onGaze called, yaw=\(gazeEstimate.yawOffset)")
                 state.gazeActive = gazeEstimate.hasFace
                 state.gazePosition = CGPoint(x: CGFloat(gazeEstimate.yawOffset),
                                              y: CGFloat(gazeEstimate.pitchOffset))
@@ -101,6 +103,7 @@ struct ContentView: View {
             }
             // 手部结果回调（关键点 + 光标控制）
             detectionPipeline.onHandResult = { handResult in
+                print("[DEBUG] onHandResult called, hasTip=\(handResult?.indexTip != nil)")
                 guard let handResult = handResult else { handKeypoints = []; return }
                 var points: [CGPoint] = []
                 if let p = handResult.wrist { points.append(p) }

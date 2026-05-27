@@ -16,10 +16,12 @@ class DetectionPipeline: CameraOutputDelegate {
     private let faceMeshDetector = FaceMeshDetector()
     private let gestureAnalyzer = GestureAnalyzer()
     private let mouthDetector = MouthDetector()
+    private let gazeEstimator = GazeEstimator()
 
     // 输出闭包
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
+    var onGaze: ((GazeResult) -> Void)?
 
     // 运行状态
     private var isRunning = false
@@ -64,12 +66,17 @@ class DetectionPipeline: CameraOutputDelegate {
                 DispatchQueue.main.async {
                     self.onMouthEvent?(mouthEvent)
                 }
+                // 新增人脸凝视估计
+                self.didOutputFace(faceResult)
             }
         }
     }
 
     func didOutputFace(_ face: FaceResult) {
-        // 如果已从 didOutputFrame 中调用，这里可留空
+        let gazeResult = gazeEstimator.estimate(from: face)
+        DispatchQueue.main.async {
+            self.onGaze?(gazeResult)
+        }
     }
 
     func didOutputHand(_ hand: HandPoseResult) {

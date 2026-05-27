@@ -32,11 +32,15 @@ class DetectionPipeline: CameraOutputDelegate {
     private var lastHand: HandPoseResult?
     private var lastFace: FaceResult?
 
+    // 帧计数器（每5帧检测一次）
+    private var frameCount = 0
+
     init() {}
 
     // MARK: - 启动/停止
     func start() {
         isRunning = true
+        frameCount = 0
         // 实际启动摄像头需要外部调用，此处仅设置标志
     }
 
@@ -44,11 +48,14 @@ class DetectionPipeline: CameraOutputDelegate {
         isRunning = false
         lastHand = nil
         lastFace = nil
+        frameCount = 0
     }
 
     // MARK: - CameraOutputDelegate
     func didOutputFrame(_ sampleBuffer: CMSampleBuffer) {
         guard isRunning else { return }
+        frameCount += 1
+        guard frameCount % 5 == 0 else { return } // 每5帧处理一次
         processingQueue.async { [weak self] in
             guard let self = self else { return }
             // 手部检测

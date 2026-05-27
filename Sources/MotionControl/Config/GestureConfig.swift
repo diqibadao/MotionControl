@@ -133,13 +133,13 @@ struct GestureConfig: Codable {
     var gestureMapping: [String: GestureAction]
     
     // 检测参数
-    var pinchThreshold: Float = 40.0
+    var pinchThreshold: Float = 80.0
     var gestureCooldown: Int = 200
-    var doubleTapWindow: Int = 500
+    var doubleTapWindow: Int = 300
     var swipeVelocityThreshold: Float = 0.5
     
     // 新增阈值，供 GestureAnalyzer 读取
-    var openPalmThreshold: Float = 100.0
+    var openPalmThreshold: Float = 200.0
     var fistThreshold: Float = 50.0
     var thumbsUpMinDist: Float = 80.0
     var pointRatio: Float = 1.5

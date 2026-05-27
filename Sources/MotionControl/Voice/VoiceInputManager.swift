@@ -1,19 +1,19 @@
 import Foundation
 
 /// 语音输入管理器：监听嘴部事件，控制语音识别启停。
-public class VoiceInputManager: VoiceRecognizerDelegate {
+class VoiceInputManager: VoiceRecognizerDelegate {
     private let recognizer = VoiceRecognizer()
     private let textInjector = TextInjector()
     private var isListening = false
     private var mouthOpenSince: Date?
     private let openDurationThreshold: TimeInterval = 0.2
 
-    public init() {
+    init() {
         recognizer.delegate = self
     }
 
     /// 处理嘴部事件
-    public func handleMouthEvent(_ event: MouthEvent) {
+    func handleMouthEvent(_ event: MouthEvent) {
         if event.justOpened {
             mouthOpenSince = Date()
         } else if event.status == .open {
@@ -45,16 +45,16 @@ public class VoiceInputManager: VoiceRecognizerDelegate {
     }
 
     // MARK: - VoiceRecognizerDelegate
-    public func voiceRecognizerDidReceiveText(_ text: String) {
+    func voiceRecognizerDidReceiveText(_ text: String) {
         // 将识别的文本注入
         textInjector.injectText(text)
     }
 
-    public func voiceRecognizerDidDetectVoice(_ isSpeaking: Bool) {
+    func voiceRecognizerDidDetectVoice(_ isSpeaking: Bool) {
         // 可扩展
     }
 
-    public func voiceRecognizerDidEncounterError(_ error: Error) {
+    func voiceRecognizerDidEncounterError(_ error: Error) {
         print("语音识别错误: \(error)")
     }
 }

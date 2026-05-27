@@ -1,5 +1,6 @@
 import Foundation
 import Speech
+import AVFoundation
 
 /// 语音识别委托协议
 public protocol VoiceRecognizerDelegate: AnyObject {
@@ -37,10 +38,6 @@ public class VoiceRecognizer: NSObject {
         }
 
         if isRunning { stop() }
-
-        let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
-        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
 
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let request = recognitionRequest else { return }

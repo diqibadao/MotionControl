@@ -2,15 +2,15 @@ import Foundation
 import CoreGraphics
 
 /// 手势事件，包含类型、置信度、时间戳、手部位置、是否重复和移动速度。
-public struct GestureEvent {
-    public let gestureType: GestureType
-    public let confidence: Double
-    public let timestamp: Date
-    public let handPosition: CGPoint
-    public let isRepeat: Bool
-    public let velocity: CGPoint
+struct GestureEvent {
+    let gestureType: GestureType
+    let confidence: Double
+    let timestamp: Date
+    let handPosition: CGPoint
+    let isRepeat: Bool
+    let velocity: CGPoint
 
-    public init(gestureType: GestureType,
+    init(gestureType: GestureType,
                 confidence: Double,
                 timestamp: Date = Date(),
                 handPosition: CGPoint = .zero,
@@ -26,7 +26,7 @@ public struct GestureEvent {
 }
 
 /// 手势分析引擎，利用 HandPoseResult 的关键点判断手势。
-public class GestureAnalyzer {
+class GestureAnalyzer {
 
     // MARK: - 距离阈值 (归一化坐标)
     private let pinchThreshold: CGFloat = 0.05
@@ -45,12 +45,12 @@ public class GestureAnalyzer {
     private var lastEventType: GestureType = .none
     private var lastEventTime: Date = .distantPast
 
-    public init() {}
+    init() {}
 
     /// 分析手部姿态结果，返回当前帧检测到的主要手势事件（只返回置信度最高的一个）。
     /// - Parameter hand: 手部关键点数据
     /// - Returns: 手势事件（若无手势则 type 为 .none，confidience 为 0）
-    public func analyze(_ hand: HandPoseResult) -> GestureEvent {
+    func analyze(_ hand: HandPoseResult) -> GestureEvent {
         var bestEvent: GestureEvent? = nil
 
         // 辅助函数：比较并保存置信度最高的事件

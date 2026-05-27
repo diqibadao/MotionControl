@@ -2,21 +2,21 @@ import Foundation
 import CoreGraphics
 
 /// 嘴部状态枚举
-public enum MouthStatus: String {
+enum MouthStatus: String {
     case open
     case closed
     case unknown
 }
 
 /// 嘴部事件，包含当前状态、确认状态、开合比、边缘触发。
-public struct MouthEvent {
-    public let status: MouthStatus
-    public let confirmedStatus: MouthStatus
-    public let ratio: Float     // 0.0 ~ 1.0
-    public let justOpened: Bool
-    public let justClosed: Bool
+struct MouthEvent {
+    let status: MouthStatus
+    let confirmedStatus: MouthStatus
+    let ratio: Float     // 0.0 ~ 1.0
+    let justOpened: Bool
+    let justClosed: Bool
 
-    public init(status: MouthStatus, confirmedStatus: MouthStatus, ratio: Float,
+    init(status: MouthStatus, confirmedStatus: MouthStatus, ratio: Float,
                 justOpened: Bool, justClosed: Bool) {
         self.status = status
         self.confirmedStatus = confirmedStatus
@@ -27,7 +27,7 @@ public struct MouthEvent {
 }
 
 /// 嘴部检测器，通过 FaceResult 中嘴部关键点计算开合比。
-public class MouthDetector {
+class MouthDetector {
 
     // MARK: - 参数
     // 开合比阈值，大于此值认为张开
@@ -42,15 +42,15 @@ public class MouthDetector {
     private var lastConfirmed: MouthStatus = .unknown
     private var previousStatus: MouthStatus = .unknown
 
-    public init() {}
+    init() {}
 
     /// 检测嘴部状态
     /// - Parameter face: 人脸结果（包含嘴部关键点）
     /// - Returns: 嘴部事件
-    public func detect(from face: FaceResult) -> MouthEvent {
+    func detect(from face: FaceResult) -> MouthEvent {
         // 计算开合比：依据上嘴唇和下嘴唇关键点间的平均距离除以嘴唇宽度
         let ratio: Float
-        if let points = face.mouthPoints, points.count >= 8 {
+        if let points = face.outerLips, points.count >= 8 {
             // 假设 points[0] 左嘴角, points[4] 右嘴角 -> 宽度
             let leftCorner = points[0]
             let rightCorner = points[4]

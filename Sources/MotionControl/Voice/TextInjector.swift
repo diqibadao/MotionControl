@@ -2,16 +2,16 @@ import Foundation
 import AppKit
 
 /// 文本注入器，使用辅助功能或剪贴板粘贴方式插入文字。
-public class TextInjector {
+class TextInjector {
 
-    public init() {}
+    init() {}
 
     /// 在当前聚焦的输入区域注入文本
-    public func injectText(_ text: String) {
+    func injectText(_ text: String) {
         // 优先使用 Accessibility API
         if let focusedElement = focusedUIElement() {
             if let value = focusedElement.attribute(kAXValueAttribute) as? String {
-                focusedElement.setAttribute(kAXValueAttribute, value: value + text)
+                focusedElement.setAttribute(kAXValueAttribute, value: (value + text) as CFString)
                 return
             }
         }

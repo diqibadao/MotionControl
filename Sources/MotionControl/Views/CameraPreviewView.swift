@@ -2,10 +2,10 @@ import SwiftUI
 import AVFoundation
 
 /// 摄像头预览视图（NSViewRepresentable）
-public struct CameraPreviewView: NSViewRepresentable {
+struct CameraPreviewView: NSViewRepresentable {
     let session: AVCaptureSession
 
-    public func makeNSView(context: Context) -> NSView {
+    func makeNSView(context: Context) -> NSView {
         let view = NSView()
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.frame = view.bounds
@@ -15,7 +15,7 @@ public struct CameraPreviewView: NSViewRepresentable {
         return view
     }
 
-    public func updateNSView(_ nsView: NSView, context: Context) {
+    func updateNSView(_ nsView: NSView, context: Context) {
         // 更新 layer 尺寸
         if let layer = nsView.layer?.sublayers?.first as? AVCaptureVideoPreviewLayer {
             layer.frame = nsView.bounds

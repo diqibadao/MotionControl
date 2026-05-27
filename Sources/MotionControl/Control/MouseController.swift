@@ -2,19 +2,19 @@ import Foundation
 import CoreGraphics
 
 /// 鼠标控制器，使用 CGEvent 模拟鼠标操作。
-public class MouseController {
+class MouseController {
 
-    public init() {}
+    init() {}
 
     /// 移动光标至指定位置（屏幕坐标）
-    public func moveCursor(to point: CGPoint) {
+    func moveCursor(to point: CGPoint) {
         let event = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
                             mouseCursorPosition: point, mouseButton: .left)
         event?.post(tap: .cghidEventTap)
     }
 
     /// 左键单击
-    public func leftClick(at point: CGPoint? = nil) {
+    func leftClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .left) else { return }
@@ -25,7 +25,7 @@ public class MouseController {
     }
 
     /// 右键单击
-    public func rightClick(at point: CGPoint? = nil) {
+    func rightClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .right) else { return }
@@ -36,7 +36,7 @@ public class MouseController {
     }
 
     /// 双击
-    public func doubleClick(at point: CGPoint? = nil) {
+    func doubleClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
         for _ in 0..<2 {
             guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
@@ -49,7 +49,7 @@ public class MouseController {
     }
 
     /// 拖拽（按下左键，移动，松开）
-    public func drag(from start: CGPoint, to end: CGPoint) {
+    func drag(from start: CGPoint, to end: CGPoint) {
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                  mouseCursorPosition: start, mouseButton: .left) else { return }
         down.post(tap: .cghidEventTap)
@@ -62,7 +62,7 @@ public class MouseController {
     }
 
     /// 滚动（deltaY >0 向上，<0 向下）
-    public func scroll(deltaY: Int32, deltaX: Int32 = 0) {
+    func scroll(deltaY: Int32, deltaX: Int32 = 0) {
         guard let scroll = CGEvent(scrollWheelEvent2Source: nil, units: .line,
                                    wheelCount: 2, wheel1: deltaY, wheel2: deltaX,
                                    wheel3: 0) else { return }

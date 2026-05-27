@@ -9,9 +9,9 @@ import CoreGraphics
 // MARK: - 面部检测结果
 /// 存储检测到的面部结构：头部姿态、眼睑轮廓、瞳孔、嘴唇及面部轮廓。
 struct FaceResult {
-    let roll: NSNumber?
-    let pitch: NSNumber?
-    let yaw: NSNumber?
+    let roll: Float?
+    let pitch: Float?
+    let yaw: Float?
 
     /// 左眼睑点集（归一化坐标 0~1）
     let leftEye: [CGPoint]?
@@ -31,11 +31,11 @@ struct FaceResult {
     // MARK: - 嘴开合比
     /// 基于外嘴唇包围盒的高度/宽度比，0 ~ 1 之间。
     var mouthOpenRatio: Float {
-        guard let outerLips = outerLips, !outerLips.isEmpty else { return 0 }
-        let minX = outerLips.min(by: { $0.x < $1.x })!.x
-        let maxX = outerLips.max(by: { $0.x < $1.x })!.x
-        let minY = outerLips.min(by: { $0.y < $1.y })!.y
-        let maxY = outerLips.max(by: { $0.y < $1.y })!.y
+        guard let lips = outerLips, lips.count >= 4 else { return 0 }
+        let minX = lips.min(by: { $0.x < $1.x })!.x
+        let maxX = lips.max(by: { $0.x < $1.x })!.x
+        let minY = lips.min(by: { $0.y < $1.y })!.y
+        let maxY = lips.max(by: { $0.y < $1.y })!.y
         let width = maxX - minX
         let height = maxY - minY
         guard width > 0 else { return 0 }
@@ -55,19 +55,19 @@ struct FaceResult {
 extension VNFaceLandmarkRegion2D {
     /// 以 `[CGPoint]` 返回该区域的所有归一化点（0~1）。
     var normalizedPoints: [CGPoint] {
-        return (0..<pointCount).map { self.points[$0] }
+        return (0..<pointCount).map { self.normalizedPoints[$0] }
     }
 }
 
 // MARK: - 面部特征点检测器
 /// 使用 Vision 框架的 VNDetectFaceLandmarksRequest 检测 76 点面部星座。
-public class FaceMeshDetector {
-    public init() {}
+class FaceMeshDetector {
+    init() {}
 
     /// 对给定的像素缓冲区执行面部特征点检测。
     /// - Parameter pixelBuffer: 视频帧的 CVPixelBuffer。
     /// - Returns: 包含所有检测到的人脸的 `FaceResult` 数组，若无检测则返回 nil。
-    public func detect(pixelBuffer: CVPixelBuffer) -> [FaceResult]? {
+    func detect(pixelBuffer: CVPixelBuffer) -> [FaceResult]? {
         let request = VNDetectFaceLandmarksRequest()
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
@@ -88,9 +88,9 @@ public class FaceMeshDetector {
         let landmarks = observation.landmarks
 
         // 头部姿态（欧拉角）
-        let roll = observation.roll
-        let pitch = observation.pitch
-        let yaw = observation.yaw
+        let roll = observation.roll?.floatValue
+        let pitch = observation.pitch?.floatValue
+        let yaw = observation.yaw?.floatValue
 
         // 眼睑轮廓
         let leftEye = landmarks?.leftEye?.normalizedPoints

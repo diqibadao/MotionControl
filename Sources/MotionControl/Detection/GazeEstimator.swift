@@ -1,32 +1,32 @@
 import CoreGraphics
 
 /// 根据面部检测结果（头部姿态与瞳孔位置）估算用户注视屏幕的位置。
-public struct GazePoint {
-    public let screenPosition: CGPoint
-    public let confidence: Float
-    public let rawPosition: CGPoint
+struct GazePoint {
+    let screenPosition: CGPoint
+    let confidence: Float
+    let rawPosition: CGPoint
 
-    public init(screenPosition: CGPoint, confidence: Float, rawPosition: CGPoint) {
+    init(screenPosition: CGPoint, confidence: Float, rawPosition: CGPoint) {
         self.screenPosition = screenPosition
         self.confidence = confidence
         self.rawPosition = rawPosition
     }
 }
 
-public class GazeEstimator {
+class GazeEstimator {
     /// 指数平滑因子（0~1），值越大对新数据响应越快。
-    public var smoothFactor: Float = 0.3
+    var smoothFactor: Float = 0.3
 
     private var smoothedRawPosition: CGPoint?
 
-    public init() {}
+    init() {}
 
     /// 估算注视点。
     /// - Parameters:
     ///   - face: 面部检测结果，需包含 `yaw`、`pitch` 等欧拉角，以及左右瞳孔的归一化坐标。
     ///   - screenSize: 屏幕尺寸（点）。
     /// - Returns: 包含屏幕坐标、置信度和原始坐标的 `GazePoint`。
-    public func estimate(from face: FaceResult, screenSize: CGSize) -> GazePoint {
+    func estimate(from face: FaceResult, screenSize: CGSize) -> GazePoint {
         // 1. 检查方向数据
         guard let yaw = face.yaw,
               let pitch = face.pitch else {
@@ -45,8 +45,8 @@ public class GazeEstimator {
 
         // 2. 基于头部姿态计算原始归一化坐标 [0,1]
         let maxAngle: Float = 0.5
-        var rawX = CGFloat((yaw / maxAngle) * 0.5 + 0.5)
-        var rawY = CGFloat((pitch / maxAngle) * (-0.5) + 0.5)
+        var rawX = CGFloat(yaw / maxAngle * Float(0.5) + Float(0.5))
+        var rawY = CGFloat(pitch / maxAngle * Float(-0.5) + Float(0.5))
         rawX = min(max(rawX, 0), 1)
         rawY = min(max(rawY, 0), 1)
         var rawNormalized = CGPoint(x: rawX, y: rawY)
@@ -68,10 +68,10 @@ public class GazeEstimator {
         // 4. 指数平滑
         if let smoothed = smoothedRawPosition {
             let factor = CGFloat(smoothFactor)
-            smoothedRawPosition = CGPoint(
-                x: smoothed.x * (1 - factor) + rawNormalized.x * factor,
-                y: smoothed.y * (1 - factor) + rawNormalized.y * factor
-            )
+            let oneMinusFactor = CGFloat(1.0) - factor
+            let newX = smoothed.x * oneMinusFactor + rawNormalized.x * factor
+            let newY = smoothed.y * oneMinusFactor + rawNormalized.y * factor
+            smoothedRawPosition = CGPoint(x: newX, y: newY)
         } else {
             smoothedRawPosition = rawNormalized
         }

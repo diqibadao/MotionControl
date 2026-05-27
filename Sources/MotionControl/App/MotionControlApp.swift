@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 @main
 struct MotionControlApp: App {
@@ -14,6 +15,9 @@ struct MotionControlApp: App {
 struct ContentView: View {
     @Bindable var state: SystemState
     
+    @State private var cameraService = CameraService()
+    @State private var detectionPipeline = DetectionPipeline()
+    
     var body: some View {
         HSplitView {
             VStack {
@@ -22,6 +26,18 @@ struct ContentView: View {
                 StatusPanelView(state: state)
             }
             ConfigPanelView(state: state)
+        }
+        .onAppear {
+            // 将摄像头输出连接到检测管道
+            cameraService.onSampleBuffer = { [weak detectionPipeline] sampleBuffer in
+                detectionPipeline?.didOutputFrame(sampleBuffer)
+            }
+            // 启动摄像头
+            cameraService.start()
+        }
+        .onDisappear {
+            cameraService.stop()
+            cameraService.onSampleBuffer = nil
         }
         .task {
             let perms = await PermissionManager.shared.checkAll()

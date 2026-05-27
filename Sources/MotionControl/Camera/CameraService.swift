@@ -56,7 +56,7 @@ class CameraService: NSObject {
 
     // MARK: - Session Configuration
     private func configureSession() {
-        sessionQueue.async { [weak self] in
+        sessionQueue.sync { [weak self] in
             guard let self = self else { return }
             self.session.beginConfiguration()
             defer { self.session.commitConfiguration() }

@@ -193,6 +193,12 @@ class GestureAnalyzer {
 
         // --- swipe 手势暂时省略 (需要跟踪帧间位移)
 
+        // 计算用于日志的拇指–食指距离（若没有可用关键点则用0）
+        let thumbIndexDist: CGFloat = {
+            guard let t = hand.thumbTip, let i = hand.indexTip else { return 0 }
+            return hypot(t.x - i.x, t.y - i.y)
+        }()
+
         // --- 冷却与去重 ---
         if let event = bestEvent {
             // 如果冷却时间内出现相同事件且在 cooldownInterval 内，标记为重复
@@ -208,6 +214,11 @@ class GestureAnalyzer {
                                           handPosition: event.handPosition,
                                           isRepeat: isRepeat,
                                           velocity: event.velocity)
+            // 记录日志
+            let inputStr = "gesture_analyze type=\(event.gestureType) dist=\(String(format: "%.1f", thumbIndexDist))"
+            let outputStr = "gesture=\(finalEvent.gestureType) confidence=\(String(format: "%.2f", finalEvent.confidence)) isRepeat=\(finalEvent.isRepeat)"
+            EventLogger.log(event: "gesture_analyze", frame: nil, input: inputStr, output: outputStr, duration: nil)
+
             lastEventType = event.gestureType
             lastEventTime = now
             return finalEvent
@@ -215,6 +226,11 @@ class GestureAnalyzer {
 
         // 无手势
         let noneEvent = GestureEvent(gestureType: .none, confidence: 0, timestamp: now, handPosition: handPos, velocity: velocity)
+        // 无手势日志
+        let inputStr = "gesture_analyze type=none dist=\(String(format: "%.1f", thumbIndexDist))"
+        let outputStr = "gesture=none confidence=0.00 isRepeat=false"
+        EventLogger.log(event: "gesture_analyze", frame: nil, input: inputStr, output: outputStr, duration: nil)
+
         lastEventType = .none
         lastEventTime = now
         return noneEvent

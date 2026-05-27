@@ -8,24 +8,39 @@ class KeyboardController {
 
     /// 按下并释放单个键
     func pressKey(_ keyCode: CGKeyCode) {
+        let start = CFAbsoluteTimeGetCurrent()
         guard let down = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: true) else { return }
         guard let up = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: false) else { return }
         down.post(tap: .cghidEventTap)
         up.post(tap: .cghidEventTap)
+        let duration = CFAbsoluteTimeGetCurrent() - start
+        EventLogger.log(event: "pressKey",
+                        frame: nil,
+                        input: "\(keyCode)",
+                        output: "press release",
+                        duration: duration)
     }
 
     /// 发送组合键（例如 Command+Q）
     func sendKeyCombo(_ keyCode: CGKeyCode, flags: CGEventFlags = []) {
+        let start = CFAbsoluteTimeGetCurrent()
         guard let downFlags = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: true) else { return }
         downFlags.flags = flags
         downFlags.post(tap: .cghidEventTap)
         guard let upFlags = CGEvent(keyboardEventSource: nil, virtualKey: keyCode, keyDown: false) else { return }
         upFlags.flags = flags
         upFlags.post(tap: .cghidEventTap)
+        let duration = CFAbsoluteTimeGetCurrent() - start
+        EventLogger.log(event: "sendKeyCombo",
+                        frame: nil,
+                        input: "key:\(keyCode) flags:\(flags.rawValue)",
+                        output: "combo sent",
+                        duration: duration)
     }
 
     /// 执行系统命令（通过快捷键模拟）
     func executeSystemCommand(_ command: SystemCommand) {
+        let start = CFAbsoluteTimeGetCurrent()
         switch command {
         case .missionControl:
             sendKeyCombo(0x7D, flags: .maskControl) // F3 可通过 keycode? 简化使用 Mission Control 是 control+up
@@ -48,6 +63,12 @@ class KeyboardController {
         case .screenshot:
             sendKeyCombo(0x13, flags: [.maskCommand, .maskShift]) // 3
         }
+        let duration = CFAbsoluteTimeGetCurrent() - start
+        EventLogger.log(event: "executeSystemCommand",
+                        frame: nil,
+                        input: "\(command)",
+                        output: "system command executed",
+                        duration: duration)
     }
 
     // 常用键码

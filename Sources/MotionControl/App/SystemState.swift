@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import MouthDetector
 
 @Observable
 final class SystemState {

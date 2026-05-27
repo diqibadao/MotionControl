@@ -17,6 +17,9 @@ struct ContentView: View {
     
     private let cameraService = CameraService()
     private let detectionPipeline = DetectionPipeline()
+    private let mouseCtrl = MouseController()
+    private let keyboardCtrl = KeyboardController()
+    private let cursorController = CursorController()
     
     @State private var handKeypoints: [CGPoint] = []
     @State private var faceKeypoints: [CGPoint] = []
@@ -26,7 +29,6 @@ struct ContentView: View {
         HSplitView {
             VStack {
                 ZStack(alignment: .topLeading) {
-                    // 预览与叠加层合并
                     CameraPreviewView(
                         session: cameraService.cameraSession,
                         handKeypoints: handKeypoints,
@@ -51,13 +53,10 @@ struct ContentView: View {
             ConfigPanelView(state: state)
         }
         .onAppear {
-            // 将摄像头输出连接到检测管道
             cameraService.onSampleBuffer = { [weak detectionPipeline] sampleBuffer in
                 detectionPipeline?.didOutputFrame(sampleBuffer)
             }
             // 手势事件 → 执行映射动作
-            let mouseCtrl = MouseController()
-            let keyboardCtrl = KeyboardController()
             detectionPipeline.onGesture = { event in
                 guard !event.isRepeat else { return }
                 let config = ConfigManager.shared.currentConfig
@@ -79,7 +78,6 @@ struct ContentView: View {
                     }
                 default: break
                 }
-                // 追加的状态同步
                 state.currentGesture = event.gestureType.displayName
                 state.gestureConfidence = Float(event.confidence)
                 state.handPosition = event.handPosition
@@ -88,15 +86,20 @@ struct ContentView: View {
                     commandTriggeredAt = Date()
                 }
             }
-            // 其它回调
+            // 嘴型回调
             detectionPipeline.onMouthEvent = { event in
                 state.mouthStatus = event.status
                 state.mouthOpenRatio = event.ratio
             }
-            detectionPipeline.onGaze = { gazeResult in
-                state.gazeActive = true
-                state.gazePosition = gazeResult.screenPosition
+            // 注视回调（接收 GazeEstimate）
+            detectionPipeline.onGaze = { gazeEstimate in
+                state.gazeActive = gazeEstimate.hasFace
+                state.gazePosition = CGPoint(x: CGFloat(gazeEstimate.yawOffset),
+                                             y: CGFloat(gazeEstimate.pitchOffset))
+                cursorController.updateGazeOffset(yaw: gazeEstimate.yawOffset,
+                                                  pitch: gazeEstimate.pitchOffset)
             }
+            // 手部结果回调（关键点 + 光标控制）
             detectionPipeline.onHandResult = { handResult in
                 guard let handResult = handResult else { handKeypoints = []; return }
                 var points: [CGPoint] = []
@@ -121,7 +124,21 @@ struct ContentView: View {
                 if let p = handResult.littlePIP { points.append(p) }
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
+
+                // 指尖位置 → CursorController → 移动光标
+                let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
+                let imageSize = cameraService.currentFrameSize ?? CGSize(width: 640, height: 480)
+                let config = ConfigManager.shared.currentConfig
+                if let tip = handResult.indexTip {
+                    let screenX = (tip.x / imageSize.width) * screen.width * CGFloat(config.mouseSensitivity)
+                    let screenY = (tip.y / imageSize.height) * screen.height * CGFloat(config.mouseSensitivity)
+                    cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
+                }
+                // 每帧都执行一次最终的 computeCursor
+                let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
+                mouseCtrl.moveCursor(to: finalCursor)
             }
+            // 人脸结果回调（关键点）
             detectionPipeline.onFaceResult = { faceResult in
                 guard let faceResult = faceResult else { faceKeypoints = []; return }
                 var points: [CGPoint] = []

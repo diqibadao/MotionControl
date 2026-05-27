@@ -20,6 +20,14 @@ enum GestureType: String, Codable, CaseIterable {
     case ok = "OK"
     case none = "NONE"
     
+    // 新增手势（共6个）
+    case indexTap = "INDEX_TAP"
+    case indexDoubleTap = "INDEX_DOUBLE_TAP"
+    case dualTap = "DUAL_TAP"
+    case dualRelease = "DUAL_RELEASE"
+    case swipeUpAlt = "SWIPE_UP_ALT"      // 因已有 swipeUp，改用不同名称
+    case swipeDownAlt = "SWIPE_DOWN_ALT"  // 因已有 swipeDown，改用不同名称
+    
     var displayName: String {
         switch self {
         case .open: return "张开五指"
@@ -39,6 +47,13 @@ enum GestureType: String, Codable, CaseIterable {
         case .thumbsUp: return "竖拇指"
         case .ok: return "OK 手势"
         case .none: return "无"
+        // 新增中文名称
+        case .indexTap: return "食指单击"
+        case .indexDoubleTap: return "食指双击"
+        case .dualTap: return "双指按下"
+        case .dualRelease: return "双指收回"
+        case .swipeUpAlt: return "上挥"
+        case .swipeDownAlt: return "下挥"
         }
     }
     
@@ -58,6 +73,13 @@ enum GestureType: String, Codable, CaseIterable {
         case .thumbsUp: return "hand.thumbsup"
         case .ok: return "hand.ok"
         case .none: return "questionmark"
+        // 新增图标的合理选择
+        case .indexTap: return "hand.point.up"
+        case .indexDoubleTap: return "hand.point.up.fill"
+        case .dualTap: return "hand.two.fingers"
+        case .dualRelease: return "hand.two.fingers"
+        case .swipeUpAlt: return "hand.wave"
+        case .swipeDownAlt: return "hand.wave"
         }
     }
 }
@@ -184,6 +206,13 @@ struct GestureConfig: Codable {
         map["OPEN_PALM"] = GestureAction(gesture: .openPalm, actionType: .systemCommand, actionValue: "SHOW_DESKTOP", actionName: "显示桌面")
         map["FIVE_PINCH"] = GestureAction(gesture: .fivePinch, actionType: .systemCommand, actionValue: "LAUNCHPAD", actionName: "Launchpad")
         map["THUMBS_UP"] = GestureAction(gesture: .thumbsUp, actionType: .systemCommand, actionValue: "OPEN_QUICK_LOOK", actionName: "空格预览")
+        // 新增手势默认映射（无动作，用户可后续配置）
+        map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .leftClick, actionName: "左键点击")
+        map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
+        map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .rightClick, actionName: "右键点击")
+        map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .leftClick, actionName: "左键点击")
+        map["SWIPE_UP_ALT"] = GestureAction(gesture: .swipeUpAlt, actionType: .systemCommand, actionValue: "MISSION_CONTROL", actionName: "Mission Control")
+        map["SWIPE_DOWN_ALT"] = GestureAction(gesture: .swipeDownAlt, actionType: .systemCommand, actionValue: "APP_EXPOSE", actionName: "App Exposé")
         return map
     }
     

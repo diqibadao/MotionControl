@@ -84,7 +84,7 @@ struct ContentView: View {
             }
             detectionPipeline.onGaze = { gazeResult in
                 state.gazeActive = true
-                state.gazePosition = gazeResult.point
+                state.gazePosition = gazeResult.screenPosition
             }
             detectionPipeline.onHandResult = { handResult in
                 var points: [CGPoint] = []

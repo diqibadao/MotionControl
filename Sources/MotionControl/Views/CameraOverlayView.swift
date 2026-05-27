@@ -53,11 +53,49 @@ class OverlayNSView: NSView {
             videoRect = CGRect(x: 0, y: yOffset, width: videoWidth, height: videoHeight)
         }
 
-        // 2. 辅助函数：Vision 归一化坐标 → NSView 坐标
+        // 2. 辅助函数：Vision 归一化坐标 → NSView 坐标（x镜像，y翻转）
         func visionPointToView(_ point: CGPoint, videoRect: CGRect) -> CGPoint {
-            let x = point.x * videoRect.width + videoRect.origin.x
+            let x = (1.0 - point.x) * videoRect.width + videoRect.origin.x
             let y = (1.0 - point.y) * videoRect.height + videoRect.origin.y
             return CGPoint(x: x, y: y)
+        }
+
+        // --- 定义手部骨骼连接索引（基于 MotionControlApp.swift 中的追加顺序）---
+        // 索引顺序：wrist(0), thumbTip(1), thumbIP(2), thumbMP(3),
+        // indexTip(4), indexDIP(5), indexPIP(6), indexMCP(7),
+        // middleTip(8), middleDIP(9), middlePIP(10), middleMCP(11),
+        // ringTip(12), ringDIP(13), ringPIP(14), ringMCP(15),
+        // littleTip(16), littleDIP(17), littlePIP(18), littleMCP(19)
+        let handConnections: [(Int, Int)] = [
+            // 拇指：wrist→thumbMP→thumbIP→thumbTip
+            (0,3), (3,2), (2,1),
+            // 食指：wrist→indexMCP→indexPIP→indexDIP→indexTip
+            (0,7), (7,6), (6,5), (5,4),
+            // 中指：wrist→middleMCP→middlePIP→middleDIP→middleTip
+            (0,11), (11,10), (10,9), (9,8),
+            // 无名指：wrist→ringMCP→ringPIP→ringDIP→ringTip
+            (0,15), (15,14), (14,13), (13,12),
+            // 小指：wrist→littleMCP→littlePIP→littleDIP→littleTip
+            (0,19), (19,18), (18,17), (17,16),
+            // 掌骨连接：thumbMP→indexMCP→middleMCP→ringMCP→littleMCP
+            (3,7), (7,11), (11,15), (15,19)
+        ]
+
+        // --- 绘制手部骨骼连线（白色半透明）---
+        if handKeypoints.count >= 20 {
+            ctx.setStrokeColor(NSColor.white.withAlphaComponent(0.4).cgColor)
+            ctx.setLineWidth(1.0)
+            ctx.setShouldAntialias(true)
+
+            for (idx1, idx2) in handConnections {
+                guard idx1 < handKeypoints.count, idx2 < handKeypoints.count else { continue }
+                let pt1 = visionPointToView(handKeypoints[idx1], videoRect: videoRect)
+                let pt2 = visionPointToView(handKeypoints[idx2], videoRect: videoRect)
+                ctx.beginPath()
+                ctx.move(to: pt1)
+                ctx.addLine(to: pt2)
+                ctx.strokePath()
+            }
         }
 
         // --- 绘制面部特征点 (半径2pt) ---

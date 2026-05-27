@@ -18,11 +18,23 @@ struct ContentView: View {
     private let cameraService = CameraService()
     private let detectionPipeline = DetectionPipeline()
     
+    @State private var handKeypoints: [CGPoint] = []
+    @State private var faceKeypoints: [CGPoint] = []
+    @State private var commandTriggeredAt: Date = .distantPast
+    
     var body: some View {
         HSplitView {
             VStack {
-                CameraPreviewView(session: cameraService.cameraSession)
-                    .frame(height: 360)
+                ZStack(alignment: .topLeading) {
+                    CameraPreviewView(session: cameraService.cameraSession)
+                    CameraOverlayView(
+                        handKeypoints: handKeypoints,
+                        faceKeypoints: faceKeypoints,
+                        isCommandActive: Date().timeIntervalSince(commandTriggeredAt) < 1.0
+                    )
+                }
+                .frame(height: 360)
+                .onReceive(Timer.publish(every: 0.033, on: .main, in: .common).autoconnect()) { _ in }
                 StatusPanelView(state: state)
             }
             ConfigPanelView(state: state)
@@ -56,6 +68,62 @@ struct ContentView: View {
                     }
                 default: break
                 }
+                // 追加的状态同步
+                state.currentGesture = event.gestureType.displayName
+                state.gestureConfidence = Float(event.confidence)
+                state.handPosition = event.handPosition
+                state.handDetected = event.gestureType != .none
+                if event.gestureType != .none && !event.isRepeat {
+                    commandTriggeredAt = Date()
+                }
+            }
+            // 其它回调
+            detectionPipeline.onMouthEvent = { event in
+                state.mouthStatus = event.status
+                state.mouthOpenRatio = event.openRatio
+            }
+            detectionPipeline.onGaze = { gazeResult in
+                state.gazeActive = true
+                state.gazePosition = gazeResult.point
+            }
+            detectionPipeline.onHandResult = { handResult in
+                var points: [CGPoint] = []
+                if let p = handResult.wrist { points.append(p) }
+                if let p = handResult.thumbTip { points.append(p) }
+                if let p = handResult.thumbIP { points.append(p) }
+                if let p = handResult.thumbMP { points.append(p) }
+                if let p = handResult.indexTip { points.append(p) }
+                if let p = handResult.indexDIP { points.append(p) }
+                if let p = handResult.indexPIP { points.append(p) }
+                if let p = handResult.indexMCP { points.append(p) }
+                if let p = handResult.middleTip { points.append(p) }
+                if let p = handResult.middleDIP { points.append(p) }
+                if let p = handResult.middlePIP { points.append(p) }
+                if let p = handResult.middleMCP { points.append(p) }
+                if let p = handResult.ringTip { points.append(p) }
+                if let p = handResult.ringDIP { points.append(p) }
+                if let p = handResult.ringPIP { points.append(p) }
+                if let p = handResult.ringMCP { points.append(p) }
+                if let p = handResult.littleTip { points.append(p) }
+                if let p = handResult.littleDIP { points.append(p) }
+                if let p = handResult.littlePIP { points.append(p) }
+                if let p = handResult.littleMCP { points.append(p) }
+                handKeypoints = points
+            }
+            detectionPipeline.onFaceResult = { faceResult in
+                var points: [CGPoint] = []
+                if let contour = faceResult.faceContour { points.append(contentsOf: contour) }
+                if let leftEye = faceResult.leftEye { points.append(contentsOf: leftEye) }
+                if let rightEye = faceResult.rightEye { points.append(contentsOf: rightEye) }
+                if let leftPupil = faceResult.leftPupil { points.append(leftPupil) }
+                if let rightPupil = faceResult.rightPupil { points.append(rightPupil) }
+                if let outerLips = faceResult.outerLips { points.append(contentsOf: outerLips) }
+                if let innerLips = faceResult.innerLips { points.append(contentsOf: innerLips) }
+                faceKeypoints = points
+            }
+            cameraService.onFPSUpdate = { fps, count in
+                state.currentFPS = fps
+                state.frameCount = count
             }
             detectionPipeline.start()
             cameraService.start()

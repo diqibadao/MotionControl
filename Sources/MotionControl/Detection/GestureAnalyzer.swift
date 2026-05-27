@@ -27,49 +27,6 @@ public enum GestureType: String, Codable, CaseIterable {
     case ok
 }
 
-/// 手部姿态结果，包含归一化坐标的关键点。
-/// 调用方需根据实际检测结果填充对应属性。
-/// 若无某关节，则置为 nil，分析时会跳过依赖该点的手势。
-public struct HandPoseResult {
-    public let thumbTip: CGPoint?
-    public let thumbIP: CGPoint?
-    public let indexTip: CGPoint?
-    public let indexPIP: CGPoint?
-    public let middleTip: CGPoint?
-    public let middlePIP: CGPoint?
-    public let ringTip: CGPoint?
-    public let ringPIP: CGPoint?
-    public let littleTip: CGPoint?
-    public let littlePIP: CGPoint?
-    public let wrist: CGPoint?
-
-    public init(
-        thumbTip: CGPoint? = nil,
-        thumbIP: CGPoint? = nil,
-        indexTip: CGPoint? = nil,
-        indexPIP: CGPoint? = nil,
-        middleTip: CGPoint? = nil,
-        middlePIP: CGPoint? = nil,
-        ringTip: CGPoint? = nil,
-        ringPIP: CGPoint? = nil,
-        littleTip: CGPoint? = nil,
-        littlePIP: CGPoint? = nil,
-        wrist: CGPoint? = nil
-    ) {
-        self.thumbTip = thumbTip
-        self.thumbIP = thumbIP
-        self.indexTip = indexTip
-        self.indexPIP = indexPIP
-        self.middleTip = middleTip
-        self.middlePIP = middlePIP
-        self.ringTip = ringTip
-        self.ringPIP = ringPIP
-        self.littleTip = littleTip
-        self.littlePIP = littlePIP
-        self.wrist = wrist
-    }
-}
-
 /// 手部手势分析引擎，通过手部关键点检测产生手势事件。
 public class GestureAnalyzer {
 

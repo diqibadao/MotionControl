@@ -90,6 +90,12 @@ enum ActionType: String, Codable, CaseIterable {
     case keyPress = "KEY_PRESS"
     case keyCombo = "KEY_COMBO"
     case systemCommand = "SYSTEM_COMMAND"
+    // 新增动作
+    case dragStart = "DRAG_START"
+    case dragEnd = "DRAG_END"
+    case scrollUp = "SCROLL_UP"
+    case scrollDown = "SCROLL_DOWN"
+    case noAction = "NO_ACTION"
     
     var displayName: String {
         switch self {
@@ -103,6 +109,12 @@ enum ActionType: String, Codable, CaseIterable {
         case .keyPress: return "按键"
         case .keyCombo: return "快捷键"
         case .systemCommand: return "系统命令"
+        // 新增中文名称
+        case .dragStart: return "拖拽开始"
+        case .dragEnd: return "拖拽结束"
+        case .scrollUp: return "上滚"
+        case .scrollDown: return "下滚"
+        case .noAction: return "无动作"
         }
     }
 }

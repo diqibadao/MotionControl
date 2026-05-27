@@ -55,23 +55,14 @@ class GestureAnalyzer {
 
     init() {}
 
-    // 记录上次捏合事件的时间（原有）
-    private var lastPinchTime: Date?
-
     /// 分析手部姿态结果，返回当前帧检测到的主要手势事件（只返回置信度最高的一个）。
     /// - Parameter hand: 手部关键点数据
     /// - Returns: 手势事件（若无手势则 type 为 .none，confidience 为 0）
     func analyze(_ hand: HandPoseResult) -> GestureEvent {
         let config = ConfigManager.shared.currentConfig
 
-        // 从配置读取动态阈值（单位统一）
-        let pinchThreshold = CGFloat(config.pinchThreshold)
+        // 只保留去重冷却需要的参数
         let gestureCooldown = TimeInterval(config.gestureCooldown) / 1000.0
-        let doublePinchWindow = TimeInterval(config.doubleTapWindow) / 1000.0
-        let openPalmThreshold = CGFloat(config.openPalmThreshold)
-        let fistThreshold = CGFloat(config.fistThreshold)
-        let thumbsUpMinDist = CGFloat(config.thumbsUpMinDist)
-        let pointRatio = CGFloat(config.pointRatio)
 
         var bestEvent: GestureEvent? = nil
 
@@ -92,135 +83,11 @@ class GestureAnalyzer {
         // 计算手部速度（需要前后帧对比，此处简化为零）
         let velocity = CGPoint.zero
 
-        // --- pinch (捏合) ---
-        if let thumb = hand.thumbTip, let index = hand.indexTip {
-            let dist = hypot(thumb.x - index.x, thumb.y - index.y)
-            if dist < pinchThreshold {
-                let confidence = max(0.0, 1.0 - Double(dist / pinchThreshold))
-                // 检查双击捏合
-                var isDouble = false
-                if let lastPinch = lastPinchTime,
-                   now.timeIntervalSince(lastPinch) < doublePinchWindow {
-                    isDouble = true
-                }
-                lastPinchTime = now
-
-                let gestureType: GestureType = isDouble ? .doublePinch : .pinch
-                consider(GestureEvent(gestureType: gestureType,
-                                      confidence: confidence,
-                                      timestamp: now,
-                                      handPosition: handPos,
-                                      velocity: velocity))
-            }
-        }
-
-        // --- point (指点) ---
-        if let indexTip = hand.indexTip,
-           let middleTip = hand.middleTip,
-           let ringTip = hand.ringTip,
-           let littleTip = hand.littleTip,
-           let wrist = hand.wrist,
-           let thumbTip = hand.thumbTip {
-            let indexLen = hypot(indexTip.x - wrist.x, indexTip.y - wrist.y)
-            let middleLen = hypot(middleTip.x - wrist.x, middleTip.y - wrist.y)
-            let ringLen = hypot(ringTip.x - wrist.x, ringTip.y - wrist.y)
-            let littleLen = hypot(littleTip.x - wrist.x, littleTip.y - wrist.y)
-            let avgOther = (middleLen + ringLen + littleLen) / 3.0
-            if indexLen > avgOther * pointRatio && indexLen > openPalmThreshold {
-                let confidence = min(1.0, Double(indexLen / (openPalmThreshold * 2)))
-                consider(GestureEvent(gestureType: .point,
-                                      confidence: confidence,
-                                      timestamp: now,
-                                      handPosition: handPos,
-                                      velocity: velocity))
-            }
-        }
-
-        // --- openPalm (手掌张开) ---
-        if let thumb = hand.thumbTip,
-           let index = hand.indexTip,
-           let middle = hand.middleTip,
-           let ring = hand.ringTip,
-           let little = hand.littleTip,
-           let wrist = hand.wrist {
-            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
-            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
-            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
-            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
-            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
-            let minDist = min(thumbDist, indexDist, middleDist, ringDist, littleDist)
-            if minDist > openPalmThreshold {
-                let avgDist = (thumbDist + indexDist + middleDist + ringDist + littleDist) / 5.0
-                let confidence = min(1.0, Double(avgDist / (openPalmThreshold * 3)))
-                consider(GestureEvent(gestureType: .openPalm,
-                                      confidence: confidence,
-                                      timestamp: now,
-                                      handPosition: handPos,
-                                      velocity: velocity))
-            }
-        }
-
-        // --- fist (拳头) ---
-        if let thumb = hand.thumbTip,
-           let index = hand.indexTip,
-           let middle = hand.middleTip,
-           let ring = hand.ringTip,
-           let little = hand.littleTip,
-           let wrist = hand.wrist {
-            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
-            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
-            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
-            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
-            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
-            let maxDist = max(thumbDist, indexDist, middleDist, ringDist, littleDist)
-            if maxDist < fistThreshold {
-                let avgDist = (thumbDist + indexDist + middleDist + ringDist + littleDist) / 5.0
-                let confidence = max(0.0, 1.0 - Double(avgDist / fistThreshold))
-                consider(GestureEvent(gestureType: .fist,
-                                      confidence: confidence,
-                                      timestamp: now,
-                                      handPosition: handPos,
-                                      velocity: velocity))
-            }
-        }
-
-        // --- thumbsUp (点赞) ---
-        if let thumb = hand.thumbTip,
-           let index = hand.indexTip,
-           let middle = hand.middleTip,
-           let ring = hand.ringTip,
-           let little = hand.littleTip,
-           let wrist = hand.wrist {
-            let thumbDist = hypot(thumb.x - wrist.x, thumb.y - wrist.y)
-            let indexDist = hypot(index.x - wrist.x, index.y - wrist.y)
-            let middleDist = hypot(middle.x - wrist.x, middle.y - wrist.y)
-            let ringDist = hypot(ring.x - wrist.x, ring.y - wrist.y)
-            let littleDist = hypot(little.x - wrist.x, little.y - wrist.y)
-            let otherMax = max(indexDist, middleDist, ringDist, littleDist)
-            if thumbDist > thumbsUpMinDist && otherMax < fistThreshold {
-                let confidence = min(1.0, Double(thumbDist / (thumbsUpMinDist * 3)))
-                consider(GestureEvent(gestureType: .thumbsUp,
-                                      confidence: confidence,
-                                      timestamp: now,
-                                      handPosition: handPos,
-                                      velocity: velocity))
-            }
-        }
-
-        // --- grab (抓取) 等，保留原有占位
-        // --- peace (剪刀) 等预留，需要额外关键点
-
-        // =====================================================
-        // 新增：时间序列检测（滑动窗口，tap, doubleTap, dualTap, dualRelease, swipe）
-        // =====================================================
-        // 更新滑动窗口
-        let indexY = hand.indexTip?.y
-        let middleY = hand.middleTip?.y
-        let wristY  = hand.wrist?.y
-
-        // 只有当三个关键点都存在时才进行时间序列检测
-        if let iY = indexY, let mY = middleY, let wY = wristY {
-            yHistory.append((indexY: iY, middleY: mY, wristY: wY, timestamp: now))
+        // ---- 时间序列检测（滑动窗口，tap, doubleTap, dualTap, dualRelease, swipe） ----
+        if let indexY = hand.indexTip?.y,
+           let middleY = hand.middleTip?.y,
+           let wristY = hand.wrist?.y {
+            yHistory.append((indexY: indexY, middleY: middleY, wristY: wristY, timestamp: now))
             if yHistory.count > maxHistoryCount {
                 yHistory.removeFirst()
             }
@@ -238,13 +105,7 @@ class GestureAnalyzer {
             resetSequenceStates()
         }
 
-        // --- 计算用于日志的拇指–食指距离（若没有可用关键点则用0）
-        let thumbIndexDist: CGFloat = {
-            guard let t = hand.thumbTip, let i = hand.indexTip else { return 0 }
-            return hypot(t.x - i.x, t.y - i.y)
-        }()
-
-        // --- 冷却与去重 ---
+        // ---- 冷却与去重 ----
         if let event = bestEvent {
             // 如果冷却时间内出现相同事件且在 cooldownInterval 内，标记为重复
             let isRepeat: Bool
@@ -259,8 +120,8 @@ class GestureAnalyzer {
                                           handPosition: event.handPosition,
                                           isRepeat: isRepeat,
                                           velocity: event.velocity)
-            // 记录日志
-            let inputStr = "gesture_analyze type=\(event.gestureType) dist=\(String(format: "%.1f", thumbIndexDist))"
+            // 记录日志（旧手势已移除，dist 固定为 0）
+            let inputStr = "gesture_analyze type=\(event.gestureType) dist=0.0"
             let outputStr = "gesture=\(finalEvent.gestureType) confidence=\(String(format: "%.2f", finalEvent.confidence)) isRepeat=\(finalEvent.isRepeat)"
             EventLogger.log(event: "gesture_analyze", frame: nil, input: inputStr, output: outputStr, duration: nil)
 
@@ -271,7 +132,7 @@ class GestureAnalyzer {
 
         // 无手势
         let noneEvent = GestureEvent(gestureType: .none, confidence: 0, timestamp: now, handPosition: handPos, velocity: velocity)
-        let inputStr = "gesture_analyze type=none dist=\(String(format: "%.1f", thumbIndexDist))"
+        let inputStr = "gesture_analyze type=none dist=0.0"
         let outputStr = "gesture=none confidence=0.00 isRepeat=false"
         EventLogger.log(event: "gesture_analyze", frame: nil, input: inputStr, output: outputStr, duration: nil)
 

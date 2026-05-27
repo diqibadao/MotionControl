@@ -5,19 +5,8 @@ struct MotionControlApp: App {
     @State private var state = SystemState()
     
     var body: some Scene {
-        MenuBarExtra("MotionControl", systemImage: "hand.raised") {
-            StatusMenuView(state: state)
-        }
-        .menuBarExtraStyle(.menu)
-        
-        Window("MotionControl", id: "main") {
+        WindowGroup {
             ContentView(state: state)
-                .frame(minWidth: 800, minHeight: 600)
-        }
-        .windowResizability(.contentSize)
-        
-        Settings {
-            ConfigPanelView(state: state)
         }
     }
 }
@@ -27,16 +16,12 @@ struct ContentView: View {
     
     var body: some View {
         HSplitView {
-            // 左侧：摄像头预览 + 状态
             VStack {
-                CameraPreviewView(state: state)
+                Text("摄像头预览")
+                    .frame(height: 360)
                 StatusPanelView(state: state)
             }
-            .frame(minWidth: 400)
-            
-            // 右侧：配置面板
             ConfigPanelView(state: state)
-                .frame(minWidth: 400)
         }
         .task {
             let perms = await PermissionManager.shared.checkAll()

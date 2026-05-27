@@ -3,14 +3,14 @@ import AVFoundation
 import Vision
 
 /// 摄像头输出代理协议（由 DetectionPipeline 实现）
-public protocol CameraOutputDelegate: AnyObject {
+protocol CameraOutputDelegate: AnyObject {
     func didOutputFrame(_ sampleBuffer: CMSampleBuffer)
     func didOutputFace(_ face: FaceResult)
     func didOutputHand(_ hand: HandPoseResult)
 }
 
 /// 检测管道：串联摄像头 → 手部/人脸检测 → 手势/嘴部分析 → 输出事件
-public class DetectionPipeline: CameraOutputDelegate {
+class DetectionPipeline: CameraOutputDelegate {
     // MARK: - 子模块
     private let handPoseDetector = HandPoseDetector()
     private let faceMeshDetector = FaceMeshDetector()
@@ -18,8 +18,8 @@ public class DetectionPipeline: CameraOutputDelegate {
     private let mouthDetector = MouthDetector()
 
     // 输出闭包
-    public var onGesture: ((GestureEvent) -> Void)?
-    public var onMouthEvent: ((MouthEvent) -> Void)?
+    var onGesture: ((GestureEvent) -> Void)?
+    var onMouthEvent: ((MouthEvent) -> Void)?
 
     // 运行状态
     private var isRunning = false
@@ -29,22 +29,22 @@ public class DetectionPipeline: CameraOutputDelegate {
     private var lastHand: HandPoseResult?
     private var lastFace: FaceResult?
 
-    public init() {}
+    init() {}
 
     // MARK: - 启动/停止
-    public func start() {
+    func start() {
         isRunning = true
         // 实际启动摄像头需要外部调用，此处仅设置标志
     }
 
-    public func stop() {
+    func stop() {
         isRunning = false
         lastHand = nil
         lastFace = nil
     }
 
     // MARK: - CameraOutputDelegate
-    public func didOutputFrame(_ sampleBuffer: CMSampleBuffer) {
+    func didOutputFrame(_ sampleBuffer: CMSampleBuffer) {
         guard isRunning else { return }
         processingQueue.async { [weak self] in
             guard let self = self else { return }
@@ -57,7 +57,8 @@ public class DetectionPipeline: CameraOutputDelegate {
                 }
             }
             // 人脸检测
-            if let faceResult = self.faceMeshDetector.detect(in: sampleBuffer) {
+            if let faceResults = self.faceMeshDetector.detect(pixelBuffer: CMSampleBufferGetImageBuffer(sampleBuffer)!),
+              let faceResult = faceResults.first {
                 self.lastFace = faceResult
                 let mouthEvent = self.mouthDetector.detect(from: faceResult)
                 DispatchQueue.main.async {
@@ -67,11 +68,11 @@ public class DetectionPipeline: CameraOutputDelegate {
         }
     }
 
-    public func didOutputFace(_ face: FaceResult) {
+    func didOutputFace(_ face: FaceResult) {
         // 如果已从 didOutputFrame 中调用，这里可留空
     }
 
-    public func didOutputHand(_ hand: HandPoseResult) {
+    func didOutputHand(_ hand: HandPoseResult) {
         // 同上
     }
 }

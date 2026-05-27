@@ -34,7 +34,6 @@ struct ContentView: View {
                     )
                 }
                 .frame(height: 360)
-                .onReceive(Timer.publish(every: 0.033, on: .main, in: .common).autoconnect()) { _ in }
                 StatusPanelView(state: state)
             }
             ConfigPanelView(state: state)
@@ -127,10 +126,6 @@ struct ContentView: View {
             }
             detectionPipeline.start()
             cameraService.start()
-        }
-        .onDisappear {
-            cameraService.stop()
-            cameraService.onSampleBuffer = nil
         }
         .onDisappear {
             cameraService.stop()

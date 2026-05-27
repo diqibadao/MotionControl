@@ -56,38 +56,42 @@ class CameraService: NSObject {
 
     // MARK: - Session Configuration
     private func configureSession() {
-        session.beginConfiguration()
-        defer { session.commitConfiguration() }
+        sessionQueue.async { [weak self] in
+            guard let self = self else { return }
+            self.session.beginConfiguration()
+            defer { self.session.commitConfiguration() }
 
-        // 设置分辨率为 VGA 640x480
+            // 设置分辨率为 VGA 640x480
+            self.session.sessionPreset = .vga640x480
 
-        // 1. Input – 优先外接摄像头
-        guard let device = bestAvailableCamera() else {
-            print("CameraService: no camera available")
-            return
+            // 1. Input – 优先外接摄像头
+            guard let device = self.bestAvailableCamera() else {
+                print("CameraService: no camera available")
+                return
+            }
+
+            guard let input = try? AVCaptureDeviceInput(device: device),
+                  self.session.canAddInput(input) else {
+                print("CameraService: could not add camera input")
+                return
+            }
+            self.session.addInput(input)
+
+            // 2. Output – video data
+            self.videoOutput.alwaysDiscardsLateVideoFrames = true
+            self.videoOutput.videoSettings = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+            ]
+            self.videoOutput.setSampleBufferDelegate(self, queue: self.sessionQueue)
+
+            guard self.session.canAddOutput(self.videoOutput) else {
+                print("CameraService: could not add video output")
+                return
+            }
+            self.session.addOutput(self.videoOutput)
+
+            self.isConfigured = true
         }
-
-        guard let input = try? AVCaptureDeviceInput(device: device),
-              session.canAddInput(input) else {
-            print("CameraService: could not add camera input")
-            return
-        }
-        session.addInput(input)
-
-        // 2. Output – video data
-        videoOutput.alwaysDiscardsLateVideoFrames = true
-        videoOutput.videoSettings = [
-            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
-        ]
-        videoOutput.setSampleBufferDelegate(self, queue: sessionQueue)
-
-        guard session.canAddOutput(videoOutput) else {
-            print("CameraService: could not add video output")
-            return
-        }
-        session.addOutput(videoOutput)
-
-        isConfigured = true
     }
 }
 

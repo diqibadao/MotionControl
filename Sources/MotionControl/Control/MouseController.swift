@@ -8,6 +8,8 @@ class MouseController {
 
     /// 移动光标至指定位置（屏幕坐标）
     func moveCursor(to point: CGPoint) {
+        EventLogger.log(event: "mouseMoved", frame: nil,
+                        input: "point: \(point)", output: "", duration: nil)
         let event = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
                             mouseCursorPosition: point, mouseButton: .left)
         event?.post(tap: CGEventTapLocation.cghidEventTap)
@@ -16,6 +18,8 @@ class MouseController {
     /// 左键单击
     func leftClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
+        EventLogger.log(event: "leftClick", frame: nil,
+                        input: "point: \(pos)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .left) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
@@ -27,6 +31,8 @@ class MouseController {
     /// 右键单击
     func rightClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
+        EventLogger.log(event: "rightClick", frame: nil,
+                        input: "point: \(pos)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .right) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp,
@@ -38,6 +44,8 @@ class MouseController {
     /// 双击
     func doubleClick(at point: CGPoint? = nil) {
         let pos = point ?? NSEvent.mouseLocation
+        EventLogger.log(event: "doubleClick", frame: nil,
+                        input: "point: \(pos)", output: "", duration: nil)
         for _ in 0..<2 {
             guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                      mouseCursorPosition: pos, mouseButton: .left) else { return }
@@ -50,6 +58,8 @@ class MouseController {
 
     /// 拖拽（按下左键，移动，松开）
     func drag(from start: CGPoint, to end: CGPoint) {
+        EventLogger.log(event: "drag", frame: nil,
+                        input: "start: \(start), end: \(end)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                  mouseCursorPosition: start, mouseButton: .left) else { return }
         down.post(tap: CGEventTapLocation.cghidEventTap)
@@ -63,6 +73,8 @@ class MouseController {
 
     /// 滚动（deltaY >0 向上，<0 向下）
     func scroll(deltaY: Int32, deltaX: Int32 = 0) {
+        EventLogger.log(event: "scroll", frame: nil,
+                        input: "deltaY: \(deltaY), deltaX: \(deltaX)", output: "", duration: nil)
         guard let scroll = CGEvent(scrollWheelEvent2Source: nil, units: .line,
                                    wheelCount: 2, wheel1: deltaY, wheel2: deltaX,
                                    wheel3: 0) else { return }

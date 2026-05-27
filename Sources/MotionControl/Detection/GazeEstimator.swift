@@ -33,18 +33,34 @@ actor GazeEstimator {
     ///   - screenSize: 屏幕尺寸（点）。
     /// - Returns: 包含屏幕坐标、置信度和原始坐标的 `GazePoint`。
     func estimate(from face: FaceResult, screenSize: CGSize) -> GazePoint {
+        // 构造输入字符串，用于日志记录
+        let inputStr = "yaw=\(face.yaw?.description ?? "nil") pitch=\(face.pitch?.description ?? "nil")"
+
         // 1. 检查方向数据
         guard let yaw = face.yaw,
               let pitch = face.pitch else {
             // 无有效方向时，返回上次平滑位置（若存在），否则返回原点，置信度为 0
             if let smoothed = smoothedRawPosition {
+                let screenPos = CGPoint(x: smoothed.x * screenSize.width,
+                                        y: smoothed.y * screenSize.height)
+                let outputStr = "gaze=(\(Int(screenPos.x)),\(Int(screenPos.y))) confidence=0"
+                EventLogger.log(event: "gaze_estimate",
+                                frame: nil,
+                                input: inputStr,
+                                output: outputStr,
+                                duration: nil)
                 return GazePoint(
-                    screenPosition: CGPoint(x: smoothed.x * screenSize.width,
-                                            y: smoothed.y * screenSize.height),
+                    screenPosition: screenPos,
                     confidence: 0,
                     rawPosition: .zero
                 )
             } else {
+                let outputStr = "gaze=(0,0) confidence=0"
+                EventLogger.log(event: "gaze_estimate",
+                                frame: nil,
+                                input: inputStr,
+                                output: outputStr,
+                                duration: nil)
                 return GazePoint(screenPosition: .zero, confidence: 0, rawPosition: .zero)
             }
         }
@@ -90,6 +106,14 @@ actor GazeEstimator {
 
         // 5. 置信度：有瞳孔数据时 0.8，否则 0.5
         let confidence: Float = hasPupils ? 0.8 : 0.5
+
+        // 日志记录
+        let outputStr = "gaze=(\(Int(screenPos.x)),\(Int(screenPos.y))) confidence=\(confidence)"
+        EventLogger.log(event: "gaze_estimate",
+                        frame: nil,
+                        input: inputStr,
+                        output: outputStr,
+                        duration: nil)
 
         return GazePoint(screenPosition: screenPos, confidence: confidence, rawPosition: rawScreenPos)
     }

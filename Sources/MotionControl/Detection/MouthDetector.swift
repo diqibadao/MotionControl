@@ -51,10 +51,13 @@ class MouthDetector {
         // 计算开合比：依据上嘴唇和下嘴唇关键点间的平均距离除以嘴唇宽度
         let ratio: Float
         if let points = face.outerLips, points.count >= 8 {
-            // 假设 points[0] 左嘴角, points[4] 右嘴角 -> 宽度
-            let leftCorner = points[0]
-            let rightCorner = points[4]
-            let width = hypot(rightCorner.x - leftCorner.x, rightCorner.y - leftCorner.y)
+            // 用外嘴唇所有点的包围盒计算高度和宽度
+            let minX = points.map(\.x).min()!
+            let maxX = points.map(\.x).max()!
+            let minY = points.map(\.y).min()!
+            let maxY = points.map(\.y).max()!
+            let width = maxX - minX
+            let height = maxY - minY
 
             // 宽度为零时直接返回关闭状态
             guard width > 0 else {
@@ -70,10 +73,7 @@ class MouthDetector {
                                   justClosed: false)
             }
 
-            // 上嘴唇中点 points[2] 下嘴唇中点 points[6]
-            let upperLip = points[2]
-            let lowerLip = points[6]
-            let height = hypot(lowerLip.x - upperLip.x, lowerLip.y - upperLip.y)
+            // 高度除以宽度得到开合比
             ratio = Float(height / width)
         } else {
             ratio = 0.0

@@ -149,8 +149,8 @@ class FaceMeshDetector {
         let rightPupil = Self.landmarkPoints(from: landmarks?.rightPupil, in: bbox)?.first
 
         // 嘴唇（保持归一化坐标，不转换为绝对坐标）
-        let outerLips = landmarks?.outerLips?.normalizedPoints?.map { $0.pointValue }
-        let innerLips = landmarks?.innerLips?.normalizedPoints?.map { $0.pointValue }
+        let outerLips = landmarks?.outerLips?.normalizedPoints
+        let innerLips = landmarks?.innerLips?.normalizedPoints
 
         // 面部轮廓
         let faceContour = Self.landmarkPoints(from: landmarks?.faceContour, in: bbox)

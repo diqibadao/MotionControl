@@ -22,10 +22,14 @@ struct FaceResult {
     let leftPupil: CGPoint?
     /// 右瞳孔
     let rightPupil: CGPoint?
-    /// 外嘴唇点集
+    /// 外嘴唇点集（归一化坐标 0~1）
     let outerLips: [CGPoint]?
-    /// 内嘴唇点集
+    /// 内嘴唇点集（归一化坐标 0~1）
     let innerLips: [CGPoint]?
+    /// 外嘴唇点集（绝对坐标）
+    let outerLipsAbsolute: [CGPoint]?
+    /// 内嘴唇点集（绝对坐标）
+    let innerLipsAbsolute: [CGPoint]?
     /// 面部轮廓点集
     let faceContour: [CGPoint]?
 
@@ -152,6 +156,10 @@ class FaceMeshDetector {
         let outerLips = landmarks?.outerLips?.normalizedPoints
         let innerLips = landmarks?.innerLips?.normalizedPoints
 
+        // 新增绝对坐标版本
+        let outerLipsAbsolute = Self.landmarkPoints(from: landmarks?.outerLips, in: bbox)
+        let innerLipsAbsolute = Self.landmarkPoints(from: landmarks?.innerLips, in: bbox)
+
         // 面部轮廓
         let faceContour = Self.landmarkPoints(from: landmarks?.faceContour, in: bbox)
 
@@ -165,6 +173,8 @@ class FaceMeshDetector {
             rightPupil: rightPupil,
             outerLips: outerLips,
             innerLips: innerLips,
+            outerLipsAbsolute: outerLipsAbsolute,
+            innerLipsAbsolute: innerLipsAbsolute,
             faceContour: faceContour
         )
     }

@@ -31,9 +31,9 @@ class MouthDetector {
 
     // MARK: - 参数
     // 开合比阈值，大于此值认为张开
-    private let openThreshold: Float = 0.6
+    private let openThreshold: Float = 1.0
     // 滞回区间，低于此值认为闭合
-    private let closeThreshold: Float = 0.4
+    private let closeThreshold: Float = 0.5
     // 防抖帧数
     private let debounceFrames: Int = 3
 

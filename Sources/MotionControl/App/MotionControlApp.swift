@@ -130,8 +130,8 @@ struct ContentView: View {
                 if let rightEye = faceResult.rightEye { points.append(contentsOf: rightEye) }
                 if let leftPupil = faceResult.leftPupil { points.append(leftPupil) }
                 if let rightPupil = faceResult.rightPupil { points.append(rightPupil) }
-                if let outerLips = faceResult.outerLips { points.append(contentsOf: outerLips) }
-                if let innerLips = faceResult.innerLips { points.append(contentsOf: innerLips) }
+                if let outerLips = faceResult.outerLipsAbsolute { points.append(contentsOf: outerLips) }
+                if let innerLips = faceResult.innerLipsAbsolute { points.append(contentsOf: innerLips) }
                 faceKeypoints = points
             }
             cameraService.onFPSUpdate = { fps, count in

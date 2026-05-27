@@ -56,7 +56,6 @@ class CameraService: NSObject {
         defer { session.commitConfiguration() }
 
         // 设置分辨率为 VGA 640x480
-        session.sessionPreset = .vga640x480
 
         // 1. Input – 优先外接摄像头
         guard let device = bestAvailableCamera() else {

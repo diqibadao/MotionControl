@@ -1,47 +1,41 @@
 import SwiftUI
 
-/// 网格状态面板，显示各项实时数据。
-public struct StatusPanelView: View {
-    @State private var fps: Double = 30
-    @State private var currentGesture = GestureType.none
-    @State private var confidence: Double = 0
-    @State private var gazePoint: CGPoint = .zero
-    @State private var mouthStatus: MouthStatus = .unknown
-    @State private var voiceActive = false
-
-    public var body: some View {
+struct StatusPanelView: View {
+    @Bindable var state: SystemState
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Label("状态面板", systemImage: "info.circle")
+            Label("实时状态", systemImage: "info.circle")
                 .font(.title2)
             Divider()
             HStack {
                 Text("FPS:")
-                Text(String(format: "%.1f", fps))
+                Text(String(format: "%.1f", state.currentFPS))
             }
             HStack {
                 Text("手势:")
-                Text(currentGesture.displayName)
+                Text(state.currentGesture)
             }
             HStack {
                 Text("置信度:")
-                Text(String(format: "%.2f", confidence))
+                Text(String(format: "%.2f", state.gestureConfidence))
             }
             HStack {
-                Text("注视点:")
-                Text("(\(Int(gazePoint.x)), \(Int(gazePoint.y)))")
+                Text("注视:")
+                Text(state.gazeActive ? "\(Int(state.gazePosition.x)), \(Int(state.gazePosition.y))" : "—")
             }
             HStack {
                 Text("嘴型:")
-                Text(mouthStatus.rawValue)
+                Text(state.mouthStatus == .open ? "open" : state.mouthStatus == .closed ? "closed" : "unknown")
             }
             HStack {
                 Text("语音:")
-                Image(systemName: voiceActive ? "mic.fill" : "mic.slash")
+                Text(state.voiceState)
             }
         }
+        .font(.caption)
         .padding()
-        .frame(width: 220)
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(Color(nsColor: .windowBackgroundColor))
         .cornerRadius(8)
     }
 }

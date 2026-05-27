@@ -67,9 +67,21 @@ public class VoiceRecognizer: NSObject {
                 self.delegate?.didReceiveText(text)
                 // 成功接收到识别结果，重置重试次数
                 self.retryCount = 0
+                // 记录日志
+                EventLogger.log(event: "voiceRecognition",
+                                frame: nil,
+                                input: "音频",
+                                output: text,
+                                duration: nil)
             }
             if let error = error {
                 self.delegate?.didEncounterError(error)
+                // 记录错误日志
+                EventLogger.log(event: "voiceRecognitionError",
+                                frame: nil,
+                                input: "音频",
+                                output: error.localizedDescription,
+                                duration: nil)
                 self.stop()
                 // 未超过上限则安排重试
                 if self.retryCount < self.maxRetryCount {
@@ -94,6 +106,12 @@ public class VoiceRecognizer: NSObject {
             self?.isRetry = false
             self?.restart()
         }
+        // 记录启动日志
+        EventLogger.log(event: "voiceRecognitionStart",
+                        frame: nil,
+                        input: "",
+                        output: "started",
+                        duration: nil)
     }
 
     /// 停止语音识别
@@ -107,6 +125,11 @@ public class VoiceRecognizer: NSObject {
         restartTimer?.invalidate()
         restartTimer = nil
         isRunning = false
+        EventLogger.log(event: "voiceRecognitionStop",
+                        frame: nil,
+                        input: "",
+                        output: "stopped",
+                        duration: nil)
     }
 
     private func scheduleRestart() {
@@ -121,6 +144,11 @@ public class VoiceRecognizer: NSObject {
             try start()
         } catch {
             delegate?.didEncounterError(error)
+            EventLogger.log(event: "voiceRecognitionRestartError",
+                            frame: nil,
+                            input: "",
+                            output: error.localizedDescription,
+                            duration: nil)
         }
     }
 

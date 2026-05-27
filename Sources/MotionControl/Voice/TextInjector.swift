@@ -8,10 +8,23 @@ class TextInjector {
 
     /// 在当前聚焦的输入区域注入文本
     func injectText(_ text: String) {
+        // 记录注入开始日志
+        EventLogger.log(event: "textInjectStart",
+                        frame: nil,
+                        input: text,
+                        output: "",
+                        duration: nil)
+
         // 优先使用 Accessibility API
         if let focusedElement = focusedUIElement() {
             if let value = focusedElement.attribute(kAXValueAttribute) as? String {
                 focusedElement.setAttribute(kAXValueAttribute, value: (value + text) as CFString)
+                // 记录注入成功（辅助功能方式）
+                EventLogger.log(event: "textInjected",
+                                frame: nil,
+                                input: text,
+                                output: "success (ax)",
+                                duration: nil)
                 return
             }
         }
@@ -29,6 +42,13 @@ class TextInjector {
 
         let keyUp = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
         keyUp?.post(tap: .cghidEventTap)
+
+        // 记录注入成功（剪贴板方式）
+        EventLogger.log(event: "textInjected",
+                        frame: nil,
+                        input: text,
+                        output: "success (pasteboard)",
+                        duration: nil)
     }
 
     private func focusedUIElement() -> AXUIElement? {

@@ -28,12 +28,6 @@ struct GestureEvent {
 /// 手势分析引擎，利用 HandPoseResult 的关键点判断手势。
 class GestureAnalyzer {
 
-    // MARK: - 距离阈值 (像素坐标)  —— 以下常量将从 ConfigManager 读取
-    private let openPalmThreshold: CGFloat = 100        // 暂未有对应配置，保留硬编码
-    private let fistThreshold: CGFloat = 50             // 同上
-    private let thumbsUpMinDist: CGFloat = 80           // 同上
-    private let pointRatio: CGFloat = 1.5               // 同上
-
     // 记录上次捏合事件的时间
     private var lastPinchTime: Date?
     // 记录上次事件类型和时间，用于去重
@@ -52,6 +46,10 @@ class GestureAnalyzer {
         let pinchThreshold = CGFloat(config.pinchThreshold)
         let gestureCooldown = TimeInterval(config.gestureCooldown) / 1000.0
         let doublePinchWindow = TimeInterval(config.doubleTapWindow) / 1000.0
+        let openPalmThreshold = CGFloat(config.openPalmThreshold)
+        let fistThreshold = CGFloat(config.fistThreshold)
+        let thumbsUpMinDist = CGFloat(config.thumbsUpMinDist)
+        let pointRatio = CGFloat(config.pointRatio)
 
         var bestEvent: GestureEvent? = nil
 

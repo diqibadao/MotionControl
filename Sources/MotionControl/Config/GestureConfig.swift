@@ -138,6 +138,12 @@ struct GestureConfig: Codable {
     var doubleTapWindow: Int = 500
     var swipeVelocityThreshold: Float = 0.5
     
+    // 新增阈值，供 GestureAnalyzer 读取
+    var openPalmThreshold: Float = 100.0
+    var fistThreshold: Float = 50.0
+    var thumbsUpMinDist: Float = 80.0
+    var pointRatio: Float = 1.5
+    
     // 鼠标
     var mouseSensitivity: Float = 1.0
     var mouseSmoothFactor: Float = 0.4

@@ -28,11 +28,11 @@ struct GestureEvent {
 /// 手势分析引擎，利用 HandPoseResult 的关键点判断手势。
 class GestureAnalyzer {
 
-    // MARK: - 距离阈值 (归一化坐标)
-    private let pinchThreshold: CGFloat = 0.05
-    private let openPalmThreshold: CGFloat = 0.15
-    private let fistThreshold: CGFloat = 0.08
-    private let thumbsUpMinDist: CGFloat = 0.12
+    // MARK: - 距离阈值 (像素坐标)
+    private let pinchThreshold: CGFloat = 40
+    private let openPalmThreshold: CGFloat = 100
+    private let fistThreshold: CGFloat = 50
+    private let thumbsUpMinDist: CGFloat = 80
     private let pointRatio: CGFloat = 1.5
     // 冷却时间（秒），避免同一手势短时间内重复触发
     private let cooldownInterval: TimeInterval = 0.3

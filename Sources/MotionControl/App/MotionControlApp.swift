@@ -127,11 +127,10 @@ struct ContentView: View {
 
                 // 指尖位置 → CursorController → 移动光标
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
-                let imageSize = cameraService.currentFrameSize ?? CGSize(width: 640, height: 480)
                 let config = ConfigManager.shared.currentConfig
                 if let tip = handResult.indexTip {
-                    let screenX = (tip.x / imageSize.width) * screen.width * CGFloat(config.mouseSensitivity)
-                    let screenY = (tip.y / imageSize.height) * screen.height * CGFloat(config.mouseSensitivity)
+                    let screenX = tip.x * screen.width * CGFloat(config.mouseSensitivity)
+                    let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
                     cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
                 }
                 // 每帧都执行一次最终的 computeCursor

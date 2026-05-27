@@ -33,6 +33,7 @@ struct CameraPreviewView: NSViewRepresentable {
         }
 
         nsView.needsDisplay = true
+        nsView.overlayLayer?.setNeedsDisplay()
     }
 }
 
@@ -97,12 +98,12 @@ extension OverlayPreviewNSView: CALayerDelegate {
             if viewAspect > cameraAspect {
                 let videoH = layer.bounds.height
                 let videoW = videoH * cameraAspect
-                let xOff = (bounds.width - videoW) / 2
+                let xOff = (layer.bounds.width - videoW) / 2
                 videoRect = CGRect(x: xOff, y: 0, width: videoW, height: videoH)
             } else {
-                let videoW = bounds.width
+                let videoW = layer.bounds.width
                 let videoH = videoW / cameraAspect
-                let yOff = (bounds.height - videoH) / 2
+                let yOff = (layer.bounds.height - videoH) / 2
                 videoRect = CGRect(x: 0, y: yOff, width: videoW, height: videoH)
             }
             // 调试：打印第一帧的坐标信息

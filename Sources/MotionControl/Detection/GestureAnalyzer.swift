@@ -1,50 +1,6 @@
 import Foundation
 import CoreGraphics
 
-/// 手势枚举，包含全部可识别的手势类型。
-public enum GestureType: String, Codable, CaseIterable {
-    case open
-    case point
-    case grab
-    case pinch
-    case doublePinch
-    case peace
-    case fist
-    case swipeLeft
-    case swipeRight
-    case swipeUp
-    case swipeDown
-    case openPalm
-    case fivePinch
-    case drag
-    case thumbsUp
-    case ok
-    case none
-
-    /// 手势的中文显示名称
-    public var displayName: String {
-        switch self {
-        case .open: return "张开"
-        case .point: return "指点"
-        case .grab: return "抓取"
-        case .pinch: return "捏合"
-        case .doublePinch: return "双击捏合"
-        case .peace: return "剪刀"
-        case .fist: return "拳头"
-        case .swipeLeft: return "左滑"
-        case .swipeRight: return "右滑"
-        case .swipeUp: return "上滑"
-        case .swipeDown: return "下滑"
-        case .openPalm: return "手掌张开"
-        case .fivePinch: return "五指捏合"
-        case .drag: return "拖拽"
-        case .thumbsUp: return "点赞"
-        case .ok: return "OK"
-        case .none: return "无"
-        }
-    }
-}
-
 /// 手势事件，包含类型、置信度、时间戳、手部位置、是否重复和移动速度。
 public struct GestureEvent {
     public let gestureType: GestureType

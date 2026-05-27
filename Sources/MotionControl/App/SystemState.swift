@@ -1,10 +1,11 @@
 import Foundation
 import SwiftUI
+import MouthDetector
 
 @Observable
 final class SystemState {
     // 摄像头
-    var cameraState: CameraState = .stopped
+    var cameraState: String = "stopped"
     var currentFPS: Double = 0
     var frameCount: Int = 0
     
@@ -20,7 +21,7 @@ final class SystemState {
     var mouthStatus: MouthStatus = .closed
     
     // 语音
-    var voiceState: VoiceState = .idle
+    var voiceState: String = "idle"
     var voiceText: String = ""
     var voicePartialText: String = ""
     
@@ -33,7 +34,3 @@ final class SystemState {
     // 配置
     var configChanged: Bool = false
 }
-
-enum CameraState: String { case stopped, starting, running, failed }
-enum VoiceState: String { case idle, listening, processing, error }
-enum MouthStatus: String { case open, closed, unknown }

@@ -18,6 +18,7 @@ enum GestureType: String, Codable, CaseIterable {
     case drag = "DRAG"
     case thumbsUp = "THUMBS_UP"
     case ok = "OK"
+    case none = "NONE"
     
     var displayName: String {
         switch self {
@@ -37,6 +38,7 @@ enum GestureType: String, Codable, CaseIterable {
         case .drag: return "单指拖拽"
         case .thumbsUp: return "竖拇指"
         case .ok: return "OK 手势"
+        case .none: return "无"
         }
     }
     
@@ -55,6 +57,7 @@ enum GestureType: String, Codable, CaseIterable {
         case .drag: return "hand.draw"
         case .thumbsUp: return "hand.thumbsup"
         case .ok: return "hand.ok"
+        case .none: return "questionmark"
         }
     }
 }

@@ -44,7 +44,7 @@ struct ContentView: View {
                     .cornerRadius(4)
                     .padding(8)
                 }
-                .frame(height: 360)
+                Spacer()
             }
             ConfigPanelView(state: state)
         }

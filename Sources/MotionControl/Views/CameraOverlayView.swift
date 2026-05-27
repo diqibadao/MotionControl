@@ -37,6 +37,29 @@ class OverlayNSView: NSView {
         let w = bounds.width
         let h = bounds.height
 
+        // 1. 计算视频画面在视图中的实际矩形（4:3 aspect ratio，.resizeAspect）
+        let cameraAspect: CGFloat = 640.0 / 480.0
+        let viewAspect = w / h
+        let videoRect: CGRect
+        if viewAspect > cameraAspect {
+            let videoHeight = h
+            let videoWidth = videoHeight * cameraAspect
+            let xOffset = (w - videoWidth) / 2
+            videoRect = CGRect(x: xOffset, y: 0, width: videoWidth, height: videoHeight)
+        } else {
+            let videoWidth = w
+            let videoHeight = videoWidth / cameraAspect
+            let yOffset = (h - videoHeight) / 2
+            videoRect = CGRect(x: 0, y: yOffset, width: videoWidth, height: videoHeight)
+        }
+
+        // 2. 辅助函数：Vision 归一化坐标 → NSView 坐标
+        func visionPointToView(_ point: CGPoint, videoRect: CGRect) -> CGPoint {
+            let x = point.x * videoRect.width + videoRect.origin.x
+            let y = (1.0 - point.y) * videoRect.height + videoRect.origin.y
+            return CGPoint(x: x, y: y)
+        }
+
         // --- 绘制面部特征点 (半径2pt) ---
         if !faceKeypoints.isEmpty {
             ctx.setShouldAntialias(true)
@@ -46,9 +69,8 @@ class OverlayNSView: NSView {
                 ctx.setFillColor(NSColor.green.withAlphaComponent(0.6).cgColor)
             }
             for point in faceKeypoints {
-                let x = point.x * w
-                let y = point.y * h   // Vision 坐标系 Y 向下，NSView 也是 Y 向下，直接映射
-                let rect = CGRect(x: x - 2, y: y - 2, width: 4, height: 4)
+                let displayPoint = visionPointToView(point, videoRect: videoRect)
+                let rect = CGRect(x: displayPoint.x - 2, y: displayPoint.y - 2, width: 4, height: 4)
                 ctx.fillEllipse(in: rect)
             }
         }
@@ -62,9 +84,8 @@ class OverlayNSView: NSView {
                 ctx.setFillColor(NSColor.green.withAlphaComponent(0.8).cgColor)
             }
             for point in handKeypoints {
-                let x = point.x * w
-                let y = point.y * h
-                let rect = CGRect(x: x - 4, y: y - 4, width: 8, height: 8)
+                let displayPoint = visionPointToView(point, videoRect: videoRect)
+                let rect = CGRect(x: displayPoint.x - 4, y: displayPoint.y - 4, width: 8, height: 8)
                 ctx.fillEllipse(in: rect)
             }
         }

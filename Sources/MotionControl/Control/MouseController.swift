@@ -15,21 +15,25 @@ class MouseController {
                             input: "point: \(point)",
                             output: "Accessibility permission not granted", duration: nil)
         }
-        // 1) 获取屏幕高度并计算翻转后的坐标
+        // 使用 gemini 的终极方案
+        let source = CGEventSource(stateID: .combinedSessionState)
+        source?.localEventsSuppressionInterval = 0.0
+
+        CGAssociateMouseAndMouseCursorPosition(true)
+
         let screenHeight = NSScreen.main?.frame.height ?? 0
         let flippedPoint = CGPoint(x: point.x, y: screenHeight - point.y)
 
-        // 2) 记录日志
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point) flipped: \(flippedPoint)", output: "", duration: nil)
 
-        // 3) 通过 CGEvent 发送 leftMouseDragged 事件（替代原先的 mouseMoved）
-        if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
+        CGWarpMouseCursorPosition(flippedPoint)
+
+        if let moveEvent = CGEvent(mouseEventSource: source, mouseType: .mouseMoved,
                                    mouseCursorPosition: flippedPoint, mouseButton: .left) {
-            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
+            moveEvent.post(tap: .cghidEventTap)
         }
 
-        // 4) 打印位置验证
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
         print("[DEBUG] cursorDelta=\(NSEvent.mouseLocation) - (\(flippedPoint.x), \(flippedPoint.y))")
     }

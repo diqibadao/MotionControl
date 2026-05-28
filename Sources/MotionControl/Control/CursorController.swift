@@ -18,10 +18,10 @@ class CursorController {
     }
 
     /// 更新注视偏移（无灵敏度缩放，内部保留原始值）
-    func updateGazeOffset(yaw: Float, pitch: Float) {
+    func updateGazeOffset(yaw: Float, pitch: Float, hasFace: Bool) {
         yawOffset = yaw
         pitchOffset = pitch
-        gazeActive = true
+        gazeActive = hasFace
     }
 
     /// 重置注视追踪状态（当无面部时调用）

@@ -129,7 +129,7 @@ class FaceMeshDetector {
         guard let points = landmark?.normalizedPoints else { return nil }
         return points.map { point in
             let x = boundingBox.origin.x + point.x * boundingBox.width
-            let y = boundingBox.origin.y + (1.0 - point.y) * boundingBox.height
+            let y = boundingBox.origin.y + point.y * boundingBox.height
             return CGPoint(x: x, y: y)
         }
     }

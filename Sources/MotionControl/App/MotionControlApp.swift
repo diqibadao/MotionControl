@@ -136,11 +136,12 @@ struct ContentView: View {
                     let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
                     let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
                     cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
+                    // 每帧都执行一次最终的 computeCursor
+                    print("[DEBUG] screen.frame=\(NSScreen.main?.frame ?? .zero), tip.y=\(tip.y)")
+                    let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
+                    print("[DEBUG] finalCursor=\(finalCursor)")
+                    mouseCtrl.moveCursor(to: finalCursor)
                 }
-                // 每帧都执行一次最终的 computeCursor
-                let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
-                print("[DEBUG] finalCursor=\(finalCursor)")
-                mouseCtrl.moveCursor(to: finalCursor)
             }
             // 人脸结果回调（关键点）
             detectionPipeline.onFaceResult = { faceResult in

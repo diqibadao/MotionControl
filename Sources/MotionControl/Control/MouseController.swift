@@ -15,20 +15,23 @@ class MouseController {
                             input: "point: \(point)",
                             output: "Accessibility permission not granted", duration: nil)
         }
-        // 1) 使用 CGWarp 快速定位（第一行）
-        CGWarpMouseCursorPosition(point)
+        // 1) 获取屏幕高度并计算翻转后的坐标
+        let screenHeight = NSScreen.main?.frame.height ?? 0
+        let flippedPoint = CGPoint(x: point.x, y: screenHeight - point.y)
+
         // 2) 记录日志
         EventLogger.log(event: "mouseMoved", frame: nil,
-                        input: "point: \(point)", output: "", duration: nil)
+                        input: "point: \(point) flipped: \(flippedPoint)", output: "", duration: nil)
+
         // 3) 通过 CGEvent 发送 mouseMoved 事件
         if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
-                                   mouseCursorPosition: point, mouseButton: .left) {
+                                   mouseCursorPosition: flippedPoint, mouseButton: .left) {
             moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
         }
+
         // 4) 打印位置验证
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
-        // 新增的调试打印：当前鼠标位置与传入点（已翻转Y坐标）的差值
-        print("[DEBUG] cursorDelta=\(NSEvent.mouseLocation) - (\(CGPoint(x: point.x, y: NSScreen.main!.frame.height - point.y)))")
+        print("[DEBUG] cursorDelta=\(NSEvent.mouseLocation) - (\(flippedPoint.x), \(flippedPoint.y))")
     }
 
     /// 左键单击

@@ -9,11 +9,14 @@ class MouseController {
 
     /// 移动光标至指定位置（屏幕坐标）
     func moveCursor(to point: CGPoint) {
-        guard AXIsProcessTrusted() else {
+        // 首先尝试使用 CGWarpMouseCursorPosition 强制移动光标（不需要辅助权限？）
+        CGWarpMouseCursorPosition(point)
+
+        // 权限检查仅用于日志，不阻止后续的 CGEvent 尝试
+        if !AXIsProcessTrusted() {
             EventLogger.log(event: "moveCursor", frame: nil,
                             input: "point: \(point)",
                             output: "Accessibility permission not granted", duration: nil)
-            return
         }
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point)", output: "", duration: nil)

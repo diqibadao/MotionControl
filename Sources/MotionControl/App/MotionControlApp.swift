@@ -176,6 +176,7 @@ struct ContentView: View {
                 state.frameCount = count
             }
             detectionPipeline.start()
+            detectionPipeline.startGazeCalibration()
             cameraService.start()
         }
         .onDisappear {

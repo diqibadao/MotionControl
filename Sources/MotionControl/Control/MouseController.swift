@@ -1,5 +1,6 @@
 import Foundation
 import Cocoa
+import ApplicationServices
 
 /// 鼠标控制器，使用 CGEvent 模拟鼠标操作。
 class MouseController {
@@ -8,6 +9,12 @@ class MouseController {
 
     /// 移动光标至指定位置（屏幕坐标）
     func moveCursor(to point: CGPoint) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "moveCursor", frame: nil,
+                            input: "point: \(point)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point)", output: "", duration: nil)
         let event = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
@@ -17,6 +24,12 @@ class MouseController {
 
     /// 左键单击
     func leftClick(at point: CGPoint? = nil) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "leftClick", frame: nil,
+                            input: "point: \(point ?? NSEvent.mouseLocation)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         let pos = point ?? NSEvent.mouseLocation
         EventLogger.log(event: "leftClick", frame: nil,
                         input: "point: \(pos)", output: "", duration: nil)
@@ -30,6 +43,12 @@ class MouseController {
 
     /// 右键单击
     func rightClick(at point: CGPoint? = nil) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "rightClick", frame: nil,
+                            input: "point: \(point ?? NSEvent.mouseLocation)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         let pos = point ?? NSEvent.mouseLocation
         EventLogger.log(event: "rightClick", frame: nil,
                         input: "point: \(pos)", output: "", duration: nil)
@@ -43,6 +62,12 @@ class MouseController {
 
     /// 双击
     func doubleClick(at point: CGPoint? = nil) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "doubleClick", frame: nil,
+                            input: "point: \(point ?? NSEvent.mouseLocation)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         let pos = point ?? NSEvent.mouseLocation
         EventLogger.log(event: "doubleClick", frame: nil,
                         input: "point: \(pos)", output: "", duration: nil)
@@ -58,6 +83,12 @@ class MouseController {
 
     /// 拖拽（按下左键，移动，松开）
     func drag(from start: CGPoint, to end: CGPoint) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "drag", frame: nil,
+                            input: "start: \(start), end: \(end)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         EventLogger.log(event: "drag", frame: nil,
                         input: "start: \(start), end: \(end)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
@@ -73,6 +104,12 @@ class MouseController {
 
     /// 滚动（deltaY >0 向上，<0 向下）
     func scroll(deltaY: Int32, deltaX: Int32 = 0) {
+        guard AXIsProcessTrusted() else {
+            EventLogger.log(event: "scroll", frame: nil,
+                            input: "deltaY: \(deltaY), deltaX: \(deltaX)",
+                            output: "Accessibility permission not granted", duration: nil)
+            return
+        }
         EventLogger.log(event: "scroll", frame: nil,
                         input: "deltaY: \(deltaY), deltaX: \(deltaX)", output: "", duration: nil)
         guard let scroll = CGEvent(scrollWheelEvent2Source: nil, units: .line,

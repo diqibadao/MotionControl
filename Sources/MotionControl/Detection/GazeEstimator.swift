@@ -49,8 +49,7 @@ actor GazeEstimator {
         let inputStr = "yaw=\(face.yaw?.description ?? "nil") pitch=\(face.pitch?.description ?? "nil")"
 
         // 1. 检查方向数据
-        guard let yaw = face.yaw,
-              let pitch = face.pitch else {
+        guard let yaw = face.yaw else {
             // 无有效方向时，返回平滑后的偏移（若存在），否则返回 0；hasFace = false
             let outputStr = "yawOffset=\(smoothedYawOffset ?? 0) pitchOffset=\(smoothedPitchOffset ?? 0) hasFace=false"
             EventLogger.log(event: "gaze_estimate",
@@ -64,6 +63,8 @@ actor GazeEstimator {
                 hasFace: false
             )
         }
+
+        let pitch = face.pitch ?? 0
 
         // 2. 处理校准
         if isCalibrating && calibratingFrameCount < calibrationFramesRequired {

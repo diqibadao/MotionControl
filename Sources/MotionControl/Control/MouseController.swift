@@ -27,6 +27,8 @@ class MouseController {
         }
         // 4) 打印位置验证
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
+        // 新增的调试打印：当前鼠标位置与传入点（已翻转Y坐标）的差值
+        print("[DEBUG] cursorDelta=\(NSEvent.mouseLocation) - (\(CGPoint(x: point.x, y: NSScreen.main!.frame.height - point.y)))")
     }
 
     /// 左键单击

@@ -19,7 +19,7 @@ class MouseController {
         let source = CGEventSource(stateID: .combinedSessionState)
         source?.localEventsSuppressionInterval = 0.0
 
-        CGAssociateMouseAndMouseCursorPosition(true)
+        CGAssociateMouseAndMouseCursorPosition(1)  // boolean_t
 
         let screenHeight = NSScreen.main?.frame.height ?? 0
         let flippedPoint = CGPoint(x: point.x, y: screenHeight - point.y)

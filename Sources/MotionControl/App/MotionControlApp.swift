@@ -136,9 +136,9 @@ struct ContentView: View {
                 if let wrist = handResult.wrist {
                     print("[DEBUG] wrist=\(wrist)")
                 }
-                // 使用原始坐标（取消镜像翻转）
+                // 使用原始坐标（去掉Y翻转）
                 let screenX = tip.x * screen.width * CGFloat(config.mouseSensitivity)
-                let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
+                let screenY = tip.y * screen.height * CGFloat(config.mouseSensitivity)
                 cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
                 // 每帧都执行一次最终的 computeCursor
                 print("[DEBUG] screen.frame=\(NSScreen.main?.frame ?? .zero), tip.y=\(tip.y)")

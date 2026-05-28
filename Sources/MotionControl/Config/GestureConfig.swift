@@ -213,10 +213,10 @@ struct GestureConfig: Codable {
         map["FIVE_PINCH"] = GestureAction(gesture: .fivePinch, actionType: .systemCommand, actionValue: "LAUNCHPAD", actionName: "Launchpad")
         map["THUMBS_UP"] = GestureAction(gesture: .thumbsUp, actionType: .systemCommand, actionValue: "OPEN_QUICK_LOOK", actionName: "空格预览")
         // 新增手势默认映射（无动作，用户可后续配置）
-        map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .leftClick, actionName: "左键点击")
-        map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
-        map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .rightClick, actionName: "右键点击")
-        map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .leftClick, actionName: "左键点击")
+        map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .noAction, actionName: "无动作")
+        map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .noAction, actionName: "无动作")
+        map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .noAction, actionName: "无动作")
+        map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .noAction, actionName: "无动作")
         return map
     }
     

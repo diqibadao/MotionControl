@@ -41,7 +41,7 @@ class CursorController {
     /// - Returns: 光标在屏幕上的绝对位置
     func computeCursor(screenSize: CGSize, sensitivity: Float) -> CGPoint {
         guard let tip = handTip else {
-            return .zero
+            return lastSmoothedCursor ?? .zero
         }
         // 1. 基础位置：指尖位置
         var raw = tip

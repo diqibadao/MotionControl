@@ -147,7 +147,7 @@ struct ContentView: View {
                         otherDistances.append(hypot(p.x - wrist.x, p.y - wrist.y))
                     }
                     let maxOtherDist = otherDistances.max() ?? 0
-                    let threshold: CGFloat = 1.5
+                    let threshold: CGFloat = 1.2
                     if otherDistances.isEmpty || indexDist > maxOtherDist * threshold {
                         let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
                         let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)

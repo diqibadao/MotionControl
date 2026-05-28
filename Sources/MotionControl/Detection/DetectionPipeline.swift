@@ -14,7 +14,7 @@ class DetectionPipeline: CameraOutputDelegate {
     private let faceMeshDetector = FaceMeshDetector()
     private let gestureAnalyzer = GestureAnalyzer()
     private let mouthDetector = MouthDetector()
-    // 注视追踪改为直接从 FaceResult 读取角度，不再使用 GazeEstimator
+    private let gazeEstimator = GazeEstimator()   // 新增注视跟踪器
 
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
@@ -73,7 +73,7 @@ class DetectionPipeline: CameraOutputDelegate {
                     self.onMouthEvent?(mouthEvent)
                     self.onFaceResult?(faceResult)
                 }
-                // 直接使用面部欧拉角发出 GazeEstimate
+                // 使用 GazeEstimator 获得注视估计
                 self.didOutputFace(faceResult)
             } else {
                 DispatchQueue.main.async {
@@ -84,17 +84,22 @@ class DetectionPipeline: CameraOutputDelegate {
     }
 
     func didOutputFace(_ face: FaceResult) {
-        let estimate = GazeEstimate(
-            yawOffset: face.yaw ?? 0,
-            pitchOffset: face.pitch ?? 0,
-            hasFace: true
-        )
-        DispatchQueue.main.async {
-            self.onGaze?(estimate)
+        Task {
+            let est = await gazeEstimator.estimate(from: face)
+            DispatchQueue.main.async {
+                self.onGaze?(est)
+            }
         }
     }
 
     func didOutputHand(_ hand: HandPoseResult) {
         // 暂不实现
+    }
+
+    /// 启动注视校准
+    func startGazeCalibration() {
+        Task {
+            await gazeEstimator.autoCalibrate()
+        }
     }
 }

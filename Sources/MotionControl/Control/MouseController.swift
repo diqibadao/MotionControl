@@ -24,7 +24,7 @@ class MouseController {
                         input: "point: \(point) flipped: \(flippedPoint)", output: "", duration: nil)
 
         // 3) 通过 CGEvent 发送 leftMouseDragged 事件（替代原先的 mouseMoved）
-        if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged,
+        if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
                                    mouseCursorPosition: flippedPoint, mouseButton: .left) {
             moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
         }

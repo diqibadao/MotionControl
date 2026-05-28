@@ -15,11 +15,17 @@ class MouseController {
                             input: "point: \(point)",
                             output: "Accessibility permission not granted", duration: nil)
         }
+        // 1) 使用 CGWarp 快速定位（第一行）
+        CGWarpMouseCursorPosition(point)
+        // 2) 记录日志
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point)", output: "", duration: nil)
-        // 使用 CGWarpMouseCursorPosition 替换 CGEvent
-        CGAssociateMouseAndMouseCursorPosition(1)
-        CGWarpMouseCursorPosition(point)
+        // 3) 通过 CGEvent 发送 mouseMoved 事件
+        if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
+                                   mouseCursorPosition: point, mouseButton: .left) {
+            moveEvent.post(tap: CGEventTapLocation.cghidEventTap)
+        }
+        // 4) 打印位置验证
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
     }
 

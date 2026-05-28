@@ -18,7 +18,7 @@ class MouseController {
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point)", output: "", duration: nil)
         // 使用 CGWarpMouseCursorPosition 替换 CGEvent
-        CGAssociateMouseAndMouseCursorPosition(true)
+        CGAssociateMouseAndMouseCursorPosition(1)
         CGWarpMouseCursorPosition(point)
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
     }

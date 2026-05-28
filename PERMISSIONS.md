@@ -17,13 +17,13 @@
 
 改 if/else、循环、算法逻辑、回调处理。
 
-- `Sources/MotionControl/App/MotionControlApp.swift`
-- `Sources/MotionControl/Detection/GestureAnalyzer.swift`（手势识别逻辑）
-- `Sources/MotionControl/Control/CursorController.swift`（光标融合逻辑）
-- `Sources/MotionControl/Detection/DetectionPipeline.swift`
-- `Sources/MotionControl/Detection/GazeEstimator.swift`
-- `Sources/MotionControl/Control/MouseController.swift`
-- `Sources/MotionControl/Views/*.swift`
+- Sources/MotionControl/App/MotionControlApp.swift
+- Sources/MotionControl/Detection/GestureAnalyzer.swift（手势识别逻辑）
+- Sources/MotionControl/Control/CursorController.swift（光标融合逻辑）
+- Sources/MotionControl/Detection/DetectionPipeline.swift
+- Sources/MotionControl/Detection/GazeEstimator.swift
+- Sources/MotionControl/Control/MouseController.swift
+- Sources/MotionControl/Views/*.swift
 
 ## P-ARCH（架构级，需plan+流程图）
 

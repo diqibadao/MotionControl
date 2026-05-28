@@ -25,6 +25,7 @@ class MouseController {
         let event = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
                             mouseCursorPosition: point, mouseButton: .left)
         event?.post(tap: CGEventTapLocation.cghidEventTap)
+        print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
     }
 
     /// 左键单击

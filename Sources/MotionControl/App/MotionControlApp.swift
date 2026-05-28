@@ -132,12 +132,14 @@ struct ContentView: View {
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
                 if let tip = handResult.indexTip, let wrist = handResult.wrist {
+                    print("[DEBUG] tip=\(tip), wrist=\(wrist)")
                     let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
                     let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
                     cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
                 }
                 // 每帧都执行一次最终的 computeCursor
                 let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
+                print("[DEBUG] finalCursor=\(finalCursor)")
                 mouseCtrl.moveCursor(to: finalCursor)
             }
             // 人脸结果回调（关键点）

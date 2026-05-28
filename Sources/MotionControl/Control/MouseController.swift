@@ -10,11 +10,7 @@ class MouseController {
     /// 移动光标至指定位置（屏幕坐标）
     func moveCursor(to point: CGPoint) {
         print("[DEBUG] AXIsProcessTrusted=\(AXIsProcessTrusted())")
-        // 首先尝试使用 CGWarpMouseCursorPosition 强制移动光标（不需要辅助权限？）
-        CGWarpMouseCursorPosition(point)
-        print("[DEBUG] CGWarp done")
-
-        // 权限检查仅用于日志，不阻止后续的 CGEvent 尝试
+        // 移除 CGWarpMouseCursorPosition，只使用 CGEvent
         if !AXIsProcessTrusted() {
             EventLogger.log(event: "moveCursor", frame: nil,
                             input: "point: \(point)",
@@ -22,9 +18,10 @@ class MouseController {
         }
         EventLogger.log(event: "mouseMoved", frame: nil,
                         input: "point: \(point)", output: "", duration: nil)
-        let event = CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
-                            mouseCursorPosition: point, mouseButton: .left)
-        event?.post(tap: CGEventTapLocation.cghidEventTap)
+        guard let event = CGEvent(source: nil) else { return }
+        event.type = .mouseMoved
+        event.location = point
+        event.post(tap: CGEventTapLocation.cghidEventTap)
         print("[DEBUG] mouseLocation after=\(NSEvent.mouseLocation)")
     }
 

@@ -99,7 +99,8 @@ struct ContentView: View {
                 state.gazePosition = CGPoint(x: CGFloat(gazeEstimate.yawOffset),
                                              y: CGFloat(gazeEstimate.pitchOffset))
                 cursorController.updateGazeOffset(yaw: gazeEstimate.yawOffset,
-                                                  pitch: gazeEstimate.pitchOffset)
+                                                  pitch: gazeEstimate.pitchOffset,
+                                                  hasFace: gazeEstimate.hasFace)
             }
             // 手部结果回调（关键点 + 光标控制）
             detectionPipeline.onHandResult = { handResult in

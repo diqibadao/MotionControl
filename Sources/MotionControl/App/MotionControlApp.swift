@@ -128,31 +128,13 @@ struct ContentView: View {
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
 
-                // 指尖位置 → CursorController → 移动光标（仅当食指明显伸出时）
+                // 指尖位置 → CursorController → 移动光标（不再判断食指伸出程度，直接更新）
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
                 if let tip = handResult.indexTip, let wrist = handResult.wrist {
-                    let indexDist = hypot(tip.x - wrist.x, tip.y - wrist.y)
-                    var otherDistances: [CGFloat] = []
-                    if let p = handResult.thumbTip {
-                        otherDistances.append(hypot(p.x - wrist.x, p.y - wrist.y))
-                    }
-                    if let p = handResult.middleTip {
-                        otherDistances.append(hypot(p.x - wrist.x, p.y - wrist.y))
-                    }
-                    if let p = handResult.ringTip {
-                        otherDistances.append(hypot(p.x - wrist.x, p.y - wrist.y))
-                    }
-                    if let p = handResult.littleTip {
-                        otherDistances.append(hypot(p.x - wrist.x, p.y - wrist.y))
-                    }
-                    let maxOtherDist = otherDistances.max() ?? 0
-                    let threshold: CGFloat = 1.2
-                    if otherDistances.isEmpty || indexDist > maxOtherDist * threshold {
-                        let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
-                        let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
-                        cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
-                    }
+                    let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
+                    let screenY = (1.0 - tip.y) * screen.height * CGFloat(config.mouseSensitivity)
+                    cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
                 }
                 // 每帧都执行一次最终的 computeCursor
                 let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)

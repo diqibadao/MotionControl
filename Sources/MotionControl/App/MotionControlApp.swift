@@ -156,7 +156,7 @@ struct ContentView: View {
                         if indexExt > 0.15 && otherLow && !allHigh {
                             // 激活方向控制
                             cursorController.updateFingerDirection(direction,
-                                                                   length: length,
+                                                                   length: length * screen.width,
                                                                    sensitivity: CGFloat(config.mouseSensitivity))
                         } else {
                             cursorController.resetCursor()

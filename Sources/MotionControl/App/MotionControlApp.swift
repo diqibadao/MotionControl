@@ -133,8 +133,10 @@ struct ContentView: View {
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
                 
+                // 使用 indexPIP 或 indexDIP 作为参考点
+                let pip = handResult.indexPIP ?? handResult.indexDIP
                 if let tip = handResult.indexTip,
-                   let pip = handResult.indexPIP
+                   let pip = pip
                 {
                     let dx = tip.x - pip.x
                     let dy = pip.y - tip.y   // Vision y向上，翻转
@@ -149,11 +151,14 @@ struct ContentView: View {
                         let littleExt = extensions[.little] ?? 0
                         let thumbExt = extensions[.thumb] ?? 0
                         
-                        let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
-                        let allHigh = allFingers.allSatisfy { $0 > 0.8 }
-                        let otherLow = middleExt < 0.12 && ringExt < 0.12 && littleExt < 0.12 && thumbExt < 0.12
+                        // 调试输出扩展值
+                        print("[DEBUG] extensions index=\(indexExt) middle=\(middleExt) ring=\(ringExt) little=\(littleExt) thumb=\(thumbExt)")
                         
-                        if indexExt > 0.15 && otherLow && !allHigh {
+                        let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
+                        let allHigh = allFingers.allSatisfy { $0 > 0.5 }
+                        let otherLow = middleExt < 0.15 && ringExt < 0.15 && littleExt < 0.15 && thumbExt < 0.15
+                        
+                        if indexExt > 0.06 && otherLow && !allHigh {
                             // 激活方向控制
                             cursorController.updateFingerDirection(direction,
                                                                    length: length * screen.width,

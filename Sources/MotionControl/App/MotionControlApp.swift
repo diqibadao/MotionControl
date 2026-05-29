@@ -102,7 +102,7 @@ struct ContentView: View {
                                                   pitch: gazeEstimate.pitchOffset,
                                                   hasFace: gazeEstimate.hasFace)
             }
-            // 手部结果回调（关键点 + 光标控制）
+            // 手部结果回调（关键点 + 方向控制模式）
             detectionPipeline.onHandResult = { handResult in
                 print("[DEBUG] onHandResult called, hasTip=\(handResult?.indexTip != nil)")
                 guard let handResult = handResult else { handKeypoints = []; return }
@@ -128,21 +128,48 @@ struct ContentView: View {
                 if let p = handResult.littlePIP { points.append(p) }
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
-
-                // 指尖位置 → CursorController → 移动光标（不再判断食指伸出程度，直接更新）
+                
+                // 方向控制模式
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
-                guard let tip = handResult.indexTip else { return }
-                print("[DEBUG] tip=\(tip)")
-                if let wrist = handResult.wrist {
-                    print("[DEBUG] wrist=\(wrist)")
+                
+                if let tip = handResult.indexTip,
+                   let pip = handResult.indexPIP,
+                   let wrist = handResult.wrist
+                {
+                    let dx = tip.x - pip.x
+                    let dy = pip.y - tip.y   // Vision y向上，翻转
+                    let length = sqrt(dx*dx + dy*dy)
+                    if length > 0 {
+                        let direction = CGPoint(x: dx/length, y: dy/length)
+                        // 手指伸展检测：使用 handResult.fingerExtension()（需在 HandPoseResult 上实现）
+                        let extensions = handResult.fingerExtension() // 返回 [String: Float]（自行实现）
+                        let indexExt = extensions["index"] ?? 0
+                        let middleExt = extensions["middle"] ?? 0
+                        let ringExt = extensions["ring"] ?? 0
+                        let littleExt = extensions["little"] ?? 0
+                        let thumbExt = extensions["thumb"] ?? 0
+                        
+                        let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
+                        let allHigh = allFingers.allSatisfy { $0 > 0.8 }
+                        let otherLow = middleExt < 0.12 && ringExt < 0.12 && littleExt < 0.12 && thumbExt < 0.12
+                        
+                        if indexExt > 0.15 && otherLow && !allHigh {
+                            // 激活方向控制
+                            cursorController.updateFingerDirection(direction,
+                                                                   length: length,
+                                                                   sensitivity: CGFloat(config.mouseSensitivity))
+                        } else {
+                            cursorController.resetCursor()
+                        }
+                    } else {
+                        cursorController.resetCursor()
+                    }
+                } else {
+                    cursorController.resetCursor()
                 }
-                // 使用原始坐标（去掉Y翻转）
-                let screenX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
-                let screenY = tip.y * screen.height * CGFloat(config.mouseSensitivity)
-                cursorController.updateHandTip(CGPoint(x: screenX, y: screenY))
-                // 每帧都执行一次最终的 computeCursor
-                print("[DEBUG] screen.frame=\(NSScreen.main?.frame ?? .zero), tip.y=\(tip.y)")
+                
+                // 每帧执行 computeCursor + moveCursor（内部根据激活状态处理）
                 let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
                 print("[DEBUG] finalCursor=\(finalCursor)")
                 mouseCtrl.moveCursor(to: finalCursor)

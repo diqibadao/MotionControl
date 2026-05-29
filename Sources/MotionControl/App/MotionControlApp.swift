@@ -134,8 +134,7 @@ struct ContentView: View {
                 let config = ConfigManager.shared.currentConfig
                 
                 if let tip = handResult.indexTip,
-                   let pip = handResult.indexPIP,
-                   let wrist = handResult.wrist
+                   let pip = handResult.indexPIP
                 {
                     let dx = tip.x - pip.x
                     let dy = pip.y - tip.y   // Vision y向上，翻转
@@ -143,12 +142,12 @@ struct ContentView: View {
                     if length > 0 {
                         let direction = CGPoint(x: dx/length, y: dy/length)
                         // 手指伸展检测：使用 handResult.fingerExtension()（需在 HandPoseResult 上实现）
-                        let extensions = handResult.fingerExtension() // 返回 [String: Float]（自行实现）
-                        let indexExt = extensions["index"] ?? 0
-                        let middleExt = extensions["middle"] ?? 0
-                        let ringExt = extensions["ring"] ?? 0
-                        let littleExt = extensions["little"] ?? 0
-                        let thumbExt = extensions["thumb"] ?? 0
+                        let extensions = handResult.fingerExtension()
+                        let indexExt = extensions[.index] ?? 0
+                        let middleExt = extensions[.middle] ?? 0
+                        let ringExt = extensions[.ring] ?? 0
+                        let littleExt = extensions[.little] ?? 0
+                        let thumbExt = extensions[.thumb] ?? 0
                         
                         let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
                         let allHigh = allFingers.allSatisfy { $0 > 0.8 }

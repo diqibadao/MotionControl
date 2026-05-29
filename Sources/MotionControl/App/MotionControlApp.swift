@@ -163,8 +163,6 @@ struct ContentView: View {
                             cursorController.updateFingerDirection(direction,
                                                                    length: length * screen.width,
                                                                    sensitivity: CGFloat(config.mouseSensitivity))
-                        } else {
-                            cursorController.resetCursor()
                         }
                     } else {
                         cursorController.resetCursor()

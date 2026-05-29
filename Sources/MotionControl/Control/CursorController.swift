@@ -1,87 +1,163 @@
 import CoreGraphics
+import Foundation
 
 class CursorController {
-    /// 指尖屏幕坐标（已通过灵敏度缩放）
+
+    // MARK: - 嵌套自适应滤波类
+    private class OneEuroFilter {
+        private let minCutoff: Double
+        private let beta: Double
+        private var prevRawX: Double?
+        private var prevRawY: Double?
+        private var prevFilteredX: Double?
+        private var prevFilteredY: Double?
+
+        init(minCutoff: Double = 1.0, beta: Double = 0.007) {
+            self.minCutoff = minCutoff
+            self.beta = beta
+        }
+
+        /// 对 (x,y) 二维量进行滤波，返回滤波后的 CGPoint
+        func filter(x: Double, y: Double, dt: Double = 1.0 / 30.0) -> CGPoint {
+            guard let pfx = prevFilteredX,
+                  let pfy = prevFilteredY,
+                  let prx = prevRawX,
+                  let pry = prevRawY else {
+                // 首次：直接通过
+                prevRawX = x; prevRawY = y
+                prevFilteredX = x; prevFilteredY = y
+                return CGPoint(x: x, y: y)
+            }
+
+            // 导数（变化率）
+            let dValueX = abs((x - prx) / dt)
+            let dValueY = abs((y - pry) / dt)
+
+            let cutoffX = minCutoff + beta * dValueX
+            let cutoffY = minCutoff + beta * dValueY
+
+            let alphaX = 1.0 / (1.0 + dt * cutoffX)
+            let alphaY = 1.0 / (1.0 + dt * cutoffY)
+
+            let smoothX = alphaX * x + (1.0 - alphaX) * pfx
+            let smoothY = alphaY * y + (1.0 - alphaY) * pfy
+
+            prevRawX = x; prevRawY = y
+            prevFilteredX = smoothX; prevFilteredY = smoothY
+
+            return CGPoint(x: smoothX, y: smoothY)
+        }
+
+        /// 重置滤波状态
+        func reset() {
+            prevRawX = nil
+            prevRawY = nil
+            prevFilteredX = nil
+            prevFilteredY = nil
+        }
+    }
+
+    // MARK: - 属性
+
+    /// 指尖屏幕坐标（保留以兼容原有接口，但不再用于光标计算）
     private var handTip: CGPoint?
+
     /// 头部偏移量（直接从面部欧拉角获得）
     private var yawOffset: Float = 0
     private var pitchOffset: Float = 0
+
     /// 是否启用了注视追踪
     private var gazeActive = false
 
-    /// 上一次平滑后的光标位置（用于防抖）
-    private var lastSmoothedCursor: CGPoint?
+    /// 手指是否激活（方向控制模式）
+    private(set) var fingerActive = false
+
+    /// 滤波后的方向速度（屏幕坐标/秒）
+    private var filteredVelocity: CGPoint = .zero
+
+    /// 当前基座光标位置（不含注视偏移）
+    private var baseCursor: CGPoint = .zero
+
+    /// 自适应低通滤波器
+    private let fingerFilter = OneEuroFilter()
+
+    // MARK: - 公开方法
 
     /// 更新指尖位置（屏幕坐标，已乘灵敏度）
     func updateHandTip(_ point: CGPoint) {
         handTip = point
+        // 当有指尖点时可选将 fingerActive 置为 true，但方向控制模式主要依赖 updateFingerDirection
+        // 这里仅保留原有赋值
     }
 
-    /// 更新注视偏移（无灵敏度缩放，内部保留原始值）
+    /// 更新注视偏移（无灵敏度缩放）
     func updateGazeOffset(yaw: Float, pitch: Float, hasFace: Bool) {
         yawOffset = yaw
         pitchOffset = pitch
         gazeActive = hasFace
     }
 
-    /// 重置注视追踪状态（当无面部时调用）
+    /// 重置注视追踪状态
     func resetGaze() {
         gazeActive = false
     }
 
-    /// 重置光标防抖状态（当需要强制重新定位时调用，比如切换输入源）
+    /// 重置光标状态（包括基座位置、滤波状态、手指激活）
     func resetCursor() {
-        lastSmoothedCursor = nil
+        baseCursor = .zero
+        filteredVelocity = .zero
+        fingerActive = false
+        fingerFilter.reset()
     }
+
+    // MARK: - 新增方法：方向速度映射
+
+    /// 更新手指方向速度并进行自适应低通滤波
+    /// - Parameters:
+    ///   - direction: 手指移动方向（归一化向量）
+    ///   - length: 方向上未缩放的长度（如原始移动量）
+    ///   - sensitivity: 灵敏度倍率
+    func updateFingerDirection(_ direction: CGPoint, length: CGFloat, sensitivity: CGFloat) {
+        let rawVx = Double(direction.x * length * sensitivity)
+        let rawVy = Double(direction.y * length * sensitivity)
+
+        let filtered = fingerFilter.filter(x: rawVx, y: rawVy, dt: 1.0 / 30.0)
+        filteredVelocity = filtered
+        fingerActive = true
+    }
+
+    // MARK: - 光标计算（增量模式）
 
     /// 计算最终光标位置
     /// - Parameters:
     ///   - screenSize: 屏幕尺寸（点）
-    ///   - sensitivity: 鼠标速度倍率（通常为 1.0，因为指尖已经乘以 config.mouseSensitivity）
+    ///   - sensitivity: 未使用（保留签名一致）
     /// - Returns: 光标在屏幕上的绝对位置
     func computeCursor(screenSize: CGSize, sensitivity: Float) -> CGPoint {
-        guard let tip = handTip else {
-            return lastSmoothedCursor ?? .zero
+        // 1. 基础位置（不含注视偏移）
+        var newBase = baseCursor
+        if fingerActive {
+            let dt: CGFloat = 1.0 / 30.0
+            newBase.x += CGFloat(filteredVelocity.x) * dt
+            newBase.y += CGFloat(filteredVelocity.y) * dt
         }
-        // 1. 基础位置：指尖位置
-        var raw = tip
+
+        // 2. 增加注视偏移
+        var cursor = newBase
         if gazeActive {
-            // 根据经验比例缩放头部偏移
             let yawDelta = CGFloat(yawOffset) * screenSize.width * 0.05
             let pitchDelta = CGFloat(pitchOffset) * screenSize.height * 0.05
-            raw.x += yawDelta
-            raw.y += pitchDelta
-        }
-        // 2. 限制在屏幕内
-        raw.x = max(0, min(raw.x, screenSize.width))
-        raw.y = max(0, min(raw.y, screenSize.height))
-
-        // 3. 防抖处理（指数平滑 + 跳跃抑制）
-        guard let prev = lastSmoothedCursor else {
-            // 首次：直接使用原始位置作为平滑位置
-            lastSmoothedCursor = raw
-            return raw
+            cursor.x += yawDelta
+            cursor.y += pitchDelta
         }
 
-        let dx = raw.x - prev.x
-        let dy = raw.y - prev.y
-        let distance = sqrt(dx * dx + dy * dy)
+        // 3. 限制在屏幕内
+        cursor.x = max(0, min(cursor.x, screenSize.width))
+        cursor.y = max(0, min(cursor.y, screenSize.height))
 
-        if distance < 2.0 {
-            // 小位移 → 返回上次位置（忽略抖动）
-            return prev
-        }
+        // 4. 存储基座（不含注视偏移）
+        baseCursor = newBase
 
-        // 指数平滑：new = prev * 0.7 + raw * 0.3
-        var smoothed = CGPoint(
-            x: prev.x * 0.7 + raw.x * 0.3,
-            y: prev.y * 0.7 + raw.y * 0.3
-        )
-        // 再次限制避免平滑后超出边界
-        smoothed.x = max(0, min(smoothed.x, screenSize.width))
-        smoothed.y = max(0, min(smoothed.y, screenSize.height))
-
-        lastSmoothedCursor = smoothed
-        return smoothed
+        return cursor
     }
 }

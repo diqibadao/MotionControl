@@ -101,7 +101,7 @@ struct HandPoseResult {
     }
 
     /// 每根手指的伸展程度（指尖到 MCP 的距离）
-    /// - Returns: 字典，键为手指，值为距离（归一化坐标）
+    /// - Returns: 字典，键为 `HandFinger` 枚举，值为距离（归一化坐标，`CGFloat`）
     func fingerExtension() -> [HandFinger: CGFloat] {
         var result = [HandFinger: CGFloat]()
 

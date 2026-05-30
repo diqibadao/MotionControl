@@ -19,7 +19,7 @@ class DetectionPipeline: CameraOutputDelegate {
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
     var onGaze: ((GazeEstimate) -> Void)?   // 类型改为 GazeEstimate
-    var onHandResult: ((HandPoseResult?, dt: TimeInterval) -> Void)?
+    var onHandResult: ((HandPoseResult?, TimeInterval) -> Void)?
     var onFaceResult: ((FaceResult?) -> Void)?
 
     private var isRunning = false
@@ -60,11 +60,11 @@ class DetectionPipeline: CameraOutputDelegate {
                 let gestureEvent = self.gestureAnalyzer.analyze(handResult)
                 DispatchQueue.main.async {
                     self.onGesture?(gestureEvent)
-                    self.onHandResult?(handResult, dt: frameDt)
+                    self.onHandResult?(handResult, frameDt)
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.onHandResult?(nil, dt: 1.0/15.0)
+                    self.onHandResult?(nil, 1.0/15.0)
                 }
             }
             // 人脸检测

@@ -12,7 +12,7 @@ class CursorController {
         private var prevFilteredX: Double?
         private var prevFilteredY: Double?
 
-        init(minCutoff: Double = 1.0, beta: Double = 0.007) {
+        init(minCutoff: Double = 3.0, beta: Double = 0.02) {
             self.minCutoff = minCutoff
             self.beta = beta
         }

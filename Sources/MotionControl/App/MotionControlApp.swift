@@ -139,7 +139,7 @@ struct ContentView: View {
                    let pip = pip
                 {
                     let dx = tip.x - pip.x
-                    let dy = pip.y - tip.y   // Vision y向上，翻转
+                    let dy = tip.y - pip.y   // Vision y向上，翻转
                     let length = sqrt(dx*dx + dy*dy)
                     if length > 0 {
                         let direction = CGPoint(x: dx/length, y: dy/length)

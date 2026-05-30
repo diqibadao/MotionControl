@@ -20,6 +20,7 @@ struct ContentView: View {
     private let mouseCtrl = MouseController()
     private let keyboardCtrl = KeyboardController()
     private let cursorController = CursorController()
+    private let uiScanner = UIElementScanner()
     
     @State private var handKeypoints: [CGPoint] = []
     @State private var faceKeypoints: [CGPoint] = []
@@ -190,10 +191,13 @@ struct ContentView: View {
             detectionPipeline.start()
             detectionPipeline.startGazeCalibration()
             cameraService.start()
+            uiScanner.start()
+            cursorController.uiScanner = uiScanner
         }
         .onDisappear {
             cameraService.stop()
             cameraService.onSampleBuffer = nil
+            uiScanner.stop()
         }
         .task {
             let perms = await PermissionManager.shared.checkAll()

@@ -21,6 +21,9 @@ class CursorController {
     /// 是否启用了注视追踪
     private var gazeActive = false
 
+    /// UI 元素扫描器（用于磁性吸引）
+    var uiScanner: UIElementScanner? = nil
+
     // MARK: - 公开方法
 
     /// 更新手指指向的目标位置，并用自适应平滑移动到该位置
@@ -56,6 +59,28 @@ class CursorController {
     /// 计算最终光标位置（加入注视偏移并限制在屏幕范围内）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0) -> CGPoint {
         var cursor = currentPosition
+
+        // 磁性吸引：吸附到最近的 UI 元素
+        if let scanner = uiScanner {
+            var nearestDist: CGFloat = 80
+            var nearestCenter: CGPoint? = nil
+            for element in scanner.elements {
+                let center = CGPoint(x: element.frame.midX, y: element.frame.midY)
+                let dx = center.x - cursor.x
+                let dy = center.y - cursor.y
+                let distance = sqrt(dx * dx + dy * dy)
+                if distance < nearestDist {
+                    nearestDist = distance
+                    nearestCenter = center
+                }
+            }
+            if let center = nearestCenter {
+                let pull = (80 - nearestDist) / 80
+                let strength: CGFloat = 0.15
+                cursor.x += (center.x - cursor.x) * pull * strength
+                cursor.y += (center.y - cursor.y) * pull * strength
+            }
+        }
 
         // 加入注视偏移
         if gazeActive {

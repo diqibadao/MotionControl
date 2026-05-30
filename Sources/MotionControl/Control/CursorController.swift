@@ -23,12 +23,14 @@ class CursorController {
 
     // MARK: - 公开方法
 
-    /// 更新手指指向的目标位置，并用 EMA 平滑移动到该位置
+    /// 更新手指指向的目标位置，并用自适应平滑移动到该位置
     func updateTargetPosition(_ target: CGPoint) {
         let diff = CGPoint(x: target.x - currentPosition.x,
                            y: target.y - currentPosition.y)
-        currentPosition.x += diff.x / smoothingFactor
-        currentPosition.y += diff.y / smoothingFactor
+        let distance = sqrt(diff.x * diff.x + diff.y * diff.y)
+        let factor: CGFloat = distance > 100 ? 4 : 8
+        currentPosition.x += diff.x / factor
+        currentPosition.y += diff.y / factor
         fingerActive = true
     }
 
@@ -44,9 +46,8 @@ class CursorController {
         gazeActive = false
     }
 
-    /// 重置光标状态（位置、手指激活）
+    /// 重置光标状态（仅重置手指激活）
     func resetCursor() {
-        currentPosition = .zero
         fingerActive = false
     }
 

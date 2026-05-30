@@ -117,11 +117,12 @@ class CursorController {
     ///   - direction: 手指移动方向（归一化向量）
     ///   - length: 方向上未缩放的长度（如原始移动量）
     ///   - sensitivity: 灵敏度倍率
-    func updateFingerDirection(_ direction: CGPoint, length: CGFloat, sensitivity: CGFloat) {
+    ///   - dt: 时间步长（秒），默认 1/30
+    func updateFingerDirection(_ direction: CGPoint, length: CGFloat, sensitivity: CGFloat, dt: Double = 1.0 / 30.0) {
         let rawVx = Double(direction.x * length * sensitivity)
         let rawVy = Double(direction.y * length * sensitivity)
 
-        let filtered = fingerFilter.filter(x: rawVx, y: rawVy, dt: 1.0 / 30.0)
+        let filtered = fingerFilter.filter(x: rawVx, y: rawVy, dt: dt)
         filteredVelocity = filtered
         fingerActive = true
     }
@@ -132,14 +133,14 @@ class CursorController {
     /// - Parameters:
     ///   - screenSize: 屏幕尺寸（点）
     ///   - sensitivity: 未使用（保留签名一致）
+    ///   - dt: 时间步长（秒），默认 1/30
     /// - Returns: 光标在屏幕上的绝对位置
-    func computeCursor(screenSize: CGSize, sensitivity: Float) -> CGPoint {
+    func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0) -> CGPoint {
         // 1. 基础位置（不含注视偏移）
         var newBase = baseCursor
         if fingerActive {
-            let dt: CGFloat = 1.0 / 30.0
-            newBase.x += CGFloat(filteredVelocity.x) * dt
-            newBase.y += CGFloat(filteredVelocity.y) * dt
+            newBase.x += CGFloat(filteredVelocity.x) * CGFloat(dt)
+            newBase.y += CGFloat(filteredVelocity.y) * CGFloat(dt)
         }
 
         // 2. 增加注视偏移

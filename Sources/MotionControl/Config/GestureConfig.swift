@@ -173,7 +173,7 @@ struct GestureConfig: Codable {
     var pointRatio: Float = 1.5
     
     // 鼠标
-    var mouseSensitivity: Float = 1.0
+    var mouseSensitivity: Float = 2.0
     var mouseSmoothFactor: Float = 0.4
     
     // 注视

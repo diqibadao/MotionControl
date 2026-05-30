@@ -103,7 +103,7 @@ struct ContentView: View {
                                                   hasFace: gazeEstimate.hasFace)
             }
             // 手部结果回调（关键点 + 方向控制模式）
-            detectionPipeline.onHandResult = { handResult in
+            detectionPipeline.onHandResult = { handResult, dt in
                 print("[DEBUG] onHandResult called, hasTip=\(handResult?.indexTip != nil)")
                 guard let handResult = handResult else { handKeypoints = []; return }
                 var points: [CGPoint] = []
@@ -162,7 +162,8 @@ struct ContentView: View {
                             // 激活方向控制
                             cursorController.updateFingerDirection(direction,
                                                                    length: length * screen.width,
-                                                                   sensitivity: CGFloat(config.mouseSensitivity))
+                                                                   sensitivity: CGFloat(config.mouseSensitivity),
+                                                                   dt: dt)
                         }
                     } else {
                         cursorController.resetCursor()
@@ -172,7 +173,7 @@ struct ContentView: View {
                 }
                 
                 // 每帧执行 computeCursor + moveCursor（内部根据激活状态处理）
-                let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0)
+                let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0, dt: CGFloat(dt))
                 print("[DEBUG] finalCursor=\(finalCursor)")
                 mouseCtrl.moveCursor(to: finalCursor)
             }

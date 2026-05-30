@@ -19,7 +19,7 @@ class DetectionPipeline: CameraOutputDelegate {
     var onGesture: ((GestureEvent) -> Void)?
     var onMouthEvent: ((MouthEvent) -> Void)?
     var onGaze: ((GazeEstimate) -> Void)?   // 类型改为 GazeEstimate
-    var onHandResult: ((HandPoseResult?) -> Void)?
+    var onHandResult: ((HandPoseResult?, dt: TimeInterval) -> Void)?
     var onFaceResult: ((FaceResult?) -> Void)?
 
     private var isRunning = false
@@ -29,6 +29,7 @@ class DetectionPipeline: CameraOutputDelegate {
     private var lastFace: FaceResult?
 
     private var frameCount = 0
+    private var lastProcessedTime: Date = .distantPast
 
     init() {}
 
@@ -48,6 +49,9 @@ class DetectionPipeline: CameraOutputDelegate {
         guard isRunning else { return }
         frameCount += 1
         guard frameCount % 2 == 0 else { return }
+        let now = Date()
+        let frameDt: TimeInterval = lastProcessedTime == .distantPast ? (1.0 / 15.0) : now.timeIntervalSince(lastProcessedTime)
+        lastProcessedTime = now
         processingQueue.async { [weak self] in
             guard let self = self else { return }
             // 手部检测
@@ -56,11 +60,11 @@ class DetectionPipeline: CameraOutputDelegate {
                 let gestureEvent = self.gestureAnalyzer.analyze(handResult)
                 DispatchQueue.main.async {
                     self.onGesture?(gestureEvent)
-                    self.onHandResult?(handResult)
+                    self.onHandResult?(handResult, dt: frameDt)
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.onHandResult?(nil)
+                    self.onHandResult?(nil, dt: 1.0/15.0)
                 }
             }
             // 人脸检测

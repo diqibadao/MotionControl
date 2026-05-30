@@ -66,6 +66,7 @@ class CursorController {
 
     /// 计算最终光标位置（加入注视偏移并限制在屏幕范围内）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0) -> CGPoint {
+        var cursor = currentPosition
         let start = CFAbsoluteTimeGetCurrent()
         defer {
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
@@ -73,8 +74,6 @@ class CursorController {
             let output = "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))"
             EventLogger.log(event: "computeCursor", frame: nil, input: input, output: output, duration: duration)
         }
-
-        var cursor = currentPosition
 
         // 磁性吸引：吸附到最近的 UI 元素
         if let scanner = uiScanner {

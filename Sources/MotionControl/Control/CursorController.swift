@@ -62,7 +62,7 @@ class CursorController {
 
         // 磁性吸引：吸附到最近的 UI 元素
         if let scanner = uiScanner {
-            var nearestDist: CGFloat = 80
+            var nearestDist: CGFloat = 120
             var nearestCenter: CGPoint? = nil
             for element in scanner.elements {
                 let center = CGPoint(x: element.frame.midX, y: element.frame.midY)
@@ -75,10 +75,13 @@ class CursorController {
                 }
             }
             if let center = nearestCenter {
-                let pull = (80 - nearestDist) / 80
-                let strength: CGFloat = 0.15
-                cursor.x += (center.x - cursor.x) * pull * strength
-                cursor.y += (center.y - cursor.y) * pull * strength
+                let pull = (120 - nearestDist) / 120
+                let strength: CGFloat = 1.0
+                let offsetX = (center.x - cursor.x) * pull * strength
+                let offsetY = (center.y - cursor.y) * pull * strength
+                print("[MAGNET] pull=\(String(format: "%.2f", pull)) dist=\(Int(nearestDist)) offset=(\(Int(offsetX)), \(Int(offsetY))) center=(\(Int(center.x)), \(Int(center.y)))")
+                cursor.x += offsetX
+                cursor.y += offsetY
             }
         }
 

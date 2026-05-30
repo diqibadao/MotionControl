@@ -34,7 +34,7 @@ public class UIElementScanner: ObservableObject {
             self.scan()
 
             let t = DispatchSource.makeTimerSource(queue: self.backendQueue)
-            t.schedule(deadline: .now() + 0.5, repeating: .milliseconds(500))
+            t.schedule(deadline: .now() + 0.5, repeating: .milliseconds(5000), leeway: .milliseconds(1000))
             t.setEventHandler { [weak self] in
                 self?.scan()
             }
@@ -50,44 +50,66 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
+    /// 将 CFArray 转换为 [AXUIElement]
+    private func axElements(from cfArray: CFTypeRef) -> [AXUIElement] {
+        guard CFGetTypeID(cfArray) == CFArrayGetTypeID() else { return [] }
+        let count = CFArrayGetCount(cfArray as! CFArray)
+        var result: [AXUIElement] = []
+        for i in 0..<count {
+            let ptr = CFArrayGetValueAtIndex(cfArray as! CFArray, i)
+            let element = unsafeBitCast(ptr, to: AXUIElement.self)
+            result.append(element)
+        }
+        return result
+    }
+
     // MARK: - 扫描
-
     private func scan() {
+        let startTime = CFAbsoluteTimeGetCurrent()
         var newElements: [UIElementInfo] = []
-
+        print("[SCANNER] scanning...")
+        
         let apps = NSWorkspace.shared.runningApplications.filter { $0.activationPolicy == .regular }
+        print("[SCANNER] apps count: \(apps.count)")
+        
         for app in apps {
             let pid = app.processIdentifier
             let appElement = AXUIElementCreateApplication(pid)
-
-            guard let windowsRef = getAttributeValue(appElement, kAXWindowsAttribute as String) as? [AXUIElement] else {
+            
+            guard let windowsRef = getAttributeValue(appElement, kAXWindowsAttribute as String) else {
                 continue
             }
-
-            for window in windowsRef {
+            let windowElements = axElements(from: windowsRef)
+            print("[SCANNER] app \(app.localizedName ?? "?"): \(windowElements.count) windows")
+            
+            for window in windowElements {
                 let axElements = collectInteractiveAXElements(from: window)
                 for axElem in axElements {
                     let role = getAttributeValue(axElem, kAXRoleAttribute as String) as? String ?? ""
                     let title = getAttributeValue(axElem, kAXTitleAttribute as String) as? String ?? ""
 
                     var frame = CGRect.zero
-                    if let posVal = getAttributeValue(axElem, kAXPositionAttribute as String),
-                       AXValueGetType(posVal) == .cgPoint {
-                        var point = CGPoint.zero
-                        AXValueGetValue(posVal, .cgPoint, &point)
-                        frame.origin = point
+                    if let posVal = getAttributeValue(axElem, kAXPositionAttribute as String) {
+                        let axPos: AXValue = unsafeBitCast(posVal, to: AXValue.self)
+                        if AXValueGetType(axPos) == .cgPoint {
+                            var point = CGPoint.zero
+                            AXValueGetValue(axPos, .cgPoint, &point)
+                            frame.origin = point
+                        }
                     }
-                    if let sizeVal = getAttributeValue(axElem, kAXSizeAttribute as String),
-                       AXValueGetType(sizeVal) == .cgSize {
-                        var size = CGSize.zero
-                        AXValueGetValue(sizeVal, .cgSize, &size)
-                        frame.size = size
+                    if let sizeVal = getAttributeValue(axElem, kAXSizeAttribute as String) {
+                        let axSize: AXValue = unsafeBitCast(sizeVal, to: AXValue.self)
+                        if AXValueGetType(axSize) == .cgSize {
+                            var size = CGSize.zero
+                            AXValueGetValue(axSize, .cgSize, &size)
+                            frame.size = size
+                        }
                     }
 
                     let isEnabled: Bool
                     if let enabledVal = getAttributeValue(axElem, kAXEnabledAttribute as String),
                        CFGetTypeID(enabledVal) == CFBooleanGetTypeID() {
-                        isEnabled = CFBooleanGetValue(enabledVal) != 0
+                        isEnabled = CFBooleanGetValue(enabledVal as! CFBoolean) == true
                     } else {
                         isEnabled = true
                     }
@@ -108,7 +130,18 @@ public class UIElementScanner: ObservableObject {
                 }
             }
         }
-
+        
+        let elapsed = Int((CFAbsoluteTimeGetCurrent() - startTime) * 1000)
+        
+        // 统计元素类型分布
+        var roleCounts: [String: Int] = [:]
+        for el in newElements {
+            roleCounts[el.role, default: 0] += 1
+        }
+        let typeSummary = roleCounts.sorted { $0.value > $1.value }
+            .map { "\($0.key)=\($0.value)" }
+            .joined(separator: " ")
+        print("[SCANNER] found \(newElements.count) interactive elements (\(elapsed)ms) [\(typeSummary)]")
         DispatchQueue.main.async {
             self.elements = newElements
         }
@@ -117,14 +150,14 @@ public class UIElementScanner: ObservableObject {
     private func collectInteractiveAXElements(from element: AXUIElement) -> [AXUIElement] {
         var result: [AXUIElement] = []
 
-        // 检查自身是否为交互元素
-        if let role = getAttributeValue(element, kAXRoleAttribute as String) as? String,
-           Self.isInteractive(role: role) {
+        // 检查自身是否支持 AXPress 操作（比角色白名单更可靠）
+        if Self.isInteractive(element) {
             result.append(element)
         }
 
         // 递归处理子元素
-        if let children = getAttributeValue(element, kAXChildrenAttribute as String) as? [AXUIElement] {
+        if let childrenRef = getAttributeValue(element, kAXChildrenAttribute as String) {
+            let children = axElements(from: childrenRef)
             for child in children {
                 result.append(contentsOf: collectInteractiveAXElements(from: child))
             }
@@ -144,16 +177,28 @@ public class UIElementScanner: ObservableObject {
         return nil
     }
 
-    public static func isInteractive(role: String) -> Bool {
+    /// 检查 AXUIElement 是否可交互（双保险：AXPress + 角色白名单）
+    static func isInteractive(_ element: AXUIElement) -> Bool {
+        // ① 查 AXPress 操作（最精准）
+        var actionNames: CFArray?
+        if AXUIElementCopyActionNames(element, &actionNames) == .success,
+           let actions = actionNames as? [String],
+           actions.contains("AXPress") {
+            return true
+        }
+        
+        // ② 备用：常见交互角色（SwiftUI .onTapGesture 等不暴露 AXPress）
+        var roleRef: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &roleRef) == .success,
+              let role = roleRef as? String else {
+            return false
+        }
         let interactiveRoles: Set<String> = [
-            (kAXButtonRole as String),
-            (kAXTextFieldRole as String),
-            (kAXCheckBoxRole as String),
-            (kAXRadioButtonRole as String),
-            (kAXComboBoxRole as String),
-            (kAXSliderRole as String),
-            (kAXPopUpButtonRole as String),
-            (kAXDisclosureTriangleRole as String)
+            "AXButton", "AXTextField", "AXCheckBox", "AXRadioButton",
+            "AXComboBox", "AXSlider", "AXPopUpButton", "AXDisclosureTriangle",
+            "AXLink", "AXImage", "AXRow", "AXCell",
+            "AXMenuBarItem", "AXMenuItem", "AXToolbarButton",
+            "AXTab", "AXScrollBar", "AXOutline", "AXBrowser", "AXColorWell",
         ]
         return interactiveRoles.contains(role)
     }

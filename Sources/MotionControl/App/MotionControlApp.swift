@@ -156,7 +156,7 @@ struct ContentView: View {
                         
                         let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
                         let allHigh = allFingers.allSatisfy { $0 > 0.5 }
-                        let otherLow = middleExt < 0.15 && ringExt < 0.15 && littleExt < 0.15 && thumbExt < 0.15
+                        let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
                         
                         if indexExt > 0.06 && otherLow && !allHigh {
                             // 激活方向控制

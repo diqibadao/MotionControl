@@ -95,6 +95,8 @@ struct ContentView: View {
             // 注视回调（接收 GazeEstimate）
             detectionPipeline.onGaze = { gazeEstimate in
                 print("[DEBUG] onGaze called, yaw=\(gazeEstimate.yawOffset)")
+                // 鼠标位置埋点：记录当前系统光标实际位置
+                print("[MOUSE] location=\(NSEvent.mouseLocation)")
                 state.gazeActive = gazeEstimate.hasFace
                 state.gazePosition = CGPoint(x: CGFloat(gazeEstimate.yawOffset),
                                              y: CGFloat(gazeEstimate.pitchOffset))
@@ -129,49 +131,33 @@ struct ContentView: View {
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
                 
-                // 方向控制模式
+                // 方向控制模式 — 位置映射（替代 velocity 累积）
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
                 
-                // 使用 indexPIP 或 indexDIP 作为参考点
-                let pip = handResult.indexPIP ?? handResult.indexDIP
-                if let tip = handResult.indexTip,
-                   let pip = pip
-                {
-                    let dx = tip.x - pip.x
-                    let dy = tip.y - pip.y   // Vision y向上，翻转
-                    let length = sqrt(dx*dx + dy*dy)
-                    if length > 0 {
-                        // 基于速度的加速度曲线：手指伸展长度越大，速度乘数越大
-                        let speedMultiplier: CGFloat = {
-                            let base: CGFloat = 6.0               // 原始固定乘数
-                            let normalized = min(length / 0.3, 1.0) // 假设最大长度为0.3（归一化坐标）
-                            let curve = normalized * normalized    // 二次曲线，小位移时减速，大位移时加速
-                            return base * (0.5 + 0.5 * curve)     // 范围 [3.0, 6.0]
-                        }()
-                        let direction = CGPoint(x: dx/length, y: dy/length)
-                        // 手指伸展检测：使用 handResult.fingerExtension()（需在 HandPoseResult 上实现）
-                        let extensions = handResult.fingerExtension()
-                        let indexExt = extensions[.index] ?? 0
-                        let middleExt = extensions[.middle] ?? 0
-                        let ringExt = extensions[.ring] ?? 0
-                        let littleExt = extensions[.little] ?? 0
-                        let thumbExt = extensions[.thumb] ?? 0
-                        
-                        // 调试输出扩展值
-                        print("[DEBUG] extensions index=\(indexExt) middle=\(middleExt) ring=\(ringExt) little=\(littleExt) thumb=\(thumbExt)")
-                        
-                        let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
-                        let allHigh = allFingers.allSatisfy { $0 > 0.5 }
-                        let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
-                        
-                        if indexExt > 0.06 && otherLow && !allHigh {
-                            // 激活方向控制
-                            cursorController.updateFingerDirection(direction,
-                                                                   length: length * screen.width * speedMultiplier,
-                                                                   sensitivity: CGFloat(config.mouseSensitivity),
-                                                                   dt: dt)
-                        }
+                if let tip = handResult.indexTip {
+                    // Vision 坐标 → 屏幕坐标
+                    // X: 镜像（前置摄像头画面镜像）
+                    // Y: Vision y↑ → 光标 y↓
+                    let targetX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
+                    let targetY = tip.y * screen.height * CGFloat(config.mouseSensitivity)
+                    
+                    // 手指伸展检测
+                    let extensions = handResult.fingerExtension()
+                    let indexExt = extensions[.index] ?? 0
+                    let middleExt = extensions[.middle] ?? 0
+                    let ringExt = extensions[.ring] ?? 0
+                    let littleExt = extensions[.little] ?? 0
+                    let thumbExt = extensions[.thumb] ?? 0
+                    
+                    print("[DEBUG] extensions index=\(indexExt) middle=\(middleExt) ring=\(ringExt) little=\(littleExt) thumb=\(thumbExt)")
+                    
+                    let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
+                    let allHigh = allFingers.allSatisfy { $0 > 0.5 }
+                    let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
+                    
+                    if indexExt > 0.06 && otherLow && !allHigh {
+                        cursorController.updateTargetPosition(CGPoint(x: targetX, y: targetY))
                     } else {
                         cursorController.resetCursor()
                     }

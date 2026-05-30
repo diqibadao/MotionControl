@@ -47,7 +47,7 @@ class DetectionPipeline: CameraOutputDelegate {
     func didOutputFrame(_ sampleBuffer: CMSampleBuffer) {
         guard isRunning else { return }
         frameCount += 1
-        guard frameCount % 5 == 0 else { return }
+        guard frameCount % 2 == 0 else { return }
         processingQueue.async { [weak self] in
             guard let self = self else { return }
             // 手部检测

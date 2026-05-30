@@ -65,6 +65,7 @@ public class UIElementScanner: ObservableObject {
 
     // MARK: - 扫描
     private func scan() {
+        let start = CFAbsoluteTimeGetCurrent()
         let startTime = CFAbsoluteTimeGetCurrent()
         var newElements: [UIElementInfo] = []
         print("[SCANNER] scanning...")
@@ -145,9 +146,19 @@ public class UIElementScanner: ObservableObject {
         DispatchQueue.main.async {
             self.elements = newElements
         }
+
+        // EventLogger
+        let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+        let input = "apps=\(apps.count)"
+        let output = "elements=\(newElements.count) [\(typeSummary)]"
+        EventLogger.log(event: "scan", frame: nil, input: input, output: output, duration: duration)
     }
 
     private func collectInteractiveAXElements(from element: AXUIElement) -> [AXUIElement] {
+        let start = CFAbsoluteTimeGetCurrent()
+        let role = getAttributeValue(element, kAXRoleAttribute as String) as? String ?? "?"
+        let hasChildren = getAttributeValue(element, kAXChildrenAttribute as String) != nil
+
         var result: [AXUIElement] = []
 
         // 检查自身是否支持 AXPress 操作（比角色白名单更可靠）
@@ -162,6 +173,11 @@ public class UIElementScanner: ObservableObject {
                 result.append(contentsOf: collectInteractiveAXElements(from: child))
             }
         }
+
+        let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+        let input = "role=\(role) hasChildren=\(hasChildren)"
+        let output = "count=\(result.count)"
+        EventLogger.log(event: "collectInteractiveAXElements", frame: nil, input: input, output: output, duration: duration)
 
         return result
     }
@@ -179,11 +195,25 @@ public class UIElementScanner: ObservableObject {
 
     /// 检查 AXUIElement 是否可交互（双保险：AXPress + 角色白名单）
     static func isInteractive(_ element: AXUIElement) -> Bool {
+        // 获取 role 作为日志输入（无论后续是否使用）
+        var roleForInput: String = "?"
+        do {
+            var roleRef: CFTypeRef?
+            let err = AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &roleRef)
+            if err == .success {
+                roleForInput = (roleRef as? String) ?? "?"
+            }
+        }
+
+        let start = CFAbsoluteTimeGetCurrent()
+
         // ① 查 AXPress 操作（最精准）
         var actionNames: CFArray?
         if AXUIElementCopyActionNames(element, &actionNames) == .success,
            let actions = actionNames as? [String],
            actions.contains("AXPress") {
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            EventLogger.log(event: "isInteractive", frame: nil, input: "role=\(roleForInput)", output: "true(AXPress)", duration: duration)
             return true
         }
         
@@ -191,6 +221,8 @@ public class UIElementScanner: ObservableObject {
         var roleRef: CFTypeRef?
         guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &roleRef) == .success,
               let role = roleRef as? String else {
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            EventLogger.log(event: "isInteractive", frame: nil, input: "role=\(roleForInput)", output: "false(noRole)", duration: duration)
             return false
         }
         let interactiveRoles: Set<String> = [
@@ -200,6 +232,10 @@ public class UIElementScanner: ObservableObject {
             "AXMenuBarItem", "AXMenuItem", "AXToolbarButton",
             "AXTab", "AXScrollBar", "AXOutline", "AXBrowser", "AXColorWell",
         ]
-        return interactiveRoles.contains(role)
+        let result = interactiveRoles.contains(role)
+        let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+        let output = result ? "true(roleList)" : "false(roleList)"
+        EventLogger.log(event: "isInteractive", frame: nil, input: "role=\(roleForInput)", output: output, duration: duration)
+        return result
     }
 }

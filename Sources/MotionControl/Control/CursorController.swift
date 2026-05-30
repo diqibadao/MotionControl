@@ -28,6 +28,14 @@ class CursorController {
 
     /// 更新手指指向的目标位置，并用自适应平滑移动到该位置
     func updateTargetPosition(_ target: CGPoint) {
+        let start = CFAbsoluteTimeGetCurrent()
+        defer {
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            let input = "target=(\(Int(target.x)),\(Int(target.y)))"
+            let output = "newPosition=(\(Int(currentPosition.x)),\(Int(currentPosition.y)))"
+            EventLogger.log(event: "updateTargetPosition", frame: nil, input: input, output: output, duration: duration)
+        }
+
         let diff = CGPoint(x: target.x - currentPosition.x,
                            y: target.y - currentPosition.y)
         let distance = sqrt(diff.x * diff.x + diff.y * diff.y)
@@ -58,10 +66,19 @@ class CursorController {
 
     /// 计算最终光标位置（加入注视偏移并限制在屏幕范围内）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0) -> CGPoint {
+        let start = CFAbsoluteTimeGetCurrent()
+        defer {
+            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
+            let input = "screenSize=(\(Int(screenSize.width)),\(Int(screenSize.height))) sensitivity=\(sensitivity)"
+            let output = "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))"
+            EventLogger.log(event: "computeCursor", frame: nil, input: input, output: output, duration: duration)
+        }
+
         var cursor = currentPosition
 
         // 磁性吸引：吸附到最近的 UI 元素
         if let scanner = uiScanner {
+            let magnetStart = CFAbsoluteTimeGetCurrent()
             var nearestDist: CGFloat = 120
             var nearestCenter: CGPoint? = nil
             for element in scanner.elements {
@@ -83,6 +100,10 @@ class CursorController {
                 cursor.x += offsetX
                 cursor.y += offsetY
             }
+            let magnetDuration = (CFAbsoluteTimeGetCurrent() - magnetStart) * 1000
+            let magnetInput = "elementsCount=\(scanner.elements.count)"
+            let magnetOutput = "nearestDist=\(Int(nearestDist)) nearestCenter=(\(Int(nearestCenter?.x ?? -1)),\(Int(nearestCenter?.y ?? -1)))"
+            EventLogger.log(event: "computeCursor.magnet", frame: nil, input: magnetInput, output: magnetOutput, duration: magnetDuration)
         }
 
         // 加入注视偏移

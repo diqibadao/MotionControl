@@ -137,6 +137,7 @@ class CursorController {
     /// - Returns: 光标在屏幕上的绝对位置
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0) -> CGPoint {
         // 1. 基础位置（不含注视偏移）
+        if fingerActive { filteredVelocity.x *= 0.92; filteredVelocity.y *= 0.92 }
         var newBase = baseCursor
         if fingerActive {
             newBase.x += CGFloat(filteredVelocity.x) * CGFloat(dt)
@@ -157,7 +158,7 @@ class CursorController {
         cursor.y = max(0, min(cursor.y, screenSize.height))
 
         // 4. 存储基座（不含注视偏移）
-        baseCursor = newBase
+        baseCursor = cursor
 
         return cursor
     }

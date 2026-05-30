@@ -142,6 +142,13 @@ struct ContentView: View {
                     let dy = tip.y - pip.y   // Vision y向上，翻转
                     let length = sqrt(dx*dx + dy*dy)
                     if length > 0 {
+                        // 基于速度的加速度曲线：手指伸展长度越大，速度乘数越大
+                        let speedMultiplier: CGFloat = {
+                            let base: CGFloat = 6.0               // 原始固定乘数
+                            let normalized = min(length / 0.3, 1.0) // 假设最大长度为0.3（归一化坐标）
+                            let curve = normalized * normalized    // 二次曲线，小位移时减速，大位移时加速
+                            return base * (0.5 + 0.5 * curve)     // 范围 [3.0, 6.0]
+                        }()
                         let direction = CGPoint(x: dx/length, y: dy/length)
                         // 手指伸展检测：使用 handResult.fingerExtension()（需在 HandPoseResult 上实现）
                         let extensions = handResult.fingerExtension()
@@ -161,7 +168,7 @@ struct ContentView: View {
                         if indexExt > 0.06 && otherLow && !allHigh {
                             // 激活方向控制
                             cursorController.updateFingerDirection(direction,
-                                                                   length: length * screen.width * 6,
+                                                                   length: length * screen.width * speedMultiplier,
                                                                    sensitivity: CGFloat(config.mouseSensitivity),
                                                                    dt: dt)
                         }

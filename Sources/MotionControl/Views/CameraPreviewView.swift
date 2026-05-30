@@ -147,12 +147,12 @@ extension OverlayPreviewNSView: CALayerDelegate {
             ctx.setFillColor(
                 isCommandActive
                     ? NSColor.red.withAlphaComponent(0.9).cgColor
-                    : NSColor.green.withAlphaComponent(0.6).cgColor
+                    : NSColor.green.withAlphaComponent(0.25).cgColor
             )
             for point in faceKeypoints {
                 let displayPoint = visionPointToView(point)
-                let rect = CGRect(x: displayPoint.x - 2, y: displayPoint.y - 2,
-                                  width: 4, height: 4)
+                let rect = CGRect(x: displayPoint.x - 1, y: displayPoint.y - 1,
+                                  width: 2, height: 2)
                 ctx.fillEllipse(in: rect)
             }
         }
@@ -163,13 +163,13 @@ extension OverlayPreviewNSView: CALayerDelegate {
             ctx.setFillColor(
                 isCommandActive
                     ? NSColor.red.withAlphaComponent(0.9).cgColor
-                    : NSColor.green.withAlphaComponent(0.8).cgColor
+                    : NSColor.green.withAlphaComponent(0.35).cgColor
             )
             for point in handKeypoints {
                 let displayPoint = visionPointToView(point)
                 print("[OVERLAY-DRAW] pt=\(point) display=\(displayPoint) bounds=\(bounds)")
-                let rect = CGRect(x: displayPoint.x - 4, y: displayPoint.y - 4,
-                                  width: 8, height: 8)
+                let rect = CGRect(x: displayPoint.x - 2, y: displayPoint.y - 2,
+                                  width: 4, height: 4)
                 ctx.fillEllipse(in: rect)
             }
         }

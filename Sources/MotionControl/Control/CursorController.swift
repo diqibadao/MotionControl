@@ -65,8 +65,14 @@ class CursorController {
     ///   - sensitivity: 灵敏度倍率
     ///   - dt: 两帧之间的时间间隔（秒），用于速度自适应
     func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float, dt: TimeInterval = 1.0/15.0) {
-        let dx = (lastTip.x - tip.x) * screenSize.width * CGFloat(sensitivity)
-        let dy = (tip.y - lastTip.y) * screenSize.height * CGFloat(sensitivity)
+        let rawDx = (lastTip.x - tip.x)
+        let rawDy = (tip.y - lastTip.y)
+
+        let asymX = rawDx > 0 ? sensitivity * 1.5 : sensitivity
+        let asymY = rawDy < 0 ? sensitivity * 1.5 : sensitivity
+
+        let dx = rawDx * screenSize.width * CGFloat(asymX)
+        let dy = rawDy * screenSize.height * CGFloat(asymY)
         
         guard abs(dx) > 2 || abs(dy) > 2 else { return }
         

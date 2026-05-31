@@ -26,6 +26,7 @@ struct ContentView: View {
     @State private var faceKeypoints: [CGPoint] = []
     @State private var commandTriggeredAt: Date = .distantPast
     @State private var lastTip: CGPoint? = nil
+    @State private var frameGenTimer: Timer? = nil  // 60fps 补帧定时器
     
     var body: some View {
         HSplitView {
@@ -200,6 +201,20 @@ struct ContentView: View {
             }
             detectionPipeline.start()
             detectionPipeline.startGazeCalibration()
+            
+            // 60fps 补帧定时器：检测帧之间用 velocity 持续推光标
+            let timer = Timer.scheduledTimer(withTimeInterval: 1.0/60.0, repeats: true) { _ in
+                guard cursorController.fingerActive else { return }
+                let dt: TimeInterval = 1.0 / 60.0
+                let dx = cursorController.displayVelocityX * CGFloat(dt)
+                let dy = cursorController.displayVelocityY * CGFloat(dt)
+                let pos = cursorController.currentPosition
+                mouseCtrl.moveCursor(to: CGPoint(x: pos.x + dx, y: pos.y + dy))
+            }
+            // 保证补帧定时器不被 UI 事件阻塞
+            RunLoop.current.add(timer, forMode: .common)
+            self.frameGenTimer = timer
+            
             cameraService.start()
             uiScanner.start()
             cursorController.uiScanner = uiScanner
@@ -208,6 +223,8 @@ struct ContentView: View {
             cameraService.stop()
             cameraService.onSampleBuffer = nil
             uiScanner.stop()
+            frameGenTimer?.invalidate()
+            frameGenTimer = nil
         }
         .task {
             let perms = await PermissionManager.shared.checkAll()

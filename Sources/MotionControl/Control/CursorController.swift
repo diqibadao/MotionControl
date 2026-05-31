@@ -22,6 +22,10 @@ class CursorController {
     private var smoothVy: CGFloat = 0
     private let velocityEMAAlpha: CGFloat = 0.3
 
+    /// 60fps 补帧用的 velocity（只读，由 updateWithDelta 更新）
+    var displayVelocityX: CGFloat { smoothVx }
+    var displayVelocityY: CGFloat { smoothVy }
+
     /// 头部偏移量（直接从面部欧拉角获得）
     private var yawOffset: Float = 0
     private var pitchOffset: Float = 0

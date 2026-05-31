@@ -63,7 +63,8 @@ struct FaceResult {
 }
 
 // MARK: - 面部特征点检测器
-/// 使用 Vision 框架的 VNDetectFaceLandmarksRequest 检测 76 点面部星座。
+/// 使用 Vision 框架的 VNDetectFaceLandmarksRequest 检测 76 点面部星座，
+/// 并配合 VNDetectFaceRectanglesRequest Revision 3 获取准确的头部姿态。
 class FaceMeshDetector {
     init() {}
 
@@ -73,12 +74,16 @@ class FaceMeshDetector {
     func detect(pixelBuffer: CVPixelBuffer) -> [FaceResult]? {
         let start = CFAbsoluteTimeGetCurrent()
 
-        let request = VNDetectFaceLandmarksRequest()
+        // 1. 创建两个请求
+        let landmarksRequest = VNDetectFaceLandmarksRequest()
+        let faceRectRequest = VNDetectFaceRectanglesRequest()
+        faceRectRequest.revision = VNDetectFaceRectanglesRequestRevision3
+
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
                                             options: [:])
         do {
-            try handler.perform([request])
+            try handler.perform([landmarksRequest, faceRectRequest])
         } catch {
             let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
@@ -90,7 +95,13 @@ class FaceMeshDetector {
             print("面部检测失败：\(error)")
             return nil
         }
-        guard let observations = request.results as? [VNFaceObservation] else {
+
+        // 2. 分别获取结果
+        let landmarkObservations = landmarksRequest.results as? [VNFaceObservation]
+        let rectObservations = faceRectRequest.results as? [VNFaceObservation]
+
+        // 面部特征点请求没有结果 → 没有检测到人脸
+        guard let landmarkObs = landmarkObservations, !landmarkObs.isEmpty else {
             let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
             EventLogger.log(event: "face_detect",
@@ -101,7 +112,13 @@ class FaceMeshDetector {
             return nil
         }
 
-        let results = observations.map { Self.faceResult(from: $0) }
+        // 取第一个头部姿态观测值（可能为 nil，此时降级为旧行为）
+        let poseObservation = rectObservations?.first
+
+        // 3. 用两个观测共同构建 FaceResult
+        let results = landmarkObs.map { observation in
+            Self.faceResult(landmarkObservation: observation, poseObservation: poseObservation)
+        }
 
         let output: String
         if let first = results.first {
@@ -134,15 +151,19 @@ class FaceMeshDetector {
         }
     }
 
-    /// 从 VNFaceObservation 构建 FaceResult。
-    private static func faceResult(from observation: VNFaceObservation) -> FaceResult {
-        let landmarks = observation.landmarks
-        let bbox = observation.boundingBox
+    /// 结合面部特征点观测和头部姿态观测构建 FaceResult。
+    /// - Parameters:
+    ///   - landmarkObservation: VNDetectFaceLandmarksRequest 的结果，提供 76 个特征点。
+    ///   - poseObservation: VNDetectFaceRectanglesRequest Revision 3 的结果，提供 yaw/pitch/roll。
+    ///                       若为 nil，则姿态值均为 nil（降级行为）。
+    private static func faceResult(landmarkObservation: VNFaceObservation, poseObservation: VNFaceObservation?) -> FaceResult {
+        let landmarks = landmarkObservation.landmarks
+        let bbox = landmarkObservation.boundingBox
 
-        // 头部姿态（欧拉角）
-        let roll = observation.roll?.floatValue
-        let pitch = observation.pitch?.floatValue
-        let yaw = observation.yaw?.floatValue
+        // 头部姿态（取首个矩形检测结果，若为 nil 则不提供）
+        let roll = poseObservation?.roll?.floatValue
+        let pitch = poseObservation?.pitch?.floatValue
+        let yaw = poseObservation?.yaw?.floatValue
 
         // 眼睑轮廓
         let leftEye = Self.landmarkPoints(from: landmarks?.leftEye, in: bbox)

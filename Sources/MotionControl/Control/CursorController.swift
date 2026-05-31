@@ -63,7 +63,7 @@ class CursorController {
         let dy = (tip.y - lastTip.y) * screenSize.height * CGFloat(sensitivity)
         
         let dist = sqrt(dx*dx + dy*dy)
-        let factor: CGFloat = dist > 100 ? 3 : 6
+        let factor: CGFloat = dist < 10 ? 1 : (dist < 100 ? 3 : 6)
         currentPosition.x += dx / factor
         currentPosition.y += dy / factor
         

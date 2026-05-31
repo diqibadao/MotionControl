@@ -23,18 +23,22 @@ public struct UIElementInfo: Identifiable, Equatable {
 
 public class UIElementScanner: ObservableObject {
     @Published public var elements: [UIElementInfo] = []
+    
+    /// 缓存：光标附近的元素（由后台队列更新，主线程读取）
+    @Published var nearElement: UIElementInfo? = nil
 
     private let backendQueue = DispatchQueue(label: "com.motioncontrol.uielementscanner", qos: .utility)
     private var timer: DispatchSourceTimer?
+    private var cursorTimer: DispatchSourceTimer?
 
     public init() {}
 
     public func start() {
         backendQueue.async { [weak self] in
             guard let self = self else { return }
-            // P-LOGIC: 立即执行一次轻量扫描
             self.scan()
-
+            
+            // 定时 1：每 5 秒扫前窗元素（远距磁吸缓存）
             let t = DispatchSource.makeTimerSource(queue: self.backendQueue)
             t.schedule(deadline: .now() + 0.5, repeating: .milliseconds(5000), leeway: .milliseconds(1000))
             t.setEventHandler { [weak self] in
@@ -42,6 +46,15 @@ public class UIElementScanner: ObservableObject {
             }
             t.activate()
             self.timer = t
+            
+            // 定时 2：每 200ms 刷新光标附近元素（后台调 elementAt，不阻塞主线程）
+            let cursorTimer = DispatchSource.makeTimerSource(queue: self.backendQueue)
+            cursorTimer.schedule(deadline: .now() + 0.2, repeating: .milliseconds(200), leeway: .milliseconds(50))
+            cursorTimer.setEventHandler { [weak self] in
+                self?.refreshNearCursor()
+            }
+            cursorTimer.activate()
+            self.cursorTimer = cursorTimer
         }
     }
 
@@ -49,6 +62,8 @@ public class UIElementScanner: ObservableObject {
         backendQueue.async { [weak self] in
             self?.timer?.cancel()
             self?.timer = nil
+            self?.cursorTimer?.cancel()
+            self?.cursorTimer = nil
         }
     }
 
@@ -82,7 +97,41 @@ public class UIElementScanner: ObservableObject {
 
     // MARK: - 私有辅助
 
-    // P-LOGIC: 轻量扫描，只检查几个预定义屏幕点，最多保留 100 个元素
+    /// 后台刷新光标附近元素（每 200ms 由 cursorTimer 调用）
+    private func refreshNearCursor() {
+        let cursor = NSEvent.mouseLocation
+        // 只查光标位置 1 个点
+        if let el = elementAt(position: cursor) {
+            let center = CGPoint(x: el.frame.midX, y: el.frame.midY)
+            let dx = center.x - cursor.x
+            let dy = center.y - cursor.y
+            let dist = sqrt(dx * dx + dy * dy)
+            if dist < 120 {
+                DispatchQueue.main.async { [weak self] in
+                    self?.nearElement = el
+                }
+                return
+            }
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.nearElement = nil
+        }
+    }
+
+    /// 将 CFArray 转换为 [AXUIElement]
+    private func axElements(from cfArray: CFTypeRef) -> [AXUIElement] {
+        guard CFGetTypeID(cfArray) == CFArrayGetTypeID() else { return [] }
+        let count = CFArrayGetCount(cfArray as! CFArray)
+        var result: [AXUIElement] = []
+        for i in 0..<count {
+            let ptr = CFArrayGetValueAtIndex(cfArray as! CFArray, i)
+            let element = unsafeBitCast(ptr, to: AXUIElement.self)
+            result.append(element)
+        }
+        return result
+    }
+
+    /// 扫描最前面 App 的窗口子元素
     private func scan() {
         let scanStart = CFAbsoluteTimeGetCurrent()
         var newElements: [UIElementInfo] = []
@@ -90,26 +139,37 @@ public class UIElementScanner: ObservableObject {
             let duration = (CFAbsoluteTimeGetCurrent() - scanStart) * 1000
             let input = "scan"
             let output = "elements=\(newElements.count)"
-            // 扫描日志使用 nil frameId
             EventLogger.log(event: "scan", frame: nil, input: input, output: output, duration: duration)
         }
 
-        guard let screenFrame = NSScreen.main?.frame else { return }
+        guard let frontApp = NSWorkspace.shared.frontmostApplication,
+              frontApp.activationPolicy == .regular else { return }
 
-        let center = CGPoint(x: screenFrame.midX, y: screenFrame.midY)
-        let topLeft = CGPoint(x: screenFrame.minX + 1, y: screenFrame.maxY - 1)
-        let topRight = CGPoint(x: screenFrame.maxX - 1, y: screenFrame.maxY - 1)
-        let bottomLeft = CGPoint(x: screenFrame.minX + 1, y: screenFrame.minY + 1)
-        let bottomRight = CGPoint(x: screenFrame.maxX - 1, y: screenFrame.minY + 1)
-        let points = [center, topLeft, topRight, bottomLeft, bottomRight]
+        let pid = frontApp.processIdentifier
+        let appElement = AXUIElementCreateApplication(pid)
 
-        for pt in points {
-            guard newElements.count < 100 else { break }
-            if let info = elementAt(position: pt) {
-                if !newElements.contains(info) {
+        guard let windowsRef = getAttributeValue(appElement, kAXWindowsAttribute as String) else { return }
+        let windowElements = axElements(from: windowsRef)
+
+        let interactiveRoles: Set<String> = [
+            "AXButton", "AXTextField", "AXRadioButton", "AXPopUpButton",
+            "AXCheckBox", "AXSlider", "AXDisclosureTriangle", "AXLink",
+            "AXImage", "AXRow", "AXCell", "AXTab", "AXMenuButton",
+            "AXComboBox", "AXScrollBar",
+        ]
+
+        for window in windowElements {
+            guard let childrenRef = getAttributeValue(window, kAXChildrenAttribute as String) else { continue }
+            let children = axElements(from: childrenRef)
+            for child in children {
+                guard newElements.count < 200 else { break }
+                guard let role = getAttributeValue(child, kAXRoleAttribute as String) as? String,
+                      interactiveRoles.contains(role) else { continue }
+                if let info = extractElementInfo(child) {
                     newElements.append(info)
                 }
             }
+            if newElements.count >= 200 { break }
         }
 
         DispatchQueue.main.async {

@@ -66,6 +66,13 @@ struct FaceResult {
 /// 使用 Vision 框架的 VNDetectFaceLandmarksRequest 检测 76 点面部星座，
 /// 并配合 VNDetectFaceRectanglesRequest Revision 3 获取准确的头部姿态。
 class FaceMeshDetector {
+    
+    // 新增：隔帧缓存与计数器
+    private var poseFrameCounter: Int = 0
+    private var lastPoseRoll: Float? = nil
+    private var lastPosePitch: Float? = nil
+    private var lastPoseYaw: Float? = nil
+
     init() {}
 
     /// 对给定的像素缓冲区执行面部特征点检测。
@@ -74,16 +81,13 @@ class FaceMeshDetector {
     func detect(pixelBuffer: CVPixelBuffer) -> [FaceResult]? {
         let start = CFAbsoluteTimeGetCurrent()
 
-        // 1. 创建两个请求
+        // 1. 只创建 landmarksRequest（特征点请求总是执行）
         let landmarksRequest = VNDetectFaceLandmarksRequest()
-        let faceRectRequest = VNDetectFaceRectanglesRequest()
-        faceRectRequest.revision = VNDetectFaceRectanglesRequestRevision3
-
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
                                             options: [:])
         do {
-            try handler.perform([landmarksRequest, faceRectRequest])
+            try handler.perform([landmarksRequest])
         } catch {
             let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
@@ -96,12 +100,11 @@ class FaceMeshDetector {
             return nil
         }
 
-        // 2. 分别获取结果
-        let landmarkObservations = landmarksRequest.results as? [VNFaceObservation]
-        let rectObservations = faceRectRequest.results as? [VNFaceObservation]
+        // 2. 获取人脸 landmarks 观测值
+        let landmarkObs = landmarksRequest.results as? [VNFaceObservation]
 
-        // 面部特征点请求没有结果 → 没有检测到人脸
-        guard let landmarkObs = landmarkObservations, !landmarkObs.isEmpty else {
+        // 没有检测到人脸
+        guard let landmarkObservations = landmarkObs, !landmarkObservations.isEmpty else {
             let output = "detected=false landmarks=nil roll=nil pitch=nil yaw=nil"
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
             EventLogger.log(event: "face_detect",
@@ -112,12 +115,43 @@ class FaceMeshDetector {
             return nil
         }
 
-        // 取第一个头部姿态观测值（可能为 nil，此时降级为旧行为）
-        let poseObservation = rectObservations?.first
+        // 3. 隔帧获取姿态（每 15 帧执行一次 faceRectRequest）
+        var poseObservation: VNFaceObservation? = nil
+        if poseFrameCounter % 15 == 0 {
+            let faceRectRequest = VNDetectFaceRectanglesRequest()
+            faceRectRequest.revision = VNDetectFaceRectanglesRequestRevision3
+            // 创建新 handler 执行 faceRectRequest（复用同一个 pixelBuffer）
+            let poseHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
+                                                    orientation: .up,
+                                                    options: [:])
+            do {
+                try poseHandler.perform([faceRectRequest])
+                let rectObs = faceRectRequest.results as? [VNFaceObservation]
+                poseObservation = rectObs?.first
+                // 更新缓存
+                lastPoseRoll = poseObservation?.roll?.floatValue
+                lastPosePitch = poseObservation?.pitch?.floatValue
+                lastPoseYaw = poseObservation?.yaw?.floatValue
+            } catch {
+                // 姿态请求失败，保持上次缓存
+                print("姿态请求失败：\(error)")
+            }
+        } else {
+            // 不用新跑 request，使用缓存
+            // 我们仍然需要构造一个 poseObservation 来传递缓存值？但 faceResult 方法期望的是 VNFaceObservation? 
+            // 这里我们不构造实际对象，而是在 faceResult 中直接使用缓存值。
+            // 做法：不传入 poseObservation，而让 faceResult 方法从缓存读取。
+            poseObservation = nil // 使用缓存
+        }
+        poseFrameCounter += 1
 
-        // 3. 用两个观测共同构建 FaceResult
-        let results = landmarkObs.map { observation in
-            Self.faceResult(landmarkObservation: observation, poseObservation: poseObservation)
+        // 4. 构建 FaceResult
+        let results = landmarkObservations.map { observation in
+            Self.faceResult(landmarkObservation: observation,
+                            poseObservation: poseObservation, // 只在有 request 时才传入，否则为 nil
+                            cachedRoll: lastPoseRoll,
+                            cachedPitch: lastPosePitch,
+                            cachedYaw: lastPoseYaw)
         }
 
         let output: String
@@ -155,15 +189,20 @@ class FaceMeshDetector {
     /// - Parameters:
     ///   - landmarkObservation: VNDetectFaceLandmarksRequest 的结果，提供 76 个特征点。
     ///   - poseObservation: VNDetectFaceRectanglesRequest Revision 3 的结果，提供 yaw/pitch/roll。
-    ///                       若为 nil，则姿态值均为 nil（降级行为）。
-    private static func faceResult(landmarkObservation: VNFaceObservation, poseObservation: VNFaceObservation?) -> FaceResult {
+    ///                       若为 nil，则尝试使用缓存值。
+    ///   - cachedRoll, cachedPitch, cachedYaw: 隔帧缓存的姿态值（当 poseObservation 为 nil 时使用）
+    private static func faceResult(landmarkObservation: VNFaceObservation,
+                                   poseObservation: VNFaceObservation?,
+                                   cachedRoll: Float? = nil,
+                                   cachedPitch: Float? = nil,
+                                   cachedYaw: Float? = nil) -> FaceResult {
         let landmarks = landmarkObservation.landmarks
         let bbox = landmarkObservation.boundingBox
 
-        // 头部姿态（取首个矩形检测结果，若为 nil 则不提供）
-        let roll = poseObservation?.roll?.floatValue
-        let pitch = poseObservation?.pitch?.floatValue
-        let yaw = poseObservation?.yaw?.floatValue
+        // 头部姿态：优先取 poseObservation，其次取缓存
+        let roll = poseObservation?.roll?.floatValue ?? cachedRoll
+        let pitch = poseObservation?.pitch?.floatValue ?? cachedPitch
+        let yaw = poseObservation?.yaw?.floatValue ?? cachedYaw
 
         // 眼睑轮廓
         let leftEye = Self.landmarkPoints(from: landmarks?.leftEye, in: bbox)

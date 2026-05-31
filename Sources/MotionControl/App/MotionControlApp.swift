@@ -153,11 +153,17 @@ struct ContentView: View {
                     let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
                     
                     if indexExt > 0.06 && otherLow && !allHigh {
-                        // 使用 delta 模式：传入 tip 和 lastTip
-                        cursorController.updateWithDelta(tip: tip,
-                                                         lastTip: lastTip ?? tip,
-                                                         screenSize: screen,
-                                                         sensitivity: config.mouseSensitivity)
+                        // 使用 delta 模式（首次识别用绝对位置）
+                        if let prevTip = lastTip {
+                            cursorController.updateWithDelta(tip: tip,
+                                                             lastTip: prevTip,
+                                                             screenSize: screen,
+                                                             sensitivity: config.mouseSensitivity)
+                        } else {
+                            let initialX = (1.0 - tip.x) * screen.width
+                            let initialY = tip.y * screen.height
+                            cursorController.updateTargetPosition(CGPoint(x: initialX, y: initialY))
+                        }
                         lastTip = tip
                     } else {
                         cursorController.resetCursor()

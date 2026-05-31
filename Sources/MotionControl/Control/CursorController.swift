@@ -160,12 +160,14 @@ class CursorController {
             }
         }
 
-        // 加入注视偏移
+        // 加入注视偏移（防钳死：仅当光标距离屏幕边缘超过5px才施偏移）
         if gazeActive {
-            let yawDelta = CGFloat(yawOffset) * screenSize.width * 0.05
-            let pitchDelta = CGFloat(pitchOffset) * screenSize.height * 0.05
-            cursor.x += yawDelta
-            cursor.y += pitchDelta
+            if cursor.x > 5 && cursor.x < screenSize.width - 5 {
+                cursor.x += CGFloat(yawOffset) * screenSize.width * 0.05
+            }
+            if cursor.y > 5 && cursor.y < screenSize.height - 5 {
+                cursor.y += CGFloat(pitchOffset) * screenSize.height * 0.05
+            }
         }
 
         // 限制在屏幕内

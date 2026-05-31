@@ -47,9 +47,9 @@ public class UIElementScanner: ObservableObject {
             t.activate()
             self.timer = t
             
-            // 定时 2：每 200ms 刷新光标附近元素（后台调 elementAt，不阻塞主线程）
+            // 定时 2：每 500ms 刷新光标附近元素（后台调 elementAt，不阻塞主线程）
             let cursorTimer = DispatchSource.makeTimerSource(queue: self.backendQueue)
-            cursorTimer.schedule(deadline: .now() + 0.2, repeating: .milliseconds(200), leeway: .milliseconds(50))
+            cursorTimer.schedule(deadline: .now() + 0.5, repeating: .milliseconds(500), leeway: .milliseconds(50))
             cursorTimer.setEventHandler { [weak self] in
                 self?.refreshNearCursor()
             }
@@ -97,7 +97,7 @@ public class UIElementScanner: ObservableObject {
 
     // MARK: - 私有辅助
 
-    /// 后台刷新光标附近元素（每 200ms 由 cursorTimer 调用）
+    /// 后台刷新光标附近元素（每 500ms 由 cursorTimer 调用）
     private func refreshNearCursor() {
         let cursor = NSEvent.mouseLocation
         // 只查光标位置 1 个点

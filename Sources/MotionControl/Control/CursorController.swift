@@ -58,18 +58,26 @@ class CursorController {
     ///   - lastTip: 上一帧指尖归一化坐标
     ///   - screenSize: 屏幕尺寸
     ///   - sensitivity: 灵敏度倍率
-    func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float) {
-        // X: 镜像（摄像头画面镜像，用户左=画面右=tip增大，需要反向）
+    ///   - dt: 两帧之间的时间间隔（秒），用于速度自适应
+    func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float, dt: TimeInterval = 1.0/15.0) {
         let dx = (lastTip.x - tip.x) * screenSize.width * CGFloat(sensitivity)
         let dy = (tip.y - lastTip.y) * screenSize.height * CGFloat(sensitivity)
         
-        // 死区：小于 5px 的移动忽略（防 jitter）
-        guard abs(dx) > 5 || abs(dy) > 5 else { return }
+        guard abs(dx) > 2 || abs(dy) > 2 else { return }
         
-        let dist = sqrt(dx*dx + dy*dy)
-        let factor: CGFloat = dist < 30 ? 1 : (dist < 200 ? 3 : 6)
-        currentPosition.x += dx / factor
-        currentPosition.y += dy / factor
+        let velocity = sqrt(dx*dx + dy*dy) / CGFloat(max(dt, 0.001))
+        
+        let factor: CGFloat
+        if velocity < 50 {
+            factor = 0.4
+        } else if velocity < 200 {
+            factor = 1.0
+        } else {
+            factor = min(1.0 + (velocity - 200) / 800.0 * 3.0, 4.0)
+        }
+        
+        currentPosition.x += dx * factor
+        currentPosition.y += dy * factor
         
         currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
         currentPosition.y = max(0, min(currentPosition.y, screenSize.height))

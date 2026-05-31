@@ -164,15 +164,16 @@ class CursorController {
             }
         }
 
-        // 加入注视偏移（防钳死：仅当光标距离屏幕边缘超过5px才施偏移）
-        if gazeActive {
-            if cursor.x > 5 && cursor.x < screenSize.width - 5 {
-                cursor.x += CGFloat(yawOffset) * screenSize.width * 0.05
-            }
-            if cursor.y > 5 && cursor.y < screenSize.height - 5 {
-                cursor.y += CGFloat(pitchOffset) * screenSize.height * 0.05
-            }
-        }
+        // 注视偏移已禁用（用户要求纯手指控制，保留面部检测和 overlay）
+        // 如需重新启用，取消下方注释
+        // if gazeActive {
+        //     if cursor.x > 5 && cursor.x < screenSize.width - 5 {
+        //         cursor.x += CGFloat(yawOffset) * screenSize.width * 0.05
+        //     }
+        //     if cursor.y > 5 && cursor.y < screenSize.height - 5 {
+        //         cursor.y += CGFloat(pitchOffset) * screenSize.height * 0.05
+        //     }
+        // }
 
         // 限制在屏幕内
         cursor.x = max(0, min(cursor.x, screenSize.width))

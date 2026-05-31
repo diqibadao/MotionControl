@@ -160,9 +160,10 @@ struct ContentView: View {
                                                              screenSize: screen,
                                                              sensitivity: config.mouseSensitivity)
                         } else {
-                            let initialX = (1.0 - tip.x) * screen.width
-                            let initialY = tip.y * screen.height
-                            cursorController.updateTargetPosition(CGPoint(x: initialX, y: initialY))
+                            cursorController.currentPosition = CGPoint(
+                                x: (1.0 - tip.x) * screen.width,
+                                y: tip.y * screen.height
+                            )
                         }
                         lastTip = tip
                     } else {

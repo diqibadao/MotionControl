@@ -59,11 +59,15 @@ class CursorController {
     ///   - screenSize: 屏幕尺寸
     ///   - sensitivity: 灵敏度倍率
     func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float) {
-        let dx = (tip.x - lastTip.x) * screenSize.width * CGFloat(sensitivity)
+        // X: 镜像（摄像头画面镜像，用户左=画面右=tip增大，需要反向）
+        let dx = (lastTip.x - tip.x) * screenSize.width * CGFloat(sensitivity)
         let dy = (tip.y - lastTip.y) * screenSize.height * CGFloat(sensitivity)
         
+        // 死区：小于 5px 的移动忽略（防 jitter）
+        guard abs(dx) > 5 || abs(dy) > 5 else { return }
+        
         let dist = sqrt(dx*dx + dy*dy)
-        let factor: CGFloat = dist < 10 ? 1 : (dist < 100 ? 3 : 6)
+        let factor: CGFloat = dist < 30 ? 1 : (dist < 200 ? 3 : 6)
         currentPosition.x += dx / factor
         currentPosition.y += dy / factor
         

@@ -25,6 +25,7 @@ struct ContentView: View {
     @State private var handKeypoints: [CGPoint] = []
     @State private var faceKeypoints: [CGPoint] = []
     @State private var commandTriggeredAt: Date = .distantPast
+    @State private var lastTip: CGPoint? = nil
     
     var body: some View {
         HSplitView {
@@ -137,12 +138,6 @@ struct ContentView: View {
                 let config = ConfigManager.shared.currentConfig
                 
                 if let tip = handResult.indexTip {
-                    // Vision 坐标 → 屏幕坐标
-                    // X: 镜像（前置摄像头画面镜像）
-                    // Y: Vision y↑ → 光标 y↓
-                    let targetX = (1.0 - tip.x) * screen.width * CGFloat(config.mouseSensitivity)
-                    let targetY = tip.y * screen.height * CGFloat(config.mouseSensitivity)
-                    
                     // 手指伸展检测
                     let extensions = handResult.fingerExtension()
                     let indexExt = extensions[.index] ?? 0
@@ -158,12 +153,19 @@ struct ContentView: View {
                     let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
                     
                     if indexExt > 0.06 && otherLow && !allHigh {
-                        cursorController.updateTargetPosition(CGPoint(x: targetX, y: targetY))
+                        // 使用 delta 模式：传入 tip 和 lastTip
+                        cursorController.updateWithDelta(tip: tip,
+                                                         lastTip: lastTip ?? tip,
+                                                         screenSize: screen,
+                                                         sensitivity: config.mouseSensitivity)
+                        lastTip = tip
                     } else {
                         cursorController.resetCursor()
+                        lastTip = nil
                     }
                 } else {
                     cursorController.resetCursor()
+                    lastTip = nil
                 }
                 
                 // 每帧执行 computeCursor + moveCursor（内部根据激活状态处理）

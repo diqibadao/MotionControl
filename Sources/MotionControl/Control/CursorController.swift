@@ -52,6 +52,27 @@ class CursorController {
         fingerActive = true
     }
 
+    /// 更新光标位置（基于指尖位移）
+    /// - Parameters:
+    ///   - tip: 当前帧指尖归一化坐标 (0~1)
+    ///   - lastTip: 上一帧指尖归一化坐标
+    ///   - screenSize: 屏幕尺寸
+    ///   - sensitivity: 灵敏度倍率
+    func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float) {
+        let dx = (tip.x - lastTip.x) * screenSize.width * CGFloat(sensitivity)
+        let dy = (tip.y - lastTip.y) * screenSize.height * CGFloat(sensitivity)
+        
+        let dist = sqrt(dx*dx + dy*dy)
+        let factor: CGFloat = dist > 100 ? 3 : 6
+        currentPosition.x += dx / factor
+        currentPosition.y += dy / factor
+        
+        currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
+        currentPosition.y = max(0, min(currentPosition.y, screenSize.height))
+        
+        fingerActive = true
+    }
+
     /// 更新注视偏移
     func updateGazeOffset(yaw: Float, pitch: Float, hasFace: Bool) {
         yawOffset = yaw

@@ -14,6 +14,9 @@ class CursorController {
     /// 手指是否激活（方向控制模式）
     private(set) var fingerActive = false
 
+    /// 左右手配置（影响非对称灵敏度的方向）
+    var isRightHanded: Bool = true
+
     /// Velocity EMA 平滑（新增）
     private var smoothVx: CGFloat = 0
     private var smoothVy: CGFloat = 0
@@ -68,8 +71,13 @@ class CursorController {
         let rawDx = (lastTip.x - tip.x)
         let rawDy = (tip.y - lastTip.y)
 
-        let asymX = rawDx > 0 ? sensitivity * 1.5 : sensitivity
-        let asymY = rawDy < 0 ? sensitivity * 1.5 : sensitivity
+        let asymX: Float
+        if isRightHanded {
+            asymX = rawDx > 0 ? sensitivity * 1.5 : sensitivity  // 右手：往右吃力
+        } else {
+            asymX = rawDx < 0 ? sensitivity * 1.5 : sensitivity  // 左手：往左吃力
+        }
+        let asymY = rawDy > 0 ? sensitivity * 1.5 : sensitivity
 
         let dx = rawDx * screenSize.width * CGFloat(asymX)
         let dy = rawDy * screenSize.height * CGFloat(asymY)

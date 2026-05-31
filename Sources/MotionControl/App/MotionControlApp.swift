@@ -158,7 +158,8 @@ struct ContentView: View {
                             cursorController.updateWithDelta(tip: tip,
                                                              lastTip: prevTip,
                                                              screenSize: screen,
-                                                             sensitivity: config.mouseSensitivity)
+                                                             sensitivity: config.mouseSensitivity,
+                                                             dt: dt)
                         } else {
                             cursorController.currentPosition = CGPoint(
                                 x: (1.0 - tip.x) * screen.width,

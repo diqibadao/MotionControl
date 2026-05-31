@@ -143,7 +143,14 @@ public class UIElementScanner: ObservableObject {
         }
 
         guard let frontApp = NSWorkspace.shared.frontmostApplication,
-              frontApp.activationPolicy == .regular else { return }
+              frontApp.activationPolicy == .regular else {
+            // 没有前台常规应用时仍扫描 Dock
+            scanDock(into: &newElements)
+            DispatchQueue.main.async {
+                self.elements = newElements
+            }
+            return
+        }
 
         let pid = frontApp.processIdentifier
         let appElement = AXUIElementCreateApplication(pid)
@@ -172,10 +179,41 @@ public class UIElementScanner: ObservableObject {
             if newElements.count >= 200 { break }
         }
 
+        // 在前台元素之后追加 Dock 元素，确保总数不超过 200
+        scanDock(into: &newElements)
+
         DispatchQueue.main.async {
             self.elements = newElements
         }
     }
+
+    /// 扫描 macOS Dock 区域的应用图标
+    private func scanDock(into elements: inout [UIElementInfo]) {
+        guard let dockApp = NSWorkspace.shared.runningApplications.first(where: {
+            $0.bundleIdentifier == "com.apple.dock"
+        }) else { return }
+
+        let dockElement = AXUIElementCreateApplication(dockApp.processIdentifier)
+
+        guard let windowsRef = getAttributeValue(dockElement, kAXWindowsAttribute as String) else { return }
+        let windows = axElements(from: windowsRef)
+
+        for window in windows {
+            guard let childrenRef = getAttributeValue(window, kAXChildrenAttribute as String) else { continue }
+            let children = axElements(from: childrenRef)
+            for child in children {
+                guard elements.count < 200 else { break }
+                guard let role = getAttributeValue(child, kAXRoleAttribute as String) as? String,
+                      role == "AXDockItem" || role == "AXButton" else { continue }
+                if let info = extractElementInfo(child) {
+                    elements.append(info)
+                }
+            }
+            if elements.count >= 200 { break }
+        }
+    }
+
+    // MARK: - 元素信息提取（抽取为私有方法）
 
     // P-LOGIC: 从 AXUIElement 提取 UIElementInfo，新抽取的私有方法
     private func extractElementInfo(_ element: AXUIElement, frameId: Int? = nil) -> UIElementInfo? {

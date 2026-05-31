@@ -150,9 +150,9 @@ struct ContentView: View {
                     
                     let allFingers = [indexExt, middleExt, ringExt, littleExt, thumbExt]
                     let allHigh = allFingers.allSatisfy { $0 > 0.5 }
-                    let otherLow = middleExt < 0.30 && ringExt < 0.30 && littleExt < 0.30 && thumbExt < 0.30
+                    let otherLow = middleExt < 0.15 && ringExt < 0.15 && littleExt < 0.15 && thumbExt < 0.15
                     
-                    if indexExt > 0.06 && otherLow && !allHigh {
+                    if indexExt > 0.15 && otherLow && !allHigh {
                         // 使用 delta 模式（首次识别用绝对位置）
                         if let prevTip = lastTip {
                             cursorController.updateWithDelta(tip: tip,

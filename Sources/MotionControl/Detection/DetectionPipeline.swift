@@ -48,7 +48,8 @@ class DetectionPipeline: CameraOutputDelegate {
     func didOutputFrame(_ sampleBuffer: CMSampleBuffer) {
         guard isRunning else { return }
         frameCount += 1
-        guard frameCount % 2 == 0 else { return }
+        // 全帧处理，不再跳帧
+        // guard frameCount % 2 == 0 else { return }
         let now = Date()
         let frameDt: TimeInterval = lastProcessedTime == .distantPast ? (1.0 / 15.0) : now.timeIntervalSince(lastProcessedTime)
         lastProcessedTime = now

@@ -22,6 +22,10 @@ class CursorController {
     private var smoothVy: CGFloat = 0
     private let velocityEMAAlpha: CGFloat = 0.3
 
+    /// Sub-pixel 累积余数
+    private var subPixelRemainderX: CGFloat = 0
+    private var subPixelRemainderY: CGFloat = 0
+
     /// 头部偏移量（直接从面部欧拉角获得）
     private var yawOffset: Float = 0
     private var pitchOffset: Float = 0
@@ -89,7 +93,11 @@ class CursorController {
         let rawVy = dy / CGFloat(max(dt, 0.001))
         smoothVx = velocityEMAAlpha * rawVx + (1 - velocityEMAAlpha) * smoothVx
         smoothVy = velocityEMAAlpha * rawVy + (1 - velocityEMAAlpha) * smoothVy
-        
+
+        // 方向一致性检查
+        if rawVx * smoothVx <= 0 { smoothVx = 0 }
+        if rawVy * smoothVy <= 0 { smoothVy = 0 }
+
         let smoothDx = smoothVx * CGFloat(max(dt, 0.001))
         let smoothDy = smoothVy * CGFloat(max(dt, 0.001))
         
@@ -103,10 +111,19 @@ class CursorController {
         } else {
             factor = min(1.0 + (velocity - 200) / 800.0 * 3.0, 4.0)
         }
-        
-        currentPosition.x += smoothDx * factor
-        currentPosition.y += smoothDy * factor
-        
+
+        // sub-pixel 累积位移
+        let moveX = smoothDx * factor
+        let moveY = smoothDy * factor
+        subPixelRemainderX += moveX
+        subPixelRemainderY += moveY
+        let intX = floor(subPixelRemainderX)
+        let intY = floor(subPixelRemainderY)
+        subPixelRemainderX -= intX
+        subPixelRemainderY -= intY
+        currentPosition.x += intX
+        currentPosition.y += intY
+
         currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
         currentPosition.y = max(0, min(currentPosition.y, screenSize.height))
         

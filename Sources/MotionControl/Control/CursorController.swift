@@ -14,6 +14,11 @@ class CursorController {
     /// 手指是否激活（方向控制模式）
     private(set) var fingerActive = false
 
+    /// Velocity EMA 平滑（新增）
+    private var smoothVx: CGFloat = 0
+    private var smoothVy: CGFloat = 0
+    private let velocityEMAAlpha: CGFloat = 0.3
+
     /// 头部偏移量（直接从面部欧拉角获得）
     private var yawOffset: Float = 0
     private var pitchOffset: Float = 0
@@ -65,7 +70,16 @@ class CursorController {
         
         guard abs(dx) > 2 || abs(dy) > 2 else { return }
         
-        let velocity = sqrt(dx*dx + dy*dy) / CGFloat(max(dt, 0.001))
+        // Velocity EMA 平滑（对速度做平滑，不对位置做平滑）
+        let rawVx = dx / CGFloat(max(dt, 0.001))
+        let rawVy = dy / CGFloat(max(dt, 0.001))
+        smoothVx = velocityEMAAlpha * rawVx + (1 - velocityEMAAlpha) * smoothVx
+        smoothVy = velocityEMAAlpha * rawVy + (1 - velocityEMAAlpha) * smoothVy
+        
+        let smoothDx = smoothVx * CGFloat(max(dt, 0.001))
+        let smoothDy = smoothVy * CGFloat(max(dt, 0.001))
+        
+        let velocity = sqrt(smoothDx*smoothDx + smoothDy*smoothDy) / CGFloat(max(dt, 0.001))
         
         let factor: CGFloat
         if velocity < 50 {
@@ -76,8 +90,8 @@ class CursorController {
             factor = min(1.0 + (velocity - 200) / 800.0 * 3.0, 4.0)
         }
         
-        currentPosition.x += dx * factor
-        currentPosition.y += dy * factor
+        currentPosition.x += smoothDx * factor
+        currentPosition.y += smoothDy * factor
         
         currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
         currentPosition.y = max(0, min(currentPosition.y, screenSize.height))

@@ -33,6 +33,7 @@ struct ContentView: View {
     @State private var commandTriggeredAt: Date = .distantPast
     @State private var frameGenTimer: Timer? = nil  // 60fps 补帧定时器
     @State private var lostFrameCount = 0           // 连续丢失手掌的帧数
+    @State private var lastFrameTime: TimeInterval = 0  // 帧丢失检测
     
     var body: some View {
         HSplitView {
@@ -177,6 +178,13 @@ struct ContentView: View {
                         }
 
                     case .tracking:
+                        // 帧丢失检测：间隔 >200ms 时重置 filter 防止跳变
+                        let now = ProcessInfo.processInfo.systemUptime
+                        if lastFrameTime > 0 && now - lastFrameTime > 0.2 {
+                            // 帧丢失，重置 filter 避免累积偏移导致跳变
+                            cursorController.resetFilters()
+                        }
+                        lastFrameTime = now
                         // 正常跟踪 → 绝对位置映射
                         cursorController.updateWithAbsolutePosition(
                             handCenter: center,

@@ -137,10 +137,87 @@ END {
 
 echo ""
 echo "━━━ F. 检测质量 ━━━"
-echo "  检测到手: $(grep -c 'hand_detect.*detected=true' "$LOG") 次"
-echo "  未检测到: $(grep -c 'hand_detect.*detected=false' "$LOG") 次"
 T=$(grep -c 'hand_detect.*detected=true' "$LOG")
 F=$(grep -c 'hand_detect.*detected=false' "$LOG")
+echo "  检测到手: $T 次"
+echo "  未检测到: $F 次"
 echo "  检测率: $(echo "scale=1; $T/($T+$F)*100" | bc)%"
+
+echo ""
+echo "━━━ I. 边缘质量 ━━━"
+grep "CURSOR-ABS" "$LOG" | sed 's/.*hand=(\([^)]*\)).*target=(\([^)]*\)).*cursor=(\([^)]*\)).*/\1 \2 \3/' | awk '{
+    split($1,h,","); hx=h[1]; hy=h[2]
+    split($2,t,","); tx=t[1]; ty=t[2]
+    split($3,c,","); cx=c[1]; cy=c[2]
+
+    # 光标是否在边缘
+    at_edge = (tx<=10 || tx>=1910 || ty<=10 || ty>=1070)
+
+    if(NR>1){
+        h_dx = hx - prev_hx
+        h_dy = hy - prev_hy
+        hand_move = sqrt(h_dx*h_dx + h_dy*h_dy)
+        t_dx = tx - prev_tx; t_dy = ty - prev_ty
+
+        if(at_edge && prev_at_edge){
+            edge_frames++
+            # I3: 手在左右移但光标没响应左右
+            if(abs(h_dx) > 0.005 && abs(t_dx) < 5){
+                stuck_x_count++
+                # 手在左右移却只有光标Y在动
+                if(abs(t_dy) > 3) stuck_x_but_y_moves++
+            }
+            # I1: 记录贴边期间的累积手位移
+            edge_hand_dx += h_dx
+            edge_hand_dy += h_dy
+            edge_hand_total += hand_move
+        }
+
+        # I1: 从边缘恢复到正常移动需要的死区
+        if(prev_at_edge && !at_edge){
+            # 刚刚脱离边缘,记录脱离前累积的手位移
+            if(edge_hand_total > max_deadzone) max_deadzone = edge_hand_total
+            sum_deadzone += edge_hand_total
+            deadzone_count++
+            edge_hand_total = 0
+        }
+    }
+
+    prev_hx=hx; prev_hy=hy; prev_at_edge=at_edge
+    prev_tx=tx; prev_ty=ty
+    total_frames++
+    if(at_edge) total_edge_frames++
+}
+END{
+    printf "  I1 边缘死区(avg): %.1f%% 摄像头宽 (目标<5%%)\n", sum_deadzone/(deadzone_count+0.001)*100
+    printf "  I1 边缘死区(max): %.1f%% 摄像头宽\n", max_deadzone*100
+    printf "  I2 边缘帧占比: %.1f%% (目标<15%%)\n", total_edge_frames/total_frames*100
+    printf "  I3 方向错位: %d/%d 次 (手左右移但光标不响应)\n", stuck_x_count, edge_frames
+    printf "  I3 其中只有Y动: %d 次 (手左右移,光标只上下走)\n", stuck_x_but_y_moves
+}
+function abs(v){return v<0?-v:v}'
+
+echo ""
+echo "━━━ J. 性能 ━━━"
+grep "hand_detect" "$LOG" | awk -F'[][]' '{print $2}' | awk -F'[: ]' '{
+    t = $1*3600 + $2*60 + $3
+    if(NR>1){
+        dt = t - prev_t
+        sum_dt += dt; count++
+        if(dt > max_dt) max_dt = dt
+        if(dt > 0.2) drops++
+        if(dt > 0.5) big_drops++
+    }
+    prev_t = t
+}
+END{
+    fps = (sum_dt>0) ? count/sum_dt : 0
+    printf "  J1 检测帧率: %.0f fps (目标>20)\n", fps
+    printf "  J2 最大帧间隔: %.0f ms (目标<100)\n", max_dt*1000
+    printf "  I4 帧丢失>200ms: %d 次 (目标0)\n", drops
+    printf "     >500ms严重: %d 次\n", big_drops
+    if(drops>0) printf "  ⚠️ 帧丢失会导致跳变!\n"
+}'
+
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

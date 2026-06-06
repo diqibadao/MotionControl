@@ -1,223 +1,187 @@
 #!/bin/bash
-# 光标跟手质量分析脚本 — 基准指标体系
-# 用法: ./scripts/analyze-cursor-log.sh <日志文件路径>
-# 输出: 10 项指标 + 与基准对比
+# MotionControl 光标质量分析 — 23项指标一键评估
+# 用法: ./scripts/analyze-cursor-log.sh <日志文件> [基准文件]
+# 基准: v0.5.0-silky
 
-LOG="${1:-/tmp/motioncontrol-v4.log}"
-BASELINE_FILTER_LAG=261
-BASELINE_TC_GAP=67
-BASELINE_TOTAL_LAG=328
-BASELINE_STEP_AVG=64
-BASELINE_REVERSALS=8
-BASELINE_Y_MIN=93
-BASELINE_Y_MAX=1080
+LOG="${1:-/tmp/motioncontrol-v6.log}"
+BASELINE_LOG="${2:-}"
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  光标跟手质量分析报告"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  MotionControl 光标质量分析 (v4.0标准)"
 echo "  日志: $LOG"
-echo "  基准: v0.3.0-baseline"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  基准: v0.5.0-silky"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# 提取 CURSOR-ABS 数据
-grep "CURSOR-ABS" "$LOG" | sed 's/.*hand=(\([^)]*\)).*filter=(\([^)]*\)).*target=(\([^)]*\)).*cursor=(\([^)]*\)).*/\1 \2 \3 \4/' | awk -v BL=$BASELINE_FILTER_LAG -v BT=$BASELINE_TC_GAP -v BTL=$BASELINE_TOTAL_LAG -v BS=$BASELINE_STEP_AVG -v BR=$BASELINE_REVERSALS -v BYN=$BASELINE_Y_MIN -v BYX=$BASELINE_Y_MAX '
-function pct(v, base) { return (base > 0) ? (v - base) / base * 100 : 0 }
-
+grep "CURSOR-ABS" "$LOG" | sed 's/.*hand=(\([^)]*\)).*filter=(\([^)]*\)).*target=(\([^)]*\)).*cursor=(\([^)]*\)).*/\1 \2 \3 \4/' | awk '
+BEGIN {
+    # 基准值 (v0.5.0-silky)
+    B3 = 197; B2 = 34; B4 = 5; B5 = 11; B6 = 5
+    B8 = 11.8; B9 = 30.0; B10 = 89; B12 = 77.9
+    B15 = 49.9; B16 = 65.6; B18 = 100; B19 = 94
+    B20 = 24.1; B22 = 148; B23 = 2
+}
 {
     split($1,h,","); hx=h[1]; hy=h[2]
     split($2,f,","); fx=f[1]; fy=f[2]
     split($3,t,","); tx=t[1]; ty=t[2]
     split($4,c,","); cx=c[1]; cy=c[2]
 
-    # A. 响应性 — 滤波延迟
-    f_lag = sqrt((hx-fx)^2 + (hy-fy)^2) * 1920 * 2  # 换算 px
-    sum_fl += f_lag
-    if (f_lag > max_fl) max_fl = f_lag
+    # ── #1 滤波延迟 ──
+    f_lag = sqrt((hx-fx)^2 + (hy-fy)^2) * 1920 * 2
+    sum1 += f_lag
 
-    # B. 响应性 — T-C 滞后
     gap = sqrt((tx-cx)^2 + (ty-cy)^2)
-    sum_g += gap
-    if (gap > max_g) max_g = gap
-    if (NR==1 || gap < min_g) min_g = gap
-    bucket_g[int(gap/20)]++
+    sum2 += gap
+    if (NR==1 || gap < min2) min2 = gap
+    if (gap > max2) max2 = gap
+    bucket_gap[int(gap/20)]++
 
-    # C. 平滑度 — 步长分布
     if (NR>1) {
         t_step = sqrt((tx-prev_tx)^2 + (ty-prev_ty)^2)
-        sum_ts += t_step
-        if (t_step > max_ts) max_ts = t_step
-        bucket_ts[int(t_step/50)]++
+        sum_t += t_step
+        if (t_step > max_t) max_t = t_step
+        bucket_t[int(t_step/50)]++
 
-        # D. 方向反转
+        # ── #4 方向反转 ──
         if (NR>2 && t_step>5) {
             dot = ((tx-prev_tx)*(prev_tx-prev2_tx) + (ty-prev_ty)*(prev_ty-prev2_ty))
             prev_step = sqrt((prev_tx-prev2_tx)^2 + (prev_ty-prev2_ty)^2)
-            if (prev_step>5 && dot/(t_step*prev_step) < -0.7) rev++
+            if (prev_step>5 && dot/(t_step*prev_step) < -0.7) rev4++
         }
-
-        # E. 跳变计数
-        if (t_step > 200) jumps_200++
-        if (t_step > 500) jumps_500++
+        # ── #5 #6 跳变 ──
+        if (t_step > 200) jumps5++
+        if (t_step > 500) jumps6++
         count++
     }
 
-    # F. 覆盖范围
-    if (tx > max_x) max_x = tx
-    if (tx < min_x || min_x == "") min_x = tx
-    if (ty > max_y) max_y = ty
-    if (ty < min_y || min_y == "") min_y = ty
+    # ── #8 #9 静止抖动 ──
+    if (NR>1 && t_step<8) {
+        still_n++; still_sx+=cx; still_sy+=cy; still_sqx+=cx*cx; still_sqy+=cy*cy
+        if(still_n==1){still_fx=cx;still_fy=cy}
+        still_lx=cx;still_ly=cy
+    } else if (still_n>=5) {
+        mx=still_sx/still_n; my=still_sy/still_n
+        j=sqrt(still_sqx/still_n-mx*mx + still_sqy/still_n-my*my)
+        sum8+=j; cnt8++
+        if(j>max8)max8=j
+        exc=sqrt((still_lx-still_fx)^2+(still_ly-still_fy)^2)
+        sum9+=exc; cnt9++
+        if(exc>max9)max9=exc
+        still_n=0;still_sx=0;still_sy=0;still_sqx=0;still_sqy=0
+    } else {still_n=0;still_sx=0;still_sy=0;still_sqx=0;still_sqy=0}
+
+    # ── #10 路径效率 ──
+    seg_n++; seg_dx+=(NR>1)?tx-prev_tx:0; seg_dy+=(NR>1)?ty-prev_ty:0; seg_len+=t_step
+    if(seg_n>=10){
+        straight=sqrt(seg_dx*seg_dx+seg_dy*seg_dy)
+        if(seg_len>0&&straight>30){sum10+=straight/seg_len;cnt10++}
+        seg_n=0;seg_dx=0;seg_dy=0;seg_len=0
+    }
+
+    # ── #18 #19 覆盖 ──
+    if(tx>maxX||maxX=="")maxX=tx; if(tx<minX||minX=="")minX=tx
+    if(ty>maxY||maxY=="")maxY=ty; if(ty<minY||minY=="")minY=ty
 
     prev2_tx=prev_tx; prev2_ty=prev_ty
     prev_tx=tx; prev_ty=ty
     total=NR
 }
 END {
-    # ── 指标计算 ──
-    avg_fl = sum_fl / total
-    avg_g  = sum_g / count
-    total_lag = avg_fl + avg_g
-    avg_ts = sum_ts / count
+    avg1 = sum1/total; avg2 = sum2/count; avg3 = avg1+avg2
+    avg_t = sum_t/count
+    avg8 = (cnt8>0)?sum8/cnt8:0; avg9 = (cnt9>0)?sum9/cnt9:0
+    avg10 = (cnt10>0)?sum10/cnt10*100:0
 
-    # ── 评分（100分制）──
-    score = 100
-    # 总滞后: 每超基准10px扣1分
-    if (total_lag > BTL) score -= (total_lag - BTL) / 10
-    else score += (BTL - total_lag) / 20  # 改善加分
-    # 跳变: 每次>200px扣2分, >500px扣5分
-    score -= jumps_200 * 2
-    score -= jumps_500 * 5
-    # 反转: 每次扣3分
-    if (rev > BR) score -= (rev - BR) * 3
+    xcov = (maxX-minX)/1920*100; ycov = (maxY-minY)/1080*100
 
-    if (score > 100) score = 100
-    if (score < 0) score = 0
+    # 步长分布
+    p12 = (bucket_t[0]+0)/count*100
+    p13 = (bucket_t[1]+0)/count*100
+    p14 = 0; for(i=3;i<=25;i++)p14+=bucket_t[i]; p14=p14/count*100
 
-    printf "\n"
-    printf "┌─────────────────────────────────────────┐\n"
-    printf "│  综合评分: %3.0f/100                        │\n", score
-    printf "└─────────────────────────────────────────┘\n\n"
+    # T-C滞后分布
+    p15 = (bucket_gap[0]+0)/count*100
+    p16 = (bucket_gap[0]+bucket_gap[1]+0)/count*100
+    p17 = 0; for(i=6;i<=40;i++)p17+=bucket_gap[i]; p17=p17/count*100
 
-    printf "━━━ A. 响应性（越低越好）━━━\n"
-    printf "  %-20s %7.0f px  (基准 %d, %+.0f)\n", "1€ Filter 延迟", avg_fl, BL, avg_fl-BL
-    printf "  %-20s %7.0f px  (基准 %d, %+.0f)\n", "T-C 滞后", avg_g, BT, avg_g-BT
-    printf "  %-20s %7.0f px  (基准 %d, %+.0f)\n", "总滞后", total_lag, BTL, total_lag-BTL
+    printf "\n┌──────────────────────────────────────────────────────┐\n"
+    printf "│  综合判定: "
+    worse=0; better=0
+    if(avg3>B3)worse++; else better++
+    if(rev4>B4)worse++; else better++
+    if(jumps6>B6)worse++; else better++
+    if(ycov<B19)worse++; else better++
+    if(worse>0) printf "⚠️ %d项恶化  ", worse
+    else printf "✅ 全部达标  "
+    printf "%d项改善                              │\n", better
+    printf "└──────────────────────────────────────────────────────┘\n"
 
-    printf "\n━━━ B. 平滑度（越低越好）━━━\n"
-    printf "  %-20s %7.0f px  (基准 %d, %+.0f)\n", "Target 步长 avg", avg_ts, BS, avg_ts-BS
-    printf "  %-20s %5d 次     (基准 %d, %+d)\n", "方向反转", rev, BR, rev-BR
-    printf "  %-20s %5d 次     (>200px)\n", "大跳变", jumps_200
-    printf "  %-20s %5d 次     (>500px)\n", "巨型跳变", jumps_500
-
-    printf "\n━━━ C. 步长分布 ━━━\n"
-    for (i=0; i<=10; i++) {
-        n = bucket_ts[i]
-        if (n > 0) {
-            bar = ""
-            p = n / count * 100
-            for (j=0; j<p/2; j++) bar = bar "█"
-            printf "  %3d-%3dpx: %4d (%4.1f%%) %s\n", i*50, (i+1)*50, n, p, bar
-        }
-    }
-
-    printf "\n━━━ D. T-C 滞后分布 ━━━\n"
-    for (i=0; i<=6; i++) {
-        n = bucket_g[i]
-        if (n > 0) {
-            p = n / count * 100
-            bar = ""
-            for (j=0; j<p/3; j++) bar = bar "█"
-            printf "  %3d-%3dpx: %4d (%4.1f%%) %s\n", i*20, (i+1)*20, n, p, bar
-        }
-    }
-
-    printf "\n━━━ E. 覆盖范围 ━━━\n"
-    printf "  X: %.0f ~ %.0f  (全屏=0~1920)\n", min_x, max_x
-    printf "  Y: %.0f ~ %.0f  (基准=%d~%d)\n", min_y, max_y, BYN, BYX
-    printf "  X 覆盖率: %.0f%%   Y 覆盖率: %.0f%%\n", (max_x-min_x)/1920*100, (max_y-min_y)/1080*100
+    printf "\n  #1 滤波延迟       %5.0f px  (目标<180)\n", avg1
+    printf "  #2 T-C滞后        %5.0f px  (基%3.0f, 目标<40)\n", avg2, B2
+    printf "  #3 总滞后         %5.0f px  (基%3.0f, 目标<220)\n", avg3, B3
+    printf "  #4 方向反转       %5d 次  (基%3d,   目标<5)\n", rev4, B4
+    printf "  #5 大跳变>200px   %5d 次  (基%3d,   目标<10)\n", jumps5, B5
+    printf "  #6 巨型跳变>500px %5d 次  (基%3d,    目标0)\n", jumps6, B6
+    printf "  #7 正交摆动(ODC)  (待实现)\n"
+    printf "  #8 抖动半径       %5.1f px  (基%4.1f, 目标<8)\n", avg8, B8
+    printf "  #9 最大偏移       %5.1f px  (基%4.1f, 目标<35)\n", avg9, B9
+    printf " #10 路径效率       %5.0f %%   (基%3.0f,  目标>85)\n", avg10, B10
+    printf " #11 任务轴交叉     (待实现)\n"
+    printf " #12 微步0-50px     %5.1f %%   (基%4.1f, 目标>70)\n", p12, B12
+    printf " #13 正常50-100px   %5.1f %%   (目标15-30)\n", p13
+    printf " #14 大步>150px     %5.1f %%   (目标<3)\n", p14
+    printf " #15 紧贴0-20px     %5.1f %%   (基%4.1f, 目标>45)\n", p15, B15
+    printf " #16 良好0-40px     %5.1f %%   (基%4.1f, 目标>60)\n", p16, B16
+    printf " #17 严重>120px     %5.1f %%   (目标<3)\n", p17
+    printf " #18 X覆盖率        %5.0f %%   (基%3.0f,  目标100)\n", xcov, B18
+    printf " #19 Y覆盖率        %5.0f %%   (基%3.0f,  目标100)\n", ycov, B19
 }'
 
 echo ""
-echo "━━━ F. 检测质量 ━━━"
-T=$(grep -c 'hand_detect.*detected=true' "$LOG")
-F=$(grep -c 'hand_detect.*detected=false' "$LOG")
-echo "  检测到手: $T 次"
-echo "  未检测到: $F 次"
-echo "  检测率: $(echo "scale=1; $T/($T+$F)*100" | bc)%"
-
-echo ""
-echo "━━━ I. 边缘质量 ━━━"
+echo "━━━ #20-#23 边缘质量 ━━━"
 grep "CURSOR-ABS" "$LOG" | sed 's/.*hand=(\([^)]*\)).*target=(\([^)]*\)).*cursor=(\([^)]*\)).*/\1 \2 \3/' | awk '{
     split($1,h,","); hx=h[1]; hy=h[2]
     split($2,t,","); tx=t[1]; ty=t[2]
-    split($3,c,","); cx=c[1]; cy=c[2]
-
-    # 光标是否在边缘
-    at_edge = (tx<=10 || tx>=1910 || ty<=10 || ty>=1070)
-
+    at_edge=(tx<=10||tx>=1910||ty<=10||ty>=1070)
     if(NR>1){
-        h_dx = hx - prev_hx
-        h_dy = hy - prev_hy
-        hand_move = sqrt(h_dx*h_dx + h_dy*h_dy)
-        t_dx = tx - prev_tx; t_dy = ty - prev_ty
-
-        if(at_edge && prev_at_edge){
-            edge_frames++
-            # I3: 手在左右移但光标没响应左右
-            if(abs(h_dx) > 0.005 && abs(t_dx) < 5){
-                stuck_x_count++
-                # 手在左右移却只有光标Y在动
-                if(abs(t_dy) > 3) stuck_x_but_y_moves++
-            }
-            # I1: 记录贴边期间的累积手位移
-            edge_hand_dx += h_dx
-            edge_hand_dy += h_dy
-            edge_hand_total += hand_move
+        hdx=hx-prev_hx; hdy=hy-prev_hy
+        tdx=tx-prev_tx; tdy=ty-prev_ty
+        if(at_edge&&prev_at_edge){
+            ef++; eht+=sqrt(hdx*hdx+hdy*hdy)
+            if(abs(hdx)>0.005&&abs(tdx)<5){sx++
+                if(abs(tdy)>3)sxy++}
         }
-
-        # I1: 从边缘恢复到正常移动需要的死区
-        if(prev_at_edge && !at_edge){
-            # 刚刚脱离边缘,记录脱离前累积的手位移
-            if(edge_hand_total > max_deadzone) max_deadzone = edge_hand_total
-            sum_deadzone += edge_hand_total
-            deadzone_count++
-            edge_hand_total = 0
-        }
+        if(prev_at_edge&&!at_edge){
+            sum_dz+=eht;dzc++; if(eht>max_dz)max_dz=eht; eht=0}
     }
-
-    prev_hx=hx; prev_hy=hy; prev_at_edge=at_edge
-    prev_tx=tx; prev_ty=ty
-    total_frames++
-    if(at_edge) total_edge_frames++
+    prev_hx=hx;prev_hy=hy;prev_at_edge=at_edge
+    prev_tx=tx;prev_ty=ty; tf++
+    if(at_edge)tef++
 }
 END{
-    printf "  I1 边缘死区(avg): %.1f%% 摄像头宽 (目标<5%%)\n", sum_deadzone/(deadzone_count+0.001)*100
-    printf "  I1 边缘死区(max): %.1f%% 摄像头宽\n", max_deadzone*100
-    printf "  I2 边缘帧占比: %.1f%% (目标<15%%)\n", total_edge_frames/total_frames*100
-    printf "  I3 方向错位: %d/%d 次 (手左右移但光标不响应)\n", stuck_x_count, edge_frames
-    printf "  I3 其中只有Y动: %d 次 (手左右移,光标只上下走)\n", stuck_x_but_y_moves
+    printf " #20 边缘死区       %5.1f %%  (基24.1, 目标<8)\n", sum_dz/(dzc+0.001)*100
+    printf " #21 边缘帧占比     %5.1f %%  (目标<15)\n", tef/tf*100
+    printf " #22 方向错位       %5d/%-5d (基148,  目标<20)\n", sx, ef
+    printf " #22 其中只上下走   %5d 次\n", sxy
 }
 function abs(v){return v<0?-v:v}'
 
 echo ""
-echo "━━━ J. 性能 ━━━"
+echo "━━━ 辅助指标 ━━━"
+T=$(grep -c 'hand_detect.*detected=true' "$LOG")
+F=$(grep -c 'hand_detect.*detected=false' "$LOG")
+echo "  检测率: $(echo "scale=1; $T/($T+$F)*100" | bc)% ($T/$((T+F)))"
+
 grep "hand_detect" "$LOG" | awk -F'[][]' '{print $2}' | awk -F'[: ]' '{
-    t = $1*3600 + $2*60 + $3
-    if(NR>1){
-        dt = t - prev_t
-        sum_dt += dt; count++
-        if(dt > max_dt) max_dt = dt
-        if(dt > 0.2) drops++
-        if(dt > 0.5) big_drops++
-    }
-    prev_t = t
+    t=$1*3600+$2*60+$3
+    if(NR>1){dt=t-prev_t;sum_dt+=dt;cnt++;if(dt>max_dt)max_dt=dt;if(dt>0.2)drops++}
+    prev_t=t
 }
 END{
-    fps = (sum_dt>0) ? count/sum_dt : 0
-    printf "  J1 检测帧率: %.0f fps (目标>20)\n", fps
-    printf "  J2 最大帧间隔: %.0f ms (目标<100)\n", max_dt*1000
-    printf "  I4 帧丢失>200ms: %d 次 (目标0)\n", drops
-    printf "     >500ms严重: %d 次\n", big_drops
-    if(drops>0) printf "  ⚠️ 帧丢失会导致跳变!\n"
+    printf " #23 帧丢失>200ms   %5d 次  (基2,     目标0)\n", drops
+    printf "  检测帧率: %.0f fps\n", (sum_dt>0)?cnt/sum_dt:0
+    printf "  最大帧间隔: %.0f ms (目标<100)\n", max_dt*1000
 }'
 
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

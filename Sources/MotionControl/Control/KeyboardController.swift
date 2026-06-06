@@ -43,25 +43,25 @@ class KeyboardController {
         let start = CFAbsoluteTimeGetCurrent()
         switch command {
         case .missionControl:
-            sendKeyCombo(0x7D, flags: .maskControl) // F3 可通过 keycode? 简化使用 Mission Control 是 control+up
-            // 实际应使用 NSEvent 方法，此处仅示意
+            sendKeyCombo(Self.kVK_UpArrow, flags: .maskControl) // Ctrl+Up
         case .launchpad:
-            // Launchpad 默认是 F4
-            break
+            // Launchpad 没有标准全局快捷键，通过 open 命令启动
+            let process = Process()
+            process.launchPath = "/usr/bin/open"
+            process.arguments = ["/System/Applications/Launchpad.app"]
+            process.launch()
         case .showDesktop:
-            // F11
-            sendKeyCombo(0x67, flags: [])
+            sendKeyCombo(0x67, flags: []) // F11
         case .appExpose:
-            // control+down
-            break
+            sendKeyCombo(Self.kVK_DownArrow, flags: .maskControl) // Ctrl+Down
         case .nextSpace:
-            sendKeyCombo(0x7C, flags: .maskControl) // right arrow
+            sendKeyCombo(Self.kVK_RightArrow, flags: .maskControl) // Ctrl+Right
         case .prevSpace:
-            sendKeyCombo(0x7B, flags: .maskControl) // left arrow
+            sendKeyCombo(Self.kVK_LeftArrow, flags: .maskControl) // Ctrl+Left
         case .openQuickLook:
-            pressKey(0x31) // space
+            pressKey(Self.kVK_Space) // Space
         case .screenshot:
-            sendKeyCombo(0x13, flags: [.maskCommand, .maskShift]) // 3
+            sendKeyCombo(0x13, flags: [.maskCommand, .maskShift]) // Cmd+Shift+3
         }
         let duration = CFAbsoluteTimeGetCurrent() - start
         EventLogger.log(event: "executeSystemCommand",

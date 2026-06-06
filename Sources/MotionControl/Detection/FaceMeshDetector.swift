@@ -86,6 +86,7 @@ class FaceMeshDetector {
         let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
                                             orientation: .up,
                                             options: [:])
+        let perfStart = CFAbsoluteTimeGetCurrent()
         do {
             try handler.perform([landmarksRequest])
         } catch {
@@ -99,6 +100,8 @@ class FaceMeshDetector {
             print("面部检测失败：\(error)")
             return nil
         }
+        let perfDuration = Int((CFAbsoluteTimeGetCurrent() - perfStart) * 1000)
+        print("[FACE-PERF] landmarks perform took \(perfDuration)ms")
 
         // 2. 获取人脸 landmarks 观测值
         let landmarkObs = landmarksRequest.results as? [VNFaceObservation]
@@ -118,6 +121,7 @@ class FaceMeshDetector {
         // 3. 隔帧获取姿态（每 15 帧执行一次 faceRectRequest）
         var poseObservation: VNFaceObservation? = nil
         if poseFrameCounter % 15 == 0 {
+            let rectStart = CFAbsoluteTimeGetCurrent()
             let faceRectRequest = VNDetectFaceRectanglesRequest()
             faceRectRequest.revision = VNDetectFaceRectanglesRequestRevision3
             // 创建新 handler 执行 faceRectRequest（复用同一个 pixelBuffer）
@@ -136,6 +140,8 @@ class FaceMeshDetector {
                 // 姿态请求失败，保持上次缓存
                 print("姿态请求失败：\(error)")
             }
+            let rectDuration = Int((CFAbsoluteTimeGetCurrent() - rectStart) * 1000)
+            print("[FACE-PERF] faceRect perform took \(rectDuration)ms")
         } else {
             // 不用新跑 request，使用缓存
             // 我们仍然需要构造一个 poseObservation 来传递缓存值？但 faceResult 方法期望的是 VNFaceObservation? 

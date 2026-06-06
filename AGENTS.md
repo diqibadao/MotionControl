@@ -302,3 +302,39 @@ if viewAspect > cameraAspect {
 - **不要**做 x 镜像（`1.0 - point.x`）—— 那是 MediaPipe 浏览器方案的做法，Vision 不需要
 - **必须**做 y 翻转（`1.0 - point.y`）—— Vision y 向上 vs NSView y 向下
 - **必须**考虑画面比例（videoRect）—— 否则坐标落在黑边区域
+
+---
+
+## 10. 光标控制算法（2026-05-31 迭代） v2
+
+### 算法链
+
+```
+Vision indexTip（归一化坐标）
+  → delta = (lastTip - tip) × 屏幕 × 灵敏度(3)
+  → 非对称：右/下方向 1.5x（右手配置 isRightHanded）
+  → 死区：< 2px 忽略（防极端 jitter）
+  → Velocity EMA：α=0.3，平滑速度
+  → 方向一致性检查：rawVx×smoothVx≤0 时清零（防拖尾）
+  → 加速曲线：velocity<50→0.4x, <200→1x, ≥200→1~4x
+  → 固定 dt=1/30（velocity 不受帧间隔抖动影响）
+  → 60fps Timer 补帧输出
+  → CGWarpMouseCursorPosition 移动系统光标
+```
+
+### 关键参数
+
+| 参数 | 值 | 说明 |
+|------|----|------|
+| sensitivity | 3.0 | 基础灵敏度（加速曲线提供 0.4~4x 额外增益） |
+| velocityEMAAlpha | 0.3 | 速度平滑系数，越小越平滑 |
+| isRightHanded | true | 右手：右/下 1.5x；左手：左/下 1.5x |
+| 激活阈值 | indexExt>0.15, otherLow<0.15 | 单指伸出才激活，握拳不误触 |
+| 检测帧率 | 30fps（全帧） | 去掉 %2 跳帧 |
+| 输出帧率 | 60fps | Timer 1/60s 补帧 |
+
+### 已知问题
+
+- **串行队列瓶颈（P0）**：手部+面部检测同在一个 serial queue，face 排队阻塞 hand
+- **VNImageRequestHandler.init 阻塞（P1）**：队列堆积时 pixel buffer GPU 锁等待 5 秒
+- 修法：拆 handQueue + faceQueue 两个独立队列

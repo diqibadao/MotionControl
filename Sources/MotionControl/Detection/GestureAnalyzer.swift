@@ -32,6 +32,10 @@ class GestureAnalyzer {
     private var yHistory: [(indexY: CGFloat, middleY: CGFloat, wristY: CGFloat, timestamp: Date)] = []
     private let maxHistoryCount = 10
 
+    // MARK: - 关键点丢失容错
+    private var consecutiveLostFrames = 0
+    private let maxLostFrames = 5  // 连续丢失 5 帧后才重置状态（~166ms @ 30fps）
+
     // MARK: - Tap 状态机
     private enum TapPhase { case idle, dropping, rising, complete }
     private var indexTapPhase: TapPhase = .idle
@@ -87,6 +91,7 @@ class GestureAnalyzer {
         if let indexY = hand.indexTip?.y,
            let middleY = hand.middleTip?.y,
            let wristY = hand.wrist?.y {
+            consecutiveLostFrames = 0
             yHistory.append((indexY: indexY, middleY: middleY, wristY: wristY, timestamp: now))
             if yHistory.count > maxHistoryCount {
                 yHistory.removeFirst()
@@ -100,9 +105,12 @@ class GestureAnalyzer {
                 }
             }
         } else {
-            // 关键点丢失时清空历史，重置状态
-            yHistory.removeAll()
-            resetSequenceStates()
+            // 关键点短暂丢失不立即重置，连续丢失超过 maxLostFrames 才清空
+            consecutiveLostFrames += 1
+            if consecutiveLostFrames > maxLostFrames {
+                yHistory.removeAll()
+                resetSequenceStates()
+            }
         }
 
         // ---- 冷却与去重 ----
@@ -192,8 +200,9 @@ class GestureAnalyzer {
                                     velocity: CGPoint.zero)
             }
         } else {
+            // 手腕静止：衰减累积量，低于 swipe 阈值时复位
             swipeAccumulatedY *= 0.8
-            if swipeAccumulatedY < 2.0 {
+            if swipeAccumulatedY < swipeThreshold {
                 swipeAccumulatedY = 0
                 swipeDirection = nil
             }
@@ -309,6 +318,7 @@ class GestureAnalyzer {
 
     // MARK: - 重置时间序列状态
     private func resetSequenceStates() {
+        consecutiveLostFrames = 0
         yHistory.removeAll()
         indexTapPhase = .idle
         dualTapPhase = .idle

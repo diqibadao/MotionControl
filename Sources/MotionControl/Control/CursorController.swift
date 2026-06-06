@@ -1,26 +1,105 @@
 import CoreGraphics
 import Foundation
 
+// MARK: - 1€ Filter（One Euro Filter）
+/// CHI 2012, Casiez et al. — 自适应低通滤波器，专为带噪声的实时交互信号设计。
+/// Meta Quest / OpenXR 手部跟踪同款算法。
+/// 速度自适应当前只用 EMA + Lerp + 死区 + 增益曲线 4 层叠加。
+struct OneEuroFilter {
+    private let fcMin: CGFloat      // 最小截频 Hz，控制静止时平滑度
+    private let beta: CGFloat       // 速度系数，控制响应速度
+    private let fcD: CGFloat        // 微分截频 Hz
+
+    private var prevX: CGFloat = 0
+    private var prevDx: CGFloat = 0
+    private var prevTime: TimeInterval = 0
+    private var initialized = false
+
+    init(fcMin: CGFloat = 1.0, beta: CGFloat = 0.007, fcD: CGFloat = 1.0) {
+        self.fcMin = fcMin
+        self.beta = beta
+        self.fcD = fcD
+    }
+
+    /// 滤波一个值，返回平滑后的值
+    mutating func filter(_ x: CGFloat, time: TimeInterval) -> CGFloat {
+        guard initialized else {
+            prevX = x
+            prevDx = 0
+            prevTime = time
+            initialized = true
+            return x
+        }
+
+        let dt = max(CGFloat(time - prevTime), 1e-6)  // 防除零
+        prevTime = time
+
+        // 1. 计算导数（信号变化速度）
+        let dx = (x - prevX) / dt
+
+        // 2. 对导数做低通滤波（固定截频 fcD）
+        let alphaD = smoothingFactor(fc: fcD, dt: dt)
+        prevDx = prevDx + alphaD * (dx - prevDx)
+
+        // 3. 自适应截频：速度快→截频高→滤波弱
+        let fc = fcMin + beta * abs(prevDx)
+
+        // 4. 用自适应截频对原始信号做低通
+        let alpha = smoothingFactor(fc: fc, dt: dt)
+        prevX = prevX + alpha * (x - prevX)
+
+        return prevX
+    }
+
+    /// 重置滤波器状态
+    mutating func reset() {
+        initialized = false
+        prevX = 0
+        prevDx = 0
+    }
+
+    private func smoothingFactor(fc: CGFloat, dt: CGFloat) -> CGFloat {
+        let tau = 1.0 / (2.0 * CGFloat.pi * fc)
+        return dt / (dt + tau)
+    }
+}
+
 class CursorController {
+
+    // MARK: - 校准状态
+
+    enum CalibrationState {
+        case idle           // 无手
+        case calibrating    // 手刚出现，累积原点
+        case tracking       // 正常跟踪
+    }
+
+    private(set) var calibrationState: CalibrationState = .idle
+
+    /// 静止原点（归一化坐标，0~1），手在此位置时光标在屏幕中心
+    var origin: CGPoint = CGPoint(x: 0.5, y: 0.4)
+
+    /// 原点校准参数
+    private let calibrationDuration: TimeInterval = 0.5  // 校准时长
+    private var calibrationStartTime: Date = .distantPast
+    private var originAccumulator: [CGPoint] = []
+    private let maxOriginSamples = 15
 
     // MARK: - 属性
 
     /// 当前光标位置（未经注视偏移的平滑位置）
     var currentPosition: CGPoint = .zero
-
-    /// EMA 平滑因子，数值越大平滑效果越强
-    var smoothingFactor: CGFloat = 7
+    /// 检测帧设定的目标位置，60fps 定时器持续 Lerp 追赶
+    var targetPosition: CGPoint = .zero
 
     /// 手指是否激活（方向控制模式）
     private(set) var fingerActive = false
 
-    /// 左右手配置（影响非对称灵敏度的方向）
-    var isRightHanded: Bool = true
-
-    /// Velocity EMA 平滑（新增）
+    /// Velocity EMA 平滑
     private var smoothVx: CGFloat = 0
     private var smoothVy: CGFloat = 0
-    private let velocityEMAAlpha: CGFloat = 0.3
+    private let velocityEMAAlpha: CGFloat = 0.5
+    private var lastUpdateTime: Date = .distantPast
 
     /// 60fps 补帧用的 velocity（只读，由 updateWithDelta 更新）
     var displayVelocityX: CGFloat { smoothVx }
@@ -45,25 +124,6 @@ class CursorController {
 
     // MARK: - 公开方法
 
-    /// 更新手指指向的目标位置，并用自适应平滑移动到该位置
-    func updateTargetPosition(_ target: CGPoint) {
-        let start = CFAbsoluteTimeGetCurrent()
-        defer {
-            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
-            let input = "target=(\(Int(target.x)),\(Int(target.y)))"
-            let output = "newPosition=(\(Int(currentPosition.x)),\(Int(currentPosition.y)))"
-            EventLogger.log(event: "updateTargetPosition", frame: nil, input: input, output: output, duration: duration)
-        }
-
-        let diff = CGPoint(x: target.x - currentPosition.x,
-                           y: target.y - currentPosition.y)
-        let distance = sqrt(diff.x * diff.x + diff.y * diff.y)
-        let factor: CGFloat = distance > 100 ? 4 : 8
-        currentPosition.x += diff.x / factor
-        currentPosition.y += diff.y / factor
-        fingerActive = true
-    }
-
     /// 更新光标位置（基于指尖位移）
     /// - Parameters:
     ///   - tip: 当前帧指尖归一化坐标 (0~1)
@@ -72,53 +132,154 @@ class CursorController {
     ///   - sensitivity: 灵敏度倍率
     ///   - dt: 两帧之间的时间间隔（秒），用于速度自适应
     func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float, dt: TimeInterval = 1.0/15.0) {
+        lastUpdateTime = Date()  // 重置衰减计时，避免定时器衰减打架
+
         let rawDx = (lastTip.x - tip.x)
         let rawDy = (tip.y - lastTip.y)
 
-        let asymX: Float
-        if isRightHanded {
-            asymX = rawDx > 0 ? sensitivity * 1.5 : sensitivity  // 右手：往右吃力
-        } else {
-            asymX = rawDx < 0 ? sensitivity * 1.5 : sensitivity  // 左手：往左吃力
-        }
-        let asymY = rawDy > 0 ? sensitivity * 1.5 : sensitivity
+        // 灵敏度基于参考分辨率 1920×1080 归一化，不再直接乘屏幕分辨率。
+        // 之前用 screenSize.width/height 直接乘，导致换大屏后灵敏度被等比放大
+        // （4K 屏上是内置屏的 2.6 倍），光标线性度完全丧失。
+        let refWidth: CGFloat = 1920
+        let refHeight: CGFloat = 1080
+        let dx = rawDx * refWidth * CGFloat(sensitivity)
+        let dy = rawDy * refHeight * CGFloat(sensitivity)
 
-        let dx = rawDx * screenSize.width * CGFloat(asymX)
-        let dy = rawDy * screenSize.height * CGFloat(asymY)
-        
-        guard abs(dx) > 2 || abs(dy) > 2 else { return }
-        
-        // Velocity EMA 平滑（对速度做平滑，不对位置做平滑）
+        // 固定时间基准 30fps，速度和位移使用同一个 dt，帧率无关
         let frameDt: TimeInterval = 1.0 / 30.0
         let rawVx = dx / CGFloat(frameDt)
         let rawVy = dy / CGFloat(frameDt)
-        smoothVx = velocityEMAAlpha * rawVx + (1 - velocityEMAAlpha) * smoothVx
-        smoothVy = velocityEMAAlpha * rawVy + (1 - velocityEMAAlpha) * smoothVy
+        let newSmoothVx = velocityEMAAlpha * rawVx + (1 - velocityEMAAlpha) * smoothVx
+        let newSmoothVy = velocityEMAAlpha * rawVy + (1 - velocityEMAAlpha) * smoothVy
 
-        // 方向一致性检查
-        if rawVx * smoothVx <= 0 { smoothVx = 0 }
-        if rawVy * smoothVy <= 0 { smoothVy = 0 }
+        // 方向反转检测：和旧速度比（不是 blended 值），避免漏判
+        if rawVx * smoothVx < 0 { smoothVx = newSmoothVx * 0.5 }
+        else { smoothVx = newSmoothVx }
+        if rawVy * smoothVy < 0 { smoothVy = newSmoothVy * 0.5 }
+        else { smoothVy = newSmoothVy }
 
-        let smoothDx = smoothVx * CGFloat(max(dt, 0.001))
-        let smoothDy = smoothVy * CGFloat(max(dt, 0.001))
-        
-        let velocity = sqrt(smoothDx*smoothDx + smoothDy*smoothDy) / CGFloat(max(dt, 0.001))
-        
-        let factor: CGFloat
-        if velocity < 50 {
-            factor = 0.4
-        } else if velocity < 200 {
-            factor = 1.0
-        } else {
-            factor = min(1.0 + (velocity - 200) / 800.0 * 3.0, 4.0)
-        }
+        let smoothDx = smoothVx * CGFloat(frameDt)
+        let smoothDy = smoothVy * CGFloat(frameDt)
 
-        currentPosition.x += smoothDx * factor
-        currentPosition.y += smoothDy * factor
+        let velocity = sqrt(smoothVx*smoothVx + smoothVy*smoothVy)
+
+        // 平缓加速度曲线：0.5~3.5x
+        let normalizedV = min(velocity / 300.0, 5.0)
+        let factor: CGFloat = 0.5 + 2.0 * pow(normalizedV, 0.4)
+        // v=0→0.5, v=150→1.9, v=300→2.5, v=500→3.0, v=1500→3.5
+
+        let stepDx = smoothDx * factor
+        let stepDy = smoothDy * factor
+
+        // 单帧步长上限 150px
+        let maxStep: CGFloat = 150
+        let clampedDx = max(-maxStep, min(maxStep, stepDx))
+        let clampedDy = max(-maxStep, min(maxStep, stepDy))
+
+        currentPosition.x += clampedDx
+        currentPosition.y += clampedDy
 
         currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
         currentPosition.y = max(0, min(currentPosition.y, screenSize.height))
-        
+
+#if DEBUG
+        print("[CURSOR] raw=(\(String(format:"%.4f",rawDx)),\(String(format:"%.4f",rawDy))) dx=(\(String(format:"%.0f",dx)),\(String(format:"%.0f",dy))) v=(\(String(format:"%.0f",velocity))) factor=\(String(format:"%.2f",factor)) step=(\(String(format:"%.0f",clampedDx)),\(String(format:"%.0f",clampedDy))) pos=(\(String(format:"%.0f",currentPosition.x)),\(String(format:"%.0f",currentPosition.y)))")
+#endif
+
+        fingerActive = true
+    }
+
+    // MARK: - 绝对位置映射
+
+    /// 1€ Filter — 自适应低通滤波器，替代 EMA+Lerp+死区+增益曲线
+    private var filterX = OneEuroFilter(fcMin: 1.0, beta: 0.007, fcD: 1.0)
+    private var filterY = OneEuroFilter(fcMin: 1.0, beta: 0.007, fcD: 1.0)
+    private var filterTimeBase: TimeInterval = 0
+
+    /// 手进入画面时开始校准原点
+    func startCalibration() {
+        filterX.reset()
+        filterY.reset()
+        filterTimeBase = 0
+        calibrationState = .calibrating
+        calibrationStartTime = Date()
+        originAccumulator = []
+    }
+
+    /// 手离开画面时重置
+    func endCalibration() {
+        calibrationState = .idle
+        originAccumulator = []
+        filterX.reset()
+        filterY.reset()
+        filterTimeBase = 0
+        fingerActive = false
+    }
+
+    /// 累积原点样本，校准完成后返回 true
+    func accumulateOrigin(_ handCenter: CGPoint) -> Bool {
+        guard calibrationState == .calibrating else { return true }
+
+        originAccumulator.append(handCenter)
+        let elapsed = Date().timeIntervalSince(calibrationStartTime)
+
+        if elapsed >= calibrationDuration && originAccumulator.count >= 5 {
+            // 校准完成：用 EMA 平均原点
+            let avgX = originAccumulator.reduce(0) { $0 + $1.x } / CGFloat(originAccumulator.count)
+            let avgY = originAccumulator.reduce(0) { $0 + $1.y } / CGFloat(originAccumulator.count)
+            origin = CGPoint(x: avgX, y: avgY)
+            calibrationState = .tracking
+            fingerActive = true
+            return true
+        }
+        return false
+    }
+
+    /// 绝对位置映射：手位置 → 光标位置（1€ Filter 平滑）
+    func updateWithAbsolutePosition(
+        handCenter: CGPoint,
+        screenSize: CGSize,
+        gain: Float = 2.0,
+        handedness: HandSide = .unknown
+    ) {
+        let now = ProcessInfo.processInfo.systemUptime
+        if filterTimeBase == 0 { filterTimeBase = now }
+        let t = now - filterTimeBase
+
+        // 1€ Filter 自适应平滑：手静止→强滤震颤，手快→轻滤跟手
+        let fx = filterX.filter(handCenter.x, time: t)
+        let fy = filterY.filter(handCenter.y, time: t)
+
+        // 偏移 = 滤波后手位置 - 原点
+        let rawOffsetX = fx - origin.x
+        let rawOffsetY = fy - origin.y
+
+        // 左手：水平方向反向
+        let offsetX = (handedness == .left) ? -rawOffsetX : rawOffsetX
+        let offsetY = rawOffsetY
+
+        // 绝对映射：屏幕中心 + 偏移 × 屏幕尺寸 × 增益
+        let screenCX = screenSize.width / 2
+        let screenCY = screenSize.height / 2
+        let cursorX = screenCX - offsetX * screenSize.width * CGFloat(gain)
+        let cursorY = screenCY + offsetY * screenSize.height * CGFloat(gain)
+
+        // 设定目标位置，120Hz 定时器 Lerp 追赶
+        targetPosition = CGPoint(
+            x: max(0, min(cursorX, screenSize.width)),
+            y: max(0, min(cursorY, screenSize.height))
+        )
+
+        lastUpdateTime = Date()
+        fingerActive = true
+
+        // 边界裁剪
+        currentPosition.x = max(0, min(currentPosition.x, screenSize.width))
+        currentPosition.y = max(0, min(currentPosition.y, screenSize.height))
+
+#if DEBUG
+        print("[CURSOR-ABS] hand=(\(String(format:"%.3f",handCenter.x)),\(String(format:"%.3f",handCenter.y))) filter=(\(String(format:"%.3f",fx)),\(String(format:"%.3f",fy))) target=(\(String(format:"%.0f",targetPosition.x)),\(String(format:"%.0f",targetPosition.y))) cursor=(\(String(format:"%.0f",currentPosition.x)),\(String(format:"%.0f",currentPosition.y)))")
+#endif
         fingerActive = true
     }
 
@@ -140,72 +301,78 @@ class CursorController {
         magnetState = .idle
     }
 
+    /// 衰减速度（补帧定时器每帧调用）
+    /// 仅在 updateWithDelta 超过 50ms 未调用时才衰减，避免和 EMA 更新打架
+    func decayVelocity(by factor: CGFloat = 0.95) {
+        guard Date().timeIntervalSince(lastUpdateTime) > 0.05 else { return }
+        smoothVx *= factor
+        smoothVy *= factor
+    }
+
     // MARK: - 光标计算
 
-    /// 计算最终光标位置（加入注视偏移并限制在屏幕范围内）
-    /// - Parameters:
-    ///   - frameId: 当前帧 ID（用于日志串联）
+    /// 计算最终光标位置（加入磁吸 + 屏幕限制）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0, frameId: Int? = nil) -> CGPoint {
         var cursor = currentPosition
         let start = CFAbsoluteTimeGetCurrent()
         defer {
             let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
-            let input = "screenSize=(\(Int(screenSize.width)),\(Int(screenSize.height))) sensitivity=\(sensitivity)"
-            let output = "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))"
-            EventLogger.log(event: "computeCursor", frame: frameId, input: input, output: output, duration: duration)
+            EventLogger.log(event: "computeCursor", frame: frameId,
+                            input: "screenSize=(\(Int(screenSize.width)),\(Int(screenSize.height)))",
+                            output: "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))",
+                            duration: duration)
         }
-        
-        // 迟滞磁吸：三态状态机（接入 35px，释放 50px）
-        if let scanner = uiScanner {
-            let magnetStart = CFAbsoluteTimeGetCurrent()
-            var snapElement: UIElementInfo? = nil
-            var snapCenter: CGPoint? = nil
-            
+
+        // 磁吸：分辨率自适应阈值（基于屏幕对角线百分比）
+        let diagonal = sqrt(screenSize.width * screenSize.width + screenSize.height * screenSize.height)
+        let lockRadius = diagonal * 0.020   // 2% 对角线 ≈ 35px @ 1470×956
+        let releaseRadius = diagonal * 0.030 // 3% ≈ 50px @ 1470×956
+
+        if let scanner = uiScanner, !scanner.elements.isEmpty {
             switch magnetState {
             case .idle:
-                // IDLE：检查是否有近距元素可以锁定
-                if let near = scanner.nearElement {
-                    let center = CGPoint(x: near.frame.midX, y: near.frame.midY)
-                    let dx = center.x - cursor.x
-                    let dy = center.y - cursor.y
+                // 全量扫描所有元素，找距离最近的
+                var bestElement: UIElementInfo?
+                var bestCenter = CGPoint.zero
+                var bestDist: CGFloat = lockRadius
+
+                for el in scanner.elements {
+                    // AX frame 是屏幕坐标(y=0=顶)，转为底左坐标
+                    let elCenter = CGPoint(
+                        x: el.frame.midX,
+                        y: screenSize.height - el.frame.midY
+                    )
+                    let dx = elCenter.x - cursor.x
+                    let dy = elCenter.y - cursor.y
                     let dist = sqrt(dx * dx + dy * dy)
-                    if dist < 35 {
-                        // 咔哒锁定
-                        magnetState = .snap(near)
-                        cursor = center
+                    if dist < bestDist {
+                        bestDist = dist
+                        bestElement = el
+                        bestCenter = elCenter
                     }
                 }
-                
+
+                if let el = bestElement {
+                    magnetState = .snap(el)
+                    cursor = bestCenter
+                }
+
             case .snap(let element):
-                let center = CGPoint(x: element.frame.midX, y: element.frame.midY)
-                let dx = center.x - cursor.x
-                let dy = center.y - cursor.y
+                let elCenter = CGPoint(
+                    x: element.frame.midX,
+                    y: screenSize.height - element.frame.midY
+                )
+                let dx = elCenter.x - cursor.x
+                let dy = elCenter.y - cursor.y
                 let dist = sqrt(dx * dx + dy * dy)
-                
-                if dist > 50 {
-                    // 超出释放阈值 → 自由
+
+                if dist > releaseRadius {
                     magnetState = .idle
                 } else {
-                    // 锁定中：80% 拉向中心（阻力感），20% 跟随手指
-                    cursor.x += (center.x - cursor.x) * 0.8
-                    cursor.y += (center.y - cursor.y) * 0.8
-                    snapElement = element
-                    snapCenter = center
+                    // 80% 拉向中心，20% 跟手
+                    cursor.x += (elCenter.x - cursor.x) * 0.8
+                    cursor.y += (elCenter.y - cursor.y) * 0.8
                 }
-            }
-            
-            let magnetDuration = (CFAbsoluteTimeGetCurrent() - magnetStart) * 1000
-            let magnetStateStr: String
-            switch magnetState {
-            case .idle: magnetStateStr = "idle"
-            case .snap: magnetStateStr = "snap"
-            }
-            let magnetInput = "state=\(magnetStateStr) nearElement=\(scanner.nearElement != nil)"
-            let magnetOutput = "snapCenter=(\(Int(snapCenter?.x ?? -1)),\(Int(snapCenter?.y ?? -1)))"
-            EventLogger.log(event: "computeCursor.magnet", frame: frameId, input: magnetInput, output: magnetOutput, duration: magnetDuration)
-            
-            if let center = snapCenter {
-                print("[MAGNET] SNAP to (\(Int(center.x)),\(Int(center.y)))")
             }
         }
 

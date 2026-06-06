@@ -14,6 +14,10 @@ let package = Package(
             name: "MotionControl",
             dependencies: [],
             resources: []
-        )
+        ),
+        .testTarget(
+            name: "MotionControlTests",
+            dependencies: ["MotionControl"]
+        ),
     ]
 )

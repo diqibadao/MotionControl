@@ -33,8 +33,6 @@ class ConfigManager: ObservableObject {
                 let decoder = JSONDecoder()
                 currentConfig = try decoder.decode(GestureConfig.self, from: data)
                 activeProfile = currentConfig.activeProfile
-                // 保证启动时手势映射全部为默认 noAction
-                currentConfig.gestureMapping = GestureConfig.default.gestureMapping
             } else {
                 // 首次启动写入默认配置
                 try save(currentConfig)

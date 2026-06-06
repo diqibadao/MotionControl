@@ -173,7 +173,7 @@ struct GestureConfig: Codable {
     var pointRatio: Float = 1.5
     
     // 鼠标
-    var mouseSensitivity: Float = 3.0
+    var mouseSensitivity: Float = 2.0  // 绝对映射 base gain（手速自适应 0.2~2.0x）
     var mouseSmoothFactor: Float = 0.4
     
     // 注视
@@ -190,8 +190,8 @@ struct GestureConfig: Codable {
     
     // 摄像头
     var cameraDeviceID: String = ""
-    var cameraWidth: Int = 640
-    var cameraHeight: Int = 480
+    var cameraWidth: Int = 1920
+    var cameraHeight: Int = 1080
     
     // 活动配置方案名
     var activeProfile: String = "日常使用"

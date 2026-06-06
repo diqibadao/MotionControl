@@ -12,8 +12,21 @@ enum HandFinger: String, CaseIterable {
     case little
 }
 
+/// 左右手
+enum HandSide {
+    case left
+    case right
+    case unknown
+}
+
 /// 手部 21 个关键点检测结果
 struct HandPoseResult {
+    /// 手部整体检测置信度（0~1），用于自适应阈值
+    var confidence: Float = 0
+
+    /// 左右手（Vision chirality 自动识别）
+    var handSide: HandSide = .unknown
+
     // 手腕
     var wrist: CGPoint?
     // 拇指
@@ -45,6 +58,17 @@ struct HandPoseResult {
     init?(observation: VNHumanHandPoseObservation) {
         guard let allPoints = try? observation.recognizedPoints(.all) else { return nil }
 
+        // 手腕置信度作为手部整体置信度
+        self.confidence = allPoints[.wrist]?.confidence ?? 0
+
+        // 左右手自动识别（Vision chirality）
+        switch observation.chirality {
+        case .left:  self.handSide = .left
+        case .right: self.handSide = .right
+        case .unknown: self.handSide = .unknown
+        @unknown default: self.handSide = .unknown
+        }
+
         /// 提取指定关节的归一化坐标（若置信度 > 0）
         func point(_ joint: VNHumanHandPoseObservation.JointName) -> CGPoint? {
             guard let p = allPoints[joint], p.confidence > 0 else { return nil }
@@ -73,14 +97,34 @@ struct HandPoseResult {
         littleMCP    = point(.littleMCP)
     }
 
-    /// 手掌中心（手腕 + 四根手指的 MCP 的平均点）
+    /// 手掌几何中心 — 多级降级策略
+    /// 1. 最优：wrist + 4 MCP（SRM 论文方案）
+    /// 2. wrist 缺失时：仅 MCP
+    /// 3. MCP 也缺时：用 middleTip 近似
     var palmCenter: CGPoint? {
-        let candidates = [wrist, indexMCP, middleMCP, ringMCP, littleMCP]
-        let valid = candidates.compactMap { $0 }
-        guard !valid.isEmpty else { return nil }
-        let avgX = valid.reduce(0) { $0 + $1.x } / CGFloat(valid.count)
-        let avgY = valid.reduce(0) { $0 + $1.y } / CGFloat(valid.count)
-        return CGPoint(x: avgX, y: avgY)
+        // 第一级：wrist + MCPs
+        let primary = [wrist, indexMCP, middleMCP, ringMCP, littleMCP]
+        let primaryValid = primary.compactMap { $0 }
+        if primaryValid.count >= 2 {
+            let avgX = primaryValid.reduce(0) { $0 + $1.x } / CGFloat(primaryValid.count)
+            let avgY = primaryValid.reduce(0) { $0 + $1.y } / CGFloat(primaryValid.count)
+            return CGPoint(x: avgX, y: avgY)
+        }
+        // 第二级：只用 MCPs（手腕出画面时）
+        let mcps = [indexMCP, middleMCP, ringMCP, littleMCP].compactMap { $0 }
+        if !mcps.isEmpty {
+            let avgX = mcps.reduce(0) { $0 + $1.x } / CGFloat(mcps.count)
+            let avgY = mcps.reduce(0) { $0 + $1.y } / CGFloat(mcps.count)
+            return CGPoint(x: avgX, y: avgY)
+        }
+        // 第三级：指尖近似（仅手指在画面时）
+        let tips = [middleTip, indexTip].compactMap { $0 }
+        if !tips.isEmpty {
+            let avgX = tips.reduce(0) { $0 + $1.x } / CGFloat(tips.count)
+            let avgY = tips.reduce(0) { $0 + $1.y } / CGFloat(tips.count)
+            return CGPoint(x: avgX, y: avgY)
+        }
+        return nil
     }
 
     /// 拇指指尖到食指指尖的欧氏距离

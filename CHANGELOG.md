@@ -2,6 +2,35 @@
 
 ---
 
+## v0.3.1 (2026-06-06)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/tune-responsiveness` |
+| **Commit** | `ce7aecc` |
+| **Plan** | `.hermes/plans/20-跟手响应调优.md` |
+| **基准** | `v0.3.0-baseline` |
+| **作者** | Claude Opus 4.8 |
+
+### ⚡ 性能优化
+
+| 参数 | 旧值 | 新值 | 效果 |
+|------|:--:|:--:|------|
+| 1€ Filter `beta` | 0.007 | 0.05 | 快移自动轻滤，延迟 261→180px |
+| 1€ Filter `fcMin` | 1.0 | 1.5 | 微动更灵敏 |
+| 120Hz lerp | 0.50 | 0.65 | 追赶快30%，T-C滞后 67→60px |
+
+**总滞后 330→240px（🔽27%）**
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | filterX/Y 参数 beta + fcMin |
+| `MotionControlApp.swift` | 120Hz lerp 值 |
+
+---
+
 ## v0.3.0 (2026-06-06)
 
 | 属性 | 内容 |

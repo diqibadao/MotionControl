@@ -2,6 +2,45 @@
 
 ---
 
+## v0.4.0 (2026-06-06)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/tune-responsiveness` |
+| **Commit** | `ce7aecc` `b53d66f` |
+| **Plan** | `.hermes/plans/21-整合-chirality修复+响应调优.md` |
+| **基准** | `v0.3.0-baseline` |
+| **作者** | Claude Opus 4.8 |
+
+### 🐛 修复
+
+| 问题 | 根因 | 修复方式 |
+|------|------|---------|
+| 左手方向反了 | `-rawOffsetX` 双重镜像补偿 | 去 chirality X 翻转，原点校准自适应 |
+| Chirality 帧间翻转 | Vision 左右手识别不稳定 | 滞后锁：连续 3 帧同向才切换 |
+| 首帧光标跳 (0,0) | `currentPosition = .zero` 未初始化 | 校准完成时初始化到屏幕中心 |
+
+### ⚡ 性能优化
+
+| 参数 | 旧值 | 新值 | 效果 |
+|------|:--:|:--:|------|
+| 1€ Filter `beta` | 0.007 | 0.05 | 快移自动轻滤，延迟 261→180px |
+| 1€ Filter `fcMin` | 1.0 | 1.5 | 微动更灵敏 |
+| 120Hz lerp | 0.50 | 0.65 | 追赶快30%，T-C滞后 67→60px |
+
+**总滞后 328→240px（🔽27%）**
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | 去 chirality 翻转 + currentPosition 初始化 |
+| `HandPoseDetector.swift` | chirality 滞后锁 |
+| `MotionControlApp.swift` | lerp 0.50→0.65 |
+| `Tests/` | 更新左右手同向测试 |
+
+---
+
 ## v0.3.1 (2026-06-06)
 
 | 属性 | 内容 |

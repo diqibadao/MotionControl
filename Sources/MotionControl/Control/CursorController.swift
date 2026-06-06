@@ -57,6 +57,7 @@ struct OneEuroFilter {
         initialized = false
         prevX = 0
         prevDx = 0
+        prevTime = 0
     }
 
     private func smoothingFactor(fc: CGFloat, dt: CGFloat) -> CGFloat {
@@ -231,6 +232,12 @@ class CursorController {
         filterY.reset()
         filterTimeBase = 0
         fingerActive = false
+        // 重置帧丢失保护状态，避免手再出现时旧速度/预测残留
+        prevUpdateTime = 0
+        prevTarget = .zero
+        screenVelocityX = 0
+        screenVelocityY = 0
+        gapRecoveryUntil = 0
     }
 
     /// 累积原点样本，校准完成后返回 true
@@ -277,17 +284,34 @@ class CursorController {
         let rawOffsetX = fx - origin.x
         let rawOffsetY = fy - origin.y
 
-        // 原点校准已自适应左右手差异（右手原点≈0.3, 左手原点≈0.7）
-        // screenCX - offsetX 已补偿摄像头镜像，无需额外 chirality 翻转
-        let offsetX = rawOffsetX
+        // 原点校准自适应左右手差异（右手原点≈0.3, 左手原点≈0.7）
+        // 摄像头镜像 + screenCX - offsetX 对右手正确，但左手需翻转 offsetX
+        // 否则左手右移 → offset>0 → 光标左移（反了）
+        let offsetX = (handedness == .left) ? -rawOffsetX : rawOffsetX
         let offsetY = rawOffsetY
+
+        // 三区可变增益（Variable Absolute Mapping）
+        // Interior: 手近原点 → 精控不变
+        // Border:   手渐远 → 增益线性提升，触达屏幕边缘
+        // Margin:   手极远 → 饱和，光标贴边不跳
+        let distFromOrigin = sqrt(offsetX * offsetX + offsetY * offsetY)
+        let gainMultiplier: CGFloat
+        if distFromOrigin < 0.12 {
+            gainMultiplier = 1.0                      // Interior: 跟手不变
+        } else if distFromOrigin < 0.25 {
+            let t = (distFromOrigin - 0.12) / 0.13    // Border: 1.0 → 1.3 线性
+            gainMultiplier = 1.0 + t * 0.3
+        } else {
+            gainMultiplier = 1.3                       // Margin: 饱和 1.3x
+        }
 
         // 绝对映射：屏幕中心 + 偏移 × 屏幕尺寸 × 增益
         let screenCX = screenSize.width / 2
         let screenCY = screenSize.height / 2
 
-        let cursorX = screenCX - offsetX * screenSize.width * CGFloat(gain)
-        let cursorY = screenCY + offsetY * screenSize.height * CGFloat(gain)
+        let effectiveGain = CGFloat(gain) * gainMultiplier
+        let cursorX = screenCX - offsetX * screenSize.width * effectiveGain
+        let cursorY = screenCY + offsetY * screenSize.height * effectiveGain
 
         // 设定目标位置，120Hz 定时器 Lerp 追赶
         let rawTarget = CGPoint(

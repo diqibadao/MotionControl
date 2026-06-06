@@ -105,29 +105,39 @@ struct ReplayTest {
         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     let traceDir = baseDir.appendingPathComponent("Docs/logs").path
     let files = try FileManager.default.contentsOfDirectory(atPath: traceDir)
-    guard let traceFile = files.first(where: { $0.hasSuffix("-trace.tsv") }) else {
+    let traceFiles = files.filter { $0.hasSuffix("-trace.tsv") }.sorted()
+    guard !traceFiles.isEmpty else {
         print("⏭ 跳过：无 trace"); return
     }
-    let tracePath = "\(traceDir)/\(traceFile)"
-    let frames = ReplayTest.parseTrace(from: tracePath)
-    guard frames.count > 50 else {
-        print("⏭ 跳过：数据不足(\(frames.count)帧)"); return
+
+    for traceFile in traceFiles {
+        let tracePath = "\(traceDir)/\(traceFile)"
+        let frames = ReplayTest.parseTrace(from: tracePath)
+        guard frames.count > 50 else {
+            print("⏭ 跳过：\(traceFile) 数据不足(\(frames.count)帧)"); continue
+        }
+
+        print("\n🎬 回放: \(traceFile) (\(frames.count)帧)")
+
+        let (logLines, errors) = ReplayTest.replay(trace: frames)
+        let versionName = traceFile.replacingOccurrences(of: "-trace.tsv", with: "")
+
+        // 写入 /tmp 供即时分析
+        let tmpLog = "/tmp/replay-\(versionName).log"
+        try logLines.joined(separator: "\n").write(toFile: tmpLog, atomically: true, encoding: .utf8)
+
+        // 自动入库：写入 Docs/logs/ 供版本追踪
+        let archiveLog = "\(traceDir)/\(versionName)-replay.log"
+        try logLines.joined(separator: "\n").write(toFile: archiveLog, atomically: true, encoding: .utf8)
+
+        let avgError = errors.reduce(0, +) / CGFloat(errors.count)
+        let maxError = errors.max() ?? 0
+        print("✅ 回放完成: \(logLines.count)帧")
+        print("📐 target偏差: avg=\(String(format:"%.0f", avgError))px max=\(String(format:"%.0f", maxError))px")
+        print("📊 指标: ./scripts/analyze-cursor-log.sh \(tmpLog)")
+        print("📦 入库: \(archiveLog)")
     }
-
-    print("回放: \(traceFile) (\(frames.count)帧)")
-
-    let (logLines, errors) = ReplayTest.replay(trace: frames)
-    let replayLog = "/tmp/replay-\(traceFile.replacingOccurrences(of: "-trace.tsv", with: "")).log"
-    try logLines.joined(separator: "\n").write(toFile: replayLog, atomically: true, encoding: .utf8)
-
-    // 分析回放结果
-    let avgError = errors.reduce(0, +) / CGFloat(errors.count)
-    print("✅ 回放完成: \(logLines.count)帧 (校准+预热跳过\(frames.count - logLines.count)帧)")
-    print("📐 回放一致性 (与原始trace比, 不同初始条件会有偏差):")
-    print("   平均target偏差: \(String(format:"%.0f", avgError))px")
-    print("💡 回放用途: 同一trace对比不同版本 → 纯算法差异")
-    print("   不追求绝对值匹配, 追求版本间相对比较")
-    print("📊 指标分析: ./scripts/analyze-cursor-log.sh \(replayLog)")
+    print("\n💡 同一trace对比不同版本 → 纯算法差异")
 }
 
 // MARK: - 1€ Filter 单元测试
@@ -223,9 +233,9 @@ struct ReplayTest {
     #expect(controller.calibrationState == .tracking, "应转为跟踪状态")
 }
 
-// MARK: - 左右手同向测试（chirality 不再翻转 X）
+// MARK: - 左右手方向测试（chirality 翻转 X 补偿摄像头镜像）
 
-@Test func leftAndRightHand_sameDirection() {
+@Test func leftAndRightHand_oppositeDirections() {
     let controller = CursorController()
     controller.startCalibration()
     for _ in 0..<8 {
@@ -235,7 +245,7 @@ struct ReplayTest {
     _ = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.4))
     #expect(controller.calibrationState == .tracking)
 
-    // 右手：handCenter>origin → cursor 左移
+    // 右手：handCenter>origin → cursorX = screenCX - offset → 光标左移
     controller.updateWithAbsolutePosition(
         handCenter: CGPoint(x: 0.6, y: 0.4),
         screenSize: CGSize(width: 1920, height: 1080),
@@ -243,11 +253,11 @@ struct ReplayTest {
     )
     #expect(controller.targetPosition.x < 960, "右手：handCenter>origin → 光标左移")
 
-    // 左手：同向，不再镜像
+    // 左手：摄像头镜像后方向需翻转，handCenter>origin → 光标右移
     controller.updateWithAbsolutePosition(
         handCenter: CGPoint(x: 0.6, y: 0.4),
         screenSize: CGSize(width: 1920, height: 1080),
         gain: 2.0, handedness: .left
     )
-    #expect(controller.targetPosition.x < 960, "左手：handCenter>origin → 光标同向左移")
+    #expect(controller.targetPosition.x > 960, "左手：handCenter>origin → 光标右移（镜像补偿）")
 }

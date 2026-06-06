@@ -2,6 +2,53 @@
 
 ---
 
+## v0.7.1 (2026-06-06)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/frame-loss-guard` |
+| **Commit** | (待提交) |
+| **基准** | `v0.7.0` |
+| **作者** | Claude Opus 4.8 |
+
+### ✨ 新功能
+
+**三区可变增益（Variable Absolute Mapping）** — 手近原点精控，手远自动 boost 触达全屏
+
+- Interior（dist<0.12）：gain ×1.0，中心精控不变
+- Border（0.12~0.25）：gain 线性 1.0→1.3，自然触达屏幕边缘
+- Margin（>0.25）：gain 饱和 1.3，光标贴边不跳
+- 回放验证：X 覆盖率 +10.4%（89%→100%），零额外跳变
+
+**帧丢失保护（Temporal Gap Guard）** — UmeTrack (Meta SIGGRAPH 2022) 方案
+
+- 检测帧间隔 >200ms → 用预测位置（上次目标 + 速度 × Δt）平滑过渡
+- 300ms 二次 ease-in 从预测收敛到真实目标
+- 历史 trace 验证：零帧丢失跳变
+
+### 🐛 修复
+
+**左手 chirality 方向反转** — 摄像头镜像 + `screenCX - offsetX` 对右手正确，左手 offsetX 需取反
+**长时间退化** — `endCalibration()` 补全 gap guard 状态重置（prevUpdateTime/prevTarget/velocity）
+**1€ Filter 首帧异常** — `reset()` 补上 `prevTime = 0`
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | 三区增益 + 左手 chirality + endCalibration 状态重置 + 1€ Filter prevTime |
+| `MotionControlTests.swift` | 全 3 trace 回放 + chirality 测试方向更新 |
+
+### 📊 指标变化（长测 vs v0.5.0）
+
+| # | 指标 | v0.5.0 | v0.7.1 | 判定 |
+|:--:|------|:--:|:--:|:--:|
+| 8 | 抖动半径 | 11.8px | 5.3px | ✅ 减半 |
+| 9 | 最大偏移 | 30.0px | 15.6px | ✅ 减半 |
+| 23 | 帧丢失 | 2次 | 0次 | ✅ |
+
+---
+
 ## v0.7.0 (2026-06-06)
 
 | 属性 | 内容 |

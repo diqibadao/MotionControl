@@ -193,8 +193,8 @@ class CursorController {
     // MARK: - 绝对位置映射
 
     /// 1€ Filter — 自适应低通滤波器，替代 EMA+Lerp+死区+增益曲线
-    private var filterX = OneEuroFilter(fcMin: 1.5, beta: 0.05, fcD: 1.0)
-    private var filterY = OneEuroFilter(fcMin: 1.5, beta: 0.05, fcD: 1.0)
+    private var filterX = OneEuroFilter(fcMin: 0.8, beta: 0.05, fcD: 1.0)
+    private var filterY = OneEuroFilter(fcMin: 0.8, beta: 0.05, fcD: 1.0)
     private var filterTimeBase: TimeInterval = 0
 
     /// 手进入画面时开始校准原点

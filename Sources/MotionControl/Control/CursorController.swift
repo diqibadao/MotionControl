@@ -197,6 +197,16 @@ class CursorController {
     private var filterY = OneEuroFilter(fcMin: 0.8, beta: 0.05, fcD: 1.0)
     private var filterTimeBase: TimeInterval = 0
 
+    // MARK: - 帧丢失保护（Temporal Gap Guard）
+    /// UmeTrack (Meta, SIGGRAPH 2022) 方案：检测帧间隔异常 → 预测平滑，避免光标跳变
+    private var prevUpdateTime: TimeInterval = 0
+    private var prevTarget: CGPoint = .zero
+    private var screenVelocityX: CGFloat = 0
+    private var screenVelocityY: CGFloat = 0
+    private var gapRecoveryUntil: TimeInterval = 0
+    private let gapThreshold: TimeInterval = 0.2        // >200ms 视为帧丢失
+    private let gapRecoveryWindow: TimeInterval = 0.3   // 300ms 内从预测收敛到真实目标
+
     /// 手进入画面时开始校准原点
     func startCalibration() {
         filterX.reset()
@@ -205,6 +215,12 @@ class CursorController {
         calibrationState = .calibrating
         calibrationStartTime = Date()
         originAccumulator = []
+        // 重置帧丢失保护状态
+        prevUpdateTime = 0
+        prevTarget = .zero
+        screenVelocityX = 0
+        screenVelocityY = 0
+        gapRecoveryUntil = 0
     }
 
     /// 手离开画面时重置
@@ -274,10 +290,45 @@ class CursorController {
         let cursorY = screenCY + offsetY * screenSize.height * CGFloat(gain)
 
         // 设定目标位置，120Hz 定时器 Lerp 追赶
-        targetPosition = CGPoint(
+        let rawTarget = CGPoint(
             x: max(0, min(cursorX, screenSize.width)),
             y: max(0, min(cursorY, screenSize.height))
         )
+
+        // Temporal Gap Guard：帧间隔 >200ms → 用预测位置平滑过渡
+        let dt = now - prevUpdateTime
+        if prevUpdateTime > 0 {
+            if dt < gapThreshold {
+                // 正常帧：更新屏幕空间速度 EMA
+                let rawVx = (rawTarget.x - prevTarget.x) / CGFloat(max(dt, 0.001))
+                let rawVy = (rawTarget.y - prevTarget.y) / CGFloat(max(dt, 0.001))
+                screenVelocityX = 0.5 * rawVx + 0.5 * screenVelocityX
+                screenVelocityY = 0.5 * rawVy + 0.5 * screenVelocityY
+                targetPosition = rawTarget
+            } else {
+                // 帧丢失：启动恢复窗口
+                gapRecoveryUntil = now + gapRecoveryWindow
+                targetPosition = rawTarget  // 先设目标，下面 blend 覆盖
+            }
+        } else {
+            targetPosition = rawTarget
+        }
+
+        // 恢复窗口内：预测位置 → 真实目标 二次 ease-in 过渡
+        if now < gapRecoveryUntil && prevUpdateTime > 0 {
+            let elapsed = now - (gapRecoveryUntil - gapRecoveryWindow)
+            let progress = CGFloat(max(0, min(1.0, elapsed / gapRecoveryWindow)))
+            let blend = progress * progress  // ease-in quad: 0→1
+
+            let predictedX = prevTarget.x + screenVelocityX * CGFloat(dt)
+            let predictedY = prevTarget.y + screenVelocityY * CGFloat(dt)
+
+            targetPosition.x = predictedX + (targetPosition.x - predictedX) * blend
+            targetPosition.y = predictedY + (targetPosition.y - predictedY) * blend
+        }
+
+        prevTarget = targetPosition
+        prevUpdateTime = now
 
         lastUpdateTime = Date()
         fingerActive = true

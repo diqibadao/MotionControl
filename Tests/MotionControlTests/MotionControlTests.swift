@@ -7,62 +7,96 @@ import Testing
 
 /// 回放历史手部轨迹，用当前 CursorController 算法重算光标位置
 struct ReplayTest {
-    /// 解析 trace 文件中的 hand 位置，保留原始时间戳
-    static func parseHandPositions(from path: String) -> [(CGPoint, TimeInterval)] {
+    /// 解析 trace 文件，返回 (hand, originalTarget, timestamp)
+    static func parseTrace(from path: String) -> [(hand: CGPoint, originalTarget: CGPoint, t: TimeInterval)] {
         guard let content = try? String(contentsOfFile: path, encoding: .utf8) else { return [] }
-        var frames: [(CGPoint, TimeInterval)] = []
+        var frames: [(CGPoint, CGPoint, TimeInterval)] = []
         var t: TimeInterval = 0
         for line in content.components(separatedBy: "\n") {
-            guard let handStart = line.range(of: "hand=(") else { continue }
-            let rest = line[handStart.upperBound...]
-            guard let handEnd = rest.firstIndex(of: ")") else { continue }
-            let coordStr = rest[..<handEnd]
-            let coords = coordStr.split(separator: ",")
-            guard coords.count >= 2,
-                  let hx = Double(coords[0]), let hy = Double(coords[1]) else { continue }
-            frames.append((CGPoint(x: hx, y: hy), t))
-            t += 1.0 / 24.0  // 模拟 24fps 检测帧率
+            // 提取 hand=(hx,hy)
+            guard let hs = line.range(of: "hand=(") else { continue }
+            let afterH = line[hs.upperBound...]
+            guard let he = afterH.firstIndex(of: ")") else { continue }
+            let hc = afterH[..<he].split(separator: ",")
+            guard hc.count >= 2, let hx = Double(hc[0]), let hy = Double(hc[1]) else { continue }
+
+            // 提取 target=(tx,ty)
+            let afterHParen = afterH[he...]
+            guard let ts = afterHParen.range(of: "target=(") else { continue }
+            let afterT = afterHParen[ts.upperBound...]
+            guard let te = afterT.firstIndex(of: ")") else { continue }
+            let tc = afterT[..<te].split(separator: ",")
+            guard tc.count >= 2, let tx = Double(tc[0]), let ty = Double(tc[1]) else { continue }
+
+            frames.append((CGPoint(x: hx, y: hy), CGPoint(x: tx, y: ty), t))
+            t += 1.0 / 24.0
         }
         return frames
     }
 
-    /// 执行回放，返回日志行
-    static func replay(trace frames: [(CGPoint, TimeInterval)],
+    /// 从 trace 数据反推原点
+    static func estimateOrigin(from frames: [(hand: CGPoint, originalTarget: CGPoint, t: TimeInterval)],
+                               screen: CGSize, gain: Float) -> CGPoint {
+        // 取 target 最接近屏幕中心的 20 帧，反推手位置 = 原点
+        let screenCX = screen.width / 2
+        let screenCY = screen.height / 2
+        let nearCenter = frames.sorted {
+            let d1 = sqrt(pow($0.originalTarget.x - screenCX, 2) + pow($0.originalTarget.y - screenCY, 2))
+            let d2 = sqrt(pow($1.originalTarget.x - screenCX, 2) + pow($1.originalTarget.y - screenCY, 2))
+            return d1 < d2
+        }.prefix(20)
+        let avgHX = nearCenter.reduce(0) { $0 + $1.hand.x } / CGFloat(nearCenter.count)
+        let avgHY = nearCenter.reduce(0) { $0 + $1.hand.y } / CGFloat(nearCenter.count)
+        return CGPoint(x: avgHX, y: avgHY)
+    }
+
+    /// 执行回放，返回 (日志行, target误差数组)
+    static func replay(trace frames: [(hand: CGPoint, originalTarget: CGPoint, t: TimeInterval)],
                        screen: CGSize = CGSize(width: 1920, height: 1080),
-                       gain: Float = 2.0) -> [String] {
+                       gain: Float = 2.0) -> (log: [String], targetErrors: [CGFloat]) {
         let controller = CursorController()
         var logLines: [String] = []
-        let calibFrames = min(15, frames.count)
+        var errors: [CGFloat] = []
 
-        // 阶段1：校准（模拟手刚入画面的 0.5s）
+        // 用前30帧做真实校准（模拟手入画面），滤波器从真实手部位置开始收敛
+        let calibFrames = min(30, frames.count)
         controller.startCalibration()
         for i in 0..<calibFrames {
-            let (hand, _) = frames[i]
-            if controller.accumulateOrigin(hand) { break }  // 校准完成
+            if controller.accumulateOrigin(frames[i].hand) { break }
         }
-        // 如果没完成（样本不够），强制等足时间
         if controller.calibrationState != .tracking {
             Thread.sleep(forTimeInterval: 0.55)
-            _ = controller.accumulateOrigin(frames[calibFrames-1].0)
+            _ = controller.accumulateOrigin(frames[calibFrames-1].hand)
+        }
+        print("   校准原点: (\(String(format:"%.3f",controller.origin.x)),\(String(format:"%.3f",controller.origin.y)))")
+
+        // 预热30帧（滤波器从校准原点收敛到手部轨迹）
+        let warmupStart = calibFrames
+        let warmupEnd = min(warmupStart + 30, frames.count)
+        for i in warmupStart..<warmupEnd {
+            controller.updateWithAbsolutePosition(
+                handCenter: frames[i].hand, screenSize: screen, gain: gain, handedness: .unknown)
         }
 
-        // 阶段2：跟踪（只记录跟踪帧，跳过校准帧）
-        for i in calibFrames..<frames.count {
-            let (hand, _) = frames[i]
+        // 正式回放 + 验证（跳过校准和预热帧）
+        for i in warmupEnd..<frames.count {
+            let frame = frames[i]
             controller.updateWithAbsolutePosition(
-                handCenter: hand, screenSize: screen,
-                gain: gain, handedness: .unknown
-            )
-            // 模拟 120Hz timer: 检测帧间隔~42ms → 约5次 lerp 追赶
+                handCenter: frame.hand, screenSize: screen, gain: gain, handedness: .unknown)
             for _ in 0..<5 {
                 let nx = controller.currentPosition.x + (controller.targetPosition.x - controller.currentPosition.x) * 0.65
                 let ny = controller.currentPosition.y + (controller.targetPosition.y - controller.currentPosition.y) * 0.65
                 controller.currentPosition = CGPoint(x: nx, y: ny)
             }
             let cursor = controller.computeCursor(screenSize: screen, sensitivity: 1.0)
-            logLines.append("[CURSOR-ABS] hand=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) filter=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
+
+            let error = sqrt(pow(controller.targetPosition.x - frame.originalTarget.x, 2) +
+                            pow(controller.targetPosition.y - frame.originalTarget.y, 2))
+            errors.append(error)
+
+            logLines.append("[CURSOR-ABS] hand=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) filter=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
         }
-        return logLines
+        return (logLines, errors)
     }
 }
 
@@ -72,21 +106,28 @@ struct ReplayTest {
     let traceDir = baseDir.appendingPathComponent("Docs/logs").path
     let files = try FileManager.default.contentsOfDirectory(atPath: traceDir)
     guard let traceFile = files.first(where: { $0.hasSuffix("-trace.tsv") }) else {
-        print("⏭ 跳过回放：无 trace 文件"); return
+        print("⏭ 跳过：无 trace"); return
     }
     let tracePath = "\(traceDir)/\(traceFile)"
-    let frames = ReplayTest.parseHandPositions(from: tracePath)
-    guard frames.count > 20 else {
-        print("⏭ 跳过回放：trace 数据不足(\(frames.count)帧)"); return
+    let frames = ReplayTest.parseTrace(from: tracePath)
+    guard frames.count > 50 else {
+        print("⏭ 跳过：数据不足(\(frames.count)帧)"); return
     }
 
-    print("回放: \(traceFile) (\(frames.count)帧) → 当前算法 v\(String(describing: Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "?"))")
+    print("回放: \(traceFile) (\(frames.count)帧)")
 
-    let logLines = ReplayTest.replay(trace: frames)
+    let (logLines, errors) = ReplayTest.replay(trace: frames)
     let replayLog = "/tmp/replay-\(traceFile.replacingOccurrences(of: "-trace.tsv", with: "")).log"
     try logLines.joined(separator: "\n").write(toFile: replayLog, atomically: true, encoding: .utf8)
-    print("✅ 回放完成: \(logLines.count) 帧 → \(replayLog)")
-    print("📊 运行: ./scripts/analyze-cursor-log.sh \(replayLog)")
+
+    // 分析回放结果
+    let avgError = errors.reduce(0, +) / CGFloat(errors.count)
+    print("✅ 回放完成: \(logLines.count)帧 (校准+预热跳过\(frames.count - logLines.count)帧)")
+    print("📐 回放一致性 (与原始trace比, 不同初始条件会有偏差):")
+    print("   平均target偏差: \(String(format:"%.0f", avgError))px")
+    print("💡 回放用途: 同一trace对比不同版本 → 纯算法差异")
+    print("   不追求绝对值匹配, 追求版本间相对比较")
+    print("📊 指标分析: ./scripts/analyze-cursor-log.sh \(replayLog)")
 }
 
 // MARK: - 1€ Filter 单元测试

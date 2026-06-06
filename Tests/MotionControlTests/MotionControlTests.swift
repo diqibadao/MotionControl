@@ -96,38 +96,31 @@ import Testing
     #expect(controller.calibrationState == .tracking, "应转为跟踪状态")
 }
 
-// MARK: - 左右手镜像测试
+// MARK: - 左右手同向测试（chirality 不再翻转 X）
 
-@Test func leftHand_mirrorsHorizontalOffset() {
+@Test func leftAndRightHand_sameDirection() {
     let controller = CursorController()
-    // 先校准到原点 (0.5, 0.4)
     controller.startCalibration()
     for _ in 0..<8 {
         _ = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.4))
     }
     Thread.sleep(forTimeInterval: 0.55)
     _ = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.4))
-
     #expect(controller.calibrationState == .tracking)
 
-    // 摄像头镜像：handCenter=0.6 在画面右侧 → 手物理位置在左侧
-    // cursorX = screenCX - offset * gain。右手 offset=0.1 → cursor=960-384=576（左）
+    // 右手：handCenter>origin → cursor 左移
     controller.updateWithAbsolutePosition(
         handCenter: CGPoint(x: 0.6, y: 0.4),
         screenSize: CGSize(width: 1920, height: 1080),
-        gain: 2.0,
-        handedness: .right
+        gain: 2.0, handedness: .right
     )
-    let rightTarget = controller.targetPosition
-    #expect(rightTarget.x < 960, "摄像头镜像：画面右侧 = 物理左侧，光标应左移")
+    #expect(controller.targetPosition.x < 960, "右手：handCenter>origin → 光标左移")
 
-    // 左手 x 镜像取反：offset = -0.1 → cursor=960+384=1344（右）
+    // 左手：同向，不再镜像
     controller.updateWithAbsolutePosition(
         handCenter: CGPoint(x: 0.6, y: 0.4),
         screenSize: CGSize(width: 1920, height: 1080),
-        gain: 2.0,
-        handedness: .left
+        gain: 2.0, handedness: .left
     )
-    let leftTarget = controller.targetPosition
-    #expect(leftTarget.x > 960, "左手镜像取反：画面右侧 = 物理左侧但 x 反向 → 光标右移")
+    #expect(controller.targetPosition.x < 960, "左手：handCenter>origin → 光标同向左移")
 }

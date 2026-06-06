@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import AppKit
 
 // MARK: - 1€ Filter（One Euro Filter）
 /// CHI 2012, Casiez et al. — 自适应低通滤波器，专为带噪声的实时交互信号设计。
@@ -230,6 +231,12 @@ class CursorController {
             origin = CGPoint(x: avgX, y: avgY)
             calibrationState = .tracking
             fingerActive = true
+
+            // 初始化 currentPosition 到屏幕中心，避免首帧跳 (0,0)
+            if currentPosition == .zero {
+                let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
+                currentPosition = CGPoint(x: screen.width / 2, y: screen.height / 2)
+            }
             return true
         }
         return false
@@ -254,8 +261,9 @@ class CursorController {
         let rawOffsetX = fx - origin.x
         let rawOffsetY = fy - origin.y
 
-        // 左手：水平方向反向
-        let offsetX = (handedness == .left) ? -rawOffsetX : rawOffsetX
+        // 原点校准已自适应左右手差异（右手原点≈0.3, 左手原点≈0.7）
+        // screenCX - offsetX 已补偿摄像头镜像，无需额外 chirality 翻转
+        let offsetX = rawOffsetX
         let offsetY = rawOffsetY
 
         // 绝对映射：屏幕中心 + 偏移 × 屏幕尺寸 × 增益

@@ -171,6 +171,13 @@ struct HandPoseResult {
 class HandPoseDetector {
     private let request = VNDetectHumanHandPoseRequest()
 
+    // MARK: - Chirality 滞后锁
+    /// Vision 的 chirality 检测帧间不稳定（同一只手会在 .left/.right 之间跳）。
+    /// 滞后锁：需连续 3 帧相同才切换，避免光标镜像跳变。
+    private var lockedHandSide: HandSide = .unknown
+    private var chiralityVoteCount = 0
+    private var chiralityCandidate: HandSide = .unknown
+
     /// 从 CMSampleBuffer 检测第一只手的关键点
     /// - Parameter sampleBuffer: 视频帧样本缓冲
     /// - Returns: 检测结果，若未检测到手则返回 nil
@@ -211,7 +218,32 @@ class HandPoseDetector {
             return nil
         }
 
-        let result = HandPoseResult(observation: observation)
+        var result = HandPoseResult(observation: observation)
+
+        // Chirality 滞后锁：需连续 3 帧同一方向才切换
+        if var r = result {
+            let rawSide = r.handSide
+            switch rawSide {
+            case .left, .right:
+                if rawSide == chiralityCandidate {
+                    chiralityVoteCount += 1
+                    if chiralityVoteCount >= 3 && rawSide != lockedHandSide {
+                        lockedHandSide = rawSide
+                    }
+                } else {
+                    chiralityCandidate = rawSide
+                    chiralityVoteCount = 1
+                }
+            case .unknown:
+                break
+            }
+            r.handSide = lockedHandSide
+            result = r
+        } else {
+            // 手丢失时重置滞后状态
+            chiralityVoteCount = 0
+            chiralityCandidate = .unknown
+        }
 
         // 获取手腕置信度作为代表
         let wristConfidence: Float

@@ -226,7 +226,7 @@ struct ContentView: View {
             // 每帧只移动一小步（lerp=0.35），即使目标很远也不会跳变
             let timer = Timer.scheduledTimer(withTimeInterval: 1.0/120.0, repeats: true) { _ in
                 guard cursorController.fingerActive else { return }
-                let lerp: CGFloat = 0.5  // 更快追赶目标，减少滞后感
+                let lerp: CGFloat = 0.65  // 更快追赶目标，减少滞后感
                 let pos = cursorController.currentPosition
                 let target = cursorController.targetPosition
                 let newX = pos.x + (target.x - pos.x) * lerp

@@ -197,19 +197,6 @@ class CursorController {
     private var filterY = OneEuroFilter(fcMin: 0.8, beta: 0.05, fcD: 1.0)
     private var filterTimeBase: TimeInterval = 0
 
-    // MARK: - 边缘状态
-    private var edgeDirX: Int = 0        // -1=左缘,0=正常,1=右缘
-    private var edgeDirY: Int = 0        // -1=上缘,0=正常,1=下缘
-    private var prevOffsetX: CGFloat = 0
-    private var prevOffsetY: CGFloat = 0
-
-    /// 帧丢失时重置滤波器状态（不重置校准）
-    func resetFilters() {
-        filterX.reset()
-        filterY.reset()
-        filterTimeBase = 0
-    }
-
     /// 手进入画面时开始校准原点
     func startCalibration() {
         filterX.reset()
@@ -280,61 +267,11 @@ class CursorController {
         let offsetY = rawOffsetY
 
         // 绝对映射：屏幕中心 + 偏移 × 屏幕尺寸 × 增益
-        // 三区可变增益（专利 US20150177855A1 + US20020033799A1）
         let screenCX = screenSize.width / 2
         let screenCY = screenSize.height / 2
-        let dist = sqrt(offsetX * offsetX + offsetY * offsetY)
 
-        // 边缘反向检测：记录贴边方向，手反向→立即解贴
-        let rawCursorX = screenCX - offsetX * screenSize.width * CGFloat(gain)
-        let rawCursorY = screenCY + offsetY * screenSize.height * CGFloat(gain)
-        let edgeMargin: CGFloat = 5
-
-        // X 边缘处理
-        var effectiveOffsetX = offsetX
-        if rawCursorX <= edgeMargin {
-            edgeDirX = -1  // 卡左缘
-        } else if rawCursorX >= screenSize.width - edgeMargin {
-            edgeDirX = 1   // 卡右缘
-        } else {
-            edgeDirX = 0
-        }
-        // 手反向移动 → 立即清零该方向死区
-        let dirX = CGFloat(edgeDirX)
-        if edgeDirX != 0 && offsetX * dirX < prevOffsetX * dirX {
-            effectiveOffsetX = offsetX  // 反向，立即响应
-        }
-        prevOffsetX = offsetX
-
-        // Y 边缘处理（同理）
-        var effectiveOffsetY = offsetY
-        if rawCursorY <= edgeMargin {
-            edgeDirY = -1
-        } else if rawCursorY >= screenSize.height - edgeMargin {
-            edgeDirY = 1
-        } else {
-            edgeDirY = 0
-        }
-        let dirY = CGFloat(edgeDirY)
-        if edgeDirY != 0 && offsetY * dirY < prevOffsetY * dirY {
-            effectiveOffsetY = offsetY
-        }
-        prevOffsetY = offsetY
-
-        // 三区增益
-        let gainMultiplier: CGFloat
-        if dist < 0.12 {
-            gainMultiplier = 1.0                    // Interior: 精控
-        } else if dist < 0.25 {
-            let t = (dist - 0.12) / 0.13           // Border: 1.0→2.0
-            gainMultiplier = 1.0 + t * 1.0
-        } else {
-            gainMultiplier = 2.0                    // Margin: 饱和
-        }
-        let effectiveGain = CGFloat(gain) * gainMultiplier
-
-        let cursorX = screenCX - effectiveOffsetX * screenSize.width * effectiveGain
-        let cursorY = screenCY + effectiveOffsetY * screenSize.height * effectiveGain
+        let cursorX = screenCX - offsetX * screenSize.width * CGFloat(gain)
+        let cursorY = screenCY + offsetY * screenSize.height * CGFloat(gain)
 
         // 设定目标位置，120Hz 定时器 Lerp 追赶
         targetPosition = CGPoint(

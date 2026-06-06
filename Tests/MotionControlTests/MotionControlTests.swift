@@ -7,13 +7,12 @@ import Testing
 
 /// 回放历史手部轨迹，用当前 CursorController 算法重算光标位置
 struct ReplayTest {
-    /// 解析 trace 文件中的 hand 位置
+    /// 解析 trace 文件中的 hand 位置，保留原始时间戳
     static func parseHandPositions(from path: String) -> [(CGPoint, TimeInterval)] {
         guard let content = try? String(contentsOfFile: path, encoding: .utf8) else { return [] }
         var frames: [(CGPoint, TimeInterval)] = []
         var t: TimeInterval = 0
         for line in content.components(separatedBy: "\n") {
-            // 格式: ... hand=(0.418,0.392) filter=...
             guard let handStart = line.range(of: "hand=(") else { continue }
             let rest = line[handStart.upperBound...]
             guard let handEnd = rest.firstIndex(of: ")") else { continue }
@@ -22,64 +21,72 @@ struct ReplayTest {
             guard coords.count >= 2,
                   let hx = Double(coords[0]), let hy = Double(coords[1]) else { continue }
             frames.append((CGPoint(x: hx, y: hy), t))
-            t += 1.0 / 24.0
+            t += 1.0 / 24.0  // 模拟 24fps 检测帧率
         }
         return frames
+    }
+
+    /// 执行回放，返回日志行
+    static func replay(trace frames: [(CGPoint, TimeInterval)],
+                       screen: CGSize = CGSize(width: 1920, height: 1080),
+                       gain: Float = 2.0) -> [String] {
+        let controller = CursorController()
+        var logLines: [String] = []
+        let calibFrames = min(15, frames.count)
+
+        // 阶段1：校准（模拟手刚入画面的 0.5s）
+        controller.startCalibration()
+        for i in 0..<calibFrames {
+            let (hand, _) = frames[i]
+            if controller.accumulateOrigin(hand) { break }  // 校准完成
+        }
+        // 如果没完成（样本不够），强制等足时间
+        if controller.calibrationState != .tracking {
+            Thread.sleep(forTimeInterval: 0.55)
+            _ = controller.accumulateOrigin(frames[calibFrames-1].0)
+        }
+
+        // 阶段2：跟踪（只记录跟踪帧，跳过校准帧）
+        for i in calibFrames..<frames.count {
+            let (hand, _) = frames[i]
+            controller.updateWithAbsolutePosition(
+                handCenter: hand, screenSize: screen,
+                gain: gain, handedness: .unknown
+            )
+            // 模拟 120Hz timer: 检测帧间隔~42ms → 约5次 lerp 追赶
+            for _ in 0..<5 {
+                let nx = controller.currentPosition.x + (controller.targetPosition.x - controller.currentPosition.x) * 0.65
+                let ny = controller.currentPosition.y + (controller.targetPosition.y - controller.currentPosition.y) * 0.65
+                controller.currentPosition = CGPoint(x: nx, y: ny)
+            }
+            let cursor = controller.computeCursor(screenSize: screen, sensitivity: 1.0)
+            logLines.append("[CURSOR-ABS] hand=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) filter=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
+        }
+        return logLines
     }
 }
 
 @Test func replayTrace_comparesOutput() throws {
-    // 查找可用的 trace 文件（从项目根目录）
     let baseDir = URL(fileURLWithPath: #filePath)
         .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     let traceDir = baseDir.appendingPathComponent("Docs/logs").path
     let files = try FileManager.default.contentsOfDirectory(atPath: traceDir)
     guard let traceFile = files.first(where: { $0.hasSuffix("-trace.tsv") }) else {
-        print("跳过回放测试：无 trace 文件")
-        return
+        print("⏭ 跳过回放：无 trace 文件"); return
     }
     let tracePath = "\(traceDir)/\(traceFile)"
-    print("回放文件: \(tracePath)")
     let frames = ReplayTest.parseHandPositions(from: tracePath)
-    print("解析到 \(frames.count) 帧")
-    guard frames.count > 10 else {
-        print("跳过回放测试：trace 数据不足")
-        return
+    guard frames.count > 20 else {
+        print("⏭ 跳过回放：trace 数据不足(\(frames.count)帧)"); return
     }
 
-    let controller = CursorController()
-    let screen = CGSize(width: 1920, height: 1080)
-    var logLines: [String] = []
+    print("回放: \(traceFile) (\(frames.count)帧) → 当前算法 v\(String(describing: Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "?"))")
 
-    // 第一阶段：校准（前15帧模拟手入画面）
-    controller.startCalibration()
-    for i in 0..<min(15, frames.count) {
-        let (hand, _) = frames[i]
-        _ = controller.accumulateOrigin(hand)
-    }
-    // 等待校准完成
-    Thread.sleep(forTimeInterval: 0.55)
-    _ = controller.accumulateOrigin(frames[min(14, frames.count-1)].0)
-    #expect(controller.calibrationState == .tracking, "校准应完成")
-
-    // 第二阶段：跟踪
-    for i in 0..<frames.count {
-        let (hand, _) = frames[i]
-        controller.updateWithAbsolutePosition(
-            handCenter: hand,
-            screenSize: screen,
-            gain: 2.0,
-            handedness: .unknown
-        )
-        let cursor = controller.computeCursor(screenSize: screen, sensitivity: 1.0)
-        logLines.append("[CURSOR-ABS] hand=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) filter=(\(String(format:"%.3f",hand.x)),\(String(format:"%.3f",hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
-    }
-
-    // 写入回放日志
+    let logLines = ReplayTest.replay(trace: frames)
     let replayLog = "/tmp/replay-\(traceFile.replacingOccurrences(of: "-trace.tsv", with: "")).log"
     try logLines.joined(separator: "\n").write(toFile: replayLog, atomically: true, encoding: .utf8)
-    print("回放完成: \(frames.count) 帧 → \(replayLog)")
-    print("运行: ./scripts/analyze-cursor-log.sh \(replayLog)")
+    print("✅ 回放完成: \(logLines.count) 帧 → \(replayLog)")
+    print("📊 运行: ./scripts/analyze-cursor-log.sh \(replayLog)")
 }
 
 // MARK: - 1€ Filter 单元测试

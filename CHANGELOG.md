@@ -2,6 +2,57 @@
 
 ---
 
+## v0.7.2 (2026-06-10)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/frame-loss-guard` |
+| **基准** | `v0.7.1` |
+| **作者** | Claude Fable 5 |
+
+### 🐛 修复
+
+**边缘粘连** — 去掉 edgeDamping 0.6，纯 clamp 裁剪
+- 边缘死区 15.9% → 1.6%（-89.9%）
+- 跳变、反转每帧率同时改善
+- 业界标准：绝对映射不应对边缘单独降增益
+
+**palmCenter 优化** — 中三指 MCP（index+middle+ring）均值，去 wrist+小指
+- wrist 抖动 44.5px 拉偏中心，小指检测率最低 90.3%
+- 方向一致性 X +5.5%、染色体对称性 +23.7%、抖动 -1.4px
+
+**TCC 崩溃** — PermissionManager Speech 检查加 Bundle 判断，CLI 模式跳过
+
+### ✨ 新功能
+
+**日志自动落盘** — EventLogger 启动时自动创建 `Data/logs/raw/run_*.log`
+- 线程安全（串行队列），每次 `log()` 同时写 stdout + 文件
+- 分析管道：`analyze-cursor-log-v5.py --json` → `update-baseline.py` → `generate-report.py`
+
+**PECF HTML 报告** — 静态 HTML，8 列统一格式（Baseline/当前/上次/目标/Δ最佳/Δ上次/判定）
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | 去 edgeDamping，纯 clamp |
+| `HandPoseDetector.swift` | palmCenter 中三指 MCP 均值 |
+| `EventLogger.swift` | startLogFile/stopLogFile，文件持久化 |
+| `MotionControlApp.swift` | 日志启停生命周期 + KEYPOINTS 埋点 |
+| `PermissionManager.swift` | Speech 检查 CLI 兼容 |
+| `Package.swift` | DEBUG flag + Info.plist 嵌入 |
+| `MotionControlTests.swift` | chirality 测试方向统一 |
+| `scripts/analyze-cursor-log-v5.py` | --json 输出扩展（+frames/kp/l1/problems） |
+| `scripts/update-baseline.py` | 🆕 自动更新基线，保留每项最优 |
+| `scripts/generate-report.py` | 🆕 JSON→HTML 报告生成 |
+
+### 📊 PECF
+
+- J(P): 11🟢 / 0🔴，Pareto 改善通过
+- 3328 帧实测，3 个历史问题全部消失
+
+---
+
 ## v0.7.1 (2026-06-06)
 
 | 属性 | 内容 |

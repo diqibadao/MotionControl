@@ -9,9 +9,23 @@ class PermissionManager {
     func checkAll() async -> (camera: Bool, mic: Bool, speech: Bool, accessibility: Bool) {
         async let camera = checkCamera()
         async let mic = checkMicrophone()
-        async let speech = checkSpeech()
+        // Speech 权限检查仅在 App Bundle 环境下执行（CLI 调用 SFSpeechRecognizer API 会 TCC SIGABRT）
+        let speech = checkSpeechSafe()
         let accessibility = checkAccessibility()
         return await (camera, mic, speech, accessibility)
+    }
+
+    /// 安全版 Speech 权限检查：非 Bundle 环境直接返回 false，避免 TCC 崩溃
+    private func checkSpeechSafe() -> Bool {
+        guard Bundle.main.bundlePath.hasSuffix(".app") else { return false }
+        let sem = DispatchSemaphore(value: 0)
+        var authorized = false
+        SFSpeechRecognizer.requestAuthorization { status in
+            authorized = (status == .authorized)
+            sem.signal()
+        }
+        _ = sem.wait(timeout: .now() + 5)
+        return authorized
     }
     
     func checkCamera() async -> Bool {

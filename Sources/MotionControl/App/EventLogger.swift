@@ -1,21 +1,64 @@
 import Foundation
 
 class EventLogger {
-    /// 输出日志，格式：[日期] [事件] [frame:?] IN:输入 → OUT:输出 (耗时ms)
-    static func log(event: String, frame: Int?, input: String, output: String, duration: Double?) {
+    /// 当前日志文件路径（供分析脚本读取）
+    static private(set) var currentLogPath: String?
+
+    private static let logQueue = DispatchQueue(label: "com.motioncontrol.eventlogger", qos: .utility)
+    private static var logFileURL: URL?
+    private static let df: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return f
+    }()
+
+    /// 启动日志文件（APP 启动时调用一次）
+    static func startLogFile() {
         let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        df.dateFormat = "yyyyMMdd_HHmmss"
+        let name = "run_\(df.string(from: Date())).log"
+        let dir = "Data/logs/raw"
+        let dirURL = URL(fileURLWithPath: dir)
+        try? FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true)
+
+        let fileURL = URL(fileURLWithPath: "\(dir)/\(name)")
+        // 创建文件（空文件）
+        FileManager.default.createFile(atPath: fileURL.path, contents: nil)
+        logFileURL = fileURL
+        currentLogPath = fileURL.path
+        print("[EVENTLOGGER] 日志文件: \(fileURL.path)")
+    }
+
+    /// 停止日志（APP 退出时调用）
+    static func stopLogFile() {
+        logQueue.sync {}
+    }
+
+    /// 输出日志到 stdout + 文件
+    static func log(event: String, frame: Int?, input: String, output: String, duration: Double?) {
         let timestamp = df.string(from: Date())
-        var log = "[\(timestamp)]"
-        log += " [\(event)]"
+        var line = "[\(timestamp)]"
+        line += " [\(event)]"
         if let f = frame {
-            log += " [frame:\(f)]"
+            line += " [frame:\(f)]"
         }
-        log += " IN: \(input) → OUT: \(output)"
+        line += " IN: \(input) → OUT: \(output)"
         if let d = duration {
-            let ms = Int(d * 1000) // 假设 duration 以秒为单位，转换为毫秒
-            log += " (\(ms)ms)"
+            let ms = Int(d * 1000)
+            line += " (\(ms)ms)"
         }
-        print(log)
+        print(line)
+
+        guard let url = logFileURL else { return }
+        let lineWithNewline = line + "\n"
+        logQueue.async {
+            if let data = lineWithNewline.data(using: .utf8) {
+                if let fh = try? FileHandle(forUpdating: url) {
+                    fh.seekToEndOfFile()
+                    try? fh.write(contentsOf: data)
+                    try? fh.close()
+                }
+            }
+        }
     }
 }

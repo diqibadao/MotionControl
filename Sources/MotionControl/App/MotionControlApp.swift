@@ -62,6 +62,7 @@ struct ContentView: View {
             ConfigPanelView(state: state)
         }
         .onAppear {
+            EventLogger.startLogFile()
             cameraService.onSampleBuffer = { [weak detectionPipeline] sampleBuffer in
                 detectionPipeline?.didOutputFrame(sampleBuffer)
             }
@@ -155,7 +156,20 @@ struct ContentView: View {
                 if let p = handResult.littlePIP { points.append(p) }
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
-                
+
+                // 原始数据埋点：每帧关键点质量 + handSide（供三层分析体系 Layer 1）
+                let kp = handResult
+                let kpStr = [
+                    "handSide=\(kp.handSide)",
+                    String(format:"wrist=%.3f,%.3f,%.0f", kp.wrist?.x ?? -1, kp.wrist?.y ?? -1, (kp.wrist != nil ? 1.0 : 0)),
+                    String(format:"indexMCP=%.3f,%.3f,%.0f", kp.indexMCP?.x ?? -1, kp.indexMCP?.y ?? -1, (kp.indexMCP != nil ? 1.0 : 0)),
+                    String(format:"middleMCP=%.3f,%.3f,%.0f", kp.middleMCP?.x ?? -1, kp.middleMCP?.y ?? -1, (kp.middleMCP != nil ? 1.0 : 0)),
+                    String(format:"ringMCP=%.3f,%.3f,%.0f", kp.ringMCP?.x ?? -1, kp.ringMCP?.y ?? -1, (kp.ringMCP != nil ? 1.0 : 0)),
+                    String(format:"littleMCP=%.3f,%.3f,%.0f", kp.littleMCP?.x ?? -1, kp.littleMCP?.y ?? -1, (kp.littleMCP != nil ? 1.0 : 0)),
+                    String(format:"palmCenter=%.3f,%.3f", kp.palmCenter?.x ?? -1, kp.palmCenter?.y ?? -1),
+                ].joined(separator: " ")
+                EventLogger.log(event: "KEYPOINTS", frame: nil, input: kpStr, output: "", duration: nil)
+
                 // 绝对位置映射 + 原点校准
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
@@ -166,8 +180,8 @@ struct ContentView: View {
 
                     switch cursorController.calibrationState {
                     case .idle:
-                        // 手刚出现 → 开始校准
-                        cursorController.startCalibration()
+                        // 手刚出现 → 开始校准（左手延长至0.8s）
+                        cursorController.startCalibration(handedness: handResult.handSide)
                         cursorController.accumulateOrigin(center)
 
                     case .calibrating:
@@ -250,6 +264,7 @@ struct ContentView: View {
             uiScanner.stop()
             frameGenTimer?.invalidate()
             frameGenTimer = nil
+            EventLogger.stopLogFile()
         }
         .task {
             let perms = await PermissionManager.shared.checkAll()

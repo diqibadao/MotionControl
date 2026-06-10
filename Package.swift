@@ -13,7 +13,18 @@ let package = Package(
         .executableTarget(
             name: "MotionControl",
             dependencies: [],
-            resources: []
+            resources: [],
+            swiftSettings: [
+                .define("DEBUG", .when(configuration: .debug))
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xlinker", "-sectcreate",
+                    "-Xlinker", "__TEXT",
+                    "-Xlinker", "__info_plist",
+                    "-Xlinker", "Sources/MotionControl/Info.plist"
+                ])
+            ]
         ),
         .testTarget(
             name: "MotionControlTests",

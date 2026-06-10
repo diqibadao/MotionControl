@@ -94,7 +94,7 @@ struct ReplayTest {
                             pow(controller.targetPosition.y - frame.originalTarget.y, 2))
             errors.append(error)
 
-            logLines.append("[CURSOR-ABS] hand=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) filter=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
+            logLines.append("[CURSOR-ABS] handSide=unknown hand=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) filter=(\(String(format:"%.3f",frame.hand.x)),\(String(format:"%.3f",frame.hand.y))) target=(\(String(format:"%.0f",controller.targetPosition.x)),\(String(format:"%.0f",controller.targetPosition.y))) cursor=(\(String(format:"%.0f",cursor.x)),\(String(format:"%.0f",cursor.y)))")
         }
         return (logLines, errors)
     }
@@ -233,9 +233,9 @@ struct ReplayTest {
     #expect(controller.calibrationState == .tracking, "应转为跟踪状态")
 }
 
-// MARK: - 左右手方向测试（chirality 翻转 X 补偿摄像头镜像）
+// MARK: - 左右手方向测试（左右手统一映射，无需翻转 X）
 
-@Test func leftAndRightHand_oppositeDirections() {
+@Test func leftAndRightHand_sameDirectionMapping() {
     let controller = CursorController()
     controller.startCalibration()
     for _ in 0..<8 {
@@ -251,13 +251,17 @@ struct ReplayTest {
         screenSize: CGSize(width: 1920, height: 1080),
         gain: 2.0, handedness: .right
     )
-    #expect(controller.targetPosition.x < 960, "右手：handCenter>origin → 光标左移")
+    let rightTargetX = controller.targetPosition.x
+    #expect(rightTargetX < 960, "右手：handCenter>origin → 光标左移")
 
-    // 左手：摄像头镜像后方向需翻转，handCenter>origin → 光标右移
+    // 左手：与右手一致，handCenter>origin → 光标左移（无需镜像补偿）
+    // 摄像头镜像下，手物理右移→摄像头X↓→offset负→cursorX=screenCX-(-)→光标右移 ✓
+    // 手物理左移→摄像头X↑→offset正→cursorX=screenCX-(+)→光标左移 ✓
     controller.updateWithAbsolutePosition(
         handCenter: CGPoint(x: 0.6, y: 0.4),
         screenSize: CGSize(width: 1920, height: 1080),
         gain: 2.0, handedness: .left
     )
-    #expect(controller.targetPosition.x > 960, "左手：handCenter>origin → 光标右移（镜像补偿）")
+    #expect(controller.targetPosition.x < 960, "左手：与右手一致，handCenter>origin → 光标左移")
+    #expect(abs(controller.targetPosition.x - rightTargetX) < 1.0, "左右手相同手位应产生相同光标位置")
 }

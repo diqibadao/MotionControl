@@ -23,6 +23,8 @@
 - Sources/MotionControl/Detection/DetectionPipeline.swift
 - Sources/MotionControl/Detection/GazeEstimator.swift
 - Sources/MotionControl/Control/MouseController.swift
+- Sources/MotionControl/App/EventLogger.swift
+- Sources/MotionControl/Detection/HandPoseDetector.swift
 - Sources/MotionControl/Views/*.swift
 
 ## P-ARCH（架构级，需plan+流程图）
@@ -41,7 +43,6 @@
 - `Sources/MotionControl/Camera/CameraService.swift`
 - `Sources/MotionControl/Voice/*.swift`
 - `Sources/MotionControl/Config/ConfigManager.swift`
-- `Sources/MotionControl/App/EventLogger.swift`
 - `Sources/MotionControl/App/SystemState.swift`
 - `.hermes/plans/*.md`（历史 plan 只读）
 - `PERMISSIONS.md`（本文件）

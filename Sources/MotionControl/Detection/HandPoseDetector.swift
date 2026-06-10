@@ -97,27 +97,17 @@ struct HandPoseResult {
         littleMCP    = point(.littleMCP)
     }
 
-    /// 手掌几何中心 — 多级降级策略
-    /// 1. 最优：wrist + 4 MCP（SRM 论文方案）
-    /// 2. wrist 缺失时：仅 MCP
-    /// 3. MCP 也缺时：用 middleTip 近似
+    /// 手掌几何中心 — 中三指 MCP（index + middle + ring）均值
+    /// 去掉 wrist（抖动 44.5px）和 littleMCP（检测率最低 90.3%），
+    /// 用最稳定的三指定位，改善底部触达
     var palmCenter: CGPoint? {
-        // 第一级：wrist + MCPs
-        let primary = [wrist, indexMCP, middleMCP, ringMCP, littleMCP]
-        let primaryValid = primary.compactMap { $0 }
-        if primaryValid.count >= 2 {
-            let avgX = primaryValid.reduce(0) { $0 + $1.x } / CGFloat(primaryValid.count)
-            let avgY = primaryValid.reduce(0) { $0 + $1.y } / CGFloat(primaryValid.count)
-            return CGPoint(x: avgX, y: avgY)
-        }
-        // 第二级：只用 MCPs（手腕出画面时）
-        let mcps = [indexMCP, middleMCP, ringMCP, littleMCP].compactMap { $0 }
+        let mcps = [indexMCP, middleMCP, ringMCP].compactMap { $0 }
         if !mcps.isEmpty {
             let avgX = mcps.reduce(0) { $0 + $1.x } / CGFloat(mcps.count)
             let avgY = mcps.reduce(0) { $0 + $1.y } / CGFloat(mcps.count)
             return CGPoint(x: avgX, y: avgY)
         }
-        // 第三级：指尖近似（仅手指在画面时）
+        // 降级：指尖近似（仅手指在画面时）
         let tips = [middleTip, indexTip].compactMap { $0 }
         if !tips.isEmpty {
             let avgX = tips.reduce(0) { $0 + $1.x } / CGFloat(tips.count)

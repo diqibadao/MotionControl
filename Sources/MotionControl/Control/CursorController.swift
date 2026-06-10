@@ -82,7 +82,7 @@ class CursorController {
     var origin: CGPoint = CGPoint(x: 0.5, y: 0.4)
 
     /// 原点校准参数
-    private let calibrationDuration: TimeInterval = 0.5  // 校准时长
+    private var calibrationDuration: TimeInterval = 0.5  // 校准时长（左手延长）
     private var calibrationStartTime: Date = .distantPast
     private var originAccumulator: [CGPoint] = []
     private let maxOriginSamples = 15
@@ -209,13 +209,15 @@ class CursorController {
     private let gapRecoveryWindow: TimeInterval = 0.3   // 300ms 内从预测收敛到真实目标
 
     /// 手进入画面时开始校准原点
-    func startCalibration() {
+    func startCalibration(handedness: HandSide = .unknown) {
         filterX.reset()
         filterY.reset()
         filterTimeBase = 0
         calibrationState = .calibrating
         calibrationStartTime = Date()
         originAccumulator = []
+        // 左手需要更长校准时间（位置方差大，原点更不稳定）
+        calibrationDuration = (handedness == .left) ? 0.8 : 0.5
         // 重置帧丢失保护状态
         prevUpdateTime = 0
         prevTarget = .zero
@@ -285,9 +287,10 @@ class CursorController {
         let rawOffsetY = fy - origin.y
 
         // 原点校准自适应左右手差异（右手原点≈0.3, 左手原点≈0.7）
-        // 摄像头镜像 + screenCX - offsetX 对右手正确，但左手需翻转 offsetX
-        // 否则左手右移 → offset>0 → 光标左移（反了）
-        let offsetX = (handedness == .left) ? -rawOffsetX : rawOffsetX
+        // 摄像头镜像下，手物理右移 → 摄像头X减小 → rawOffsetX<0
+        // cursorX = screenCX - offsetX * W * G，负offsetX → 光标右移 ✓
+        // 左右手在镜像下均符合此规律，无需区分翻转
+        let offsetX = rawOffsetX
         let offsetY = rawOffsetY
 
         // 三区可变增益（Variable Absolute Mapping）
@@ -362,8 +365,12 @@ class CursorController {
         currentPosition.y = max(0, min(currentPosition.y, screenSize.height))
 
 #if DEBUG
-        print("[CURSOR-ABS] hand=(\(String(format:"%.3f",handCenter.x)),\(String(format:"%.3f",handCenter.y))) filter=(\(String(format:"%.3f",fx)),\(String(format:"%.3f",fy))) target=(\(String(format:"%.0f",targetPosition.x)),\(String(format:"%.0f",targetPosition.y))) cursor=(\(String(format:"%.0f",currentPosition.x)),\(String(format:"%.0f",currentPosition.y)))")
+        print("[CURSOR-ABS] handSide=\(handedness) hand=(\(String(format:"%.3f",handCenter.x)),\(String(format:"%.3f",handCenter.y))) filter=(\(String(format:"%.3f",fx)),\(String(format:"%.3f",fy))) target=(\(String(format:"%.0f",targetPosition.x)),\(String(format:"%.0f",targetPosition.y))) cursor=(\(String(format:"%.0f",currentPosition.x)),\(String(format:"%.0f",currentPosition.y)))")
 #endif
+        EventLogger.log(event: "CURSOR-ABS", frame: nil,
+                        input: "handSide=\(handedness) hand=(\(String(format:"%.3f",handCenter.x)),\(String(format:"%.3f",handCenter.y))) filter=(\(String(format:"%.3f",fx)),\(String(format:"%.3f",fy)))",
+                        output: "target=(\(String(format:"%.0f",targetPosition.x)),\(String(format:"%.0f",targetPosition.y))) cursor=(\(String(format:"%.0f",currentPosition.x)),\(String(format:"%.0f",currentPosition.y)))",
+                        duration: nil)
         fingerActive = true
     }
 

@@ -68,24 +68,11 @@ struct OneEuroFilter {
 
 class CursorController {
 
-    // MARK: - 校准状态
+    // MARK: - 固定原点和边界盒子
 
-    enum CalibrationState {
-        case idle           // 无手
-        case calibrating    // 手刚出现，累积原点
-        case tracking       // 正常跟踪
-    }
-
-    private(set) var calibrationState: CalibrationState = .idle
-
-    /// 静止原点（归一化坐标，0~1），手在此位置时光标在屏幕中心
-    var origin: CGPoint = CGPoint(x: 0.5, y: 0.4)
-
-    /// 原点校准参数
-    private var calibrationDuration: TimeInterval = 0.5  // 校准时长（左手延长）
-    private var calibrationStartTime: Date = .distantPast
-    private var originAccumulator: [CGPoint] = []
-    private let maxOriginSamples = 15
+    /// 静止原点（归一化坐标，0~1），手在此位置时光标在屏幕中间
+    /// 固定不变（Leap Motion InteractionBox 方案），不动态校准
+    let origin: CGPoint = CGPoint(x: 0.5, y: 0.4)
 
     // MARK: - 属性
 
@@ -208,63 +195,34 @@ class CursorController {
     private let gapThreshold: TimeInterval = 0.2        // >200ms 视为帧丢失
     private let gapRecoveryWindow: TimeInterval = 0.3   // 300ms 内从预测收敛到真实目标
 
-    /// 手进入画面时开始校准原点
-    func startCalibration(handedness: HandSide = .unknown) {
+    /// 手进入画面时重置滤波器，光标从当前位置开始
+    func handAppeared() {
         filterX.reset()
         filterY.reset()
         filterTimeBase = 0
-        calibrationState = .calibrating
-        calibrationStartTime = Date()
-        originAccumulator = []
-        // 左手需要更长校准时间（位置方差大，原点更不稳定）
-        calibrationDuration = (handedness == .left) ? 0.8 : 0.5
-        // 重置帧丢失保护状态
+        fingerActive = true
         prevUpdateTime = 0
         prevTarget = .zero
         screenVelocityX = 0
         screenVelocityY = 0
         gapRecoveryUntil = 0
+        if currentPosition == .zero {
+            let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
+            currentPosition = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        }
     }
 
     /// 手离开画面时重置
-    func endCalibration() {
-        calibrationState = .idle
-        originAccumulator = []
+    func handDisappeared() {
         filterX.reset()
         filterY.reset()
         filterTimeBase = 0
         fingerActive = false
-        // 重置帧丢失保护状态，避免手再出现时旧速度/预测残留
         prevUpdateTime = 0
         prevTarget = .zero
         screenVelocityX = 0
         screenVelocityY = 0
         gapRecoveryUntil = 0
-    }
-
-    /// 累积原点样本，校准完成后返回 true
-    func accumulateOrigin(_ handCenter: CGPoint) -> Bool {
-        guard calibrationState == .calibrating else { return true }
-
-        originAccumulator.append(handCenter)
-        let elapsed = Date().timeIntervalSince(calibrationStartTime)
-
-        if elapsed >= calibrationDuration && originAccumulator.count >= 5 {
-            // 校准完成：用 EMA 平均原点
-            let avgX = originAccumulator.reduce(0) { $0 + $1.x } / CGFloat(originAccumulator.count)
-            let avgY = originAccumulator.reduce(0) { $0 + $1.y } / CGFloat(originAccumulator.count)
-            origin = CGPoint(x: avgX, y: avgY)
-            calibrationState = .tracking
-            fingerActive = true
-
-            // 初始化 currentPosition 到屏幕中心，避免首帧跳 (0,0)
-            if currentPosition == .zero {
-                let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
-                currentPosition = CGPoint(x: screen.width / 2, y: screen.height / 2)
-            }
-            return true
-        }
-        return false
     }
 
     /// 绝对位置映射：手位置 → 光标位置（1€ Filter 平滑）
@@ -316,11 +274,12 @@ class CursorController {
         let cursorX = screenCX - offsetX * screenSize.width * effectiveGain
         let cursorY = screenCY + offsetY * screenSize.height * effectiveGain
 
+        // 屏幕边界约束：坐标在屏幕范围内，手出盒子自动截断
+        let clampedX = max(0, min(cursorX, screenSize.width))
+        let clampedY = max(0, min(cursorY, screenSize.height))
+
         // 设定目标位置，120Hz 定时器 Lerp 追赶
-        let rawTarget = CGPoint(
-            x: max(0, min(cursorX, screenSize.width)),
-            y: max(0, min(cursorY, screenSize.height))
-        )
+        let rawTarget = CGPoint(x: clampedX, y: clampedY)
 
         // Temporal Gap Guard：帧间隔 >200ms → 用预测位置平滑过渡
         let dt = now - prevUpdateTime

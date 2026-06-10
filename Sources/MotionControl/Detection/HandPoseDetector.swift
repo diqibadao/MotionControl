@@ -58,8 +58,11 @@ struct HandPoseResult {
     init?(observation: VNHumanHandPoseObservation) {
         guard let allPoints = try? observation.recognizedPoints(.all) else { return nil }
 
-        // 手腕置信度作为手部整体置信度
-        self.confidence = allPoints[.wrist]?.confidence ?? 0
+        // 中三指 MCP 平均置信度（与 palmCenter 同源，不受 wrist 缺失影响）
+        let mcpConfs: [Float] = [allPoints[.indexMCP]?.confidence ?? 0,
+                                  allPoints[.middleMCP]?.confidence ?? 0,
+                                  allPoints[.ringMCP]?.confidence ?? 0]
+        self.confidence = mcpConfs.reduce(0, +) / Float(mcpConfs.count)
 
         // 左右手自动识别（Vision chirality）
         switch observation.chirality {

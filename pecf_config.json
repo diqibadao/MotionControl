@@ -1,0 +1,404 @@
+{
+  "project": "MotionControl",
+  "version": "0.7.1",
+  "data_source": {
+    "type": "parse"
+  },
+  "metrics": [
+    {
+      "id": "dir_agree_x",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 85.0,
+      "direction": "higher",
+      "weight": 0.10,
+      "epsilon": 3.0,
+      "rationale": "手→光标X方向一致率。基本型底线——手往右挥光标往左走=直接弃用。",
+      "name": "X轴方向一致率"
+    },
+    {
+      "id": "dir_agree_y",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 85.0,
+      "direction": "higher",
+      "weight": 0.08,
+      "epsilon": 5.0,
+      "rationale": "手→光标Y方向一致率。基本型底线——上下挥动手势失灵=功能不可用。",
+      "name": "Y轴方向一致率"
+    },
+    {
+      "id": "left_dir_agree",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 85.0,
+      "direction": "higher",
+      "weight": 0.06,
+      "epsilon": 5.0,
+      "rationale": "左手方向一致率。基本型底线——左手用户的基本跟踪能力，不达标左手用户无法使用。",
+      "name": "左手方向一致率"
+    },
+    {
+      "id": "right_dir_agree",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 85.0,
+      "direction": "higher",
+      "weight": 0.06,
+      "epsilon": 5.0,
+      "rationale": "右手方向一致率。基本型底线——右手用户的基本跟踪能力，不达标主力手无法使用。",
+      "name": "右手方向一致率"
+    },
+    {
+      "id": "chirality_symmetry",
+      "dimension": "交互",
+      "kano": "attractive",
+      "target": 90.0,
+      "direction": "higher",
+      "weight": 0.02,
+      "epsilon": 10.0,
+      "rationale": "左右手对称性。双手位移下光标响应是否对称，影响双手操作直觉。魅力型：不对称也能用，对称更自然。",
+      "name": "左右手对称性"
+    },
+    {
+      "id": "filter_lag",
+      "dimension": "性能",
+      "kano": "must-be",
+      "target": 180.0,
+      "direction": "lower",
+      "weight": 0.06,
+      "epsilon": 20.0,
+      "rationale": "滤波延迟(ms)。基本型底线——>500ms滞后=远程桌面感，用户无法精确定位。",
+      "name": "滤波延迟"
+    },
+    {
+      "id": "tc_lag",
+      "dimension": "性能",
+      "kano": "one-dimensional",
+      "target": 40.0,
+      "direction": "lower",
+      "weight": 0.04,
+      "epsilon": 5.0,
+      "rationale": "T-C滞后(px)。目标点到光标位置的跟踪延迟，系统内部性能指标。期望型：越低越好。",
+      "name": "T-C滞后"
+    },
+    {
+      "id": "total_lag",
+      "dimension": "性能",
+      "kano": "must-be",
+      "target": 220.0,
+      "direction": "lower",
+      "weight": 0.06,
+      "epsilon": 20.0,
+      "rationale": "总滞后=滤波延迟+T-C滞后。基本型底线——端到端延迟>500ms用户感知'不跟手'→弃用。",
+      "name": "总滞后"
+    },
+    {
+      "id": "reversals",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 5.0,
+      "direction": "lower",
+      "weight": 0.05,
+      "epsilon": 2.0,
+      "rationale": "方向反转次数。基本型底线——光标反着走超过5次=用户无法建立手眼协调。",
+      "name": "方向反转次数"
+    },
+    {
+      "id": "left_reversals",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 3.0,
+      "direction": "lower",
+      "weight": 0.01,
+      "epsilon": 2.0,
+      "rationale": "左手方向反转。诊断指标：定位左手反转问题。期望型。",
+      "name": "左手反转"
+    },
+    {
+      "id": "right_reversals",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 3.0,
+      "direction": "lower",
+      "weight": 0.01,
+      "epsilon": 2.0,
+      "rationale": "右手方向反转。诊断指标：定位右手反转问题。期望型。",
+      "name": "右手反转"
+    },
+    {
+      "id": "jumps200",
+      "dimension": "视觉",
+      "kano": "must-be",
+      "target": 11.0,
+      "direction": "lower",
+      "weight": 0.04,
+      "epsilon": 3.0,
+      "rationale": "大跳变>200px次数。基本型底线——光标突然跳跃=视觉不稳定，用户困惑→弃用。",
+      "name": "大跳变>200px"
+    },
+    {
+      "id": "jumps500",
+      "dimension": "视觉",
+      "kano": "must-be",
+      "target": 5.0,
+      "direction": "lower",
+      "weight": 0.04,
+      "epsilon": 2.0,
+      "rationale": "巨型跳变>500px次数。基本型底线——极端跳变=失控感，超过5次用户无法信任光标位置。",
+      "name": "巨型跳变>500px"
+    },
+    {
+      "id": "jitter_radius",
+      "dimension": "视觉",
+      "kano": "must-be",
+      "target": 8.0,
+      "direction": "lower",
+      "weight": 0.06,
+      "epsilon": 3.0,
+      "rationale": "抖动半径(px)。基本型底线——光标静止时随机抖动>50px=看不清光标位置→无法精确定位。",
+      "name": "抖动半径"
+    },
+    {
+      "id": "max_excursion",
+      "dimension": "视觉",
+      "kano": "must-be",
+      "target": 35.0,
+      "direction": "lower",
+      "weight": 0.05,
+      "epsilon": 10.0,
+      "rationale": "最大偏移(px)。基本型底线——光标偏离目标>500px=失控感，用户无法完成点击任务。",
+      "name": "最大偏移"
+    },
+    {
+      "id": "path_efficiency",
+      "dimension": "交互",
+      "kano": "attractive",
+      "target": 85.0,
+      "direction": "higher",
+      "weight": 0.02,
+      "epsilon": 5.0,
+      "rationale": "路径效率(%)。光标实际路径/理想直线路径的比率，越高越'直'。魅力型：弯也能用，直更好。",
+      "name": "路径效率"
+    },
+    {
+      "id": "micro_step",
+      "dimension": "交互",
+      "kano": "attractive",
+      "target": 70.0,
+      "direction": "higher",
+      "weight": 0.02,
+      "epsilon": 5.0,
+      "rationale": "微步0-50px占比(%)。小幅度精细移动的比例，越高说明光标越'稳'、精控越好。魅力型。",
+      "name": "微步占比"
+    },
+    {
+      "id": "normal_step",
+      "dimension": "交互",
+      "kano": "attractive",
+      "target": 20.0,
+      "direction": "higher",
+      "weight": 0.01,
+      "epsilon": 10.0,
+      "rationale": "正常步50-100px占比(%)。正常幅度的移动比例，诊断指标。魅力型。",
+      "name": "正常步占比"
+    },
+    {
+      "id": "large_step",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 3.0,
+      "direction": "lower",
+      "weight": 0.02,
+      "epsilon": 2.0,
+      "rationale": "大步>150px占比(%)。大幅跳步比例，运动风格指标。期望型：越低越平滑。",
+      "name": "大步占比"
+    },
+    {
+      "id": "tc_tight",
+      "dimension": "性能",
+      "kano": "attractive",
+      "target": 45.0,
+      "direction": "higher",
+      "weight": 0.02,
+      "epsilon": 5.0,
+      "rationale": "T-C紧贴0-20px占比(%)。光标紧贴目标的比例，越高越跟手。魅力型。",
+      "name": "紧贴率"
+    },
+    {
+      "id": "tc_good",
+      "dimension": "性能",
+      "kano": "attractive",
+      "target": 60.0,
+      "direction": "higher",
+      "weight": 0.02,
+      "epsilon": 5.0,
+      "rationale": "T-C良好0-40px占比(%)。光标在可接受范围内的比例。魅力型。",
+      "name": "良好跟踪率"
+    },
+    {
+      "id": "tc_severe",
+      "dimension": "性能",
+      "kano": "one-dimensional",
+      "target": 3.0,
+      "direction": "lower",
+      "weight": 0.03,
+      "epsilon": 1.0,
+      "rationale": "T-C严重>120px占比(%)。光标严重偏离目标的比例。期望型：越低越好。",
+      "name": "严重偏离率"
+    },
+    {
+      "id": "x_coverage",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 95.0,
+      "direction": "higher",
+      "weight": 0.06,
+      "epsilon": 2.0,
+      "rationale": "X轴覆盖率(%)。基本型底线——光标到不了屏幕左右边缘=功能不可用。",
+      "name": "X轴覆盖率"
+    },
+    {
+      "id": "y_coverage",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 90.0,
+      "direction": "higher",
+      "weight": 0.08,
+      "epsilon": 2.0,
+      "rationale": "Y轴覆盖率(%)。基本型底线——光标到不了屏幕上下边缘=功能不可用。当前仅18.5%=严重不达标。",
+      "name": "Y轴覆盖率"
+    },
+    {
+      "id": "top_coverage_gap",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.04,
+      "epsilon": 5.0,
+      "rationale": "顶部未达比例(%)。基本型底线——55%屏幕顶部够不到=上半截屏幕不可用。",
+      "name": "顶部未达率"
+    },
+    {
+      "id": "bottom_coverage_gap",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.03,
+      "epsilon": 5.0,
+      "rationale": "底部未达比例(%)。基本型底线——26%底部够不到=Dock栏/Menu Bar区域不可达。",
+      "name": "底部未达率"
+    },
+    {
+      "id": "left_coverage_gap",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.03,
+      "epsilon": 5.0,
+      "rationale": "左侧未达比例(%)。基本型底线——左侧边缘不可达=左侧UI区域失效。",
+      "name": "左侧未达率"
+    },
+    {
+      "id": "right_coverage_gap",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.03,
+      "epsilon": 5.0,
+      "rationale": "右侧未达比例(%)。基本型底线——右侧边缘不可达=右侧UI区域失效。",
+      "name": "右侧未达率"
+    },
+    {
+      "id": "edge_dead_zone",
+      "dimension": "功能",
+      "kano": "one-dimensional",
+      "target": 8.0,
+      "direction": "lower",
+      "weight": 0.02,
+      "epsilon": 3.0,
+      "rationale": "边缘死区(%)。光标到边缘后无法继续移动的区域占比，设计选择指标。期望型：越低屏幕利用率越高。",
+      "name": "边缘死区"
+    },
+    {
+      "id": "edge_frame_pct",
+      "dimension": "功能",
+      "kano": "must-be",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.06,
+      "epsilon": 3.0,
+      "rationale": "边缘帧占比(%)。光标卡在屏幕边缘的帧比例。基本型底线——超过10%用户会投诉光标'卡边'。",
+      "name": "边缘帧占比"
+    },
+    {
+      "id": "dir_misalign",
+      "dimension": "交互",
+      "kano": "must-be",
+      "target": 20.0,
+      "direction": "lower",
+      "weight": 0.04,
+      "epsilon": 5.0,
+      "rationale": "方向错位次数。基本型底线——手移动但光标不动=死区，用户困惑→弃用。",
+      "name": "方向错位次数"
+    },
+    {
+      "id": "left_misalign",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 15.0,
+      "direction": "lower",
+      "weight": 0.01,
+      "epsilon": 5.0,
+      "rationale": "左手方向错位。诊断指标：定位左手死区问题。期望型。",
+      "name": "左手错位"
+    },
+    {
+      "id": "right_misalign",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 15.0,
+      "direction": "lower",
+      "weight": 0.01,
+      "epsilon": 5.0,
+      "rationale": "右手方向错位。诊断指标：定位右手死区问题。期望型。",
+      "name": "右手错位"
+    },
+    {
+      "id": "yonly_misalign",
+      "dimension": "交互",
+      "kano": "one-dimensional",
+      "target": 10.0,
+      "direction": "lower",
+      "weight": 0.01,
+      "epsilon": 5.0,
+      "rationale": "Y-only错位。仅垂直移动时的方向错位，诊断上下手势失灵问题。期望型。",
+      "name": "Y轴错位"
+    },
+    {
+      "id": "frame_drops",
+      "dimension": "性能",
+      "kano": "must-be",
+      "target": 3.0,
+      "direction": "lower",
+      "weight": 0.06,
+      "epsilon": 1.0,
+      "rationale": "帧丢失次数。基本型底线——丢帧>3次用户感知卡顿→弃用。",
+      "name": "帧丢失次数"
+    }
+  ],
+  "gates": {
+    "min_history": 5,
+    "sigma": 2.0,
+    "_note": "前5次为冷启动——分类保守(大部分标期望型)。冷启动结束后按真实Kano重分类，基本型应从4项增至20项。"
+  },
+  "bootstrap": {
+    "enabled": true,
+    "runs": 5,
+    "_note": "重分类后J(P)不可与旧分类直接比较，建议reset Deming基线"
+  }
+}

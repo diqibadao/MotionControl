@@ -4,84 +4,93 @@
   "dir_agree_x": 87.0,
   "dir_agree_y": 82.8,
   "dir_misalign": 3,
-  "edge_dead_zone": 1.6,
+  "edge_dead_zone": 1.0,
   "edge_frame_pct": 0.4,
   "filter_lag": 611.2,
-  "jitter_radius": 8.8,
+  "frame_drops": 10,
+  "jitter_radius": 7.6,
   "jumps200": 3,
+  "jumps500": 3,
   "large_step": 0.2,
   "left_coverage_gap": 0.0,
   "left_dir_agree": 88.2,
-  "max_excursion": 112.0,
+  "max_excursion": 46.0,
   "micro_step": 99.8,
-  "normal_step": 10.3,
+  "normal_step": 21.8,
   "path_efficiency": 97.4,
   "reversals": 6,
   "right_coverage_gap": 0.0,
   "right_dir_agree": 86.8,
   "tc_good": 100.0,
+  "tc_lag": 30.5,
+  "tc_severe": 1.5,
   "tc_tight": 100.0,
-  "top_coverage_gap": -35.8,
+  "top_coverage_gap": 0.0,
   "total_lag": 643.0,
   "x_coverage": 100.0,
-  "y_coverage": 136.0,
-  "left_reversals": 6,
-  "right_reversals": 29,
-  "left_misalign": 14,
-  "right_misalign": 147,
-  "yonly_misalign": 127,
-  "frames": 3328,
-  "keypoints": 4485,
+  "y_coverage": 100.0,
+  "left_reversals": 8,
+  "right_reversals": 10,
+  "left_misalign": 74,
+  "right_misalign": 117,
+  "yonly_misalign": 151,
+  "frames": 2093,
+  "keypoints": 2119,
   "kp_detections": [
     {
       "joint": "wrist",
-      "detection": 90.9,
-      "jitter": 18.9
+      "detection": 97.5,
+      "jitter": 29.4
     },
     {
       "joint": "indexMCP",
-      "detection": 98.2,
-      "jitter": 24.5
+      "detection": 99.5,
+      "jitter": 39.6
     },
     {
       "joint": "middleMCP",
-      "detection": 98.8,
-      "jitter": 24.0
+      "detection": 99.2,
+      "jitter": 40.5
     },
     {
       "joint": "ringMCP",
-      "detection": 98.1,
-      "jitter": 24.8
+      "detection": 99.1,
+      "jitter": 41.0
     },
     {
       "joint": "littleMCP",
-      "detection": 95.4,
-      "jitter": 26.4
+      "detection": 98.4,
+      "jitter": 40.7
     }
   ],
-  "handside_known": 100.0,
-  "left_pct": 20.8,
-  "right_pct": 79.2,
+  "handside_known": 99.9,
+  "left_pct": 43.2,
+  "right_pct": 56.7,
   "wrist_bottom_det": 0.0,
-  "edge_dead_top": 1.2,
-  "edge_dead_bottom": 1.3,
-  "edge_dead_left": 1.9,
-  "edge_dead_right": 1.9,
+  "edge_dead_top": 4.4,
+  "edge_dead_bottom": 1.7,
+  "edge_dead_left": 1.2,
+  "edge_dead_right": 5.2,
   "problems": [
     {
       "level": "🟡",
+      "no": "C1",
+      "desc": "X方向一致率 81% (目标>85%)"
+    },
+    {
+      "level": "🟡",
       "no": "C2",
-      "desc": "Y方向一致率 83% (目标>85%)"
+      "desc": "Y方向一致率 80% (目标>85%)"
     },
     {
       "level": "🟡",
       "no": "#5",
-      "desc": "大跳变 45次 (目标<11)"
+      "desc": "大跳变 51次 (目标<11)"
     },
     {
       "level": "🔴",
       "no": "#6",
-      "desc": "巨型跳变 12次 (目标<5)"
+      "desc": "巨型跳变 24次 (目标<5)"
     }
   ]
 }

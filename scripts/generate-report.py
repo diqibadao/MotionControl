@@ -36,6 +36,14 @@ td{padding:6px 10px;border-bottom:1px solid #f0f0f0}
 .badge{display:inline-block;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:600}
 .badge-pass{background:#dcffe4;color:#176f2c}
 .badge-reject{background:#ffeef0;color:#86181d}
+.tabs{display:flex;gap:4px;margin-bottom:20px}
+.tab-btn{padding:8px 20px;border:1px solid var(--border);border-radius:6px 6px 0 0;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);background:var(--bg)}
+.tab-btn.active{color:var(--text);background:var(--card);border-bottom-color:var(--card)}
+.trend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.trend-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px 14px}
+.trend-name{font-size:11px;font-weight:600;margin-bottom:4px}
+.trend-val{font-size:10px;color:var(--muted)}
+.trend-better{color:var(--green)} .trend-worse{color:var(--red)}
 '''
 
 def td(v, cls=''): return f'<td class="v {cls}">{v}</td>' if cls else f'<td class="v">{v}</td>'

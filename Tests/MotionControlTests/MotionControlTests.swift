@@ -58,17 +58,9 @@ struct ReplayTest {
         var logLines: [String] = []
         var errors: [CGFloat] = []
 
-        // 用前30帧做真实校准（模拟手入画面），滤波器从真实手部位置开始收敛
+        // 固定原点，重置滤波器
+        controller.handAppeared()
         let calibFrames = min(30, frames.count)
-        controller.startCalibration()
-        for i in 0..<calibFrames {
-            if controller.accumulateOrigin(frames[i].hand) { break }
-        }
-        if controller.calibrationState != .tracking {
-            Thread.sleep(forTimeInterval: 0.55)
-            _ = controller.accumulateOrigin(frames[calibFrames-1].hand)
-        }
-        print("   校准原点: (\(String(format:"%.3f",controller.origin.x)),\(String(format:"%.3f",controller.origin.y)))")
 
         // 预热30帧（滤波器从校准原点收敛到手部轨迹）
         let warmupStart = calibFrames
@@ -212,38 +204,24 @@ struct ReplayTest {
     #expect(result > 0, "零时间差不应崩溃")
 }
 
-// MARK: - 原点校准测试
+// MARK: - 固定原点测试
 
-@Test func originCalibration_averagesSamples() {
+@Test func fixedOrigin_isConstant() {
     let controller = CursorController()
-    controller.startCalibration()
-
-    // 喂 10 个不同的手部位置
-    for i in 0..<10 {
-        _ = controller.accumulateOrigin(CGPoint(x: 0.4 + CGFloat(i) * 0.01, y: 0.5))
-    }
-
-    // 第一个 call 开始校准，state 应转为 .calibrating
-    #expect(controller.calibrationState == .calibrating, "应处于校准中")
-
-    // 0.5s 后且 >=5 个样本，校准应完成
-    Thread.sleep(forTimeInterval: 0.55)
-    let done = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.5))
-    #expect(done, "0.5s + 5 样本后校准应完成")
-    #expect(controller.calibrationState == .tracking, "应转为跟踪状态")
+    #expect(controller.origin.x == 0.5, "X原点固定为画面正中")
+    #expect(controller.origin.y == 0.4, "Y原点固定在画面偏上40%")
+    // 多次调用不应改变原点
+    controller.handAppeared()
+    #expect(controller.origin.x == 0.5, "handAppeared 不应改变原点")
+    controller.handDisappeared()
+    #expect(controller.origin.x == 0.5, "handDisappeared 不应改变原点")
 }
 
 // MARK: - 左右手方向测试（左右手统一映射，无需翻转 X）
 
 @Test func leftAndRightHand_sameDirectionMapping() {
     let controller = CursorController()
-    controller.startCalibration()
-    for _ in 0..<8 {
-        _ = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.4))
-    }
-    Thread.sleep(forTimeInterval: 0.55)
-    _ = controller.accumulateOrigin(CGPoint(x: 0.5, y: 0.4))
-    #expect(controller.calibrationState == .tracking)
+    controller.handAppeared()
 
     // 右手：handCenter>origin → cursorX = screenCX - offset → 光标左移
     controller.updateWithAbsolutePosition(

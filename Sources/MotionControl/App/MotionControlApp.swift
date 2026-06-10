@@ -128,10 +128,7 @@ struct ContentView: View {
 #endif
                 guard let handResult = handResult else {
                     handKeypoints = []
-                    // 手离开画面时重置校准状态
-                    if cursorController.calibrationState != .idle {
-                        cursorController.endCalibration()
-                    }
+                    cursorController.handDisappeared()
                     return
                 }
                 var points: [CGPoint] = []
@@ -170,50 +167,30 @@ struct ContentView: View {
                 ].joined(separator: " ")
                 EventLogger.log(event: "KEYPOINTS", frame: nil, input: kpStr, output: "", duration: nil)
 
-                // 绝对位置映射 + 原点校准
+                // 固定原点绝对位置映射（Leap Motion InteractionBox 方案）
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
-                let maxLostFrames = 15
 
                 if let center = handResult.palmCenter, handResult.confidence > 0.15 {
                     lostFrameCount = 0
-
-                    switch cursorController.calibrationState {
-                    case .idle:
-                        // 手刚出现 → 开始校准（左手延长至0.8s）
-                        cursorController.startCalibration(handedness: handResult.handSide)
-                        cursorController.accumulateOrigin(center)
-
-                    case .calibrating:
-                        // 校准中 → 累积原点样本，光标不动
-                        if cursorController.accumulateOrigin(center) {
-                            // 校准完成，无需额外操作
-                        }
-
-                    case .tracking:
-                        // 正常跟踪 → 绝对位置映射
-                        cursorController.updateWithAbsolutePosition(
-                            handCenter: center,
-                            screenSize: screen,
-                            gain: config.mouseSensitivity,
-                            handedness: handResult.handSide
-                        )
+                    // 手首次出现时重置滤波器
+                    if !cursorController.fingerActive {
+                        cursorController.handAppeared()
                     }
-                } else if cursorController.calibrationState != .idle {
+                    cursorController.updateWithAbsolutePosition(
+                        handCenter: center,
+                        screenSize: screen,
+                        gain: config.mouseSensitivity,
+                        handedness: handResult.handSide
+                    )
+                    let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0, dt: CGFloat(dt))
+                    mouseCtrl.moveCursor(to: finalCursor)
+                } else {
                     lostFrameCount += 1
-                    if lostFrameCount > maxLostFrames {
-                        cursorController.endCalibration()
+                    if lostFrameCount > 15 {
+                        cursorController.handDisappeared()
                         lostFrameCount = 0
                     }
-                }
-
-                // 跟踪模式下移动光标（校准中/idle 不移动，解决初始跳跃）
-                if cursorController.calibrationState == .tracking {
-                    let finalCursor = cursorController.computeCursor(screenSize: screen, sensitivity: 1.0, dt: CGFloat(dt))
-#if DEBUG
-                    print("[DEBUG] finalCursor=\(finalCursor)")
-#endif
-                    mouseCtrl.moveCursor(to: finalCursor)
                 }
             }
             // 人脸结果回调（关键点）

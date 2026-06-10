@@ -1,0 +1,981 @@
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (265ms)
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (804ms)
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (185ms)
+[2026-06-10 17:19:00] [scan] IN: scan → OUT: elements=3 (76756ms)
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (933ms)
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (266ms)
+[2026-06-10 17:19:00] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (264ms)
+[2026-06-10 17:19:00] [scan] IN: scan → OUT: elements=3 (6790ms)
+[2026-06-10 17:19:00] [elementAt] IN: x=806 y=463 → OUT: nil (24654ms)
+[2026-06-10 17:19:01] [extractElementInfo] IN: elementRole=AXWebArea → OUT: role=AXWebArea title=DeepSeek 开放平台 (878ms)
+[2026-06-10 17:19:01] [elementAt] IN: x=1199 y=382 → OUT: role=AXWebArea title=DeepSeek 开放平台 (1344ms)
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (70677ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51876277 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4483ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.53114355 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4704ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51273984 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4184ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5037509 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4899ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.52731293 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (3952ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.49872753 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4572ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.501201 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (3982ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51422733 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (4960ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5257003 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5060ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.525914 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5195ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.52003485 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5632ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5250617 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5375ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5218053 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5457ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5297755 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=-0.028378645 yaw=-0.06289322 (5447ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5148639 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.06289322 pitch=-0.028378645 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (10900ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.52206624 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (285ms)
+[2026-06-10 17:19:01] [elementAt] IN: x=975 y=526 → OUT: role=AXGroup title= (753ms)
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (4546ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5195875 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8085ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51688313 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (7642ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5153216 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (7846ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.50586504 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (7735ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51937866 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8493ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5153846 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8625ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5239593 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8025ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.513419 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (10515ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51868474 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (9442ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.512482 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8363ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5259139 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (7559ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5219883 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (7591ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.51087093 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:01] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:01] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.06289322 pitch=-0.006902914 yaw=-0.052155346 (8231ms)
+[2026-06-10 17:19:01] [mouth_detect] IN: mouth_detect ratio=0.5221574 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:01] [gaze_estimate] IN: yaw=-0.052155346 pitch=-0.006902914 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (15820ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.53698313 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0006902956 pitchOffset=0.0057524275 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (445ms)
+[2026-06-10 17:19:02] [elementAt] IN: x=963 y=472 → OUT: role=AXGroup title= (5908ms)
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8756ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5271099 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0011735025 pitchOffset=0.009779127 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (7398ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.52100724 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0015117474 pitchOffset=0.012597817 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (7439ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5263454 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0017485187 pitchOffset=0.014570899 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8741ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.52858025 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0019142586 pitchOffset=0.015952056 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8472ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5268688 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0020302765 pitchOffset=0.016918868 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (7868ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.52676004 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0021114892 pitchOffset=0.017595636 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8877ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.51006013 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.002168338 pitchOffset=0.018069373 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (9737ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.51102245 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022081323 pitchOffset=0.01840099 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (7463ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5275113 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022359882 pitchOffset=0.01863312 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (9075ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.52232134 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022554873 pitchOffset=0.018795611 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8277ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.51428574 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022691367 pitchOffset=0.018909356 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8474ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5221412 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022786912 pitchOffset=0.018988976 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (7543ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.51830363 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022853795 pitchOffset=0.01904471 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.065961175 pitch=0.0015339808 yaw=-0.055223312 (8153ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5204794 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.055223312 pitch=0.0015339808 → OUT: yawOffset=0.0022900612 pitchOffset=0.019083725 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (15287ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5283483 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=0.0006826595 pitchOffset=0.021412006 hasFace=true
+[2026-06-10 17:19:02] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (313ms)
+[2026-06-10 17:19:02] [elementAt] IN: x=1344 y=474 → OUT: role=AXGroup title= (4840ms)
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (6987ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5292933 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.00044252165 pitchOffset=0.023041803 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (7561ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5330357 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0012301485 pitchOffset=0.02418266 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (7744ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5243305 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0017814873 pitchOffset=0.02498126 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (8440ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5273994 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0021674244 pitchOffset=0.025540281 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (11119ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.52804524 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0024375804 pitchOffset=0.025931595 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9011ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.55501366 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0026266896 pitchOffset=0.026205515 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9209ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5453364 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.002759066 pitchOffset=0.02639726 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (8635ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5341148 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0028517295 pitchOffset=0.02653148 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9217ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5383173 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.002916594 pitchOffset=0.026625434 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (8974ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.53698313 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.002961999 pitchOffset=0.026691202 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (8494ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.54570746 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0029937825 pitchOffset=0.02673724 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9855ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5401283 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.003016031 pitchOffset=0.026769467 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9261ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.53588843 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.0030316052 pitchOffset=0.026792025 hasFace=true
+[2026-06-10 17:19:02] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:02] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.0720971 pitch=0.009203885 yaw=-0.06059224 (9014ms)
+[2026-06-10 17:19:02] [mouth_detect] IN: mouth_detect ratio=0.5185224 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:02] [gaze_estimate] IN: yaw=-0.06059224 pitch=0.009203885 → OUT: yawOffset=-0.003042507 pitchOffset=0.026807817 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (16810ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5416199 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.0106433425 pitchOffset=0.021756733 hasFace=true
+[2026-06-10 17:19:03] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (640ms)
+[2026-06-10 17:19:03] [elementAt] IN: x=1406 y=340 → OUT: role=AXGroup title= (1078ms)
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8183ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.55183923 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.015963927 pitchOffset=0.018220974 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8273ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5156484 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.019688336 pitchOffset=0.015745943 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8225ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.52965355 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.022295423 pitchOffset=0.014013423 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8283ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5511326 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.024120383 pitchOffset=0.012800658 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (7735ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5380823 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.025397856 pitchOffset=0.011951723 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8726ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5393488 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.026292086 pitchOffset=0.011357469 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (7941ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.529236 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.026918048 pitchOffset=0.01094149 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (5743ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53603643 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.02735622 pitchOffset=0.010650305 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (4319ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53689045 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.027662942 pitchOffset=0.010446476 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (5555ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5300682 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.027877647 pitchOffset=0.010303795 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (5718ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53737813 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.02802794 pitchOffset=0.010203918 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (5411ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5162282 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.028133146 pitchOffset=0.010134005 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8217ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53317297 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.02820679 pitchOffset=0.010085066 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10584468 pitch=-0.007669904 yaw=-0.08590292 (8023ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53303576 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.08590292 pitch=-0.007669904 → OUT: yawOffset=-0.02825834 pitchOffset=0.010050808 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (15654ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5289975 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=-0.009426462 pitchOffset=-0.022186773 hasFace=true
+[2026-06-10 17:19:03] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (393ms)
+[2026-06-10 17:19:03] [elementAt] IN: x=1016 y=654 → OUT: role=AXGroup title= (844ms)
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (4544ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5307658 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.0037558519 pitchOffset=-0.04475308 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8859ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53423625 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.012983472 pitchOffset=-0.06054949 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (7741ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5384667 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.019442806 pitchOffset=-0.07160698 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8980ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.52676 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.02396434 pitchOffset=-0.07934722 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (7676ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.50809073 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.027129414 pitchOffset=-0.08476539 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8563ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5090204 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.029344965 pitchOffset=-0.08855811 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (9020ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5091683 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.03089585 pitchOffset=-0.09121301 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8610ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5360915 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.03198147 pitchOffset=-0.093071446 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (9230ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.51808214 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.0327414 pitchOffset=-0.09437235 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (9204ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.52917504 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.033273358 pitchOffset=-0.09528298 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8553ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.52953243 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.033645727 pitchOffset=-0.09592042 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8139ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.53209156 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.033906385 pitchOffset=-0.09636663 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (9209ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5141696 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.034088846 pitchOffset=-0.09667898 hasFace=true
+[2026-06-10 17:19:03] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:03] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.11658254 pitch=-0.115048565 yaw=-0.023009714 (8285ms)
+[2026-06-10 17:19:03] [mouth_detect] IN: mouth_detect ratio=0.5252691 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:03] [gaze_estimate] IN: yaw=-0.023009714 pitch=-0.115048565 → OUT: yawOffset=0.034216568 pitchOffset=-0.096897624 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (19214ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5163616 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.033385586 pitchOffset=-0.086236104 hasFace=true
+[2026-06-10 17:19:04] [extractElementInfo] IN: elementRole=AXTextField → OUT: role=AXTextField title= (337ms)
+[2026-06-10 17:19:04] [elementAt] IN: x=1169 y=91 → OUT: role=AXTextField title= (2300ms)
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (8905ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5318132 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.032803897 pitchOffset=-0.078773044 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (8730ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53371215 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.032396715 pitchOffset=-0.0735489 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (8646ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5306055 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.03211169 pitchOffset=-0.069892 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (8259ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.52039564 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.03191217 pitchOffset=-0.06733217 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (5702ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5300227 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031772505 pitchOffset=-0.06554029 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (5746ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5316619 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031674743 pitchOffset=-0.06428597 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (6264ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53150713 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031606305 pitchOffset=-0.06340795 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (4575ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53791946 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031558402 pitchOffset=-0.06279334 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (4870ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.508434 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031524867 pitchOffset=-0.062363107 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (5027ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5096423 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031501394 pitchOffset=-0.062061943 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (4767ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53065854 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.03148496 pitchOffset=-0.06185113 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (5095ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.52181387 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.03147346 pitchOffset=-0.06170356 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (5169ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5273385 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.03146541 pitchOffset=-0.06160026 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.10277672 pitch=-0.07900001 yaw=-0.026077673 (4855ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5049156 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.026077673 pitch=-0.07900001 → OUT: yawOffset=0.031459775 pitchOffset=-0.061527953 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (9436ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5039028 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.022482041 pitchOffset=-0.030874418 hasFace=true
+[2026-06-10 17:19:04] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (401ms)
+[2026-06-10 17:19:04] [elementAt] IN: x=1070 y=62 → OUT: role=AXGroup title= (1567ms)
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8515ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5331751 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.01619763 pitchOffset=-0.009416944 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8186ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.52580243 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.01179854 pitchOffset=0.005603287 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7133ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.526241 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.008719178 pitchOffset=0.016117448 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8579ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53261787 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0065636244 pitchOffset=0.02347736 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7344ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.4936515 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.005054737 pitchOffset=0.0286293 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7369ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.51004577 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0039985157 pitchOffset=0.032235656 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8599ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5106637 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.003259161 pitchOffset=0.034760106 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7477ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5043526 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0027416127 pitchOffset=0.03652722 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8949ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5130605 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.002379329 pitchOffset=0.037764203 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8002ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5350016 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0021257303 pitchOffset=0.03863009 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7982ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5428811 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0019482112 pitchOffset=0.03923621 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7475ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5323452 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0018239479 pitchOffset=0.039660495 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (7784ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.53563505 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0017369635 pitchOffset=0.039957494 hasFace=true
+[2026-06-10 17:19:04] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:04] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.093572825 pitch=0.023009714 yaw=-0.055990297 (8198ms)
+[2026-06-10 17:19:04] [mouth_detect] IN: mouth_detect ratio=0.5338764 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:04] [gaze_estimate] IN: yaw=-0.055990297 pitch=0.023009714 → OUT: yawOffset=0.0016760745 pitchOffset=0.040165395 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (15715ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5506915 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.0022782001 pitchOffset=0.012008976 hasFace=true
+[2026-06-10 17:19:05] [extractElementInfo] IN: elementRole=AXWebArea → OUT: role=AXWebArea title=DeepSeek 开放平台 (298ms)
+[2026-06-10 17:19:05] [elementAt] IN: x=1328 y=875 → OUT: role=AXWebArea title=DeepSeek 开放平台 (702ms)
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (6404ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5457139 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.005046192 pitchOffset=-0.007700517 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7452ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5355265 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.0069837864 pitchOffset=-0.021497162 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7773ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5367374 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.008340103 pitchOffset=-0.031154813 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7952ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5255865 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.009289524 pitchOffset=-0.03791517 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7848ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.53386337 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.009954118 pitchOffset=-0.042647418 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8520ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5395126 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.010419335 pitchOffset=-0.04595999 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7725ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5287505 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.010744987 pitchOffset=-0.048278794 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8087ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.55454266 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.010972943 pitchOffset=-0.049901955 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8581ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5239593 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.011132512 pitchOffset=-0.05103817 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (7668ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.50877017 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.01124421 pitchOffset=-0.051833518 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8343ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.51306045 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.0113224 pitchOffset=-0.052390262 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8114ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.51492554 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.011377132 pitchOffset=-0.052779984 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (8278ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.53085774 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.011415444 pitchOffset=-0.053052787 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.084368944 pitch=-0.07133011 yaw=-0.06902914 (9011ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5308578 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.06902914 pitch=-0.07133011 → OUT: yawOffset=-0.011442263 pitchOffset=-0.05324375 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (15594ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5348534 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.007867123 pitchOffset=-0.06534247 hasFace=true
+[2026-06-10 17:19:05] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (405ms)
+[2026-06-10 17:19:05] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (813ms)
+[2026-06-10 17:19:05] [extractElementInfo] IN: elementRole=AXButton → OUT: role=AXButton title= (348ms)
+[2026-06-10 17:19:05] [scan] IN: scan → OUT: elements=3 (3725ms)
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [extractElementInfo] IN: elementRole=AXWebArea → OUT: role=AXWebArea title=DeepSeek 开放平台 (284ms)
+[2026-06-10 17:19:05] [elementAt] IN: x=420 y=971 → OUT: role=AXWebArea title=DeepSeek 开放平台 (656ms)
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7887ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.52591187 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.021383693 pitchOffset=-0.07381158 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7370ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.54319847 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.030845292 pitchOffset=-0.07973996 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (8501ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5553679 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.03746841 pitchOffset=-0.08388982 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (6410ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5661327 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.042104594 pitchOffset=-0.08679473 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (6711ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5707923 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.045349922 pitchOffset=-0.08882816 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7987ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5707899 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.047621652 pitchOffset=-0.090251565 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7439ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.57240754 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.049211863 pitchOffset=-0.091247946 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (8244ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.57428956 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.05032501 pitchOffset=-0.09194541 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (8429ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.5733062 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.051104214 pitchOffset=-0.09243364 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7974ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.54888266 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.051649656 pitchOffset=-0.0927754 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7668ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.49704292 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.052031465 pitchOffset=-0.09301463 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (8067ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.4897928 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.052298732 pitchOffset=-0.09318209 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (7856ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.4489933 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.05248582 pitchOffset=-0.093299314 hasFace=true
+[2026-06-10 17:19:05] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:05] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09817477 pitch=-0.11121361 yaw=-0.0046019424 (6739ms)
+[2026-06-10 17:19:05] [mouth_detect] IN: mouth_detect ratio=0.44093034 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:05] [gaze_estimate] IN: yaw=-0.0046019424 pitch=-0.11121361 → OUT: yawOffset=0.05261678 pitchOffset=-0.09338137 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (10457ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.44443262 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.09504632 pitchOffset=-0.13140483 hasFace=true
+[2026-06-10 17:19:06] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (316ms)
+[2026-06-10 17:19:06] [elementAt] IN: x=240 y=968 → OUT: role=AXGroup title= (712ms)
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (6809ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.408531 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.124747 pitchOffset=-0.15802126 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (5573ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4527743 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.14553748 pitchOffset=-0.17665276 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (5398ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4428169 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.16009082 pitchOffset=-0.1896948 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (4490ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.44760284 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.17027815 pitchOffset=-0.19882424 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (4271ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.43991667 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.17740928 pitchOffset=-0.20521484 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (5015ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.45076868 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.18240108 pitchOffset=-0.20968826 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (6116ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.46330407 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.18589532 pitchOffset=-0.21281965 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (7814ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.46674448 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.1883413 pitchOffset=-0.21501163 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (8566ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.481101 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.1900535 pitchOffset=-0.21654601 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (5833ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4870377 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.19125202 pitchOffset=-0.21762009 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (4409ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47803783 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.19209099 pitchOffset=-0.21837194 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (7223ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.471036 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.19267827 pitchOffset=-0.21889824 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (8002ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.48227692 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.19308937 pitchOffset=-0.21926664 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.09664079 pitch=-0.23776703 yaw=0.13652429 (5895ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4668176 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.13652429 pitch=-0.23776703 → OUT: yawOffset=0.19337714 pitchOffset=-0.21952452 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (16169ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47020593 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.20140187 pitchOffset=-0.21970503 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (6318ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4687738 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.2070192 pitchOffset=-0.21983139 hasFace=true
+[2026-06-10 17:19:06] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (265ms)
+[2026-06-10 17:19:06] [elementAt] IN: x=49 y=1027 → OUT: role=AXGroup title= (24605ms)
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7922ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4750621 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21095131 pitchOffset=-0.21991985 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (5762ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47573027 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.2137038 pitchOffset=-0.21998176 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7665ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.48682815 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21563053 pitchOffset=-0.2200251 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7337ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4834699 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21697925 pitchOffset=-0.22005545 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7951ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47553262 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21792336 pitchOffset=-0.22007668 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7490ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.45529026 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21858422 pitchOffset=-0.22009155 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (6188ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.46434686 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21904683 pitchOffset=-0.22010195 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (8260ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.46527472 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21937066 pitchOffset=-0.22010924 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (5796ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47846684 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21959734 pitchOffset=-0.22011434 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (8746ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4755489 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21975602 pitchOffset=-0.22011791 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (4555ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.4832467 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.2198671 pitchOffset=-0.22012042 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (7531ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.46568277 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21994485 pitchOffset=-0.22012216 hasFace=true
+[2026-06-10 17:19:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12578644 pitch=-0.23776703 yaw=0.16260196 (6699ms)
+[2026-06-10 17:19:06] [mouth_detect] IN: mouth_detect ratio=0.47113726 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:06] [gaze_estimate] IN: yaw=0.16260196 pitch=-0.23776703 → OUT: yawOffset=0.21999927 pitchOffset=-0.22012338 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (14779ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.47621053 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.2329228 pitchOffset=-0.23830192 hasFace=true
+[2026-06-10 17:19:07] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (240ms)
+[2026-06-10 17:19:07] [elementAt] IN: x=40 y=1033 → OUT: role=AXGroup title= (768ms)
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (4417ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.46188566 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.24196929 pitchOffset=-0.2510269 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (4943ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.47925282 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.24830182 pitchOffset=-0.2599344 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (5424ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.48408902 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.2527346 pitchOffset=-0.26616964 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (9344ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.46973765 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.25583753 pitchOffset=-0.2705343 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (6068ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.46727166 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.25800958 pitchOffset=-0.27358958 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (7700ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.47760943 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.25953004 pitchOffset=-0.27572826 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (5511ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4829651 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26059434 pitchOffset=-0.27722535 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (5321ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.45136088 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26133937 pitchOffset=-0.27827328 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (4428ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.47679797 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26186088 pitchOffset=-0.27900684 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (5218ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.43385088 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26222593 pitchOffset=-0.27952033 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (7732ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.434111 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26248148 pitchOffset=-0.27987978 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (5985ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.43139976 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26266035 pitchOffset=-0.2801314 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (8067ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.44774988 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26278558 pitchOffset=-0.28030753 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=-0.12732041 pitch=-0.29835927 yaw=0.20555344 (7465ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4064857 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=0.20555344 pitch=-0.29835927 → OUT: yawOffset=0.26287323 pitchOffset=-0.28043082 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (13375ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4281893 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.18447146 pitchOffset=-0.26786178 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (4403ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.41478813 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.12959021 pitchOffset=-0.25906345 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (6489ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4433322 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.09117335 pitchOffset=-0.25290462 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (6407ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.432086 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.064281546 pitchOffset=-0.24859345 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (6043ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4240056 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.04545728 pitchOffset=-0.24557562 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (7442ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.40973288 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.032280296 pitchOffset=-0.24346314 hasFace=true
+[2026-06-10 17:19:07] [extractElementInfo] IN: elementRole=AXMenuBar → OUT: role=AXMenuBar title= (279ms)
+[2026-06-10 17:19:07] [elementAt] IN: x=870 y=758 → OUT: role=AXMenuBar title= (150508ms)
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (8350ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4409588 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.023056407 pitchOffset=-0.24198441 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (5375ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4194949 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.016599685 pitchOffset=-0.2409493 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (5043ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4130896 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.012079979 pitchOffset=-0.24022472 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (6887ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.41764832 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.008916185 pitchOffset=-0.23971751 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (5616ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.42299208 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.0067015295 pitchOffset=-0.23936246 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (7966ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4110217 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.0051512704 pitchOffset=-0.23911393 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (4725ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.41659716 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.004066089 pitchOffset=-0.23893996 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (5349ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4177057 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.0033064624 pitchOffset=-0.23881818 hasFace=true
+[2026-06-10 17:19:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.009203885 pitch=-0.2561748 yaw=-0.055990297 (7912ms)
+[2026-06-10 17:19:07] [mouth_detect] IN: mouth_detect ratio=0.4370737 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:07] [gaze_estimate] IN: yaw=-0.055990297 pitch=-0.2561748 → OUT: yawOffset=0.0027747238 pitchOffset=-0.23873293 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (11091ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.44244072 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.0038101166 pitchOffset=-0.21083151 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (5488ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.43124607 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.008419504 pitchOffset=-0.19130051 hasFace=true
+[2026-06-10 17:19:08] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (122ms)
+[2026-06-10 17:19:08] [elementAt] IN: x=1085 y=570 → OUT: role=AXGroup title= (16533ms)
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (6120ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42624694 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.011646076 pitchOffset=-0.17762882 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4715ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4151528 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.013904677 pitchOffset=-0.16805862 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4639ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.41868514 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.0154856965 pitchOffset=-0.16135949 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4693ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42436612 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.016592411 pitchOffset=-0.1566701 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (5183ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42020893 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.017367112 pitchOffset=-0.15338752 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (5145ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4274841 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.017909402 pitchOffset=-0.15108971 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4170ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4270786 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.018289005 pitchOffset=-0.14948125 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4938ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.44984666 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.018554727 pitchOffset=-0.14835532 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (5107ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.45339578 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.018740732 pitchOffset=-0.14756717 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (4364ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4472478 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.018870935 pitchOffset=-0.14701547 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (3989ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4032836 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.018962078 pitchOffset=-0.14662927 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (8898ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.44309247 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.019025877 pitchOffset=-0.14635894 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.02147573 pitch=-0.16336896 yaw=-0.07669904 (5655ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42541838 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.07669904 pitch=-0.16336896 → OUT: yawOffset=-0.019070538 pitchOffset=-0.1461697 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (12154ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.41243765 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=-0.012428983 pitchOffset=-0.1499489 hasFace=true
+[2026-06-10 17:19:08] [extractElementInfo] IN: elementRole=AXGroup → OUT: role=AXGroup title= (55ms)
+[2026-06-10 17:19:08] [elementAt] IN: x=1041 y=618 → OUT: role=AXGroup title= (1495ms)
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (4675ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4206146 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=-0.007779895 pitchOffset=-0.15259433 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (4737ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4167557 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=-0.004525533 pitchOffset=-0.15444614 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (6995ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.41336146 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=-0.0022474797 pitchOffset=-0.1557424 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (6134ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.41841528 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=-0.00065284246 pitchOffset=-0.15664978 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (9008ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4299703 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=0.00046340364 pitchOffset=-0.15728496 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (7660ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42001384 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=0.001244776 pitchOffset=-0.15772958 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (4161ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.42833224 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=0.0017917365 pitchOffset=-0.1580408 hasFace=true
+[2026-06-10 17:19:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-10 17:19:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.1764078 yaw=-0.05445632 (7987ms)
+[2026-06-10 17:19:08] [mouth_detect] IN: mouth_detect ratio=0.4071086 → OUT: status=CLOSED confirmed=CLOSED
+[2026-06-10 17:19:08] [gaze_estimate] IN: yaw=-0.05445632 pitch=-0.1764078 → OUT: yawOffset=0.0021746089 pitchOffset=-0.15825868 hasFace=true

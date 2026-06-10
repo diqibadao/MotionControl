@@ -52,13 +52,14 @@ HDR = ['指标','Baseline','当前','上次','目标','Δ最佳','Δ上次','判
 
 HIGHER = {'dir_agree_x','dir_agree_y','left_dir_agree','right_dir_agree',
           'chirality_symmetry','path_efficiency','micro_step','tc_tight','tc_good',
-          'x_coverage','y_coverage','normal_step'}
+          'normal_step'}
 LOWER  = {'filter_lag','tc_lag','total_lag','reversals','jumps200','jumps500',
           'jitter_radius','max_excursion','large_step','tc_severe',
           'edge_dead_zone','edge_frame_pct','dir_misalign','frame_drops'}
-NEAR0  = {'top_coverage_gap','bottom_coverage_gap','left_coverage_gap','right_coverage_gap'}
+NEAR0  = {'top_coverage_gap','bottom_coverage_gap','left_coverage_gap','right_coverage_gap',
+          'x_coverage','y_coverage'}
 
-def verdict_label(s): return {'pass':'<span style="color:var(--green)">达标</span>','fail':'<span style="color:var(--red)">未达标</span>','warn':'<span style="color:var(--amber)">警告</span>'}.get(s,'—')
+def verdict_label(s): return {'pass':'<span style="color:var(--green)">达标</span>','fail':'<span style="color:var(--red)">未达标</span>','warn':'<span style="color:var(--amber)">过度</span>'}.get(s,'—')
 
 def fmt(v, unit=''):
     if v is None: return '?'
@@ -83,6 +84,10 @@ def judge(cv, target_str, key):
     if cv is None: return 'warn'
     try: t = float(target_str.replace('>','').replace('<',''))
     except: return 'pass'
+    # 覆盖率：95-105=达标, <95=未达标, >105=过度
+    if key in ('x_coverage','y_coverage'):
+        if 95 <= cv <= 105: return 'pass'
+        return 'fail' if cv < 95 else 'warn'
     if key in HIGHER: return 'pass' if cv >= t else 'fail'
     if key in LOWER:  return 'pass' if cv <= t else 'fail'
     if key in NEAR0:  return 'pass' if abs(cv) <= t else 'fail'
@@ -204,8 +209,8 @@ def generate(cur, base, prev):
 
     # Layer 3c
     l3c = [
-        ('#18 X覆盖率',        'x_coverage',     '%', '100'),
-        ('#19 Y覆盖率',        'y_coverage',     '%', '100'),
+        ('#18 X覆盖率',        'x_coverage',     '%', '95-105'),
+        ('#19 Y覆盖率',        'y_coverage',     '%', '95-105'),
         ('#20 边缘死区 ⭐',     'edge_dead_zone', '%', '<8'),
         ('#21 边缘帧占比',     'edge_frame_pct', '%', '<15'),
         ('#22 方向错位',       'dir_misalign',   '次','<20'),

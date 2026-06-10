@@ -6,11 +6,12 @@ PROJ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HIGHER = {'dir_agree_x','dir_agree_y','left_dir_agree','right_dir_agree',
           'chirality_symmetry','path_efficiency','micro_step','tc_tight','tc_good',
-          'x_coverage','y_coverage','normal_step'}
+          'normal_step'}
 LOWER  = {'filter_lag','tc_lag','total_lag','reversals','jumps200','jumps500',
           'jitter_radius','max_excursion','large_step','tc_severe',
           'edge_dead_zone','edge_frame_pct','dir_misalign','frame_drops'}
-NEAR0  = {'top_coverage_gap','bottom_coverage_gap','left_coverage_gap','right_coverage_gap'}
+NEAR0  = {'top_coverage_gap','bottom_coverage_gap','left_coverage_gap','right_coverage_gap',
+          'x_coverage','y_coverage'}
 SKIP   = {'frames','keypoints','kp_detections','problems','left_reversals','right_reversals',
           'left_misalign','right_misalign','yonly_misalign','handside_known','left_pct',
           'right_pct','wrist_bottom_det','edge_dead_top','edge_dead_bottom',

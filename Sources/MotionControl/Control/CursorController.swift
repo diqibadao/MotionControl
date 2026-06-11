@@ -74,6 +74,10 @@ class CursorController {
     /// 固定不变（Leap Motion InteractionBox 方案），不动态校准
     let origin: CGPoint = CGPoint(x: 0.5, y: 0.4)
 
+    /// 边缘逃逸：上帧手位，用于检测边缘处的手方向反转
+    private var prevHandX: CGFloat = 0.5
+    private var prevHandY: CGFloat = 0.4
+
     // MARK: - 属性
 
     /// 当前光标位置（未经注视偏移的平滑位置）
@@ -237,8 +241,25 @@ class CursorController {
         let t = now - filterTimeBase
 
         // 1€ Filter 自适应平滑：手静止→强滤震颤，手快→轻滤跟手
+        // 边缘逃逸：光标贴边且手往回拉 → 跳过 filter，直接用 raw handCenter
+        let escapingLeft  = targetPosition.x <= 1 && handCenter.x < prevHandX
+        let escapingRight = targetPosition.x >= screenSize.width - 1 && handCenter.x > prevHandX
+        let escapingTop    = targetPosition.y <= 1 && handCenter.y > prevHandY
+        let escapingBottom = targetPosition.y >= screenSize.height - 1 && handCenter.y < prevHandY
+
+        if escapingLeft || escapingRight {
+            filterX.reset()
+            _ = filterX.filter(handCenter.x, time: t)
+        }
+        if escapingTop || escapingBottom {
+            filterY.reset()
+            _ = filterY.filter(handCenter.y, time: t)
+        }
+
         let fx = filterX.filter(handCenter.x, time: t)
         let fy = filterY.filter(handCenter.y, time: t)
+        prevHandX = handCenter.x
+        prevHandY = handCenter.y
 
         // 偏移 = 滤波后手位置 - 原点
         let rawOffsetX = fx - origin.x
@@ -271,8 +292,15 @@ class CursorController {
         let screenCY = screenSize.height / 2
 
         let effectiveGain = CGFloat(gain) * gainMultiplier
-        let cursorX = screenCX - offsetX * screenSize.width * effectiveGain
-        let cursorY = screenCY + offsetY * screenSize.height * effectiveGain
+
+        // offset 上限：光标刚好到屏幕边缘即止，不产生负值
+        let maxOffsetX = screenCX / (screenSize.width * effectiveGain)
+        let maxOffsetY = screenCY / (screenSize.height * effectiveGain)
+        let clampedOffsetX = max(-maxOffsetX, min(offsetX, maxOffsetX))
+        let clampedOffsetY = max(-maxOffsetY, min(offsetY, maxOffsetY))
+
+        let cursorX = screenCX - clampedOffsetX * screenSize.width * effectiveGain
+        let cursorY = screenCY + clampedOffsetY * screenSize.height * effectiveGain
 
         // 屏幕边界约束：坐标在屏幕范围内，手出盒子自动截断
         let clampedX = max(0, min(cursorX, screenSize.width))

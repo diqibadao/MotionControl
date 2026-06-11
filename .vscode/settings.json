@@ -1,7 +1,0 @@
-{
-  "workbench.editorAssociations": {
-    "*.md": "vscode.markdown.preview.editor"
-  },
-  "markdown.preview.doubleClickToSwitchToEditor": false,
-  "markdown.preview.scrollEditorWithPreview": true
-}

@@ -1,10 +1,16 @@
-.DS_Store
-/.build
-/Packages
-xcuserdata/
-DerivedData/
-.swiftpm/configuration/registries.json
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
-.netrc
+# Build
+.build/
+.swiftpm/
+
+# IDE
+.vscode/
+
+# AI chat history
 .aider*
-Docs/logs/*.log
+
+# Data backups
+*.bak
+*coldstart*
+
+# macOS
+.DS_Store

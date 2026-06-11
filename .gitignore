@@ -14,3 +14,8 @@
 
 # macOS
 .DS_Store
+
+# Old AI agent artifacts
+.hermes/
+*.code-workspace
+AGENTS.md

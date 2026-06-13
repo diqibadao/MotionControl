@@ -105,15 +105,21 @@ class CursorController {
     /// 是否启用了注视追踪
     private var gazeActive = false
 
-    /// UI 元素扫描器（用于磁性吸引）
+    /// UI 元素扫描器（用于力场磁吸）
     var uiScanner: UIElementScanner? = nil
-    
-    /// 磁吸状态
-    enum MagnetState {
-        case idle
-        case snap(UIElementInfo)
+
+    /// 力场状态（Gravity Well 连续力场模型）
+    enum ForceFieldState {
+        case free                          // 无跟踪元素
+        case tracking(UIElementInfo)       // 正被此元素吸引（未锁定，可挣脱）
     }
-    private var magnetState: MagnetState = .idle
+    private var forceFieldState: ForceFieldState = .free
+    /// 缓存被跟踪元素的中心坐标，避免帧间重复计算
+    private var trackedElementCenter: CGPoint = .zero
+    /// 上次元素切换时间（用于冷却期控制）
+    private var lastElementSwitchTime: TimeInterval = 0
+    /// 切换冷却期（秒）
+    private let elementSwitchCooldown: TimeInterval = 0.2
 
     // MARK: - 公开方法
 
@@ -227,9 +233,8 @@ class CursorController {
         screenVelocityX = 0
         screenVelocityY = 0
         gapRecoveryUntil = 0
+        forceFieldState = .free
     }
-
-    /// 绝对位置映射：手位置 → 光标位置（1€ Filter 平滑）
     func updateWithAbsolutePosition(
         handCenter: CGPoint,
         screenSize: CGSize,
@@ -344,6 +349,9 @@ class CursorController {
         prevTarget = targetPosition
         prevUpdateTime = now
 
+        // 力场磁吸：偏置 targetPosition 向最近 UI 元素
+        applyForceField(screenSize: screenSize)
+
         lastUpdateTime = Date()
         fingerActive = true
 
@@ -373,10 +381,10 @@ class CursorController {
         gazeActive = false
     }
 
-    /// 重置光标状态（仅重置手指激活，磁吸状态复位）
+    /// 重置光标状态（仅重置手指激活，力场状态复位）
     func resetCursor() {
         fingerActive = false
-        magnetState = .idle
+        forceFieldState = .free
     }
 
     /// 衰减速度（补帧定时器每帧调用）
@@ -387,9 +395,96 @@ class CursorController {
         smoothVy *= factor
     }
 
+    // MARK: - 力场磁吸 (Gravity Well)
+
+    /// 连续力场：根据光标正下方 UI 元素（nearElement），渐进偏置 targetPosition
+    /// - Parameter screenSize: 当前屏幕尺寸，用于坐标翻转
+    private func applyForceField(screenSize: CGSize) {
+        guard ConfigManager.shared.currentConfig.magnetEnabled,
+              let scanner = uiScanner,
+              let near = scanner.nearElement else {
+            // 光标下无元素 → 释放跟踪
+            if case .tracking = forceFieldState {
+                forceFieldState = .free
+            }
+            return
+        }
+
+        let R_influence = CGFloat(ConfigManager.shared.currentConfig.magnetInfluenceRadius)
+        let R_release = R_influence * CGFloat(ConfigManager.shared.currentConfig.magnetReleaseMultiplier)
+        let k = CGFloat(ConfigManager.shared.currentConfig.magnetStrength)
+        let p = CGFloat(ConfigManager.shared.currentConfig.magnetFalloffExponent)
+
+        let elCenter = CGPoint(
+            x: near.frame.midX,
+            y: screenSize.height - near.frame.midY
+        )
+        let dx = elCenter.x - currentPosition.x
+        let dy = elCenter.y - currentPosition.y
+        let dist = sqrt(dx * dx + dy * dy)
+
+        // 切换冷却：200ms 内不切换跟踪目标，防止按钮间来回飘
+        let now = ProcessInfo.processInfo.systemUptime
+        switch forceFieldState {
+        case .free:
+            if dist < R_influence {
+                forceFieldState = .tracking(near)
+                trackedElementCenter = elCenter
+                lastElementSwitchTime = now
+                applyForceTo(target: near, center: elCenter, dist: dist,
+                             rInfluence: R_influence, rRelease: R_release,
+                             strength: k, exponent: p, screenSize: screenSize)
+            }
+
+        case .tracking(let element):
+            // 释放：超出释放半径
+            if dist > R_release {
+                forceFieldState = .free
+                return
+            }
+
+            // 冷却期后，如果 nearElement 换成了另一个元素，且距离在影响半径内，则切换
+            if element.id != near.id,
+               now - lastElementSwitchTime > elementSwitchCooldown,
+               dist < R_influence {
+                forceFieldState = .tracking(near)
+                trackedElementCenter = elCenter
+                lastElementSwitchTime = now
+            }
+
+            // 应用力场（始终基于 nearElement 的最新位置）
+            applyForceTo(target: near, center: elCenter, dist: dist,
+                         rInfluence: R_influence, rRelease: R_release,
+                         strength: k, exponent: p, screenSize: screenSize)
+        }
+    }
+
+    /// 力场核心公式：修改 targetPosition 使其向元素中心偏置
+    /// F = k × t^p, t = dist / R_influence, displacement = F × dist
+    private func applyForceTo(target: UIElementInfo, center: CGPoint, dist: CGFloat,
+                               rInfluence: CGFloat, rRelease: CGFloat,
+                               strength: CGFloat, exponent: CGFloat,
+                               screenSize: CGSize) {
+        guard dist < rInfluence, dist > 0.001 else { return }
+
+        let t = dist / rInfluence          // 归一化距离：0=中心, 1=力场边缘
+        let forceMag = strength * pow(t, exponent)  // F = k × t^p
+        let displacement = forceMag * dist
+
+        let normX = (center.x - currentPosition.x) / dist
+        let normY = (center.y - currentPosition.y) / dist
+
+        targetPosition.x += normX * displacement
+        targetPosition.y += normY * displacement
+
+        // 屏幕边界约束
+        targetPosition.x = max(0, min(targetPosition.x, screenSize.width))
+        targetPosition.y = max(0, min(targetPosition.y, screenSize.height))
+    }
+
     // MARK: - 光标计算
 
-    /// 计算最终光标位置（加入磁吸 + 屏幕限制）
+    /// 计算最终光标位置（力场磁吸已前移到 applyForceField 修改 targetPosition）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0, frameId: Int? = nil) -> CGPoint {
         var cursor = currentPosition
         let start = CFAbsoluteTimeGetCurrent()
@@ -401,69 +496,7 @@ class CursorController {
                             duration: duration)
         }
 
-        // 磁吸：分辨率自适应阈值（基于屏幕对角线百分比）
-        let diagonal = sqrt(screenSize.width * screenSize.width + screenSize.height * screenSize.height)
-        let lockRadius = diagonal * 0.020   // 2% 对角线 ≈ 35px @ 1470×956
-        let releaseRadius = diagonal * 0.030 // 3% ≈ 50px @ 1470×956
-
-        if let scanner = uiScanner, !scanner.elements.isEmpty {
-            switch magnetState {
-            case .idle:
-                // 全量扫描所有元素，找距离最近的
-                var bestElement: UIElementInfo?
-                var bestCenter = CGPoint.zero
-                var bestDist: CGFloat = lockRadius
-
-                for el in scanner.elements {
-                    // AX frame 是屏幕坐标(y=0=顶)，转为底左坐标
-                    let elCenter = CGPoint(
-                        x: el.frame.midX,
-                        y: screenSize.height - el.frame.midY
-                    )
-                    let dx = elCenter.x - cursor.x
-                    let dy = elCenter.y - cursor.y
-                    let dist = sqrt(dx * dx + dy * dy)
-                    if dist < bestDist {
-                        bestDist = dist
-                        bestElement = el
-                        bestCenter = elCenter
-                    }
-                }
-
-                if let el = bestElement {
-                    magnetState = .snap(el)
-                    cursor = bestCenter
-                }
-
-            case .snap(let element):
-                let elCenter = CGPoint(
-                    x: element.frame.midX,
-                    y: screenSize.height - element.frame.midY
-                )
-                let dx = elCenter.x - cursor.x
-                let dy = elCenter.y - cursor.y
-                let dist = sqrt(dx * dx + dy * dy)
-
-                if dist > releaseRadius {
-                    magnetState = .idle
-                } else {
-                    // 80% 拉向中心，20% 跟手
-                    cursor.x += (elCenter.x - cursor.x) * 0.8
-                    cursor.y += (elCenter.y - cursor.y) * 0.8
-                }
-            }
-        }
-
         // 注视偏移已禁用（用户要求纯手指控制，保留面部检测和 overlay）
-        // 如需重新启用，取消下方注释
-        // if gazeActive {
-        //     if cursor.x > 5 && cursor.x < screenSize.width - 5 {
-        //         cursor.x += CGFloat(yawOffset) * screenSize.width * 0.05
-        //     }
-        //     if cursor.y > 5 && cursor.y < screenSize.height - 5 {
-        //         cursor.y += CGFloat(pitchOffset) * screenSize.height * 0.05
-        //     }
-        // }
 
         // 限制在屏幕内
         cursor.x = max(0, min(cursor.x, screenSize.width))

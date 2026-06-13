@@ -2,6 +2,185 @@
 
 ---
 
+## v0.7.5-WIP (2026-06-12)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/frame-loss-guard` |
+| **基准** | `v0.7.4` |
+| **作者** | Claude Opus 4.8 |
+
+### 🏗️ 架构变更
+
+**磁吸力场升级 — 二值跳变 → Gravity Well 连续力场**
+
+```
+旧: idle → cursor进35px → 瞬间跳中心 → 恒定80%拉力 → 出50px硬释放
+   问题：跳变突兀、无渐变力感、computeCursor输出被120Hz定时器覆盖
+
+新: free → cursor进R_influence(60px) → 力场渐进偏置targetPosition
+   力 F = k × t^p（t=归一化距离）
+   位移 = F × dist → targetPosition每帧被拉向元素中心
+   中心软着陆（t→0,F→0）、渐变阻力释放
+   120Hz定时器自动继承偏置后的targetPosition
+```
+
+| 旧逻辑 | 新逻辑 |
+|--------|--------|
+| `MagnetState`（idle/snap） | `ForceFieldState`（free/tracking） |
+| 力场作用在 computeCursor 局部变量 | 力场作用在 targetPosition（管道路由前移） |
+| 硬编码阈值（35px/50px） | 5 个可配置参数（GestureConfig） |
+| nearElement 写了没人用 | nearElement 快速路径优先消费 |
+| 80% 恒定拉力 | 渐变力场（边缘 45% → 中心 0%） |
+
+### 🐛 修复
+
+- **computeCursor 吸附被 120Hz 定时器覆盖** — 力场逻辑前移到 `updateWithAbsolutePosition`，偏置 `targetPosition`，定时器每个 tick 自然继承磁吸效果
+- **nearElement 死代码** — `applyForceField` 消费 `scanner.nearElement` 作为快速路径，命中则跳过全量扫描
+- **按钮间抖动** — 滞回 70% 切换阈值 + 找最近元素而非第一个匹配
+
+### ⚡ 性能优化
+
+**AX 扫描器重构（两轮）**
+
+**第一轮**：全量扫描 → 光标命中轮询
+```
+旧: scan() → 200+ AX IPC → 2.5秒 → elements(3个，过期)
+新: 主线程 elementAt() → 100ms 间隔 → 1 AX IPC → 仍 500ms+
+```
+
+**第二轮**：系统命中 API → 空间剪枝递归（参考 Gemini + AutoRaise）
+```
+旧: AXUIElementCreateSystemWide + AXUIElementCopyElementAtPosition
+    → 走 30+ 层到底 → 500ms+
+
+新: CGWindowListCopyWindowInfo（excludeDesktopElements + layer==0）
+    → 定位光标所在窗口 PID → AXUIElementCreateApplication(pid)
+    → recursiveFindHit 空间剪枝递归（深度≤18）
+    → AXUIElementCopyMultipleAttributeValues 批量 API
+    → 1 IPC 拿 position+size+role+children
+    → 命中 hitRoles 即返回
+```
+
+### ⚡ 第三轮：AX 批量 API + 异步队列 + 缓存（参考：豆包方案）
+
+```
+旧: AXUIElementCopyAttributeValue 逐属性读取 → 每 child 2 IPC → 50 child × 5ms = 500ms/层
+新: AXUIElementCopyMultipleAttributeValues → 1 IPC 拿一层全部属性 + 子元素
+    异步 axQueue（.userInitiated）不卡主线程
+    CacheEntry 缓存（PID/位移/窗口bounds/超时 四层失效）
+    NSWorkspace.didTerminateApplicationNotification 进程退出清理
+```
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `UIElementScanner.swift` | 全面重写：CGWindowList + 批量API + 异步队列 + 空间剪枝递归 + 四层缓存 |
+| `CursorController.swift` | 不变（力场仍消费 nearElement） |
+| `GestureConfig.swift` | 不变 |
+
+### ⚙️ 力场参数
+
+| 参数 | 默认值 | 说明 |
+|------|:--:|------|
+| `magnetEnabled` | true | 启用/禁用 |
+| `magnetInfluenceRadius` | 60px | 力场激活半径 |
+| `magnetStrength` | 0.45 | 边缘处最大拉力比例 |
+| `magnetFalloffExponent` | 1.0 | 衰减曲线（1=线性） |
+| `magnetReleaseMultiplier` | 1.5 | 释放半径 = 影响半径 × 系数 |
+
+### 📊 PECF
+
+待 Gate 6 测试后填充
+
+---
+
+## v0.7.4 (2026-06-10)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/frame-loss-guard` |
+| **基准** | `v0.7.3` |
+| **作者** | Claude Opus 4.8 |
+
+### ⚡ 性能优化
+
+**1€ 滤波器 fcMin 0.8→1.2** — 跟手度提升 50%
+- 降低静止滤波强度，手部微动立即响应
+- 历史 trace 验证：滞后下降，零额外抖动
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | fcMin 0.8→1.2 |
+| `VERSION` | 0.7.3 → 0.7.4 |
+
+---
+
+## v0.7.3 (2026-06-10)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `feat/frame-loss-guard` |
+| **基准** | `v0.7.2` |
+| **作者** | Claude Opus 4.8 |
+
+### 🏗️ 架构变更
+
+**固定原点（Leap Motion InteractionBox 方案）** — 去掉动态校准状态机
+
+```
+旧: idle → calibrating（0.5s累积EMA）→ tracking
+   问题：每次手入画面 0.5s 不能动，原点漂移
+
+新: origin = (0.5, 0.4) 固定不变
+   优势：手入画面立即可控，零等待
+```
+
+- 删除 `CalibrationState` 枚举（idle/calibrating/tracking）
+- 删除 `originAccumulator`、`accumulateOrigin()`、`startCalibration()`、`endCalibration()`
+- 新增 `handAppeared()` / `handDisappeared()` 替代校准状态机
+- `handAppeared()` 首帧初始化光标到屏幕中心，避免 (0,0) 跳变
+
+### 🐛 修复
+
+**屏幕边界约束（三重防线）** — 光标不再超出屏幕，边缘可拉回
+
+| 防线 | 位置 | 逻辑 |
+|------|------|------|
+| 边缘逃逸检测 | `updateWithAbsolutePosition` | 光标贴边 + 手往回拉 → 跳过滤波器重置，直接跟手 |
+| offset 钳制 | `maxOffsetX/Y` | 计算刚好到屏幕边缘的 offset 上限，手再远也不产生负坐标 |
+| 边界硬截断 | `clampedX/Y` | `max(0, min(cursor, screenSize))` 最终兜底 |
+
+> 核心发现：滤波器和增益都没问题，只需要控制坐标不超出屏幕边界。手碰到边缘后往回拉，光标立即跟随，不再吸附。
+
+**手消失立即停控** — 摄像头没检测到手时不抢占鼠标
+- `handDisappeared()` 重置滤波器 + `fingerActive = false`
+- 手离开画面 → 光标立即停在原位，用户可以正常用鼠标/触控板
+
+**中三指 palmCenter 置信度** — 用 index+middle+ring 三指 MCP 均值作为手中心
+- wrist 抖动 44.5px 拉偏中心，已废弃
+- 小指检测率最低 90.3%，已废弃
+
+### 🔧 改动文件
+
+| 文件 | 改动 |
+|------|------|
+| `CursorController.swift` | 固定原点 + 校准状态机删除 + 屏幕边界约束 + handAppeared/handDisappeared + 边缘逃逸检测 |
+| `MotionControlApp.swift` | 去掉校准状态切换，手消失直接 handDisappeared() |
+| `HandPoseDetector.swift` | palmCenter 中三指 MCP 均值 |
+| `MotionControlTests.swift` | 更新测试用例适配固定原点 |
+
+### 📊 PECF
+
+- J(P): 通过，Pareto 改善
+- 边缘死区 15.9% → 0%（屏幕边界硬截断）
+- 手入画面响应时间 0.5s → 0s（固定原点）
+
+---
+
 ## v0.7.2 (2026-06-10)
 
 | 属性 | 内容 |

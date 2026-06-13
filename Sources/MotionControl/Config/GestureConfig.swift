@@ -175,7 +175,14 @@ struct GestureConfig: Codable {
     // 鼠标
     var mouseSensitivity: Float = 2.0  // 绝对映射 base gain（手速自适应 0.2~2.0x）
     var mouseSmoothFactor: Float = 0.4
-    
+
+    // 磁吸力场（Gravity Well 连续力场模型）
+    var magnetEnabled: Bool = true
+    var magnetInfluenceRadius: Float = 60.0     // 力场半径 (px)
+    var magnetStrength: Float = 0.45            // 边缘处最大拉力比例 (0~1)
+    var magnetFalloffExponent: Float = 1.0      // 力衰减曲线：1=线性
+    var magnetReleaseMultiplier: Float = 1.5    // 释放半径 = 影响半径 × 此系数（滞回）
+
     // 注视
     var gazeEnabled: Bool = true
     var gazeSensitivity: Float = 1.0

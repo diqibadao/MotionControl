@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import ServiceManagement
 
 /// MotionControl 应用入口。
 /// 通过摄像头 + MediaPipe 实现手势识别、视线追踪和嘴部检测，
@@ -232,6 +233,8 @@ struct ContentView: View {
             CameraService.shared = cameraService
             let configuredDeviceID = ConfigManager.shared.currentConfig.cameraDeviceID
             cameraService.start(withDeviceID: configuredDeviceID.isEmpty ? nil : configuredDeviceID)
+            // 注册 AXHelper LaunchAgent（首次需用户授权）
+            registerAXHelper()
             uiScanner.start()
             cursorController.uiScanner = uiScanner
         }
@@ -249,6 +252,17 @@ struct ContentView: View {
             state.micGranted = perms.mic
             state.speechGranted = perms.speech
             state.accessibilityGranted = perms.accessibility
+        }
+    }
+
+    /// 注册 AXHelper LaunchAgent（launchd 独立拉起，避免 IPC 限速）
+    private func registerAXHelper() {
+        do {
+            let agent = SMAppService.agent(plistName: "com.motioncontrol.axhelper")
+            try agent.register()
+            EventLogger.log(event: "axHelper", frame: nil, input: "launchAgent registered", output: "status=\(agent.status.rawValue)", duration: 0)
+        } catch {
+            EventLogger.log(event: "axHelper", frame: nil, input: "register failed", output: error.localizedDescription, duration: 0)
         }
     }
 }

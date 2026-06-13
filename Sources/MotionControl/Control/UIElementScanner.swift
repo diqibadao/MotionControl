@@ -1,9 +1,9 @@
 // Sources/MotionControl/Control/UIElementScanner.swift
+// 通过 AXHelper 独立进程扫描（socket 通信）
 import AppKit
-import ApplicationServices
 import Combine
+import Foundation
 
-// P-ARCH: UIElementInfo 结构体未更改 (read-only)
 public struct UIElementInfo: Identifiable, Equatable {
     public let id = UUID()
     public let role: String
@@ -13,275 +13,99 @@ public struct UIElementInfo: Identifiable, Equatable {
     public let subrole: String?
 
     public static func == (lhs: UIElementInfo, rhs: UIElementInfo) -> Bool {
-        return lhs.role == rhs.role &&
-            lhs.title == rhs.title &&
-            lhs.frame == rhs.frame &&
-            lhs.isEnabled == rhs.isEnabled &&
-            lhs.subrole == rhs.subrole
+        return lhs.role == rhs.role && lhs.title == rhs.title && lhs.frame == rhs.frame && lhs.isEnabled == rhs.isEnabled && lhs.subrole == rhs.subrole
     }
 }
 
 public class UIElementScanner: ObservableObject {
-    @Published public var elements: [UIElementInfo] = []
-    
-    /// 缓存：光标附近的元素（由后台队列更新，主线程读取）
-    @Published var nearElement: UIElementInfo? = nil
-
-    private let backendQueue = DispatchQueue(label: "com.motioncontrol.uielementscanner", qos: .utility)
-    private var timer: DispatchSourceTimer?
+    @Published public var nearElement: UIElementInfo? = nil
     private var cursorTimer: DispatchSourceTimer?
+    private var cachedElements: [UIElementInfo] = []
+    private var lastScanTime: TimeInterval = 0
+    private let scanInterval: TimeInterval = 2.0
+    private var isScanning = false
+    private let socketPath = "/tmp/axhelper.sock"
 
     public init() {}
 
     public func start() {
-        backendQueue.async { [weak self] in
-            guard let self = self else { return }
-            self.scan()
-            
-            // 定时 1：每 5 秒扫前窗元素（远距磁吸缓存）
-            let t = DispatchSource.makeTimerSource(queue: self.backendQueue)
-            t.schedule(deadline: .now() + 0.5, repeating: .milliseconds(5000), leeway: .milliseconds(1000))
-            t.setEventHandler { [weak self] in
-                self?.scan()
-            }
-            t.activate()
-            self.timer = t
-            
-            // 定时 2：每 500ms 刷新光标附近元素（后台调 elementAt，不阻塞主线程）
-            let cursorTimer = DispatchSource.makeTimerSource(queue: self.backendQueue)
-            cursorTimer.schedule(deadline: .now() + 0.5, repeating: .milliseconds(500), leeway: .milliseconds(50))
-            cursorTimer.setEventHandler { [weak self] in
-                self?.refreshNearCursor()
-            }
-            cursorTimer.activate()
-            self.cursorTimer = cursorTimer
-        }
+        let t = DispatchSource.makeTimerSource(queue: .main)
+        t.schedule(deadline: .now() + 0.2, repeating: .milliseconds(100), leeway: .milliseconds(20))
+        t.setEventHandler { [weak self] in self?.tick() }
+        t.activate()
+        cursorTimer = t
     }
 
     public func stop() {
-        backendQueue.async { [weak self] in
-            self?.timer?.cancel()
-            self?.timer = nil
-            self?.cursorTimer?.cancel()
-            self?.cursorTimer = nil
-        }
+        cursorTimer?.cancel(); cursorTimer = nil; cachedElements = []
     }
 
-    // MARK: - 公开查询接口
-
-    // P-PARAM: 新增 frameId 参数用于日志串联，默认为 nil
-    /// 获取指定屏幕坐标处的 UI 元素信息。
-    public func elementAt(position: CGPoint, frameId: Int? = nil) -> UIElementInfo? {
-        let start = CFAbsoluteTimeGetCurrent()
-        var result: UIElementInfo?
-        defer {
-            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
-            let input = "x=\(Int(position.x)) y=\(Int(position.y))"
-            var output: String
-            if let info = result {
-                output = "role=\(info.role) title=\(info.title)"
-            } else {
-                output = "nil"
-            }
-            EventLogger.log(event: "elementAt", frame: frameId, input: input, output: output, duration: duration)
-        }
-
-        let systemWide = AXUIElementCreateSystemWide()
-        var element: AXUIElement?
-        let err = AXUIElementCopyElementAtPosition(systemWide, Float(position.x), Float(position.y), &element)
-        guard err == .success, let elem = element else { return nil }
-
-        result = extractElementInfo(elem, frameId: frameId)
-        return result
-    }
-
-    // MARK: - 私有辅助
-
-    /// 后台刷新光标附近元素（每 500ms 由 cursorTimer 调用）
-    private func refreshNearCursor() {
+    private func tick() {
         let cursor = NSEvent.mouseLocation
-        // 只查光标位置 1 个点
-        if let el = elementAt(position: cursor) {
-            let center = CGPoint(x: el.frame.midX, y: el.frame.midY)
-            let dx = center.x - cursor.x
-            let dy = center.y - cursor.y
-            let dist = sqrt(dx * dx + dy * dy)
-            if dist < 120 {
-                DispatchQueue.main.async { [weak self] in
-                    self?.nearElement = el
+        let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
+        let axCursor = CGPoint(x: cursor.x, y: screenSize.height - cursor.y)
+        let now = ProcessInfo.processInfo.systemUptime
+        if cachedElements.isEmpty || now - lastScanTime > scanInterval { triggerScan() }
+        for el in cachedElements {
+            if el.frame.contains(axCursor) {
+                if nearElement?.id != el.id {
+                    EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(axCursor.x)),\(Int(axCursor.y)))", output: "role=\(el.role) title=\(el.title)", duration: 0)
                 }
-                return
+                nearElement = el; return
             }
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.nearElement = nil
+        if nearElement != nil {
+            EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(axCursor.x)),\(Int(axCursor.y)))", output: "lost", duration: 0)
         }
+        nearElement = nil
     }
 
-    /// 将 CFArray 转换为 [AXUIElement]
-    private func axElements(from cfArray: CFTypeRef) -> [AXUIElement] {
-        guard CFGetTypeID(cfArray) == CFArrayGetTypeID() else { return [] }
-        let count = CFArrayGetCount(cfArray as! CFArray)
-        var result: [AXUIElement] = []
-        for i in 0..<count {
-            let ptr = CFArrayGetValueAtIndex(cfArray as! CFArray, i)
-            let element = unsafeBitCast(ptr, to: AXUIElement.self)
-            result.append(element)
-        }
-        return result
+    private func triggerScan() {
+        guard !isScanning else { return }
+        isScanning = true
+
+        let t0 = CFAbsoluteTimeGetCurrent()
+        let elements = socketScan()
+        let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
+        EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
+
+        if !elements.isEmpty { cachedElements = elements }
+        lastScanTime = ProcessInfo.processInfo.systemUptime
+        isScanning = false
     }
 
-    /// 扫描最前面 App 的窗口子元素
-    private func scan() {
-        let scanStart = CFAbsoluteTimeGetCurrent()
-        var newElements: [UIElementInfo] = []
-        defer {
-            let duration = (CFAbsoluteTimeGetCurrent() - scanStart) * 1000
-            let input = "scan"
-            let output = "elements=\(newElements.count)"
-            EventLogger.log(event: "scan", frame: nil, input: input, output: output, duration: duration)
+    private func socketScan() -> [UIElementInfo] {
+        var addr = sockaddr_un(); addr.sun_family = sa_family_t(AF_UNIX)
+        socketPath.withCString { strcpy(&addr.sun_path.0, $0) }
+        let addrLen = socklen_t(MemoryLayout<sockaddr_un>.size)
+
+        let sock = socket(AF_UNIX, SOCK_STREAM, 0)
+        guard sock >= 0 else { return [] }
+        defer { close(sock) }
+
+        var tv = timeval(tv_sec: 2, tv_usec: 0)
+        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, socklen_t(MemoryLayout<timeval>.size))
+
+        guard connect(sock, withUnsafePointer(to: &addr) { $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { $0 } }, addrLen) == 0 else { return [] }
+
+        var lenBE: UInt32 = 0
+        guard read(sock, &lenBE, 4) == 4 else { return [] }
+        let len = Int(UInt32(bigEndian: lenBE))
+        guard len > 0, len < 1_000_000 else { return [] }
+
+        var data = Data(); var remaining = len
+        var buf = [UInt8](repeating: 0, count: min(remaining, 4096))
+        while remaining > 0 {
+            let n = read(sock, &buf, min(remaining, buf.count))
+            guard n > 0 else { return [] }
+            data.append(contentsOf: buf[0..<n]); remaining -= n
         }
 
-        guard let frontApp = NSWorkspace.shared.frontmostApplication,
-              frontApp.activationPolicy == .regular else {
-            // 没有前台常规应用时仍扫描 Dock
-            scanDock(into: &newElements)
-            DispatchQueue.main.async {
-                self.elements = newElements
-            }
-            return
+        struct H: Codable { let role: String; let frame: [Double]; let title: String }
+        guard let list = try? JSONDecoder().decode([H].self, from: data) else { return [] }
+        return list.compactMap { el in
+            guard el.frame.count == 4 else { return nil }
+            return UIElementInfo(role: el.role, title: el.title, frame: CGRect(x: el.frame[0], y: el.frame[1], width: el.frame[2], height: el.frame[3]), isEnabled: true, subrole: nil)
         }
-
-        let pid = frontApp.processIdentifier
-        let appElement = AXUIElementCreateApplication(pid)
-
-        guard let windowsRef = getAttributeValue(appElement, kAXWindowsAttribute as String) else { return }
-        let windowElements = axElements(from: windowsRef)
-
-        let interactiveRoles: Set<String> = [
-            "AXButton", "AXTextField", "AXRadioButton", "AXPopUpButton",
-            "AXCheckBox", "AXSlider", "AXDisclosureTriangle", "AXLink",
-            "AXImage", "AXRow", "AXCell", "AXTab", "AXMenuButton",
-            "AXComboBox", "AXScrollBar",
-        ]
-
-        for window in windowElements {
-            guard let childrenRef = getAttributeValue(window, kAXChildrenAttribute as String) else { continue }
-            let children = axElements(from: childrenRef)
-            for child in children {
-                guard newElements.count < 200 else { break }
-                guard let role = getAttributeValue(child, kAXRoleAttribute as String) as? String,
-                      interactiveRoles.contains(role) else { continue }
-                if let info = extractElementInfo(child) {
-                    newElements.append(info)
-                }
-            }
-            if newElements.count >= 200 { break }
-        }
-
-        // 在前台元素之后追加 Dock 元素，确保总数不超过 200
-        scanDock(into: &newElements)
-
-        DispatchQueue.main.async {
-            self.elements = newElements
-        }
-    }
-
-    /// 扫描 macOS Dock 区域的应用图标
-    private func scanDock(into elements: inout [UIElementInfo]) {
-        guard let dockApp = NSWorkspace.shared.runningApplications.first(where: {
-            $0.bundleIdentifier == "com.apple.dock"
-        }) else { return }
-
-        let dockElement = AXUIElementCreateApplication(dockApp.processIdentifier)
-
-        guard let windowsRef = getAttributeValue(dockElement, kAXWindowsAttribute as String) else { return }
-        let windows = axElements(from: windowsRef)
-
-        for window in windows {
-            guard let childrenRef = getAttributeValue(window, kAXChildrenAttribute as String) else { continue }
-            let children = axElements(from: childrenRef)
-            for child in children {
-                guard elements.count < 200 else { break }
-                guard let role = getAttributeValue(child, kAXRoleAttribute as String) as? String,
-                      role == "AXDockItem" || role == "AXButton" else { continue }
-                if let info = extractElementInfo(child) {
-                    elements.append(info)
-                }
-            }
-            if elements.count >= 200 { break }
-        }
-    }
-
-    // MARK: - 元素信息提取（抽取为私有方法）
-
-    // P-LOGIC: 从 AXUIElement 提取 UIElementInfo，新抽取的私有方法
-    private func extractElementInfo(_ element: AXUIElement, frameId: Int? = nil) -> UIElementInfo? {
-        let start = CFAbsoluteTimeGetCurrent()
-        var infoResult: UIElementInfo?
-        defer {
-            let duration = (CFAbsoluteTimeGetCurrent() - start) * 1000
-            let role = getAttributeValue(element, kAXRoleAttribute as String) as? String ?? "?"
-            let input = "elementRole=\(role)"
-            var output: String
-            if let info = infoResult {
-                output = "role=\(info.role) title=\(info.title)"
-            } else {
-                output = "nil"
-            }
-            EventLogger.log(event: "extractElementInfo", frame: frameId, input: input, output: output, duration: duration)
-        }
-
-        guard let role = getAttributeValue(element, kAXRoleAttribute as String) as? String else {
-            return nil
-        }
-        let title = getAttributeValue(element, kAXTitleAttribute as String) as? String ?? ""
-
-        var frame = CGRect.zero
-        if let posVal = getAttributeValue(element, kAXPositionAttribute as String) {
-            let axPos: AXValue = unsafeBitCast(posVal, to: AXValue.self)
-            if AXValueGetType(axPos) == .cgPoint {
-                var point = CGPoint.zero
-                AXValueGetValue(axPos, .cgPoint, &point)
-                frame.origin = point
-            }
-        }
-        if let sizeVal = getAttributeValue(element, kAXSizeAttribute as String) {
-            let axSize: AXValue = unsafeBitCast(sizeVal, to: AXValue.self)
-            if AXValueGetType(axSize) == .cgSize {
-                var size = CGSize.zero
-                AXValueGetValue(axSize, .cgSize, &size)
-                frame.size = size
-            }
-        }
-
-        let isEnabled: Bool
-        if let enabledVal = getAttributeValue(element, kAXEnabledAttribute as String),
-           CFGetTypeID(enabledVal) == CFBooleanGetTypeID() {
-            isEnabled = CFBooleanGetValue(enabledVal as! CFBoolean)
-        } else {
-            isEnabled = true
-        }
-
-        let subrole: String?
-        if let subroleVal = getAttributeValue(element, kAXSubroleAttribute as String) as? String {
-            subrole = subroleVal
-        } else {
-            subrole = nil
-        }
-
-        let info = UIElementInfo(role: role, title: title, frame: frame, isEnabled: isEnabled, subrole: subrole)
-        infoResult = info
-        return info
-    }
-
-    // 保留的辅助方法 (read-only)
-    private func getAttributeValue(_ element: AXUIElement, _ attribute: String) -> CFTypeRef? {
-        var value: CFTypeRef?
-        let err = AXUIElementCopyAttributeValue(element, attribute as CFString, &value)
-        if err == .success {
-            return value
-        }
-        return nil
     }
 }

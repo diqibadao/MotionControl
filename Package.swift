@@ -26,6 +26,11 @@ let package = Package(
                 ])
             ]
         ),
+        .executableTarget(
+            name: "AXHelper",
+            dependencies: [],
+            path: "Sources/AXHelper"
+        ),
         .testTarget(
             name: "MotionControlTests",
             dependencies: ["MotionControl"]

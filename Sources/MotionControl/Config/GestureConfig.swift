@@ -176,12 +176,16 @@ struct GestureConfig: Codable {
     var mouseSensitivity: Float = 2.0  // 绝对映射 base gain（手速自适应 0.2~2.0x）
     var mouseSmoothFactor: Float = 0.4
 
-    // 磁吸力场（Gravity Well 连续力场模型）
-    var magnetEnabled: Bool = true
-    var magnetInfluenceRadius: Float = 60.0     // 力场半径 (px)
-    var magnetStrength: Float = 0.45            // 边缘处最大拉力比例 (0~1)
-    var magnetFalloffExponent: Float = 1.0      // 力衰减曲线：1=线性
-    var magnetReleaseMultiplier: Float = 1.5    // 释放半径 = 影响半径 × 此系数（滞回）
+    // 三级辅助瞄准（Three-Level Assist）
+    var assistEnabled: Bool = true                      // 总开关
+    var assistSpeedGate: Float = 800                    // px/s，超过此速度不介入
+    var assistRInfluence: Float = 60.0                  // L2+L3 影响半径 (px)
+    var assistBiasStrength: Float = 0.35                // L2 偏置强度系数 (0~1)
+    var assistDecayPower: Float = 2.0                   // L2 力场衰减幂次
+    var assistStickinessMinSpeed: Float = 0.25          // L3 中心处速度比例 (0~1)
+    var assistHysteresisRatio: Float = 1.3              // L3 滞回退出/进入比
+    var assistBreakoutThreshold: Float = 400            // L3 冲破速度阈值 (px/s)
+    var assistBreakoutMaxSpeed: Float = 1200            // L3 完全冲破速度 (px/s)
 
     // 注视
     var gazeEnabled: Bool = true

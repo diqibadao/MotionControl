@@ -44,6 +44,8 @@ public class UIElementScanner: ObservableObject {
         let cursor = NSEvent.mouseLocation
         let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
         let axCursor = CGPoint(x: cursor.x, y: screenSize.height - cursor.y)
+        // Fast path: nearElement 仍在光标下 → 不重新扫描
+        if let near = nearElement, near.frame.contains(axCursor) { return }
         let now = ProcessInfo.processInfo.systemUptime
         if cachedElements.isEmpty || now - lastScanTime > scanInterval { triggerScan() }
         for el in cachedElements {
@@ -66,7 +68,7 @@ public class UIElementScanner: ObservableObject {
 
         let t0 = CFAbsoluteTimeGetCurrent()
         let elements = socketScan()
-        let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
+        let elapsed = CFAbsoluteTimeGetCurrent() - t0  // 秒，EventLogger 内部 ×1000 显示 ms
         EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
 
         if !elements.isEmpty { cachedElements = elements }
@@ -83,10 +85,24 @@ public class UIElementScanner: ObservableObject {
         guard sock >= 0 else { return [] }
         defer { close(sock) }
 
+        // 非阻塞 connect + poll 超时 3 秒
+        let flags = fcntl(sock, F_GETFL, 0)
+        _ = fcntl(sock, F_SETFL, flags | O_NONBLOCK)
+
+        let addrPtr = withUnsafePointer(to: &addr) { $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { $0 } }
+        let connResult = connect(sock, addrPtr, addrLen)
+        if connResult < 0 && errno == EINPROGRESS {
+            var pfd = pollfd(fd: sock, events: Int16(POLLOUT), revents: 0)
+            if poll(&pfd, 1, 3000) <= 0 { return [] }
+        } else if connResult < 0 {
+            return []
+        }
+
+        // 恢复阻塞模式
+        _ = fcntl(sock, F_SETFL, flags)
+
         var tv = timeval(tv_sec: 2, tv_usec: 0)
         setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, socklen_t(MemoryLayout<timeval>.size))
-
-        guard connect(sock, withUnsafePointer(to: &addr) { $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { $0 } }, addrLen) == 0 else { return [] }
 
         var lenBE: UInt32 = 0
         guard read(sock, &lenBE, 4) == 4 else { return [] }

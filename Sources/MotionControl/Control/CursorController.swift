@@ -108,12 +108,12 @@ class CursorController {
     /// UI 元素扫描器（用于力场磁吸）
     var uiScanner: UIElementScanner? = nil
 
-    /// 力场状态（Gravity Well 连续力场模型）
-    enum ForceFieldState {
+    /// 沙坑粘滞状态（Stickiness Sandpit）：光标在按钮上减速而非被拉拽
+    enum StickinessState {
         case free                          // 无跟踪元素
-        case tracking(UIElementInfo)       // 正被此元素吸引（未锁定，可挣脱）
+        case tracking(UIElementInfo)       // 正跟踪此元素，对其施加粘滞减速
     }
-    private var forceFieldState: ForceFieldState = .free
+    private var stickinessState: StickinessState = .free
     /// 缓存被跟踪元素的中心坐标，避免帧间重复计算
     private var trackedElementCenter: CGPoint = .zero
     /// 上次元素切换时间（用于冷却期控制）
@@ -233,7 +233,7 @@ class CursorController {
         screenVelocityX = 0
         screenVelocityY = 0
         gapRecoveryUntil = 0
-        forceFieldState = .free
+        stickinessState = .free
     }
     func updateWithAbsolutePosition(
         handCenter: CGPoint,
@@ -349,8 +349,24 @@ class CursorController {
         prevTarget = targetPosition
         prevUpdateTime = now
 
-        // 力场磁吸：偏置 targetPosition 向最近 UI 元素
-        applyForceField(screenSize: screenSize)
+        // L2: 接近偏置 — 低速靠近按钮时偏置 targetPosition
+        let cursorSpeed = sqrt(screenVelocityX * screenVelocityX + screenVelocityY * screenVelocityY)
+        let assistConfig = ConfigManager.shared.currentConfig
+        if assistConfig.assistEnabled && cursorSpeed < CGFloat(assistConfig.assistSpeedGate) {
+            if let near = uiScanner?.nearElement {
+                let center = flippedCenter(of: near, screenSize: screenSize)
+                let dist = distance(from: center)
+                if dist < CGFloat(assistConfig.assistRInfluence) {
+                    let t = dist / CGFloat(assistConfig.assistRInfluence)
+                    let strength = CGFloat(assistConfig.assistBiasStrength) * (1 - pow(t, CGFloat(assistConfig.assistDecayPower)))
+                    targetPosition.x += (center.x - targetPosition.x) * strength
+                    targetPosition.y += (center.y - targetPosition.y) * strength
+                }
+            }
+        }
+
+        // 沙坑粘滞：光标在按钮上时减速
+        applyStickiness(screenSize: screenSize)
 
         lastUpdateTime = Date()
         fingerActive = true
@@ -384,7 +400,7 @@ class CursorController {
     /// 重置光标状态（仅重置手指激活，力场状态复位）
     func resetCursor() {
         fingerActive = false
-        forceFieldState = .free
+        stickinessState = .free
     }
 
     /// 衰减速度（补帧定时器每帧调用）
@@ -395,96 +411,104 @@ class CursorController {
         smoothVy *= factor
     }
 
-    // MARK: - 力场磁吸 (Gravity Well)
+    // MARK: - 沙坑粘滞 (Stickiness Sandpit)
 
-    /// 连续力场：根据光标正下方 UI 元素（nearElement），渐进偏置 targetPosition
+    /// 沙坑粘滞：光标在 UI 元素上时减速（保留方向），而非被拉向中心
+    /// 类比：沙坑里走路 — 方向不变但速度变慢，用力跑就能冲出去
     /// - Parameter screenSize: 当前屏幕尺寸，用于坐标翻转
-    private func applyForceField(screenSize: CGSize) {
-        guard ConfigManager.shared.currentConfig.magnetEnabled,
-              let scanner = uiScanner,
-              let near = scanner.nearElement else {
-            // 光标下无元素 → 释放跟踪
-            if case .tracking = forceFieldState {
-                forceFieldState = .free
-            }
-            return
-        }
+    private func applyStickiness(screenSize: CGSize) {
+        guard ConfigManager.shared.currentConfig.assistEnabled,
+              let scanner = uiScanner else { return }
 
-        let R_influence = CGFloat(ConfigManager.shared.currentConfig.magnetInfluenceRadius)
-        let R_release = R_influence * CGFloat(ConfigManager.shared.currentConfig.magnetReleaseMultiplier)
-        let k = CGFloat(ConfigManager.shared.currentConfig.magnetStrength)
-        let p = CGFloat(ConfigManager.shared.currentConfig.magnetFalloffExponent)
-
-        let elCenter = CGPoint(
-            x: near.frame.midX,
-            y: screenSize.height - near.frame.midY
-        )
-        let dx = elCenter.x - currentPosition.x
-        let dy = elCenter.y - currentPosition.y
-        let dist = sqrt(dx * dx + dy * dy)
-
-        // 切换冷却：200ms 内不切换跟踪目标，防止按钮间来回飘
+        let config = ConfigManager.shared.currentConfig
+        let R = CGFloat(config.assistRInfluence)
+        let R_release = R * CGFloat(config.assistHysteresisRatio)
         let now = ProcessInfo.processInfo.systemUptime
-        switch forceFieldState {
+
+        let near = scanner.nearElement
+        let nearCenter = near.map { flippedCenter(of: $0, screenSize: screenSize) }
+        let nearDist = nearCenter.map { distance(from: $0) } ?? .greatestFiniteMagnitude
+
+        switch stickinessState {
         case .free:
-            if dist < R_influence {
-                forceFieldState = .tracking(near)
-                trackedElementCenter = elCenter
-                lastElementSwitchTime = now
-                applyForceTo(target: near, center: elCenter, dist: dist,
-                             rInfluence: R_influence, rRelease: R_release,
-                             strength: k, exponent: p, screenSize: screenSize)
-            }
+            guard let near = near, let center = nearCenter, nearDist < R else { return }
+            stickinessState = .tracking(near)
+            trackedElementCenter = center
+            lastElementSwitchTime = now
+            applyStickyDelta(to: center, dist: nearDist, screenSize: screenSize)
 
         case .tracking(let element):
-            // 释放：超出释放半径
-            if dist > R_release {
-                forceFieldState = .free
+            let trackedDist = distance(from: trackedElementCenter)
+
+            // 释放：距被跟踪元素太远（即使 nearElement 已 nil，也保持粘滞）
+            if trackedDist > R_release {
+                stickinessState = .free
                 return
             }
 
-            // 冷却期后，如果 nearElement 换成了另一个元素，且距离在影响半径内，则切换
-            if element.id != near.id,
+            // 滞回切换：新元素要比当前元素近 40% 才切换
+            if let near = near, near.id != element.id,
                now - lastElementSwitchTime > elementSwitchCooldown,
-               dist < R_influence {
-                forceFieldState = .tracking(near)
-                trackedElementCenter = elCenter
-                lastElementSwitchTime = now
+               let newCenter = nearCenter {
+                let newDist = distance(from: newCenter)
+                if newDist < trackedDist * 0.6 && newDist < R {
+                    stickinessState = .tracking(near)
+                    trackedElementCenter = newCenter
+                    lastElementSwitchTime = now
+                }
             }
 
-            // 应用力场（始终基于 nearElement 的最新位置）
-            applyForceTo(target: near, center: elCenter, dist: dist,
-                         rInfluence: R_influence, rRelease: R_release,
-                         strength: k, exponent: p, screenSize: screenSize)
+            applyStickyDelta(to: trackedElementCenter, dist: trackedDist, screenSize: screenSize)
         }
     }
 
-    /// 力场核心公式：修改 targetPosition 使其向元素中心偏置
-    /// F = k × t^p, t = dist / R_influence, displacement = F × dist
-    private func applyForceTo(target: UIElementInfo, center: CGPoint, dist: CGFloat,
-                               rInfluence: CGFloat, rRelease: CGFloat,
-                               strength: CGFloat, exponent: CGFloat,
-                               screenSize: CGSize) {
-        guard dist < rInfluence, dist > 0.001 else { return }
+    /// 缩放 targetPosition 的移动量（保留方向），实现沙坑减速效果
+    private func applyStickyDelta(to center: CGPoint, dist: CGFloat, screenSize: CGSize) {
+        let config = ConfigManager.shared.currentConfig
+        let R = CGFloat(config.assistRInfluence)
+        guard dist < R, dist > 0.001 else { return }
 
-        let t = dist / rInfluence          // 归一化距离：0=中心, 1=力场边缘
-        let forceMag = strength * pow(t, exponent)  // F = k × t^p
-        let displacement = forceMag * dist
+        // 粘滞曲线：中心最慢（minSpeed），边缘正常
+        let t = dist / R
+        let minSpeed = CGFloat(config.assistStickinessMinSpeed)
+        var speedFactor = minSpeed + (1.0 - minSpeed) * t
 
-        let normX = (center.x - currentPosition.x) / dist
-        let normY = (center.y - currentPosition.y) / dist
+        // 冲破机制：手速快 → 减弱粘滞 → 可自由穿过按钮
+        let handSpeed = sqrt(smoothVx * smoothVx + smoothVy * smoothVy)
+        let breakoutThreshold = CGFloat(config.assistBreakoutThreshold)
+        let breakoutMaxSpeed = CGFloat(config.assistBreakoutMaxSpeed)
+        if handSpeed > breakoutThreshold {
+            let blend = min(1.0, (handSpeed - breakoutThreshold)
+                            / (breakoutMaxSpeed - breakoutThreshold))
+            speedFactor = speedFactor + (1.0 - speedFactor) * blend
+        }
 
-        targetPosition.x += normX * displacement
-        targetPosition.y += normY * displacement
+        // 缩放移动量：保留方向，只改变速度
+        let dx = targetPosition.x - currentPosition.x
+        let dy = targetPosition.y - currentPosition.y
+        targetPosition.x = currentPosition.x + dx * speedFactor
+        targetPosition.y = currentPosition.y + dy * speedFactor
 
-        // 屏幕边界约束
+        // 边界约束
         targetPosition.x = max(0, min(targetPosition.x, screenSize.width))
         targetPosition.y = max(0, min(targetPosition.y, screenSize.height))
     }
 
+    /// AX 坐标系 → 屏幕坐标系（Y 轴翻转）
+    private func flippedCenter(of el: UIElementInfo, screenSize: CGSize) -> CGPoint {
+        CGPoint(x: el.frame.midX, y: screenSize.height - el.frame.midY)
+    }
+
+    /// 光标到指定点的欧几里得距离
+    private func distance(from center: CGPoint) -> CGFloat {
+        let dx = center.x - currentPosition.x
+        let dy = center.y - currentPosition.y
+        return sqrt(dx * dx + dy * dy)
+    }
+
     // MARK: - 光标计算
 
-    /// 计算最终光标位置（力场磁吸已前移到 applyForceField 修改 targetPosition）
+    /// 计算最终光标位置（沙坑粘滞已前移到 applyStickiness 修改 targetPosition）
     func computeCursor(screenSize: CGSize, sensitivity: Float, dt: Double = 1.0 / 30.0, frameId: Int? = nil) -> CGPoint {
         var cursor = currentPosition
         let start = CFAbsoluteTimeGetCurrent()

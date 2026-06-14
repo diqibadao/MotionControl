@@ -363,11 +363,18 @@ class CursorController {
             phy_x += (blendTarget.x - phy_x) * lerp
             phy_y += (blendTarget.y - phy_y) * lerp
 
+            // 防 NaN/Inf（手部坐标异常时保护）
+            if !phy_x.isFinite { phy_x = rawTarget.x }
+            if !phy_y.isFinite { phy_y = rawTarget.y }
+
             targetPosition = CGPoint(x: phy_x, y: phy_y)
 
+            let safeX = phy_x.isFinite && phy_x < CGFloat(Int.max) ? Int(phy_x) : 0
+            let safeY = phy_y.isFinite && phy_y < CGFloat(Int.max) ? Int(phy_y) : 0
+            let safeDist = minButtonDist.isFinite && minButtonDist < CGFloat(Int.max) ? Int(minButtonDist) : 0
             EventLogger.log(event: "PHYSICS", frame: nil,
-                            input: "btnDist=\(Int(minButtonDist)) w2=\(String(format:"%.3f",w2))",
-                            output: "target=(\(Int(phy_x)),\(Int(phy_y)))",
+                            input: "btnDist=\(safeDist) w2=\(String(format:"%.3f",w2))",
+                            output: "target=(\(safeX),\(safeY))",
                             duration: nil)
         }
 

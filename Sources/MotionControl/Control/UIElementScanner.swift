@@ -22,8 +22,8 @@ public class UIElementScanner: ObservableObject {
     public private(set) var cachedElements: [UIElementInfo] = []
     private var cursorTimer: DispatchSourceTimer?
     private var lastScanTime: TimeInterval = 0
-    private let scanInterval: TimeInterval = 1.0
-    private var isScanning = false
+    private let scanInterval: TimeInterval = 0.2
+    private var isScanning = false  // 防止并发扫描
     private let socketPath = "/tmp/axhelper.sock"
     /// 锁定的元素：锁住期间 nearElement 不更新，防止 jitter 导致目标跳变
     private var lockedElement: UIElementInfo? = nil
@@ -87,19 +87,20 @@ public class UIElementScanner: ObservableObject {
     }
 
     private func triggerScan() {
-        guard !isScanning else { return }
+        guard !isScanning else { return }  // 正在扫，跳过
         isScanning = true
 
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
+
             let t0 = CFAbsoluteTimeGetCurrent()
             let elements = self.socketScan()
             let elapsed = CFAbsoluteTimeGetCurrent() - t0
             DispatchQueue.main.async {
+                self.isScanning = false
                 EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
                 if !elements.isEmpty { self.cachedElements = elements }
                 self.lastScanTime = ProcessInfo.processInfo.systemUptime
-                self.isScanning = false
             }
         }
     }

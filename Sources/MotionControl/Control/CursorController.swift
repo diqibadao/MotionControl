@@ -112,6 +112,11 @@ class CursorController {
     enum StickinessState {
         case free                          // 无跟踪元素
         case tracking(UIElementInfo)       // 正跟踪此元素，对其施加粘滞减速
+
+        var isTracking: Bool {
+            if case .tracking = self { return true }
+            return false
+        }
     }
     private var stickinessState: StickinessState = .free
     /// 缓存被跟踪元素的中心坐标，避免帧间重复计算
@@ -234,6 +239,7 @@ class CursorController {
         screenVelocityY = 0
         gapRecoveryUntil = 0
         stickinessState = .free
+        uiScanner?.unlockElement()
     }
     func updateWithAbsolutePosition(
         handCenter: CGPoint,
@@ -349,20 +355,52 @@ class CursorController {
         prevTarget = targetPosition
         prevUpdateTime = now
 
-        // L2: 接近偏置 — 低速靠近按钮时偏置 targetPosition
+        // L2: Voronoi 分区吸附 — 永远拉向最近按钮中心，距离衰减
         let cursorSpeed = sqrt(screenVelocityX * screenVelocityX + screenVelocityY * screenVelocityY)
         let assistConfig = ConfigManager.shared.currentConfig
-        if assistConfig.assistEnabled && cursorSpeed < CGFloat(assistConfig.assistSpeedGate) {
-            if let near = uiScanner?.nearElement {
-                let center = flippedCenter(of: near, screenSize: screenSize)
-                let dist = distance(from: center)
-                if dist < CGFloat(assistConfig.assistRInfluence) {
-                    let t = dist / CGFloat(assistConfig.assistRInfluence)
-                    let strength = CGFloat(assistConfig.assistBiasStrength) * (1 - pow(t, CGFloat(assistConfig.assistDecayPower)))
-                    targetPosition.x += (center.x - targetPosition.x) * strength
-                    targetPosition.y += (center.y - targetPosition.y) * strength
+        if assistConfig.assistEnabled && cursorSpeed < CGFloat(assistConfig.assistSpeedGate),
+           let scanner = uiScanner, !scanner.cachedElements.isEmpty {
+            let snapRange = CGFloat(assistConfig.assistSnapRange)
+            let snapMax = CGFloat(assistConfig.assistSnapMax)
+            let curvePower = CGFloat(assistConfig.assistSnapCurvePower)
+
+            // IDW 引力场：只取最近的 K=5 个中心做加权混合（防远距离噪声星球稀释引力）
+            let K = 5
+            var nearest: [(CGFloat, CGPoint)] = []
+            for el in scanner.cachedElements {
+                let c = flippedCenter(of: el, screenSize: screenSize)
+                let d = distance(from: c)
+                if d < snapRange {
+                    nearest.append((d, c))
+                    nearest.sort { $0.0 < $1.0 }
+                    if nearest.count > K { nearest.removeLast() }
                 }
             }
+            var totalWeight: CGFloat = 0
+            var blendedCenter = CGPoint.zero
+            for (d, c) in nearest {
+                let t = d / snapRange
+                let phi = pow(1.0 - t, 3.0)
+                totalWeight += phi
+                blendedCenter.x += c.x * phi
+                blendedCenter.y += c.y * phi
+            }
+
+            guard totalWeight > 0 else { return }
+            blendedCenter.x /= totalWeight
+            blendedCenter.y /= totalWeight
+
+            let blendedDist = distance(from: blendedCenter)
+            let t = min(blendedDist / snapRange, 1.0)
+            let strength = snapMax * pow(1.0 - t, curvePower)
+            let bx = (blendedCenter.x - targetPosition.x) * strength
+            let by = (blendedCenter.y - targetPosition.y) * strength
+            targetPosition.x += bx
+            targetPosition.y += by
+            EventLogger.log(event: "SNAP", frame: nil,
+                            input: "blend n=\(Int(totalWeight)) dist=\(Int(blendedDist)) t=\(String(format:"%.2f",t))",
+                            output: "strength=\(String(format:"%.3f",strength)) bias=(\(Int(bx)),\(Int(by)))",
+                            duration: nil)
         }
 
         // 沙坑粘滞：光标在按钮上时减速
@@ -401,6 +439,7 @@ class CursorController {
     func resetCursor() {
         fingerActive = false
         stickinessState = .free
+        uiScanner?.unlockElement()
     }
 
     /// 衰减速度（补帧定时器每帧调用）
@@ -435,6 +474,9 @@ class CursorController {
             stickinessState = .tracking(near)
             trackedElementCenter = center
             lastElementSwitchTime = now
+            scanner.lockElement(near)  // 锁住目标，防 jitter 跳变
+            EventLogger.log(event: "STATE", frame: nil,
+                            input: "free→tracking", output: "role=\(near.role) title=\(near.title) dist=\(Int(nearDist)) locked=true", duration: nil)
             applyStickyDelta(to: center, dist: nearDist, screenSize: screenSize)
 
         case .tracking(let element):
@@ -443,6 +485,9 @@ class CursorController {
             // 释放：距被跟踪元素太远（即使 nearElement 已 nil，也保持粘滞）
             if trackedDist > R_release {
                 stickinessState = .free
+                scanner.unlockElement()
+                EventLogger.log(event: "STATE", frame: nil,
+                                input: "tracking→free", output: "role=\(element.role) title=\(element.title) dist=\(Int(trackedDist)) locked=false", duration: nil)
                 return
             }
 
@@ -452,15 +497,21 @@ class CursorController {
                let newCenter = nearCenter {
                 let newDist = distance(from: newCenter)
                 if newDist < trackedDist * 0.6 && newDist < R {
+                    EventLogger.log(event: "STATE", frame: nil,
+                                    input: "tracking→switch", output: "from=\(element.title) to=\(near.title) dist=\(Int(newDist))", duration: nil)
                     stickinessState = .tracking(near)
                     trackedElementCenter = newCenter
                     lastElementSwitchTime = now
+                    scanner.lockElement(near)  // 切换目标，重新锁定
                 }
             }
 
             applyStickyDelta(to: trackedElementCenter, dist: trackedDist, screenSize: screenSize)
         }
     }
+
+    /// 粘滞日志节流计数器
+    private var stickyLogCounter: Int = 0
 
     /// 缩放 targetPosition 的移动量（保留方向），实现沙坑减速效果
     private func applyStickyDelta(to center: CGPoint, dist: CGFloat, screenSize: CGSize) {
@@ -477,10 +528,17 @@ class CursorController {
         let handSpeed = sqrt(smoothVx * smoothVx + smoothVy * smoothVy)
         let breakoutThreshold = CGFloat(config.assistBreakoutThreshold)
         let breakoutMaxSpeed = CGFloat(config.assistBreakoutMaxSpeed)
+        var isBreakout = false
         if handSpeed > breakoutThreshold {
             let blend = min(1.0, (handSpeed - breakoutThreshold)
                             / (breakoutMaxSpeed - breakoutThreshold))
             speedFactor = speedFactor + (1.0 - speedFactor) * blend
+            isBreakout = true
+        }
+        // 手速完全冲破 → 解锁目标，允许自由切换
+        if handSpeed > breakoutMaxSpeed {
+            uiScanner?.unlockElement()
+            EventLogger.log(event: "LOCK", frame: nil, input: "breakout", output: "speed=\(Int(handSpeed))", duration: nil)
         }
 
         // 缩放移动量：保留方向，只改变速度
@@ -488,6 +546,15 @@ class CursorController {
         let dy = targetPosition.y - currentPosition.y
         targetPosition.x = currentPosition.x + dx * speedFactor
         targetPosition.y = currentPosition.y + dy * speedFactor
+
+        // 节流日志：每 30 帧打一次
+        stickyLogCounter += 1
+        if stickyLogCounter % 30 == 0 {
+            EventLogger.log(event: "STICKY", frame: nil,
+                            input: "dist=\(Int(dist)) t=\(String(format:"%.2f",t)) handSpeed=\(Int(handSpeed))",
+                            output: "factor=\(String(format:"%.3f",speedFactor)) breakout=\(isBreakout) delta=(\(Int(dx)),\(Int(dy)))",
+                            duration: nil)
+        }
 
         // 边界约束
         targetPosition.x = max(0, min(targetPosition.x, screenSize.width))

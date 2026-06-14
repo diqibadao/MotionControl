@@ -19,9 +19,10 @@ struct ElementDTO: Codable {
 
 let interactiveRoles = Set([
     "AXButton", "AXRadioButton", "AXPopUpButton", "AXCheckBox",
-    "AXLink", "AXMenuButton", "AXComboBox", "AXTextField",
+    "AXLink", "AXMenuButton", "AXComboBox", "AXTextField", "AXTextArea",
     "AXSlider", "AXTab", "AXScrollBar", "AXMenuItem",
-    "AXCell", "AXRow", "AXImage",
+    "AXMenuBarItem", "AXDockItem", "AXCell", "AXRow", "AXImage",
+    "AXWebArea", "AXStaticText", "AXHeading",
 ])
 
 func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
@@ -31,13 +32,65 @@ func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
 
 func performAXScan() -> [ElementDTO] {
     var collected: [ElementDTO] = []
-    guard let frontApp = NSWorkspace.shared.frontmostApplication else { return collected }
-    let appEl = AXUIElementCreateApplication(frontApp.processIdentifier)
-    walk(element: appEl, depth: 0, collected: &collected)
+
+    /// 扫一个进程的 AX 树
+    func scanApp(_ pid: pid_t) {
+        guard pid > 0 else { return }
+        let appEl = AXUIElementCreateApplication(pid)
+        walk(element: appEl, depth: 0, collected: &collected)
+    }
+
+    // 1. 前台 APP（含菜单栏、窗口内按钮）
+    if let frontApp = NSWorkspace.shared.frontmostApplication, frontApp.processIdentifier > 0 {
+        scanApp(frontApp.processIdentifier)
+    }
+
+    // 2. 底部 Dock
+    if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
+        scanApp(dock.processIdentifier)
+    }
+
+    // 3. 右上角系统图标（菜单栏右侧）
+    if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
+        scanApp(sysui.processIdentifier)
+    }
+
+    // 4. 焦点元素（键盘焦点所在，覆盖 Web 编辑区等非标准 AX 元素）
+    if let focusDTO = scanFocusedElement() {
+        collected.append(focusDTO)
+    }
+
     return collected
 }
 
-func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 20) {
+/// 扫描系统当前焦点元素（键盘焦点所在，如输入框、编辑器）
+func scanFocusedElement() -> ElementDTO? {
+    let sysWide = AXUIElementCreateSystemWide()
+    var focusedEl: CFTypeRef?
+    guard AXUIElementCopyAttributeValue(sysWide, kAXFocusedUIElementAttribute as CFString, &focusedEl) == .success,
+          let el = focusedEl else { return nil }
+    let axEl = el as! AXUIElement
+
+    guard let role = getAttr(axEl, kAXRoleAttribute as String) as? String else { return nil }
+
+    var frame = CGRect.zero
+    if let posVal = getAttr(axEl, kAXPositionAttribute as String) {
+        let axVal = unsafeBitCast(posVal, to: AXValue.self)
+        if AXValueGetType(axVal) == .cgPoint { var p = CGPoint.zero; AXValueGetValue(axVal, .cgPoint, &p); frame.origin = p }
+    }
+    if let sizeVal = getAttr(axEl, kAXSizeAttribute as String) {
+        let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
+        if AXValueGetType(axVal) == .cgSize { var s = CGSize.zero; AXValueGetValue(axVal, .cgSize, &s); frame.size = s }
+    }
+
+    guard frame.width > 0, frame.height > 0 else { return nil }
+    let title = (getAttr(axEl, kAXTitleAttribute as String) as? String)
+                ?? (getAttr(axEl, kAXValueAttribute as String) as? String)
+                ?? ""
+    return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title)
+}
+
+func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25) {
     guard depth <= maxDepth else { return }
     guard let role = getAttr(element, kAXRoleAttribute as String) as? String else { return }
 
@@ -51,7 +104,9 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
         if AXValueGetType(axVal) == .cgSize { var s = CGSize.zero; AXValueGetValue(axVal, .cgSize, &s); frame.size = s }
     }
 
-    if interactiveRoles.contains(role), frame.width > 0, frame.height > 0 {
+    // 大元素过滤：面积 > 50000px² 不收入（如 AXWebArea 800×600），但仍遍历子元素
+    let area = frame.width * frame.height
+    if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000 {
         let title = (getAttr(element, kAXTitleAttribute as String) as? String) ?? ""
         collected.append(ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title))
     }

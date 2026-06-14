@@ -28,7 +28,8 @@ struct ContentView: View {
     private let keyboardCtrl = KeyboardController()
     private let cursorController = CursorController()
     private let uiScanner = UIElementScanner()
-    
+    private let debugOverlay = DebugOverlay()
+
     @State private var handKeypoints: [CGPoint] = []
     @State private var faceKeypoints: [CGPoint] = []
     @State private var commandTriggeredAt: Date = .distantPast
@@ -237,6 +238,27 @@ struct ContentView: View {
             registerAXHelper()
             uiScanner.start()
             cursorController.uiScanner = uiScanner
+            if ConfigManager.shared.currentConfig.debugOverlayEnabled {
+                debugOverlay.start()
+            }
+            // 调试蒙层刷新定时器
+            let overlayTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                guard ConfigManager.shared.currentConfig.debugOverlayEnabled else { return }
+                let cursor = NSEvent.mouseLocation
+                var bestCenter: CGPoint? = nil
+                var bestDist = CGFloat.greatestFiniteMagnitude
+                let screenH = NSScreen.main?.frame.height ?? 1080
+                for el in uiScanner.cachedElements {
+                    let cx = el.frame.midX
+                    let cy = screenH - el.frame.midY
+                    let dx = cx - cursor.x
+                    let dy = cy - cursor.y
+                    let d = sqrt(dx*dx + dy*dy)
+                    if d < bestDist { bestDist = d; bestCenter = CGPoint(x: cx, y: cy) }
+                }
+                debugOverlay.update(elements: uiScanner.cachedElements, cursor: cursor, nearestCenter: bestCenter)
+            }
+            RunLoop.current.add(overlayTimer, forMode: .common)
         }
         .onDisappear {
             cameraService.stop()
@@ -244,6 +266,7 @@ struct ContentView: View {
             uiScanner.stop()
             frameGenTimer?.invalidate()
             frameGenTimer = nil
+            debugOverlay.stop()
             EventLogger.stopLogFile()
         }
         .task {

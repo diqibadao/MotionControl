@@ -178,11 +178,13 @@ struct GestureConfig: Codable {
 
     // 三级辅助瞄准（Three-Level Assist）
     var assistEnabled: Bool = true                      // 总开关
+    var debugOverlayEnabled: Bool = true                // 调试蒙层（发布时关闭）
     var assistSpeedGate: Float = 800                    // px/s，超过此速度不介入
-    var assistRInfluence: Float = 60.0                  // L2+L3 影响半径 (px)
-    var assistBiasStrength: Float = 0.35                // L2 偏置强度系数 (0~1)
-    var assistDecayPower: Float = 2.0                   // L2 力场衰减幂次
-    var assistStickinessMinSpeed: Float = 0.25          // L3 中心处速度比例 (0~1)
+    var assistRInfluence: Float = 60.0                  // L3 粘滞半径 (px)
+    var assistSnapMax: Float = 0.8                      // L2 最近中心最大吸力 (0~1)
+    var assistSnapRange: Float = 400                    // L2 吸力衰减到 0 的距离 (px)
+    var assistSnapCurvePower: Float = 1.5               // L2 衰减曲线幂次 (越小越强)
+    var assistStickinessMinSpeed: Float = 0.03          // L3 中心处速度比例 (0~1)
     var assistHysteresisRatio: Float = 1.3              // L3 滞回退出/进入比
     var assistBreakoutThreshold: Float = 400            // L3 冲破速度阈值 (px/s)
     var assistBreakoutMaxSpeed: Float = 1200            // L3 完全冲破速度 (px/s)

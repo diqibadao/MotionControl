@@ -19,14 +19,31 @@ public struct UIElementInfo: Identifiable, Equatable {
 
 public class UIElementScanner: ObservableObject {
     @Published public var nearElement: UIElementInfo? = nil
+    public private(set) var cachedElements: [UIElementInfo] = []
     private var cursorTimer: DispatchSourceTimer?
-    private var cachedElements: [UIElementInfo] = []
     private var lastScanTime: TimeInterval = 0
     private let scanInterval: TimeInterval = 2.0
     private var isScanning = false
     private let socketPath = "/tmp/axhelper.sock"
+    /// 锁定的元素：锁住期间 nearElement 不更新，防止 jitter 导致目标跳变
+    private var lockedElement: UIElementInfo? = nil
 
     public init() {}
+
+    /// 锁定一个元素：锁住期间 nearElement 不随光标移动而切换
+    public func lockElement(_ el: UIElementInfo) {
+        lockedElement = el
+        nearElement = el
+        EventLogger.log(event: "LOCK", frame: nil, input: "lock", output: "role=\(el.role) title=\(el.title)", duration: nil)
+    }
+
+    /// 解锁：恢复正常 nearElement 跟踪
+    public func unlockElement() {
+        if lockedElement != nil {
+            EventLogger.log(event: "LOCK", frame: nil, input: "unlock", output: "resume tracking", duration: nil)
+        }
+        lockedElement = nil
+    }
 
     public func start() {
         let t = DispatchSource.makeTimerSource(queue: .main)
@@ -44,6 +61,8 @@ public class UIElementScanner: ObservableObject {
         let cursor = NSEvent.mouseLocation
         let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
         let axCursor = CGPoint(x: cursor.x, y: screenSize.height - cursor.y)
+        // 锁住期间：无条件保持 nearElement，防 jitter 跳变（解锁由 CursorController 控制）
+        if lockedElement != nil { return }
         // Fast path: nearElement 仍在光标下 → 不重新扫描
         if let near = nearElement, near.frame.contains(axCursor) { return }
         let now = ProcessInfo.processInfo.systemUptime

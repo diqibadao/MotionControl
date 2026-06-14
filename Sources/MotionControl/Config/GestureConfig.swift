@@ -184,6 +184,7 @@ struct GestureConfig: Codable {
     var phySoftenRadius: Float = 20.0                   // 引力软化半径
     var phyGravityDecay: Float = 12.0                   // 引力衰减距离
     var phyDeadZone: Float = 3.0                        // 弹簧死区 (px)
+    var blendZone: Float = 50.0                         // 权重混合区半径 (px)
     var phyDampingLow: Float = 0.98                     // 低速阻尼 (<50px/s)
     var phyDampingHigh: Float = 0.92                    // 高速阻尼 (>200px/s)
     var phySpeedLow: Float = 50                         // 低速阈值

@@ -33,7 +33,7 @@ func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
 func performAXScan() -> [ElementDTO] {
     var collected: [ElementDTO] = []
 
-    /// 扫一个进程的 AX 树
+    /// 扫一个进程的完整 AX 树（屏幕外交集过滤在 walk 里做）
     func scanApp(_ pid: pid_t) {
         guard pid > 0 else { return }
         let appEl = AXUIElementCreateApplication(pid)
@@ -117,6 +117,8 @@ func scanFocusedElement() -> ElementDTO? {
     return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title)
 }
 
+let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
+
 func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25) {
     guard depth <= maxDepth else { return }
     guard let role = getAttr(element, kAXRoleAttribute as String) as? String else { return }
@@ -133,7 +135,8 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
 
     // 大元素过滤：面积 > 50000px² 不收入（如 AXWebArea 800×600），但仍遍历子元素
     let area = frame.width * frame.height
-    if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000 {
+    if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000,
+       frame.intersects(screenFrame) {  // 只看屏幕可见元素
         let title = (getAttr(element, kAXTitleAttribute as String) as? String) ?? ""
         collected.append(ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title))
     }

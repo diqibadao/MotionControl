@@ -89,15 +89,19 @@ public class UIElementScanner: ObservableObject {
     private func triggerScan() {
         guard !isScanning else { return }
         isScanning = true
-        defer { isScanning = false }
 
-        let t0 = CFAbsoluteTimeGetCurrent()
-        let elements = socketScan()
-        let elapsed = CFAbsoluteTimeGetCurrent() - t0
-        EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
-
-        if !elements.isEmpty { cachedElements = elements }
-        lastScanTime = ProcessInfo.processInfo.systemUptime
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else { return }
+            let t0 = CFAbsoluteTimeGetCurrent()
+            let elements = self.socketScan()
+            let elapsed = CFAbsoluteTimeGetCurrent() - t0
+            DispatchQueue.main.async {
+                EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
+                if !elements.isEmpty { self.cachedElements = elements }
+                self.lastScanTime = ProcessInfo.processInfo.systemUptime
+                self.isScanning = false
+            }
+        }
     }
 
     private func socketScan() -> [UIElementInfo] {

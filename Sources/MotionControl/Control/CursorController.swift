@@ -324,18 +324,6 @@ class CursorController {
             targetPosition = rawTarget
         }
 
-        // 恢复窗口内：预测位置 → 真实目标 二次 ease-in 过渡
-        if now < gapRecoveryUntil && prevUpdateTime > 0 {
-            let elapsed = now - (gapRecoveryUntil - gapRecoveryWindow)
-            let progress = CGFloat(max(0, min(1.0, elapsed / gapRecoveryWindow)))
-            let blend = progress * progress  // ease-in quad: 0→1
-
-            let predictedX = prevTarget.x + screenVelocityX * CGFloat(dt)
-            let predictedY = prevTarget.y + screenVelocityY * CGFloat(dt)
-
-            targetPosition.x = predictedX + (targetPosition.x - predictedX) * blend
-            targetPosition.y = predictedY + (targetPosition.y - predictedY) * blend
-        }
 
         let handTarget = targetPosition  // 保存手部原始目标，不被物理输出覆盖
         prevTarget = targetPosition
@@ -360,7 +348,7 @@ class CursorController {
             }
 
             // 距离→按钮权重（0=远, 1=近），平方加速收敛
-            let zone: CGFloat = 50.0
+            let zone = CGFloat(config.blendZone)
             let w = max(0, 1.0 - minButtonDist / zone)
             let w2 = w * w
 
@@ -370,7 +358,7 @@ class CursorController {
                 y: max(0, min(rawTarget.y * (1 - w2) + nearestCenter.y * w2, screenSize.height))
             )
 
-            // 一阶 Lerp 逼近：近按钮快响应（0.9），远距跟手（0.4）
+            // 一阶 Lerp：没按钮 0.4，近按钮加速
             let lerp: CGFloat = 0.4 + 0.5 * w2
             phy_x += (blendTarget.x - phy_x) * lerp
             phy_y += (blendTarget.y - phy_y) * lerp

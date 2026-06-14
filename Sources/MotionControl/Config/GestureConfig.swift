@@ -176,17 +176,18 @@ struct GestureConfig: Codable {
     var mouseSensitivity: Float = 2.0  // 绝对映射 base gain（手速自适应 0.2~2.0x）
     var mouseSmoothFactor: Float = 0.4
 
-    // 三级辅助瞄准（Three-Level Assist）
+    // 物理归一模型（Physics-Based Cursor）
     var assistEnabled: Bool = true                      // 总开关
-    var debugOverlayEnabled: Bool = true                // 调试蒙层（发布时关闭）
-    var assistSpeedGate: Float = 800                    // px/s，超过此速度不介入
-    var assistRInfluence: Float = 60.0                  // L3 粘滞半径 (px)
-    var assistSnapMax: Float = 0.8                      // L2 最近中心最大吸力 (0~1)
-    var assistSnapRange: Float = 400                    // L2 吸力衰减到 0 的距离 (px)
-    var assistSnapCurvePower: Float = 1.5               // L2 衰减曲线幂次 (越小越强)
-    var assistStickinessMinSpeed: Float = 0.03          // L3 中心处速度比例 (0~1)
-    var assistHysteresisRatio: Float = 1.3              // L3 滞回退出/进入比
-    var assistBreakoutThreshold: Float = 400            // L3 冲破速度阈值 (px/s)
+    var debugOverlayEnabled: Bool = true                // 调试蒙层
+    var phyKHand: Float = 12.0                          // 缆绳弹簧刚度
+    var phyGravity: Float = 2500                        // 按钮引力强度
+    var phySoftenRadius: Float = 20.0                   // 引力软化半径
+    var phyGravityDecay: Float = 12.0                   // 引力衰减距离
+    var phyDeadZone: Float = 3.0                        // 弹簧死区 (px)
+    var phyDampingLow: Float = 0.98                     // 低速阻尼 (<50px/s)
+    var phyDampingHigh: Float = 0.92                    // 高速阻尼 (>200px/s)
+    var phySpeedLow: Float = 50                         // 低速阈值
+    var phySpeedHigh: Float = 200                       // 高速阈值
     var assistBreakoutMaxSpeed: Float = 1200            // L3 完全冲破速度 (px/s)
 
     // 注视

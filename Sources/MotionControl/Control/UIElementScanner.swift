@@ -22,11 +22,12 @@ public class UIElementScanner: ObservableObject {
     public private(set) var cachedElements: [UIElementInfo] = []
     private var cursorTimer: DispatchSourceTimer?
     private var lastScanTime: TimeInterval = 0
-    private let scanInterval: TimeInterval = 2.0
+    private let scanInterval: TimeInterval = 1.0
     private var isScanning = false
     private let socketPath = "/tmp/axhelper.sock"
     /// 锁定的元素：锁住期间 nearElement 不更新，防止 jitter 导致目标跳变
     private var lockedElement: UIElementInfo? = nil
+    private var lastActiveAppPID: pid_t = 0
 
     public init() {}
 
@@ -61,12 +62,16 @@ public class UIElementScanner: ObservableObject {
         let cursor = NSEvent.mouseLocation
         let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
         let axCursor = CGPoint(x: cursor.x, y: screenSize.height - cursor.y)
-        // 锁住期间：无条件保持 nearElement，防 jitter 跳变（解锁由 CursorController 控制）
         if lockedElement != nil { return }
-        // Fast path: nearElement 仍在光标下 → 不重新扫描
-        if let near = nearElement, near.frame.contains(axCursor) { return }
         let now = ProcessInfo.processInfo.systemUptime
-        if cachedElements.isEmpty || now - lastScanTime > scanInterval { triggerScan() }
+        // 定时刷新 + APP切换立即刷新
+        let appChanged = NSWorkspace.shared.frontmostApplication?.processIdentifier != lastActiveAppPID
+        if cachedElements.isEmpty || now - lastScanTime > scanInterval || appChanged {
+            if appChanged { lastActiveAppPID = NSWorkspace.shared.frontmostApplication?.processIdentifier ?? 0 }
+            triggerScan()
+        }
+        // Fast path: nearElement 仍在光标下 → 不重新匹配
+        if let near = nearElement, near.frame.contains(axCursor) { return }
         for el in cachedElements {
             if el.frame.contains(axCursor) {
                 if nearElement?.id != el.id {
@@ -84,15 +89,15 @@ public class UIElementScanner: ObservableObject {
     private func triggerScan() {
         guard !isScanning else { return }
         isScanning = true
+        defer { isScanning = false }
 
         let t0 = CFAbsoluteTimeGetCurrent()
         let elements = socketScan()
-        let elapsed = CFAbsoluteTimeGetCurrent() - t0  // 秒，EventLogger 内部 ×1000 显示 ms
+        let elapsed = CFAbsoluteTimeGetCurrent() - t0
         EventLogger.log(event: "axScan", frame: nil, input: "app=\(NSWorkspace.shared.frontmostApplication?.localizedName ?? "?")", output: "elements=\(elements.count)", duration: elapsed)
 
         if !elements.isEmpty { cachedElements = elements }
         lastScanTime = ProcessInfo.processInfo.systemUptime
-        isScanning = false
     }
 
     private func socketScan() -> [UIElementInfo] {

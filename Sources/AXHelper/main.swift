@@ -40,9 +40,36 @@ func performAXScan() -> [ElementDTO] {
         walk(element: appEl, depth: 0, collected: &collected)
     }
 
-    // 1. 前台 APP（含菜单栏、窗口内按钮）
-    if let frontApp = NSWorkspace.shared.frontmostApplication, frontApp.processIdentifier > 0 {
-        scanApp(frontApp.processIdentifier)
+    /// 找第一个有可见主窗口的 APP（前台可能最小化了）
+    func firstAppWithWindow() -> pid_t {
+        // 先看前台
+        if let front = NSWorkspace.shared.frontmostApplication, front.processIdentifier > 0 {
+            let appEl = AXUIElementCreateApplication(front.processIdentifier)
+            var win: CFTypeRef?
+            if AXUIElementCopyAttributeValue(appEl, kAXMainWindowAttribute as CFString, &win) == .success {
+                return front.processIdentifier
+            }
+        }
+        // 前台没窗口 → 遍历其他 APP，找第一个有窗口的
+        let allApps = NSWorkspace.shared.runningApplications
+        for app in allApps {
+            if app.processIdentifier <= 0 { continue }
+            if app.bundleIdentifier == "com.apple.dock" { continue }
+            if app.bundleIdentifier == "com.apple.systemuiserver" { continue }
+            if app.bundleIdentifier == Bundle.main.bundleIdentifier { continue }
+            let appEl = AXUIElementCreateApplication(app.processIdentifier)
+            var win: CFTypeRef?
+            if AXUIElementCopyAttributeValue(appEl, kAXMainWindowAttribute as CFString, &win) == .success {
+                return app.processIdentifier
+            }
+        }
+        return 0
+    }
+
+    // 1. 可见窗口的 APP
+    let visibleAppPID = firstAppWithWindow()
+    if visibleAppPID > 0 {
+        scanApp(visibleAppPID)
     }
 
     // 2. 底部 Dock

@@ -13,6 +13,14 @@ import ApplicationServices
 
 struct ElementDTO: Codable {
     let role: String; let frame: [Double]; let title: String
+    let pid: Int; let windowBounds: [Double]
+}
+
+struct ScanRequest: Codable {
+    let windows: [WindowInfo]
+    struct WindowInfo: Codable {
+        let pid: Int; let bounds: [Double]; let layer: Int
+    }
 }
 
 // MARK: - AX 扫描逻辑
@@ -30,32 +38,69 @@ func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
     return AXUIElementCopyAttributeValue(el, attr as CFString, &v) == .success ? v : nil
 }
 
-func performAXScan() -> [ElementDTO] {
+func performAXScan(windows: [ScanRequest.WindowInfo]) -> [ElementDTO] {
     var collected: [ElementDTO] = []
 
-    /// 扫一个进程的完整 AX 树（屏幕外交集过滤在 walk 里做）
-    func scanApp(_ pid: pid_t) {
+    /// 扫指定 PID 的 AX 窗口，只取匹配 CGWindowList bounds 的那个窗口的 children
+    func scanAppWindow(_ pid: pid_t, windowBounds: [Double]) {
         guard pid > 0 else { return }
         let appEl = AXUIElementCreateApplication(pid)
-        walk(element: appEl, depth: 0, collected: &collected)
+
+        // 用 kAXWindowsAttribute 拿 AX 窗口列表（不含菜单栏、隐藏面板）
+        var axWindows: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(appEl, kAXWindowsAttribute as CFString, &axWindows) == .success,
+              let windowList = axWindows as? [AXUIElement], !windowList.isEmpty else {
+            // 降级：拿不到窗口列表就走整棵树（Dock/SystemUIServer）
+            walk(element: appEl, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
+            return
+        }
+
+        let targetRect = CGRect(x: windowBounds[0], y: windowBounds[1], width: windowBounds[2], height: windowBounds[3])
+
+        // 找 AX frame 与目标 bounds 重叠面积最大的窗口
+        var bestWindow: AXUIElement?
+        var bestOverlap: CGFloat = 0
+        for win in windowList {
+            var pos = CGPoint.zero, size = CGSize.zero
+            if let posVal = getAttr(win, kAXPositionAttribute as String) {
+                let axVal = unsafeBitCast(posVal, to: AXValue.self)
+                if AXValueGetType(axVal) == .cgPoint { AXValueGetValue(axVal, .cgPoint, &pos) }
+            }
+            if let sizeVal = getAttr(win, kAXSizeAttribute as String) {
+                let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
+                if AXValueGetType(axVal) == .cgSize { AXValueGetValue(axVal, .cgSize, &size) }
+            }
+            guard size.width > 0, size.height > 0 else { continue }
+            let winRect = CGRect(x: pos.x, y: pos.y, width: size.width, height: size.height)
+            let overlap = targetRect.intersection(winRect)
+            let overlapArea = overlap.width * overlap.height
+            if overlapArea > bestOverlap { bestOverlap = overlapArea; bestWindow = win }
+        }
+
+        // 只扫匹配到的窗口的子元素，不扫整棵 APP 树
+        if let bestWin = bestWindow {
+            walk(element: bestWin, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
+        }
     }
 
-    // 1. 前台 APP（始终扫，不管有没有主窗口——覆盖浮动面板、小窗口等）
-    if let frontApp = NSWorkspace.shared.frontmostApplication, frontApp.processIdentifier > 0 {
-        scanApp(frontApp.processIdentifier)
+    // 扫 CGWindowList 里的所有 APP 窗口
+    for w in windows {
+        scanAppWindow(pid_t(w.pid), windowBounds: w.bounds)
     }
 
-    // 2. 底部 Dock
+    // 底部 Dock（不在 CGWindowList layer=0 里）
     if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-        scanApp(dock.processIdentifier)
+        let dockBounds: [Double] = [0, 0, Double(NSScreen.main?.frame.width ?? 1920), 100]
+        scanAppWindow(dock.processIdentifier, windowBounds: dockBounds)
     }
 
-    // 3. 右上角系统图标（菜单栏右侧）
+    // 右上角系统图标
     if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
-        scanApp(sysui.processIdentifier)
+        let sysBounds: [Double] = [0, 0, Double(NSScreen.main?.frame.width ?? 1920), 30]
+        scanAppWindow(sysui.processIdentifier, windowBounds: sysBounds)
     }
 
-    // 4. 焦点元素（键盘焦点所在，覆盖 Web 编辑区等非标准 AX 元素）
+    // 焦点元素
     if let focusDTO = scanFocusedElement() {
         collected.append(focusDTO)
     }
@@ -84,15 +129,17 @@ func scanFocusedElement() -> ElementDTO? {
     }
 
     guard frame.width > 0, frame.height > 0 else { return nil }
+    var elPid: pid_t = 0
+    AXUIElementGetPid(axEl, &elPid)
     let title = (getAttr(axEl, kAXTitleAttribute as String) as? String)
                 ?? (getAttr(axEl, kAXValueAttribute as String) as? String)
                 ?? ""
-    return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title)
+    return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title, pid: Int(elPid), windowBounds: [0,0,0,0])
 }
 
 let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
 
-func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25) {
+func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25, pid: pid_t, windowBounds: [Double]) {
     guard depth <= maxDepth else { return }
     guard let role = getAttr(element, kAXRoleAttribute as String) as? String else { return }
 
@@ -111,7 +158,7 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
     if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000,
        frame.intersects(screenFrame) {  // 只看屏幕可见元素
         let title = (getAttr(element, kAXTitleAttribute as String) as? String) ?? ""
-        collected.append(ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title))
+        collected.append(ElementDTO(role: role, frame: [Double(frame.origin.x), Double(frame.origin.y), Double(frame.width), Double(frame.height)], title: title, pid: Int(pid), windowBounds: windowBounds))
     }
 
     guard let children = getAttr(element, kAXChildrenAttribute as String) else { return }
@@ -119,7 +166,7 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
     let arr = children as! CFArray
     for i in 0..<CFArrayGetCount(arr) {
         walk(element: unsafeBitCast(CFArrayGetValueAtIndex(arr, i), to: AXUIElement.self),
-             depth: depth + 1, collected: &collected, maxDepth: maxDepth)
+             depth: depth + 1, collected: &collected, maxDepth: maxDepth, pid: pid, windowBounds: windowBounds)
     }
 }
 
@@ -134,8 +181,9 @@ class AXHelperDelegate: NSObject, NSXPCListenerDelegate, AXHelperProtocol {
     }
 
     func scan(reply: @escaping (Data) -> Void) {
+        // XPC 模式暂用空窗口列表（XPC 未在生产使用）
         let t0 = CFAbsoluteTimeGetCurrent()
-        let elements = performAXScan()
+        let elements = performAXScan(windows: [])
         let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
         fputs("[AXHelper] scanned \(elements.count) elements in \(Int(elapsed))ms\n", stderr)
         if let json = try? JSONEncoder().encode(elements) {
@@ -146,12 +194,19 @@ class AXHelperDelegate: NSObject, NSXPCListenerDelegate, AXHelperProtocol {
     }
 }
 
-// --pipe 模式（命令行直接调用）
+// --pipe 模式（命令行直接调用，读取 stdin JSON 请求）
 if CommandLine.arguments.contains("--pipe") {
+    let reqData = FileHandle.standardInput.readDataToEndOfFile()
+    let windows: [ScanRequest.WindowInfo]
+    if let req = try? JSONDecoder().decode(ScanRequest.self, from: reqData) {
+        windows = req.windows
+    } else {
+        windows = []
+    }
     let t0 = CFAbsoluteTimeGetCurrent()
-    let elements = performAXScan()
+    let elements = performAXScan(windows: windows)
     let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
-    fputs("[AXHelper] scanned \(elements.count) elements in \(Int(elapsed))ms\n", stderr)
+    fputs("[AXHelper] scanned \(elements.count) elements from \(windows.count) windows in \(Int(elapsed))ms\n", stderr)
     if let json = try? JSONEncoder().encode(elements) {
         FileHandle.standardOutput.write(json)
     }
@@ -186,10 +241,32 @@ if CommandLine.arguments.contains("--xpc") {
     while true {
         let client = accept(sock, nil, nil)
         guard client >= 0 else { continue }
+
+        // 读请求长度 + JSON
+        var reqLenBE: UInt32 = 0
+        guard read(client, &reqLenBE, 4) == 4 else { close(client); continue }
+        let reqLen = Int(UInt32(bigEndian: reqLenBE))
+        guard reqLen > 0, reqLen < 100_000 else { close(client); continue }
+
+        var reqData = Data(); var reqRemaining = reqLen
+        var buf = [UInt8](repeating: 0, count: min(reqRemaining, 4096))
+        while reqRemaining > 0 {
+            let n = read(client, &buf, min(reqRemaining, buf.count))
+            guard n > 0 else { break }
+            reqData.append(contentsOf: buf[0..<n]); reqRemaining -= n
+        }
+
+        let windows: [ScanRequest.WindowInfo]
+        if let req = try? JSONDecoder().decode(ScanRequest.self, from: reqData) {
+            windows = req.windows
+        } else {
+            windows = []
+        }
+
         let t0 = CFAbsoluteTimeGetCurrent()
-        let elements = performAXScan()
+        let elements = performAXScan(windows: windows)
         let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
-        fputs("[AXHelper] scanned \(elements.count) elements in \(Int(elapsed))ms\n", stderr)
+        fputs("[AXHelper] scanned \(elements.count) elements from \(windows.count) windows in \(Int(elapsed))ms\n", stderr)
         if let json = try? JSONEncoder().encode(elements) {
             var len = UInt32(json.count).bigEndian
             _ = json.withUnsafeBytes { ptr in

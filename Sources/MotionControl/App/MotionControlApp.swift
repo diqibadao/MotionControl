@@ -33,8 +33,9 @@ struct ContentView: View {
     @State private var handKeypoints: [CGPoint] = []
     @State private var faceKeypoints: [CGPoint] = []
     @State private var commandTriggeredAt: Date = .distantPast
-    @State private var frameGenTimer: Timer? = nil  // 60fps 补帧定时器
-    @State private var lostFrameCount = 0           // 连续丢失手掌的帧数
+    @State private var frameGenTimer: Timer? = nil   // 120fps 补帧定时器
+    @State private var overlayTimer: Timer? = nil    // 蒙层刷新定时器
+    @State private var lostFrameCount = 0            // 连续丢失手掌的帧数
     
     var body: some View {
         HSplitView {
@@ -242,7 +243,7 @@ struct ContentView: View {
                 debugOverlay.start()
             }
             // 调试蒙层刷新定时器
-            let overlayTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            let t = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 guard ConfigManager.shared.currentConfig.debugOverlayEnabled else { return }
                 let cursor = NSEvent.mouseLocation
                 var bestCenter: CGPoint? = nil
@@ -258,7 +259,8 @@ struct ContentView: View {
                 }
                 debugOverlay.update(elements: uiScanner.cachedElements, cursor: cursor, nearestCenter: bestCenter)
             }
-            RunLoop.current.add(overlayTimer, forMode: .common)
+            RunLoop.current.add(t, forMode: .common)
+            self.overlayTimer = t
         }
         .onDisappear {
             cameraService.stop()
@@ -266,6 +268,8 @@ struct ContentView: View {
             uiScanner.stop()
             frameGenTimer?.invalidate()
             frameGenTimer = nil
+            overlayTimer?.invalidate()
+            overlayTimer = nil
             debugOverlay.stop()
             EventLogger.stopLogFile()
         }

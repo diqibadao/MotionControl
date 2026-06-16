@@ -11,6 +11,11 @@ NC='\033[0m'
 PLANS_DIR=".hermes/plans"
 PERMISSIONS_FILE="PERMISSIONS.md"
 
+# 如果项目 plans 目录为空，使用 claude 全局 plans 目录
+if [ -z "$(ls -t $PLANS_DIR/*.md 2>/dev/null | head -1)" ]; then
+    PLANS_DIR="$HOME/.claude/plans"
+fi
+
 # 获取当前暂存区中改动的 .swift 文件
 CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.swift$')
 
@@ -34,9 +39,9 @@ HAS_LOGIC=false
 ALL_PARAM=true
 
 while IFS= read -r file; do
-    # 检查是否是 P-BLOCKED
-    if grep -q "^-\s*$file$" "$PERMISSIONS_FILE" 2>/dev/null || \
-       echo "$file" | grep -qF "$(grep 'P-BLOCKED' -A 20 "$PERMISSIONS_FILE" | grep '^-' | sed 's/^- //')"; then
+    # 检查是否是 P-BLOCKED（从 PERMISSIONS.md 的 P-BLOCKED section 提取文件列表）
+    BLOCKED_FILES=$(sed -n '/^## P-BLOCKED/,/^## /p' "$PERMISSIONS_FILE" | grep '^- ' | sed 's/^- //')
+    if echo "$BLOCKED_FILES" | grep -qF "$file"; then
         echo -e "${RED}[BLOCKED]${NC} $file 被禁止修改"
         HAS_BLOCKED=true
         continue

@@ -24,6 +24,8 @@ public class UIElementScanner: ObservableObject {
     private var cursorTimer: DispatchSourceTimer?
     private var isScanning = false
     private let socketPath = "/tmp/axhelper.sock"
+    private var consecutiveFailures = 0
+    private let maxFailures = 3
 
     public init() {}
 
@@ -84,6 +86,17 @@ public class UIElementScanner: ObservableObject {
 
             DispatchQueue.main.async {
                 self.isScanning = false
+                // AXHelper 挂了检测：连续失败 N 次 → 自动重启
+                if visible.isEmpty && !windows.isEmpty {
+                    self.consecutiveFailures += 1
+                    if self.consecutiveFailures >= self.maxFailures {
+                        EventLogger.log(event: "axHelper", frame: nil, input: "dead, respawning", output: "failures=\(self.consecutiveFailures)", duration: 0)
+                        self.respawnAXHelper()
+                        self.consecutiveFailures = 0
+                    }
+                } else {
+                    self.consecutiveFailures = 0
+                }
                 let pidBreakdown = Dictionary(grouping: visible, by: { $0.owningPID }).map { "pid\($0.key)=\($0.value.count)" }.joined(separator: " ")
                 EventLogger.log(event: "axScan", frame: nil,
                     input: "windows=\(windows.count)", output: "raw=\(rawElements.count) visible=\(visible.count) [\(pidBreakdown)]", duration: elapsed)
@@ -94,6 +107,25 @@ public class UIElementScanner: ObservableObject {
                 }
                 self.cachedElements = visible
             }
+        }
+    }
+
+    // MARK: - AXHelper 重生
+
+    private func respawnAXHelper() {
+        // 清理旧 socket
+        unlink(socketPath)
+        guard let execURL = Bundle.main.executableURL else { return }
+        let axHelperURL = execURL.deletingLastPathComponent().appendingPathComponent("AXHelper")
+        let task = Process()
+        task.executableURL = axHelperURL
+        task.standardOutput = FileHandle.nullDevice
+        task.standardError = FileHandle.nullDevice
+        do {
+            try task.run()
+            EventLogger.log(event: "axHelper", frame: nil, input: "respawned", output: "pid=\(task.processIdentifier)", duration: 0)
+        } catch {
+            EventLogger.log(event: "axHelper", frame: nil, input: "respawn failed", output: error.localizedDescription, duration: 0)
         }
     }
 

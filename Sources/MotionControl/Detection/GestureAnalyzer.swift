@@ -69,8 +69,9 @@ class GestureAnalyzer {
            let middleTipY = hand.middleTip?.y, let middlePIPY = hand.middlePIP?.y {
             consecutiveLostFrames = 0
 
-            let indexIsBent = indexTipY < indexPIPY      // 食指指尖低于指关节 = 弯曲
-            let middleIsBent = middleTipY < middlePIPY   // 中指指尖低于指关节 = 弯曲
+            let threshold = CGFloat(config.indexBendThreshold)
+            let indexIsBent = indexTipY < indexPIPY + threshold   // 指尖低于指关节+阈值 = 弯曲
+            let middleIsBent = middleTipY < middlePIPY + threshold
 
             // 边沿触发：从未弯→弯的瞬间发射手势事件
             if indexIsBent && !indexBent {

@@ -167,6 +167,7 @@ struct GestureConfig: Codable {
     var swipeVelocityThreshold: Float = 0.5
     
     // 新增阈值，供 GestureAnalyzer 读取
+    var indexBendThreshold: Float = 0.02   // 食指弯曲灵敏度（Vision归一化坐标，越大越灵敏）
     var openPalmThreshold: Float = 200.0
     var fistThreshold: Float = 50.0
     var thumbsUpMinDist: Float = 80.0

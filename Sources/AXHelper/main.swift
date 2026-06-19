@@ -12,8 +12,7 @@ import ApplicationServices
 }
 
 struct ElementDTO: Codable {
-    let role: String; let frame: [Double]; let title: String
-    let pid: Int; let windowBounds: [Double]
+    let role: String; let frame: [Double]; let title: String; let pid: Int
 }
 
 struct ScanRequest: Codable {
@@ -41,29 +40,26 @@ func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
 func performAXScan(windows: [ScanRequest.WindowInfo]) -> [ElementDTO] {
     var collected: [ElementDTO] = []
 
-    /// 扫指定 PID 的完整 AX 树，靠 UIElementScanner 的 windowBounds.contains 过滤菜单栏等非窗口元素
-    func scanAppWindow(_ pid: pid_t, windowBounds: [Double]) {
+    /// 扫指定 PID 的完整 AX 树
+    func scanAppWindow(_ pid: pid_t) {
         guard pid > 0 else { return }
         let appEl = AXUIElementCreateApplication(pid)
-        walk(element: appEl, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
+        walk(element: appEl, depth: 0, collected: &collected, pid: pid)
     }
 
     // 扫 CGWindowList 里的所有 APP 窗口
     for w in windows {
-        scanAppWindow(pid_t(w.pid), windowBounds: w.bounds)
+        scanAppWindow(pid_t(w.pid))
     }
 
-    // 底部 Dock（不在 CGWindowList layer=0 里）
+    // 底部 Dock
     if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-        let screenH = Double(NSScreen.main?.frame.height ?? 1080)
-        let dockBounds: [Double] = [0, screenH - 100, Double(NSScreen.main?.frame.width ?? 1920), 100]
-        scanAppWindow(dock.processIdentifier, windowBounds: dockBounds)
+        scanAppWindow(dock.processIdentifier)
     }
 
     // 右上角系统图标
     if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
-        let sysBounds: [Double] = [0, 0, Double(NSScreen.main?.frame.width ?? 1920), 30]
-        scanAppWindow(sysui.processIdentifier, windowBounds: sysBounds)
+        scanAppWindow(sysui.processIdentifier)
     }
 
     // 焦点元素
@@ -100,12 +96,12 @@ func scanFocusedElement() -> ElementDTO? {
     let title = (getAttr(axEl, kAXTitleAttribute as String) as? String)
                 ?? (getAttr(axEl, kAXValueAttribute as String) as? String)
                 ?? ""
-    return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title, pid: Int(elPid), windowBounds: [0,0,0,0])
+    return ElementDTO(role: role, frame: [frame.origin.x, frame.origin.y, frame.width, frame.height], title: title, pid: Int(elPid))
 }
 
 let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
 
-func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25, pid: pid_t, windowBounds: [Double]) {
+func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDepth: Int = 25, pid: pid_t) {
     guard depth <= maxDepth else { return }
     guard let role = getAttr(element, kAXRoleAttribute as String) as? String else { return }
 
@@ -124,7 +120,7 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
     if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000,
        frame.intersects(screenFrame) {  // 只看屏幕可见元素
         let title = (getAttr(element, kAXTitleAttribute as String) as? String) ?? ""
-        collected.append(ElementDTO(role: role, frame: [Double(frame.origin.x), Double(frame.origin.y), Double(frame.width), Double(frame.height)], title: title, pid: Int(pid), windowBounds: windowBounds))
+        collected.append(ElementDTO(role: role, frame: [Double(frame.origin.x), Double(frame.origin.y), Double(frame.width), Double(frame.height)], title: title, pid: Int(pid)))
     }
 
     guard let children = getAttr(element, kAXChildrenAttribute as String) else { return }
@@ -132,7 +128,7 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
     let arr = children as! CFArray
     for i in 0..<CFArrayGetCount(arr) {
         walk(element: unsafeBitCast(CFArrayGetValueAtIndex(arr, i), to: AXUIElement.self),
-             depth: depth + 1, collected: &collected, maxDepth: maxDepth, pid: pid, windowBounds: windowBounds)
+             depth: depth + 1, collected: &collected, maxDepth: maxDepth, pid: pid)
     }
 }
 

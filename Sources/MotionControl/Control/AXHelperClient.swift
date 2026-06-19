@@ -8,8 +8,7 @@ import Foundation
 }
 
 private struct ElementDTO: Codable {
-    let role: String; let frame: [Double]; let title: String
-    let pid: Int; let windowBounds: [Double]
+    let role: String; let frame: [Double]; let title: String; let pid: Int
 }
 
 class AXHelperClient {
@@ -39,12 +38,11 @@ class AXHelperClient {
                 return
             }
             let elements = list.compactMap { el -> UIElementInfo? in
-                guard el.frame.count == 4, el.windowBounds.count == 4 else { return nil }
+                guard el.frame.count == 4 else { return nil }
                 return UIElementInfo(
                     role: el.role, title: el.title,
                     frame: CGRect(x: el.frame[0], y: el.frame[1], width: el.frame[2], height: el.frame[3]),
-                    isEnabled: true, subrole: nil, owningPID: el.pid,
-                    windowBounds: CGRect(x: el.windowBounds[0], y: el.windowBounds[1], width: el.windowBounds[2], height: el.windowBounds[3])
+                    isEnabled: true, subrole: nil, owningPID: el.pid
                 )
             }
             completion(elements)

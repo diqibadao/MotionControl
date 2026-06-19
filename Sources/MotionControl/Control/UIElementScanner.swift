@@ -12,7 +12,6 @@ public struct UIElementInfo: Identifiable, Equatable {
     public let isEnabled: Bool
     public let subrole: String?
     public let owningPID: Int
-    public let windowBounds: CGRect
 
     public static func == (lhs: UIElementInfo, rhs: UIElementInfo) -> Bool {
         return lhs.role == rhs.role && lhs.title == rhs.title && lhs.frame == rhs.frame && lhs.isEnabled == rhs.isEnabled && lhs.subrole == rhs.subrole && lhs.owningPID == rhs.owningPID
@@ -88,6 +87,11 @@ public class UIElementScanner: ObservableObject {
                 let pidBreakdown = Dictionary(grouping: visible, by: { $0.owningPID }).map { "pid\($0.key)=\($0.value.count)" }.joined(separator: " ")
                 EventLogger.log(event: "axScan", frame: nil,
                     input: "windows=\(windows.count)", output: "raw=\(rawElements.count) visible=\(visible.count) [\(pidBreakdown)]", duration: elapsed)
+                // 每个可见元素的详细日志：pid|role|title|frame
+                for el in visible {
+                    EventLogger.log(event: "axEl", frame: nil,
+                        input: "pid=\(el.owningPID) role=\(el.role)", output: "title=\(el.title) frame=(\(Int(el.frame.origin.x)),\(Int(el.frame.origin.y)),\(Int(el.frame.width)),\(Int(el.frame.height)))", duration: 0)
+                }
                 self.cachedElements = visible
             }
         }
@@ -152,16 +156,18 @@ public class UIElementScanner: ObservableObject {
 
     private func filterVisible(_ elements: [UIElementInfo], windows: [WindowInfo]) -> [UIElementInfo] {
         guard !windows.isEmpty else { return elements }
+        let screenRect = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
 
         return elements.filter { el in
             let center = CGPoint(x: el.frame.midX, y: el.frame.midY)
 
-            // 元素必须在自己窗口范围内（杀悬浮元素、菜单栏项、tooltip）
-            guard el.windowBounds.contains(center) else { return false }
+            // 中心点必须在屏幕内，底部留 30px 杀 Finder 隐藏工具栏
+            guard center.x > 0 && center.x < screenRect.maxX,
+                  center.y > 0 && center.y < screenRect.maxY - 30 else { return false }
 
             // 用 PID 匹配元素所属窗口
             guard let myIdx = windows.firstIndex(where: { $0.pid == el.owningPID }) else {
-                return true  // Dock/焦点元素无窗口 → 保留
+                return true  // Dock/系统元素无窗口 → 保留
             }
 
             // 检查更高层窗口是否盖住了中心点
@@ -231,14 +237,13 @@ public class UIElementScanner: ObservableObject {
             data.append(contentsOf: buf[0..<n]); remaining -= n
         }
 
-        struct H: Codable { let role: String; let frame: [Double]; let title: String; let pid: Int; let windowBounds: [Double] }
+        struct H: Codable { let role: String; let frame: [Double]; let title: String; let pid: Int }
         guard let list = try? JSONDecoder().decode([H].self, from: data) else { return [] }
         return list.compactMap { el in
-            guard el.frame.count == 4, el.windowBounds.count == 4 else { return nil }
+            guard el.frame.count == 4 else { return nil }
             return UIElementInfo(role: el.role, title: el.title,
                 frame: CGRect(x: el.frame[0], y: el.frame[1], width: el.frame[2], height: el.frame[3]),
-                isEnabled: true, subrole: nil, owningPID: el.pid,
-                windowBounds: CGRect(x: el.windowBounds[0], y: el.windowBounds[1], width: el.windowBounds[2], height: el.windowBounds[3]))
+                isEnabled: true, subrole: nil, owningPID: el.pid)
         }
     }
 }

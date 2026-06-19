@@ -41,46 +41,11 @@ func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
 func performAXScan(windows: [ScanRequest.WindowInfo]) -> [ElementDTO] {
     var collected: [ElementDTO] = []
 
-    /// 扫指定 PID 的 AX 窗口，只取匹配 CGWindowList bounds 的那个窗口的 children
+    /// 扫指定 PID 的完整 AX 树，靠 UIElementScanner 的 windowBounds.contains 过滤菜单栏等非窗口元素
     func scanAppWindow(_ pid: pid_t, windowBounds: [Double]) {
         guard pid > 0 else { return }
         let appEl = AXUIElementCreateApplication(pid)
-
-        // 用 kAXWindowsAttribute 拿 AX 窗口列表（不含菜单栏、隐藏面板）
-        var axWindows: CFTypeRef?
-        guard AXUIElementCopyAttributeValue(appEl, kAXWindowsAttribute as CFString, &axWindows) == .success,
-              let windowList = axWindows as? [AXUIElement], !windowList.isEmpty else {
-            // 降级：拿不到窗口列表就走整棵树（Dock/SystemUIServer）
-            walk(element: appEl, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
-            return
-        }
-
-        let targetRect = CGRect(x: windowBounds[0], y: windowBounds[1], width: windowBounds[2], height: windowBounds[3])
-
-        // 找 AX frame 与目标 bounds 重叠面积最大的窗口
-        var bestWindow: AXUIElement?
-        var bestOverlap: CGFloat = 0
-        for win in windowList {
-            var pos = CGPoint.zero, size = CGSize.zero
-            if let posVal = getAttr(win, kAXPositionAttribute as String) {
-                let axVal = unsafeBitCast(posVal, to: AXValue.self)
-                if AXValueGetType(axVal) == .cgPoint { AXValueGetValue(axVal, .cgPoint, &pos) }
-            }
-            if let sizeVal = getAttr(win, kAXSizeAttribute as String) {
-                let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
-                if AXValueGetType(axVal) == .cgSize { AXValueGetValue(axVal, .cgSize, &size) }
-            }
-            guard size.width > 0, size.height > 0 else { continue }
-            let winRect = CGRect(x: pos.x, y: pos.y, width: size.width, height: size.height)
-            let overlap = targetRect.intersection(winRect)
-            let overlapArea = overlap.width * overlap.height
-            if overlapArea > bestOverlap { bestOverlap = overlapArea; bestWindow = win }
-        }
-
-        // 只扫匹配到的窗口的子元素，不扫整棵 APP 树
-        if let bestWin = bestWindow {
-            walk(element: bestWin, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
-        }
+        walk(element: appEl, depth: 0, collected: &collected, pid: pid, windowBounds: windowBounds)
     }
 
     // 扫 CGWindowList 里的所有 APP 窗口
@@ -90,7 +55,8 @@ func performAXScan(windows: [ScanRequest.WindowInfo]) -> [ElementDTO] {
 
     // 底部 Dock（不在 CGWindowList layer=0 里）
     if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-        let dockBounds: [Double] = [0, 0, Double(NSScreen.main?.frame.width ?? 1920), 100]
+        let screenH = Double(NSScreen.main?.frame.height ?? 1080)
+        let dockBounds: [Double] = [0, screenH - 100, Double(NSScreen.main?.frame.width ?? 1920), 100]
         scanAppWindow(dock.processIdentifier, windowBounds: dockBounds)
     }
 

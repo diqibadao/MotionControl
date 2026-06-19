@@ -106,7 +106,8 @@ public class UIElementScanner: ObservableObject {
         let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸", "程序坞"])
 
         var result: [WindowInfo] = []
-        var seenPID = Set<Int>()
+        var pidBounds: [Int: CGRect] = [:]  // PID → 所有窗口的并集矩形
+        var pidLayer: [Int: Int] = [:]      // PID → 最上层窗口的 layer
         for win in list {
             let pid = win[kCGWindowOwnerPID as String] as? pid_t ?? 0
             let name = win[kCGWindowOwnerName as String] as? String ?? ""
@@ -118,12 +119,31 @@ public class UIElementScanner: ObservableObject {
             let bw = bounds["Width"] ?? 0, bh = bounds["Height"] ?? 0
             guard bw > 0, bh > 0 else { continue }
 
-            // PID 去重：同一进程只在最上层窗口扫一次
+            let intPID = Int(pid)
+            let rect = CGRect(x: bounds["X"] ?? 0, y: bounds["Y"] ?? 0, width: bw, height: bh)
+            if let existing = pidBounds[intPID] {
+                pidBounds[intPID] = existing.union(rect)  // 并集矩形
+            } else {
+                pidBounds[intPID] = rect
+                pidLayer[intPID] = Int(layer)
+            }
+        }
+        // 按 CGWindowList 原始顺序输出（顶到底），PID 去重，bounds 取并集
+        var seenPID = Set<Int>()
+        for win in list {
+            let pid = win[kCGWindowOwnerPID as String] as? pid_t ?? 0
+            let name = win[kCGWindowOwnerName as String] as? String ?? ""
+            guard pid != myPID else { continue }
+            guard !skipOwners.contains(name) else { continue }
+            let bw = win[kCGWindowBounds as String] as? [String: CGFloat] ?? [:]
+            guard (bw["Width"] ?? 0) > 0, (bw["Height"] ?? 0) > 0 else { continue }
+
             let intPID = Int(pid)
             guard !seenPID.contains(intPID) else { continue }
             seenPID.insert(intPID)
 
-            result.append(WindowInfo(pid: intPID, bounds: CGRect(x: bounds["X"] ?? 0, y: bounds["Y"] ?? 0, width: bw, height: bh), layer: Int(layer)))
+            let unionBounds = pidBounds[intPID] ?? .zero
+            result.append(WindowInfo(pid: intPID, bounds: unionBounds, layer: pidLayer[intPID] ?? 0))
         }
         return result  // CGWindowList 原始顺序 = 从顶到底
     }

@@ -228,7 +228,7 @@ struct GestureConfig: Codable {
         map["FIVE_PINCH"] = GestureAction(gesture: .fivePinch, actionType: .noAction, actionName: "无动作")
         map["THUMBS_UP"] = GestureAction(gesture: .thumbsUp, actionType: .noAction, actionName: "无动作")
         // 新增手势默认映射（无动作）
-        map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .noAction, actionName: "无动作")
+        map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .leftClick, actionName: "左键单击")
         map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .noAction, actionName: "无动作")
         map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .noAction, actionName: "无动作")
         map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .noAction, actionName: "无动作")

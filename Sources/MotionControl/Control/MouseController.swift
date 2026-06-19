@@ -33,6 +33,12 @@ class MouseController {
         }
     }
 
+    /// Cocoa → Quartz 坐标翻转（NSEvent.mouseLocation 是 Cocoa 坐标系，CGEvent 需要 Quartz）
+    private func flipToQuartz(_ point: CGPoint) -> CGPoint {
+        let screenH = NSScreen.main?.frame.height ?? 0
+        return CGPoint(x: point.x, y: screenH - point.y)
+    }
+
     /// 左键单击
     func leftClick(at point: CGPoint? = nil) {
         guard isTrusted else {
@@ -41,9 +47,10 @@ class MouseController {
                             output: "Accessibility permission not granted", duration: nil)
             return
         }
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipToQuartz(rawPos)
         EventLogger.log(event: "leftClick", frame: nil,
-                        input: "point: \(pos)", output: "", duration: nil)
+                        input: "raw: \(rawPos) flipped: \(pos)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .left) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
@@ -60,9 +67,10 @@ class MouseController {
                             output: "Accessibility permission not granted", duration: nil)
             return
         }
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipToQuartz(rawPos)
         EventLogger.log(event: "rightClick", frame: nil,
-                        input: "point: \(pos)", output: "", duration: nil)
+                        input: "raw: \(rawPos) flipped: \(pos)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown,
                                  mouseCursorPosition: pos, mouseButton: .right) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp,
@@ -79,9 +87,10 @@ class MouseController {
                             output: "Accessibility permission not granted", duration: nil)
             return
         }
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipToQuartz(rawPos)
         EventLogger.log(event: "doubleClick", frame: nil,
-                        input: "point: \(pos)", output: "", duration: nil)
+                        input: "raw: \(rawPos) flipped: \(pos)", output: "", duration: nil)
         for _ in 0..<2 {
             guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
                                      mouseCursorPosition: pos, mouseButton: .left) else { return }
@@ -100,16 +109,18 @@ class MouseController {
                             output: "Accessibility permission not granted", duration: nil)
             return
         }
+        let flippedStart = flipToQuartz(start)
+        let flippedEnd = flipToQuartz(end)
         EventLogger.log(event: "drag", frame: nil,
-                        input: "start: \(start), end: \(end)", output: "", duration: nil)
+                        input: "start: \(start)→\(flippedStart), end: \(end)→\(flippedEnd)", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
-                                 mouseCursorPosition: start, mouseButton: .left) else { return }
+                                 mouseCursorPosition: flippedStart, mouseButton: .left) else { return }
         down.post(tap: CGEventTapLocation.cghidEventTap)
         let move = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged,
-                           mouseCursorPosition: end, mouseButton: .left)
+                           mouseCursorPosition: flippedEnd, mouseButton: .left)
         move?.post(tap: CGEventTapLocation.cghidEventTap)
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
-                               mouseCursorPosition: end, mouseButton: .left) else { return }
+                               mouseCursorPosition: flippedEnd, mouseButton: .left) else { return }
         up.post(tap: CGEventTapLocation.cghidEventTap)
     }
 

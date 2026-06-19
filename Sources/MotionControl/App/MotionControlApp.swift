@@ -69,9 +69,9 @@ struct ContentView: View {
             cameraService.onSampleBuffer = { [weak detectionPipeline] sampleBuffer in
                 detectionPipeline?.didOutputFrame(sampleBuffer)
             }
-            // 手势事件 → 暂时禁用所有动作映射（纯光标测试模式）
+            // 手势事件 → 动作映射管线
             detectionPipeline.onGesture = { event in
-                return  // 🔇 测试模式：所有手势动作已禁用，仅光标移动
+                // 食指弯曲(.indexTap)=左键单击，其他手势按配置映射
 #if DEBUG
                 print("[DEBUG] onGesture called, type=\(event.gestureType)")
 #endif
@@ -282,14 +282,32 @@ struct ContentView: View {
         }
     }
 
-    /// 注册 AXHelper LaunchAgent（launchd 独立拉起，避免 IPC 限速）
+    /// 启动 AXHelper：优先 LaunchAgent，签名失败则直接 spawn 进程
     private func registerAXHelper() {
+        // 1. 尝试 LaunchAgent 注册
         do {
             let agent = SMAppService.agent(plistName: "com.motioncontrol.axhelper")
             try agent.register()
             EventLogger.log(event: "axHelper", frame: nil, input: "launchAgent registered", output: "status=\(agent.status.rawValue)", duration: 0)
+            return
         } catch {
-            EventLogger.log(event: "axHelper", frame: nil, input: "register failed", output: error.localizedDescription, duration: 0)
+            EventLogger.log(event: "axHelper", frame: nil, input: "register failed, fallback to spawn", output: error.localizedDescription, duration: 0)
+        }
+        // 2. 签名失败 → 直接启动 AXHelper 进程（同目录下）
+        guard let execURL = Bundle.main.executableURL else {
+            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: "no executableURL", duration: 0)
+            return
+        }
+        let axHelperURL = execURL.deletingLastPathComponent().appendingPathComponent("AXHelper")
+        let task = Process()
+        task.executableURL = axHelperURL
+        task.standardOutput = FileHandle.nullDevice
+        task.standardError = FileHandle.nullDevice
+        do {
+            try task.run()
+            EventLogger.log(event: "axHelper", frame: nil, input: "spawned", output: "pid=\(task.processIdentifier) path=\(axHelperURL.path)", duration: 0)
+        } catch {
+            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: error.localizedDescription, duration: 0)
         }
     }
 }

@@ -46,7 +46,7 @@ public class UIElementScanner: ObservableObject {
     private func tick() {
         let cursor = NSEvent.mouseLocation
         let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
-        let axCursor = CGPoint(x: cursor.x, y: screenSize.height - cursor.y)
+        let axCursor = cursor  // 统一坐标系：cursor 和 el.frame 均为 Quartz，无需翻转
 
         triggerScan()
 

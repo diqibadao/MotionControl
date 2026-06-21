@@ -251,7 +251,7 @@ struct ContentView: View {
                 let screenH = NSScreen.main?.frame.height ?? 1080
                 for el in uiScanner.cachedElements {
                     let cx = el.frame.midX
-                    let cy = screenH - el.frame.midY
+                    let cy = el.frame.midY  // 统一坐标系：el.frame 和 cursor 均为 Quartz
                     let dx = cx - cursor.x
                     let dy = cy - cursor.y
                     let d = sqrt(dx*dx + dy*dy)

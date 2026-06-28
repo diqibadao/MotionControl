@@ -200,7 +200,16 @@ if CommandLine.arguments.contains("--xpc") {
     guard listen(sock, 5) == 0 else { fputs("[AXHelper] listen failed\n", stderr); exit(1) }
     fputs("[AXHelper] socket listening on \(socketPath)\n", stderr)
 
-    while true {
+    // 信号处理：收到 SIGTERM/SIGINT 时优雅退出
+    var shouldExit = false
+    let sigTERM = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
+    sigTERM.setEventHandler { shouldExit = true }
+    sigTERM.activate()
+    let sigINT = DispatchSource.makeSignalSource(signal: SIGINT, queue: .main)
+    sigINT.setEventHandler { shouldExit = true }
+    sigINT.activate()
+
+    while !shouldExit {
         let client = accept(sock, nil, nil)
         guard client >= 0 else { continue }
 
@@ -241,4 +250,7 @@ if CommandLine.arguments.contains("--xpc") {
         }
         close(client)
     }
+    close(sock)
+    unlink(socketPath)
+    fputs("[AXHelper] exiting\n", stderr)
 }

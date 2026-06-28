@@ -17,11 +17,12 @@ class EventLogger {
         let df = DateFormatter()
         df.dateFormat = "yyyyMMdd_HHmmss"
         let name = "run_\(df.string(from: Date())).log"
-        let dir = "Data/logs/raw"
-        let dirURL = URL(fileURLWithPath: dir)
+        // 使用绝对路径，避免 open 启动时 CWD 变为 / 导致日志写入失败
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        let dirURL = home.appendingPathComponent("Desktop/vibe项目/MotionControl/Data/logs/raw")
         try? FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true)
 
-        let fileURL = URL(fileURLWithPath: "\(dir)/\(name)")
+        let fileURL = dirURL.appendingPathComponent(name)
         // 创建文件（空文件）
         FileManager.default.createFile(atPath: fileURL.path, contents: nil)
         logFileURL = fileURL

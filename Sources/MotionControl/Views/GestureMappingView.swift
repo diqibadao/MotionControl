@@ -16,7 +16,7 @@ struct GestureMappingView: View {
     @State private var selectedGesture: GestureType? = nil
 
     /// Picker 中当前选择的手势
-    @State private var pickerGesture: GestureType = .pinch
+    @State private var pickerGesture: GestureType = .indexTap
 
     /// Picker 中当前选择的动作类型（ActionType）
     @State private var pickerAction: ActionType = .leftClick
@@ -84,17 +84,16 @@ struct GestureMappingView: View {
                 }
 
                 Button("恢复默认") {
-                    // 提供一组示例默认映射（可根据需求调整）
                     let defaultMappings: [String: GestureAction] = [
-                        GestureType.pinch.rawValue: GestureAction(
-                            gesture: .pinch,
-                            actionType: .scroll,
-                            actionName: ActionType.scroll.displayName
-                        ),
-                        GestureType.point.rawValue: GestureAction(
-                            gesture: .point,
+                        GestureType.indexTap.rawValue: GestureAction(
+                            gesture: .indexTap,
                             actionType: .leftClick,
-                            actionName: ActionType.leftClick.displayName
+                            actionName: "左键单击"
+                        ),
+                        GestureType.indexDoubleTap.rawValue: GestureAction(
+                            gesture: .indexDoubleTap,
+                            actionType: .doubleClick,
+                            actionName: "双击"
                         )
                     ]
                     mappings = defaultMappings

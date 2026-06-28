@@ -1,0 +1,1396 @@
+[2026-06-14 20:59:22] [axHelper] IN: register failed → OUT: 未能完成该操作。Codesigning failure loading plist: com.motioncontrol.axhelper code: -67028 (0ms)
+[2026-06-14 20:59:23] [axScan] IN: app=Code → OUT: elements=535 (395ms)
+[2026-06-14 20:59:23] [axMatch] IN: cursor=(595,899) → OUT: role=AXTextArea title= (0ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (40012ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2709ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2441ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2570ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2428ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2452ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2409ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2509ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2444ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2760ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2905ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2695ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2604ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2681ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3080ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3321ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2947ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3880ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3427ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2721ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2714ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2914ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2972ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3152ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2750ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (38981ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4518ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2658ms)
+[2026-06-14 20:59:25] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:25] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3175ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2661ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2778ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2622ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2745ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2869ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2727ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2977ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2909ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2928ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3626ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3111ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3097ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2674ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2851ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2845ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2897ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3250ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3702ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3295ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3135ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3173ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4787ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4666ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7537ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2890ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3010ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3051ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2890ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3350ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2965ms)
+[2026-06-14 20:59:26] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:26] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3339ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3090ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3013ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2961ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2874ms)
+[2026-06-14 20:59:27] [axScan] IN: app=Code → OUT: elements=536 (310ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(527,710) → OUT: lost (0ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(239,752) → OUT: role=AXStaticText title= (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3329ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2729ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3046ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(221,658) → OUT: role=AXRow title= (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2895ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3388ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2721ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2855ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2774ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2701ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3421ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5542ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3247ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(215,512) → OUT: role=AXRow title= (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3131ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3052ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2735ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(146,380) → OUT: role=AXRow title= (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4918ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4601ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4747ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4935ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4985ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5313ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(148,366) → OUT: role=AXRow title= (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5316ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5663ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5034ms)
+[2026-06-14 20:59:27] [axMatch] IN: cursor=(99,198) → OUT: lost (0ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3403ms)
+[2026-06-14 20:59:27] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:27] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3014ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2745ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2956ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2797ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2881ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4431ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7354ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4627ms)
+[2026-06-14 20:59:28] [axMatch] IN: cursor=(38,127) → OUT: role=AXRadioButton title=搜索 (⇧⌘F) (0ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3285ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4436ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2650ms)
+[2026-06-14 20:59:28] [axMatch] IN: cursor=(31,95) → OUT: role=AXRadioButton title=资源管理器 (⇧⌘E) (0ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5329ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4490ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4631ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4535ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5109ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5674ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5948ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5596ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5632ms)
+[2026-06-14 20:59:28] [axMatch] IN: cursor=(37,53) → OUT: role=AXButton title= (0ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5757ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5471ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4639ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4894ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5651ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5705ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5553ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5584ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5177ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5792ms)
+[2026-06-14 20:59:28] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:28] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5398ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5097ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6046ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6694ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5840ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5380ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5015ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5402ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3021ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3323ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5599ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3541ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3569ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3669ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3187ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4246ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3170ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4980ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5133ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5497ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6220ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5674ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (12197ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4056ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3286ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2673ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2696ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2664ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2655ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2671ms)
+[2026-06-14 20:59:29] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:29] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2847ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2833ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2827ms)
+[2026-06-14 20:59:30] [axScan] IN: app=Code → OUT: elements=534 (829ms)
+[2026-06-14 20:59:30] [axMatch] IN: cursor=(79,74) → OUT: role=AXHeading title=资源管理器 (0ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [axMatch] IN: cursor=(1480,617) → OUT: lost (0ms)
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2631ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2689ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2751ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2725ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2775ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2754ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2774ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2690ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2753ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5074ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5360ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5842ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (8041ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5367ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5292ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6154ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5169ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5078ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6521ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5192ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5942ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5629ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5715ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5550ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6258ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6261ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5968ms)
+[2026-06-14 20:59:30] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:30] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5968ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5055ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5854ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (8387ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5895ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6541ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5454ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7797ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4624ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3491ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3643ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4675ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (20707ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3049ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3606ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2946ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3046ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3236ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3690ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3318ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4036ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2652ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5021ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6631ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4127ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5275ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4469ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6386ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5769ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5385ms)
+[2026-06-14 20:59:31] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:31] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4701ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6359ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5927ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7154ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6304ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5509ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3087ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2977ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2760ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2854ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2816ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2719ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2706ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3239ms)
+[2026-06-14 20:59:32] [axScan] IN: app=Code → OUT: elements=534 (295ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2750ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2730ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2792ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3055ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3424ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3021ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2735ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2840ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3320ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4563ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5274ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5578ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5702ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7456ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6257ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4788ms)
+[2026-06-14 20:59:32] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:32] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5134ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4925ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5095ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4833ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5465ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5195ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5150ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6017ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5134ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6161ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5092ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6367ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6073ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6361ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5331ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6230ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6670ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6168ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7035ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5771ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5612ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (8090ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6058ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7159ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6995ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5105ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5502ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7652ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6142ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:33] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6055ms)
+[2026-06-14 20:59:33] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5743ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6743ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5671ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7217ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7053ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5854ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5466ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6075ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5863ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7305ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6471ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5654ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7426ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7439ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7193ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4588ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3120ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2853ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2775ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2800ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2797ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2673ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2732ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2686ms)
+[2026-06-14 20:59:34] [axScan] IN: app=Code → OUT: elements=534 (300ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2781ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2884ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3279ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3926ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4557ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4310ms)
+[2026-06-14 20:59:34] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:34] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4305ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4493ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6127ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7060ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5186ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (8211ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5685ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5031ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5133ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5738ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5228ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5053ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5494ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4598ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5187ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5118ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5103ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4838ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4872ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5303ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5333ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5344ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4940ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4370ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5673ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5087ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6830ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6416ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6106ms)
+[2026-06-14 20:59:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:35] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5566ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5558ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5759ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6425ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4955ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5726ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5370ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5370ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5733ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5180ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5834ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5996ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5259ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6330ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6084ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6381ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6839ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5851ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5412ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6942ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6486ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6649ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (9104ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6651ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6718ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7230ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4518ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5046ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3870ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2965ms)
+[2026-06-14 20:59:36] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:36] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2956ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2822ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2838ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2792ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2703ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2780ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2797ms)
+[2026-06-14 20:59:37] [axScan] IN: app=Code → OUT: elements=534 (293ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2856ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2920ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3090ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3449ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3464ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3340ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5445ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5532ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6114ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5046ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6019ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5525ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5238ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5459ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5187ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5289ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5264ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5214ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5079ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5380ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4536ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4909ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4868ms)
+[2026-06-14 20:59:37] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:37] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5122ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5414ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4928ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4783ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4570ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3307ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3897ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3249ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3244ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2812ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3248ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3355ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3574ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3489ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4099ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3646ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3821ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4840ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5527ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5537ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5820ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5664ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5192ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4907ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6361ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5267ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4969ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5084ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5614ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5880ms)
+[2026-06-14 20:59:38] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:38] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4907ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4736ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4858ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4741ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5564ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6816ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5308ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3711ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3025ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2750ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2760ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2802ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2619ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2669ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2723ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2696ms)
+[2026-06-14 20:59:39] [axScan] IN: app=Code → OUT: elements=534 (291ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2748ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2849ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2949ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2954ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3008ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3050ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3527ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5666ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5177ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5313ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4522ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5645ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5542ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4720ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4741ms)
+[2026-06-14 20:59:39] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:39] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7122ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5357ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5117ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5077ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4809ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4788ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4862ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5039ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5130ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5017ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5141ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5241ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5202ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4992ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5559ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5625ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6402ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5295ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5741ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5182ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4796ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5852ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5745ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7040ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6240ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5318ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5578ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5629ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6168ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6609ms)
+[2026-06-14 20:59:40] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:40] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5957ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6561ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5692ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6152ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4733ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6845ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4914ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5327ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6253ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5841ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6793ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6409ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5537ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5470ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6474ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5443ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3050ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3540ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3661ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3359ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3796ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3368ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3031ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2683ms)
+[2026-06-14 20:59:41] [axScan] IN: app=Code → OUT: elements=534 (294ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2663ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2894ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3216ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2816ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3229ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2593ms)
+[2026-06-14 20:59:41] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:41] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5052ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5454ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4907ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5518ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5423ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5572ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5645ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4979ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5077ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5221ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4965ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4912ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5387ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4971ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4950ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4907ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4805ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4776ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4730ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5572ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5339ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4346ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4639ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5074ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4927ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4287ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3198ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4490ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (10448ms)
+[2026-06-14 20:59:42] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:42] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3196ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5118ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5622ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6125ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (9505ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (9261ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6044ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6770ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5663ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5218ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4732ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5373ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5650ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5689ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5048ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5501ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5034ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6541ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5166ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4855ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5998ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4844ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4816ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5133ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5304ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4735ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2949ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2786ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2802ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2774ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2753ms)
+[2026-06-14 20:59:43] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:43] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2889ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2902ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2656ms)
+[2026-06-14 20:59:44] [axScan] IN: app=Code → OUT: elements=534 (286ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2774ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2927ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2876ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2754ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2961ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3031ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3445ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4780ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4433ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5996ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6680ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7200ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4783ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6461ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4595ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2861ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3890ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2956ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5347ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5218ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5224ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5824ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5089ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6422ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6430ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5475ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5032ms)
+[2026-06-14 20:59:44] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:44] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6004ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5434ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5035ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6962ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5799ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4913ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4888ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5069ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6310ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6224ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6341ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6559ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6286ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4906ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (8303ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6219ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7290ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6439ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5023ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4660ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5820ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7120ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5957ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3214ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5627ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6103ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5362ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6285ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6119ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5190ms)
+[2026-06-14 20:59:45] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:45] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6430ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6216ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6414ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6132ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3314ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2854ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2766ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2824ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2809ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2769ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2827ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2792ms)
+[2026-06-14 20:59:46] [axScan] IN: app=Code → OUT: elements=534 (291ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2692ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2972ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2990ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3103ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3805ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (3237ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2807ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (2735ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4861ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5792ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6236ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6222ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5479ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6983ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6079ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6132ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4827ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5480ms)
+[2026-06-14 20:59:46] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:46] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5467ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4956ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4909ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5754ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5475ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5542ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4817ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4426ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5046ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5465ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5142ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4775ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4817ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6383ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6376ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5438ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5726ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5311ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6255ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5932ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (6623ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4541ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4596ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (5394ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4594ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (4523ms)
+[2026-06-14 20:59:47] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-06-14 20:59:47] [face_detect] IN: face_detect → OUT: detected=false landmarks=nil roll=nil pitch=nil yaw=nil (7161ms)

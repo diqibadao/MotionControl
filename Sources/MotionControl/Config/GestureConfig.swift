@@ -2,78 +2,35 @@ import Foundation
 
 // MARK: - 手势类型
 enum GestureType: String, Codable, CaseIterable {
-    case open = "OPEN"
-    case point = "POINT"
-    case grab = "GRAB"
-    case pinch = "PINCH"
-    case doublePinch = "DBL_PINCH"
-    case peace = "PEACE"
-    case fist = "FIST"
-    case swipeLeft = "SWIPE_LEFT"
-    case swipeRight = "SWIPE_RIGHT"
-    case swipeUp = "SWIPE_UP"
-    case swipeDown = "SWIPE_DOWN"
-    case openPalm = "OPEN_PALM"
-    case fivePinch = "FIVE_PINCH"
-    case drag = "DRAG"
-    case thumbsUp = "THUMBS_UP"
-    case ok = "OK"
     case none = "NONE"
-    
-    // 新增手势（共4个）
     case indexTap = "INDEX_TAP"
     case indexDoubleTap = "INDEX_DOUBLE_TAP"
-    case dualTap = "DUAL_TAP"
-    case dualRelease = "DUAL_RELEASE"
+    case scrollUp = "SCROLL_UP"
+    case scrollDown = "SCROLL_DOWN"
+    case swipeLeft = "SWIPE_LEFT"
+    case swipeRight = "SWIPE_RIGHT"
     
     var displayName: String {
         switch self {
-        case .open: return "张开五指"
-        case .point: return "单指点击"
-        case .grab: return "拇指+食指捏合"
-        case .pinch: return "拇指+中指捏合"
-        case .doublePinch: return "快速两次捏合"
-        case .peace: return "剪刀手"
-        case .fist: return "握拳"
-        case .swipeLeft: return "挥手向左"
-        case .swipeRight: return "挥手向右"
-        case .swipeUp: return "上挥"
-        case .swipeDown: return "下挥"
-        case .openPalm: return "五指张开推掌"
-        case .fivePinch: return "五指捏合"
-        case .drag: return "单指拖拽"
-        case .thumbsUp: return "竖拇指"
-        case .ok: return "OK 手势"
         case .none: return "无"
-        // 新增中文名称
         case .indexTap: return "食指单击"
         case .indexDoubleTap: return "食指双击"
-        case .dualTap: return "双指按下"
-        case .dualRelease: return "双指收回"
+        case .scrollUp: return "向上滚"
+        case .scrollDown: return "向下滚"
+        case .swipeLeft: return "切左桌面"
+        case .swipeRight: return "切右桌面"
         }
     }
     
     var systemIcon: String {
         switch self {
-        case .open: return "hand.raised"
-        case .point: return "hand.point.up"
-        case .grab: return "hand.point.up.left"
-        case .pinch: return "hand.point.up.left.fill"
-        case .doublePinch: return "hand.point.up.left.fill"
-        case .peace: return "hand.victory"
-        case .fist: return "hand.raised.fingers.spread"
-        case .swipeLeft, .swipeRight, .swipeUp, .swipeDown: return "hand.wave"
-        case .openPalm: return "hand.raised"
-        case .fivePinch: return "hand.pinch"
-        case .drag: return "hand.draw"
-        case .thumbsUp: return "hand.thumbsup"
-        case .ok: return "hand.ok"
         case .none: return "questionmark"
-        // 新增图标的合理选择
         case .indexTap: return "hand.point.up"
         case .indexDoubleTap: return "hand.point.up.fill"
-        case .dualTap: return "hand.two.fingers"
-        case .dualRelease: return "hand.two.fingers"
+        case .scrollUp: return "arrow.up"
+        case .scrollDown: return "arrow.down"
+        case .swipeLeft: return "arrow.left"
+        case .swipeRight: return "arrow.right"
         }
     }
 }
@@ -214,25 +171,13 @@ struct GestureConfig: Codable {
     
     static func defaultMapping() -> [String: GestureAction] {
         var map: [String: GestureAction] = [:]
-        map["OPEN"] = GestureAction(gesture: .open, actionType: .noAction, actionName: "无动作")
-        map["POINT"] = GestureAction(gesture: .point, actionType: .noAction, actionName: "无动作")
-        map["GRAB"] = GestureAction(gesture: .grab, actionType: .noAction, actionName: "无动作")
-        map["PINCH"] = GestureAction(gesture: .pinch, actionType: .noAction, actionName: "无动作")
-        map["DBL_PINCH"] = GestureAction(gesture: .doublePinch, actionType: .noAction, actionName: "无动作")
-        map["PEACE"] = GestureAction(gesture: .peace, actionType: .noAction, actionName: "无动作")
-        map["FIST"] = GestureAction(gesture: .fist, actionType: .noAction, actionName: "无动作")
-        map["SWIPE_LEFT"] = GestureAction(gesture: .swipeLeft, actionType: .noAction, actionName: "无动作")
-        map["SWIPE_RIGHT"] = GestureAction(gesture: .swipeRight, actionType: .noAction, actionName: "无动作")
-        map["SWIPE_UP"] = GestureAction(gesture: .swipeUp, actionType: .noAction, actionName: "无动作")
-        map["SWIPE_DOWN"] = GestureAction(gesture: .swipeDown, actionType: .noAction, actionName: "无动作")
-        map["OPEN_PALM"] = GestureAction(gesture: .openPalm, actionType: .noAction, actionName: "无动作")
-        map["FIVE_PINCH"] = GestureAction(gesture: .fivePinch, actionType: .noAction, actionName: "无动作")
-        map["THUMBS_UP"] = GestureAction(gesture: .thumbsUp, actionType: .noAction, actionName: "无动作")
-        // 新增手势默认映射（无动作）
+        // 仅保留有检测代码的手势
         map["INDEX_TAP"] = GestureAction(gesture: .indexTap, actionType: .leftClick, actionName: "左键单击")
-        map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .noAction, actionName: "无动作")
-        map["DUAL_TAP"] = GestureAction(gesture: .dualTap, actionType: .noAction, actionName: "无动作")
-        map["DUAL_RELEASE"] = GestureAction(gesture: .dualRelease, actionType: .noAction, actionName: "无动作")
+        map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
+        map["SCROLL_UP"] = GestureAction(gesture: .scrollUp, actionType: .scrollUp, actionName: "向上滚")
+        map["SCROLL_DOWN"] = GestureAction(gesture: .scrollDown, actionType: .scrollDown, actionName: "向下滚")
+        map["SWIPE_LEFT"] = GestureAction(gesture: .swipeLeft, actionType: .keyCombo, actionValue: "ctrl+left", actionName: "切左桌面")
+        map["SWIPE_RIGHT"] = GestureAction(gesture: .swipeRight, actionType: .keyCombo, actionValue: "ctrl+right", actionName: "切右桌面")
         return map
     }
     

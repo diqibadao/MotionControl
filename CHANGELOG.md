@@ -2,7 +2,33 @@
 
 ---
 
-## v0.7.5-WIP (2026-06-12)
+## v0.7.6-WIP (2026-06-21)
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `fix/axhelper-lifecycle` |
+| **基准** | `v0.7.4` |
+| **作者** | Reasonix (DeepSeek V4 Pro) |
+
+> 注：v0.7.5-WIP（`feat/frame-loss-guard`）已关闭，其改动合并至本版。
+
+### 🔧 修复
+
+**AXHelper 进程泄漏 — 7 个孤儿进程累积导致 CPU 110%**
+
+- `AXHelper/main.swift`：加 DispatchSource 信号处理（SIGTERM/SIGINT），`while !shouldExit` 替代死循环，退出时清理 socket
+- `UIElementScanner`：成为 AXHelper 进程唯一持有者，`spawnAXHelper()` 先 kill 旧进程再 spawn，`stop()` 自动清理
+- `MotionControlApp`：`registerAXHelper()` 不再直接 spawn，委托 `uiScanner.spawnAXHelper()`
+
+### 📊 影响
+
+| 修复前 | 修复后 |
+|------|------|
+| 7 个 AXHelper 孤儿进程 | 0 个残留 |
+
+---
+
+## ~~v0.7.5-WIP~~ (2026-06-12) — 已关闭，合并至 v0.7.6
 
 | 属性 | 内容 |
 |------|------|
@@ -602,3 +628,15 @@ Margin (dist>0.25):  光标饱和贴边          — 不跳
 - SFSpeechRecognizer 语音识别（zh-CN）+ 嘴型触发
 - 配置面板（手势映射 + 参数编辑 + 多方案）
 - UIElementScanner 磁吸辅助
+## v0.8.0 — 捏合滚动 + 弹力摇杆 + 光标冻结
+
+- **手势体系重构**：GestureType 枚举精简到仅含已实现手势（none/indexTap/indexDoubleTap/scrollUp/Down/swipeLeft/Right）
+- **捏合统一手势**：区分捏合单击（<0.5s+不动）、捏合双击、捏合拖拽滚动
+- **弹力摇杆滚动**：捏合后手离原点距离→速度映射 pow(ratio,2)，微操精控+快甩翻页
+- **光标冻结**：捏合中光标原地不动，松手后 200ms 冷却防回弹光标跳
+- **单指光标**：indexMCP 替代 palmCenter，仅 CURSOR 模式激活
+- **fingerMode 检测**：HandPoseResult 新增四指弯曲判断，支持 CURSOR/SCROLL/ZOOM/IDLE
+- **Camera fallback**：指定摄像头不可用自动回退 bestAvailableCamera
+- **EventLogger 绝对路径**：修复 open 启动时 CWD=/ 导致日志写失败
+- **修复**：String(format:) 类型冲突导致主线程阻塞光标失控
+- **修复**：双击 clickCount 字段，Finder 可识别双击

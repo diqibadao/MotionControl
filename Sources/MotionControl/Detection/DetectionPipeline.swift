@@ -13,6 +13,10 @@ class DetectionPipeline: CameraOutputDelegate {
     private let handPoseDetector = HandPoseDetector()
     private let faceMeshDetector = FaceMeshDetector()
     private let gestureAnalyzer = GestureAnalyzer()
+    
+    /// 当前是否捏合中（供光标冻结使用）
+    var isPinching: Bool { gestureAnalyzer.isPinching }
+    var cursorFrozen: Bool { gestureAnalyzer.cursorFrozen }
     private let mouthDetector = MouthDetector()
     private let gazeEstimator = GazeEstimator()   // 新增注视跟踪器
 

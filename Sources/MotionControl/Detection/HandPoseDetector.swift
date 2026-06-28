@@ -20,6 +20,14 @@ enum HandSide {
 }
 
 /// 手部 21 个关键点检测结果
+/// 手指模式：根据伸直手指数量判定
+enum FingerMode: String {
+    case cursor = "CURSOR"   // ☝️ 单食指
+    case scroll = "SCROLL"   // ✌️ 食指+中指
+    case zoom = "ZOOM"       // ✋ 五指
+    case idle = "IDLE"       // 其他（握拳等）
+}
+
 struct HandPoseResult {
     /// 手部整体检测置信度（0~1），用于自适应阈值
     var confidence: Float = 0
@@ -118,6 +126,29 @@ struct HandPoseResult {
             return CGPoint(x: avgX, y: avgY)
         }
         return nil
+    }
+
+    /// 根据伸直手指数量判断当前模式
+    var fingerMode: FingerMode {
+        let threshold: Float = 0.02
+        guard let indexTipY = indexTip?.y,  let indexPIPY = indexPIP?.y,
+              let middleTipY = middleTip?.y, let middlePIPY = middlePIP?.y,
+              let ringTipY = ringTip?.y,    let ringPIPY = ringPIP?.y,
+              let littleTipY = littleTip?.y, let littlePIPY = littlePIP?.y
+        else { return .idle }
+
+        let indexStr  = indexTipY  >= indexPIPY  + CGFloat(threshold)
+        let middleStr = middleTipY >= middlePIPY + CGFloat(threshold)
+        let ringStr   = ringTipY   >= ringPIPY   + CGFloat(threshold)
+        let littleStr = littleTipY >= littlePIPY + CGFloat(threshold)
+
+        let straightCount = [indexStr, middleStr, ringStr, littleStr].filter { $0 }.count
+        switch straightCount {
+        case 1 where indexStr:   return .cursor   // ☝️ 只食指
+        case 2 where indexStr && middleStr: return .scroll  // ✌️ 食指+中指
+        case 4: return .zoom     // ✋ 全伸直
+        default: return .idle    // 握拳等
+        }
     }
 
     /// 拇指指尖到食指指尖的欧氏距离

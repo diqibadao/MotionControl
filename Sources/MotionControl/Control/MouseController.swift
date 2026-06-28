@@ -91,14 +91,23 @@ class MouseController {
         let pos = flipToQuartz(rawPos)
         EventLogger.log(event: "doubleClick", frame: nil,
                         input: "raw: \(rawPos) flipped: \(pos)", output: "", duration: nil)
-        for _ in 0..<2 {
-            guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
-                                     mouseCursorPosition: pos, mouseButton: .left) else { return }
-            guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
-                                   mouseCursorPosition: pos, mouseButton: .left) else { return }
-            down.post(tap: CGEventTapLocation.cghidEventTap)
-            up.post(tap: CGEventTapLocation.cghidEventTap)
-        }
+        // 真正的双击：第1次 clickCount=1，第2次 clickCount=2
+        guard let down1 = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
+                                  mouseCursorPosition: pos, mouseButton: .left),
+              let up1   = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
+                                  mouseCursorPosition: pos, mouseButton: .left),
+              let down2 = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
+                                  mouseCursorPosition: pos, mouseButton: .left),
+              let up2   = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
+                                  mouseCursorPosition: pos, mouseButton: .left) else { return }
+        down1.setIntegerValueField(.mouseEventClickState, value: 1)
+        up1.setIntegerValueField(.mouseEventClickState, value: 1)
+        down2.setIntegerValueField(.mouseEventClickState, value: 2)
+        up2.setIntegerValueField(.mouseEventClickState, value: 2)
+        down1.post(tap: CGEventTapLocation.cghidEventTap)
+        up1.post(tap: CGEventTapLocation.cghidEventTap)
+        down2.post(tap: CGEventTapLocation.cghidEventTap)
+        up2.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
     /// 拖拽（按下左键，移动，松开）

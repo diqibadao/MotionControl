@@ -51,6 +51,7 @@ struct ContentView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(String(format: "FPS: %.1f", state.currentFPS))
                         Text("手势: \(state.currentGesture)  \(String(format: "%.2f", state.gestureConfidence))")
+                        Text("模式: \(state.fingerMode)")
                         Text("嘴型: \(state.mouthStatus == .open ? "open" : state.mouthStatus == .closed ? "closed" : "unknown")")
                     }
                     .font(.caption)
@@ -88,6 +89,16 @@ struct ContentView: View {
                 case .rightClick: mouseCtrl.rightClick()
                 case .doubleClick: mouseCtrl.doubleClick()
                 case .scroll: mouseCtrl.scroll(deltaY: -3)
+                case .scrollUp: mouseCtrl.scroll(deltaY: Int32(max(1.0, event.confidence * 10)))
+                case .scrollDown: mouseCtrl.scroll(deltaY: -Int32(max(1.0, event.confidence * 10)))
+                case .keyCombo:
+                    if let combo = action.actionValue {
+                        if combo == "ctrl+left" {
+                            keyboardCtrl.sendKeyCombo(0x7B, flags: .maskControl)
+                        } else if combo == "ctrl+right" {
+                            keyboardCtrl.sendKeyCombo(0x7C, flags: .maskControl)
+                        }
+                    }
                 case .keyPress: keyboardCtrl.pressKey(CGKeyCode(action.actionValue.flatMap { UInt16($0) } ?? 36))
                 case .systemCommand:
                     if let cmd = action.actionValue.flatMap({ SystemCommand(rawValue: $0) }) {
@@ -157,24 +168,18 @@ struct ContentView: View {
                 if let p = handResult.littleMCP { points.append(p) }
                 handKeypoints = points
 
-                // 原始数据埋点：每帧关键点质量 + handSide（供三层分析体系 Layer 1）
+                // 原始数据埋点：每帧关键点质量（暂时关闭避免 String(format:) 异常）
                 let kp = handResult
-                let kpStr = [
-                    "handSide=\(kp.handSide)",
-                    String(format:"wrist=%.3f,%.3f,%.0f", kp.wrist?.x ?? -1, kp.wrist?.y ?? -1, (kp.wrist != nil ? 1.0 : 0)),
-                    String(format:"indexMCP=%.3f,%.3f,%.0f", kp.indexMCP?.x ?? -1, kp.indexMCP?.y ?? -1, (kp.indexMCP != nil ? 1.0 : 0)),
-                    String(format:"middleMCP=%.3f,%.3f,%.0f", kp.middleMCP?.x ?? -1, kp.middleMCP?.y ?? -1, (kp.middleMCP != nil ? 1.0 : 0)),
-                    String(format:"ringMCP=%.3f,%.3f,%.0f", kp.ringMCP?.x ?? -1, kp.ringMCP?.y ?? -1, (kp.ringMCP != nil ? 1.0 : 0)),
-                    String(format:"littleMCP=%.3f,%.3f,%.0f", kp.littleMCP?.x ?? -1, kp.littleMCP?.y ?? -1, (kp.littleMCP != nil ? 1.0 : 0)),
-                    String(format:"palmCenter=%.3f,%.3f", kp.palmCenter?.x ?? -1, kp.palmCenter?.y ?? -1),
-                ].joined(separator: " ")
-                EventLogger.log(event: "KEYPOINTS", frame: nil, input: kpStr, output: "", duration: nil)
+                EventLogger.log(event: "KEYPOINTS", frame: nil, input: "handSide=\(kp.handSide) palmCenter=\(kp.palmCenter?.x ?? 0),\(kp.palmCenter?.y ?? 0)", output: "", duration: nil)
 
                 // 固定原点绝对位置映射（Leap Motion InteractionBox 方案）
                 let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
                 let config = ConfigManager.shared.currentConfig
 
-                if let center = handResult.palmCenter, handResult.confidence > 0.15 {
+                // ⚡ SPIKE: 用 indexMCP 做光标，但只在「单食指伸直」模式激活
+                let mode = handResult.fingerMode
+                state.fingerMode = mode.rawValue
+                if let center = handResult.indexMCP, handResult.confidence > 0.15, mode == .cursor, !detectionPipeline.cursorFrozen {
                     lostFrameCount = 0
                     // 手首次出现时重置滤波器
                     if !cursorController.fingerActive {
@@ -282,7 +287,7 @@ struct ContentView: View {
         }
     }
 
-    /// 启动 AXHelper：优先 LaunchAgent，签名失败则直接 spawn 进程
+    /// 启动 AXHelper：优先 LaunchAgent，签名失败则委托 uiScanner spawn
     private func registerAXHelper() {
         // 1. 尝试 LaunchAgent 注册
         do {
@@ -293,21 +298,7 @@ struct ContentView: View {
         } catch {
             EventLogger.log(event: "axHelper", frame: nil, input: "register failed, fallback to spawn", output: error.localizedDescription, duration: 0)
         }
-        // 2. 签名失败 → 直接启动 AXHelper 进程（同目录下）
-        guard let execURL = Bundle.main.executableURL else {
-            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: "no executableURL", duration: 0)
-            return
-        }
-        let axHelperURL = execURL.deletingLastPathComponent().appendingPathComponent("AXHelper")
-        let task = Process()
-        task.executableURL = axHelperURL
-        task.standardOutput = FileHandle.nullDevice
-        task.standardError = FileHandle.nullDevice
-        do {
-            try task.run()
-            EventLogger.log(event: "axHelper", frame: nil, input: "spawned", output: "pid=\(task.processIdentifier) path=\(axHelperURL.path)", duration: 0)
-        } catch {
-            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: error.localizedDescription, duration: 0)
-        }
+        // 2. 签名失败 → 委托 UIElementScanner spawn AXHelper
+        uiScanner.spawnAXHelper()
     }
 }

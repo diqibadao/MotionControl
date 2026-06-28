@@ -26,6 +26,7 @@ public class UIElementScanner: ObservableObject {
     private let socketPath = "/tmp/axhelper.sock"
     private var consecutiveFailures = 0
     private let maxFailures = 3
+    private var axHelperProcess: Process?
 
     public init() {}
 
@@ -39,6 +40,7 @@ public class UIElementScanner: ObservableObject {
 
     public func stop() {
         cursorTimer?.cancel(); cursorTimer = nil; cachedElements = []
+        killAXHelper()
     }
 
     // MARK: - Tick（0.5s 定时，无任何触发条件）
@@ -91,7 +93,7 @@ public class UIElementScanner: ObservableObject {
                     self.consecutiveFailures += 1
                     if self.consecutiveFailures >= self.maxFailures {
                         EventLogger.log(event: "axHelper", frame: nil, input: "dead, respawning", output: "failures=\(self.consecutiveFailures)", duration: 0)
-                        self.respawnAXHelper()
+                        self.spawnAXHelper()
                         self.consecutiveFailures = 0
                     }
                 } else {
@@ -110,11 +112,11 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
-    // MARK: - AXHelper 重生
+    // MARK: - AXHelper 生命周期
 
-    private func respawnAXHelper() {
-        // 清理旧 socket
-        unlink(socketPath)
+    /// 启动（或重启）AXHelper 进程。先杀旧进程，再 spawn 新的。
+    public func spawnAXHelper() {
+        killAXHelper()
         guard let execURL = Bundle.main.executableURL else { return }
         let axHelperURL = execURL.deletingLastPathComponent().appendingPathComponent("AXHelper")
         let task = Process()
@@ -123,10 +125,20 @@ public class UIElementScanner: ObservableObject {
         task.standardError = FileHandle.nullDevice
         do {
             try task.run()
-            EventLogger.log(event: "axHelper", frame: nil, input: "respawned", output: "pid=\(task.processIdentifier)", duration: 0)
+            axHelperProcess = task
+            EventLogger.log(event: "axHelper", frame: nil, input: "spawned", output: "pid=\(task.processIdentifier)", duration: 0)
         } catch {
-            EventLogger.log(event: "axHelper", frame: nil, input: "respawn failed", output: error.localizedDescription, duration: 0)
+            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: error.localizedDescription, duration: 0)
         }
+    }
+
+    /// 终止 AXHelper 进程并清理 socket
+    public func killAXHelper() {
+        if let p = axHelperProcess {
+            p.terminate()
+            axHelperProcess = nil
+        }
+        unlink(socketPath)
     }
 
     // MARK: - 窗口列表

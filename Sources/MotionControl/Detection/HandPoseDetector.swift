@@ -130,7 +130,7 @@ struct HandPoseResult {
 
     /// 根据伸直手指数量判断当前模式
     var fingerMode: FingerMode {
-        let threshold: Float = 0.02
+        let threshold: Float = 0.015  // 放宽一点，自然手不会完全笔直
         guard let indexTipY = indexTip?.y,  let indexPIPY = indexPIP?.y,
               let middleTipY = middleTip?.y, let middlePIPY = middlePIP?.y,
               let ringTipY = ringTip?.y,    let ringPIPY = ringPIP?.y,
@@ -145,9 +145,7 @@ struct HandPoseResult {
         let straightCount = [indexStr, middleStr, ringStr, littleStr].filter { $0 }.count
         switch straightCount {
         case 1 where indexStr:   return .cursor   // ☝️ 只食指
-        case 2 where indexStr && middleStr: return .scroll  // ✌️ 食指+中指
-        case 4: return .zoom     // ✋ 全伸直
-        default: return .idle    // 握拳等
+        default: return .idle    // 其他
         }
     }
 

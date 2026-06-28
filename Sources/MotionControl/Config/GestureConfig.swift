@@ -7,8 +7,6 @@ enum GestureType: String, Codable, CaseIterable {
     case indexDoubleTap = "INDEX_DOUBLE_TAP"
     case scrollUp = "SCROLL_UP"
     case scrollDown = "SCROLL_DOWN"
-    case swipeLeft = "SWIPE_LEFT"
-    case swipeRight = "SWIPE_RIGHT"
     
     var displayName: String {
         switch self {
@@ -17,8 +15,6 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "食指双击"
         case .scrollUp: return "向上滚"
         case .scrollDown: return "向下滚"
-        case .swipeLeft: return "切左桌面"
-        case .swipeRight: return "切右桌面"
         }
     }
     
@@ -29,8 +25,6 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "hand.point.up.fill"
         case .scrollUp: return "arrow.up"
         case .scrollDown: return "arrow.down"
-        case .swipeLeft: return "arrow.left"
-        case .swipeRight: return "arrow.right"
         }
     }
 }
@@ -176,8 +170,6 @@ struct GestureConfig: Codable {
         map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
         map["SCROLL_UP"] = GestureAction(gesture: .scrollUp, actionType: .scrollUp, actionName: "向上滚")
         map["SCROLL_DOWN"] = GestureAction(gesture: .scrollDown, actionType: .scrollDown, actionName: "向下滚")
-        map["SWIPE_LEFT"] = GestureAction(gesture: .swipeLeft, actionType: .keyCombo, actionValue: "ctrl+left", actionName: "切左桌面")
-        map["SWIPE_RIGHT"] = GestureAction(gesture: .swipeRight, actionType: .keyCombo, actionValue: "ctrl+right", actionName: "切右桌面")
         return map
     }
     

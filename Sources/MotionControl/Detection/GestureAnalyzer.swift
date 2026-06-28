@@ -43,12 +43,7 @@ class GestureAnalyzer {
     private var pinchReleasedBetweenClicks = true
     private let doubleClickWindow: TimeInterval = 0.3
     private let pinchThreshold: CGFloat = 0.06
-
-    // MARK: - 滚轮（指尖中点 + 位移阈值）
-    private var scrollOrigin: CGPoint? = nil
-    private var scrollTick: CGFloat = 0.05
-    private var lastScrollFire: Date = .distantPast
-    private let scrollMinInterval: TimeInterval = 0.05
+    private var scrollTick: CGFloat = 0.05  // 滚轮阈值
 
     // MARK: - 关键点丢失容错
     private var consecutiveLostFrames = 0
@@ -107,7 +102,7 @@ class GestureAnalyzer {
                     let ratio = min(abs(displacement) / maxDisp, 1.0)
                     let curve = pow(ratio, 2.0)  // 平方曲线：微操放大，快速收拢
                     let speed = curve * maxSpeed
-                    let rows = max(1.0, speed * scrollMinInterval)
+                    let rows = max(1.0, speed * 0.05)  // 50ms interval
                     consider(GestureEvent(gestureType: (displacement > 0 ? .scrollUp : .scrollDown),
                                           confidence: Double(rows) / 10.0,
                                           timestamp: now, handPosition: handPos, velocity: .zero))
@@ -142,39 +137,9 @@ class GestureAnalyzer {
             }
         }
 
-        // ---- 滚轮：指尖中点 + 位移阈值 ----
-        let mode = hand.fingerMode
-        if mode == .scroll, let indexTip = hand.indexTip, let middleTip = hand.middleTip {
-            let tipY = (indexTip.y + middleTip.y) / 2
-            if scrollOrigin == nil {
-                scrollOrigin = CGPoint(x: 0, y: tipY)
-            }
-            if let origin = scrollOrigin, now.timeIntervalSince(lastScrollFire) >= scrollMinInterval {
-                let dy = tipY - origin.y
-                if dy > scrollTick {
-                    let rows = max(1, Int(dy / scrollTick))
-                    consider(GestureEvent(gestureType: .scrollUp,
-                                          confidence: min(Double(rows) / 5.0, 1.0),
-                                          timestamp: now, handPosition: handPos, velocity: .zero))
-                    scrollOrigin = CGPoint(x: 0, y: tipY)
-                    lastScrollFire = now
-                } else if dy < -scrollTick {
-                    let rows = max(1, Int(abs(dy) / scrollTick))
-                    consider(GestureEvent(gestureType: .scrollDown,
-                                          confidence: min(Double(rows) / 5.0, 1.0),
-                                          timestamp: now, handPosition: handPos, velocity: .zero))
-                    scrollOrigin = CGPoint(x: 0, y: tipY)
-                    lastScrollFire = now
-                }
-            }
-        } else {
-            scrollOrigin = nil
-        }
-
-        // ---- 冷却与去重（滚动/切桌面事件免除冷却以支持连续触发） ----
+        // ---- 冷却与去重 ----
         if let event = bestEvent {
-            let isContinuous = event.gestureType == .scrollUp || event.gestureType == .scrollDown
-                            || event.gestureType == .swipeLeft || event.gestureType == .swipeRight
+            let isContinuous = false
             let isRepeat = !isContinuous &&
                            event.gestureType == lastEventType &&
                            now.timeIntervalSince(lastEventTime) < gestureCooldown

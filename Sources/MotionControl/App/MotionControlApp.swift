@@ -88,17 +88,8 @@ struct ContentView: View {
                 case .leftClick: mouseCtrl.leftClick()
                 case .rightClick: mouseCtrl.rightClick()
                 case .doubleClick: mouseCtrl.doubleClick()
-                case .scroll: mouseCtrl.scroll(deltaY: -3)
                 case .scrollUp: mouseCtrl.scroll(deltaY: Int32(max(1.0, event.confidence * 10)))
                 case .scrollDown: mouseCtrl.scroll(deltaY: -Int32(max(1.0, event.confidence * 10)))
-                case .keyCombo:
-                    if let combo = action.actionValue {
-                        if combo == "ctrl+left" {
-                            keyboardCtrl.sendKeyCombo(0x7B, flags: .maskControl)
-                        } else if combo == "ctrl+right" {
-                            keyboardCtrl.sendKeyCombo(0x7C, flags: .maskControl)
-                        }
-                    }
                 case .keyPress: keyboardCtrl.pressKey(CGKeyCode(action.actionValue.flatMap { UInt16($0) } ?? 36))
                 case .systemCommand:
                     if let cmd = action.actionValue.flatMap({ SystemCommand(rawValue: $0) }) {

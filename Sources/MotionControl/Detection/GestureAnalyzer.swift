@@ -102,7 +102,7 @@ class GestureAnalyzer {
                     let ratio = min(abs(displacement) / maxDisp, 1.0)
                     let curve = pow(ratio, 2.0)  // 平方曲线：微操放大，快速收拢
                     let speed = curve * maxSpeed
-                    let rows = max(1.0, speed * 0.05)  // 50ms interval
+                    let rows = max(1.0, speed)  // 直接映射：0→1行，10→10行
                     consider(GestureEvent(gestureType: (displacement > 0 ? .scrollUp : .scrollDown),
                                           confidence: Double(rows) / 10.0,
                                           timestamp: now, handPosition: handPos, velocity: .zero))
@@ -139,7 +139,7 @@ class GestureAnalyzer {
 
         // ---- 冷却与去重 ----
         if let event = bestEvent {
-            let isContinuous = false
+            let isContinuous = event.gestureType == .scrollUp || event.gestureType == .scrollDown
             let isRepeat = !isContinuous &&
                            event.gestureType == lastEventType &&
                            now.timeIntervalSince(lastEventTime) < gestureCooldown

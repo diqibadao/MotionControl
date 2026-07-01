@@ -1,7 +1,6 @@
 import Foundation
 import CoreGraphics
 
-/// 手势事件，包含类型、置信度、时间戳、手部位置、是否重复和移动速度。
 struct GestureEvent {
     let gestureType: GestureType
     let confidence: Double
@@ -25,92 +24,112 @@ struct GestureEvent {
     }
 }
 
-/// 手势分析引擎，用静态姿态识别手势（指尖相对于指关节的位置）
-/// 行业标准：不看指尖"动了多少"，只看指尖在关节"上面还是下面"
+/// 手势分析引擎：自适应归一化 + 时序状态机
 class GestureAnalyzer {
 
-    // MARK: - 点击/拖拽/滚轮（统一捏合手势）
-    /// 当前是否捏合中（供外部读取，用于光标冻结）
+    // MARK: - 点击/拖拽/滚轮
     private(set) var isPinching = false
-    private var pinchRecoveryUntil: Date = .distantPast  // 松手后冻结光标截止时间
-    
-    /// 光标是否应冻结（捏合中 + 松手后 200ms 冷却期）
-    var cursorFrozen: Bool { isPinching || Date() < pinchRecoveryUntil }
-    private var pinchStartTime: Date = .distantPast   // 捏合开始时间
-    private var pinchStartPos: CGPoint = .zero        // 捏合开始位置
-    private var pinchMoved = false                     // 捏合期间是否移动过
+    private var pinchRecoveryUntil: Date = .distantPast
+    /// 光标是否应冻结（捏合中 + 松手后 200ms 冷却期，但拖拽中不解冻）
+    var cursorFrozen: Bool { (isPinching && !dragStarted) || Date() < pinchRecoveryUntil }
+    private var pinchStartTime: Date = .distantPast
+    private var pinchStartPos: CGPoint = .zero
+    private var pinchMoved = false
+    private var dragStarted = false
+    private var dragMinHoldUntil: Date = .distantPast  // 拖拽最小保持时间    // 拖拽是否已开始（防重复发送）
     private var lastClickTime: Date = .distantPast
     private var pinchReleasedBetweenClicks = true
     private let doubleClickWindow: TimeInterval = 0.3
-    private let pinchThreshold: CGFloat = 0.06
-    private var scrollTick: CGFloat = 0.05  // 滚轮阈值
+    private let pinchRatioThreshold: CGFloat = 0.25  // 放宽到 0.25
+    private var scrollTick: CGFloat = 0.05
 
     // MARK: - 关键点丢失容错
     private var consecutiveLostFrames = 0
     private let maxLostFrames = 5
 
-    // MARK: - 记录上次事件类型和时间，用于冷却去重
+    // MARK: - 时序状态机
+    private var pinchConfirmFrames = 0
+    private var releaseConfirmFrames = 0
+    private let confirmThreshold = 3
+
+    // MARK: - 冷却
     private var lastEventType: GestureType = .none
     private var lastEventTime: Date = .distantPast
+    private var frameCount = 0  // 诊断用帧计数
 
     init() {}
 
-    /// 每帧分析手部姿态，返回手势事件
     func analyze(_ hand: HandPoseResult) -> GestureEvent {
         let config = ConfigManager.shared.currentConfig
-        let gestureCooldown = TimeInterval(config.gestureCooldown) / 1000.0  // 默认200ms冷却
+        let gestureCooldown = TimeInterval(config.gestureCooldown) / 1000.0
 
         var bestEvent: GestureEvent? = nil
 
         func consider(_ event: GestureEvent) {
             if let current = bestEvent {
                 if event.confidence > current.confidence { bestEvent = event }
-            } else {
-                bestEvent = event
-            }
+            } else { bestEvent = event }
         }
 
         let now = Date()
+        frameCount += 1
         let handPos = hand.wrist ?? .zero
         let velocity = CGPoint.zero
 
-        // ---- 统一的捏合手势：单击/双击/拖拽/滚轮 ----
-        if let thumbTip = hand.thumbTip, let indexTip = hand.indexTip {
-            consecutiveLostFrames = 0
+        // ---- 自适应归一化捏合检测 ----
+        if let thumbTip = hand.thumbTip, let indexTip = hand.indexTip,
+           let wrist = hand.wrist, let middleTip = hand.middleTip {
 
-            let dx = thumbTip.x - indexTip.x
-            let dy = thumbTip.y - indexTip.y
-            let distance = sqrt(dx*dx + dy*dy)
-            let pinchingNow = distance < pinchThreshold
+            consecutiveLostFrames = 0
+            let fingerDist = hypot(thumbTip.x - indexTip.x, thumbTip.y - indexTip.y)
+            let handSpan = hypot(wrist.x - middleTip.x, wrist.y - middleTip.y)
+            let pinchRatio = handSpan > 0.001 ? fingerDist / handSpan : 999
+
+            let rawPinch = pinchRatio < pinchRatioThreshold
             let palmCenter = hand.palmCenter ?? handPos
 
-            // 刚捏合：记录起点
+            if rawPinch { pinchConfirmFrames += 1; releaseConfirmFrames = 0 }
+            else { releaseConfirmFrames += 1; pinchConfirmFrames = 0 }
+
+            let pinchingNow = pinchConfirmFrames >= confirmThreshold
+
             if pinchingNow && !isPinching {
                 pinchStartTime = now
                 pinchStartPos = palmCenter
                 pinchMoved = false
+                dragStarted = false
             }
 
-            // 捏合中 → 弹力摇杆：离原点越远滚越快，回原点 = 停，过原点 = 反向
             if pinchingNow && isPinching {
-                let displacement = palmCenter.y - pinchStartPos.y
-                if abs(displacement) > scrollTick {
+                let dx = palmCenter.x - pinchStartPos.x
+                let dy = palmCenter.y - pinchStartPos.y
+                let moved = hypot(dx, dy)
+                if moved > scrollTick {
                     pinchMoved = true
-                    // 线性映射：maxDisplacement=0.3 → maxSpeed=10行
-                    let maxDisp: CGFloat = 0.3
-                    let maxSpeed: CGFloat = 10.0
-                    let ratio = min(abs(displacement) / maxDisp, 1.0)
-                    let curve = pow(ratio, 2.0)  // 平方曲线：微操放大，快速收拢
-                    let speed = curve * maxSpeed
-                    let rows = max(1.0, speed)  // 直接映射：0→1行，10→10行
-                    consider(GestureEvent(gestureType: (displacement > 0 ? .scrollUp : .scrollDown),
-                                          confidence: Double(rows) / 10.0,
-                                          timestamp: now, handPosition: handPos, velocity: .zero))
+                    if abs(dx) > abs(dy) * 0.5 {
+                        // 水平移动为主 → 拖拽
+                        if !dragStarted {
+                            dragStarted = true
+                            dragMinHoldUntil = Date().addingTimeInterval(0.3)
+                            EventLogger.log(event:"drag_diag", frame:nil,
+                                input:"dragStart frame=\(frameCount) pinchConfirm=\(pinchConfirmFrames) releaseConfirm=\(releaseConfirmFrames) pinchingNow=\(pinchingNow) isPinching=\(isPinching)",
+                                output:"", duration:nil)  // 最小拖拽 300ms
+                            consider(GestureEvent(gestureType: .dragStart, confidence: 0.9,
+                                                  timestamp: now, handPosition: handPos, velocity: CGPoint(x: dx, y: dy)))
+                        }
+                    } else {
+                        // 垂直为主 → 滚轮
+                        let maxDisp: CGFloat = 0.3; let maxSpeed: CGFloat = 10.0
+                        let curve = pow(min(abs(dy) / maxDisp, 1.0), 2.0)
+                        let rows = max(1.0, curve * maxSpeed)
+                        consider(GestureEvent(gestureType: (dy > 0 ? .scrollUp : .scrollDown),
+                                              confidence: Double(rows) / 10.0,
+                                              timestamp: now, handPosition: handPos, velocity: .zero))
+                    }
                 }
             }
 
-            // 松手：捏了短时间 + 手没动 → 单击/双击
-            if !pinchingNow && isPinching {
+            if releaseConfirmFrames >= confirmThreshold && isPinching {
                 let holdDuration = now.timeIntervalSince(pinchStartTime)
                 if !pinchMoved && holdDuration < 0.5 {
                     let dt = now.timeIntervalSince(lastClickTime)
@@ -125,46 +144,50 @@ class GestureAnalyzer {
                     }
                     pinchReleasedBetweenClicks = false
                 }
+                if pinchMoved && Date() >= dragMinHoldUntil {
+                    EventLogger.log(event:"drag_diag", frame:nil,
+                        input:"dragEnd frame=\(frameCount) dragDuration=\(String(format:"%.0f", Date().timeIntervalSince(pinchStartTime)*1000))ms releaseConfirm=\(releaseConfirmFrames) minHold=\(dragMinHoldUntil.timeIntervalSinceNow < 0 ? "passed":"waiting")",
+                        output:"", duration:nil)
+                    consider(GestureEvent(gestureType: .dragEnd, confidence: 0.9,
+                                          timestamp: now, handPosition: handPos, velocity: velocity))
+                }
                 pinchReleasedBetweenClicks = true
-                pinchRecoveryUntil = Date().addingTimeInterval(0.2)  // 松手后 200ms 冷却
+                pinchRecoveryUntil = Date().addingTimeInterval(0.2)
             }
 
-            isPinching = pinchingNow
+            if releaseConfirmFrames >= confirmThreshold { isPinching = false }
+            else if pinchingNow { isPinching = true }
+
         } else {
             consecutiveLostFrames += 1
-            if consecutiveLostFrames > maxLostFrames {
-                isPinching = false
-            }
+            pinchConfirmFrames = 0
+            releaseConfirmFrames += 1
+            if consecutiveLostFrames > maxLostFrames { isPinching = false }
+            if releaseConfirmFrames >= confirmThreshold { isPinching = false }
         }
 
         // ---- 冷却与去重 ----
         if let event = bestEvent {
             let isContinuous = event.gestureType == .scrollUp || event.gestureType == .scrollDown
-            let isRepeat = !isContinuous &&
-                           event.gestureType == lastEventType &&
+            let isRepeat = !isContinuous && event.gestureType == lastEventType &&
                            now.timeIntervalSince(lastEventTime) < gestureCooldown
             let finalEvent = GestureEvent(gestureType: event.gestureType,
-                                          confidence: event.confidence,
-                                          timestamp: now,
+                                          confidence: event.confidence, timestamp: now,
                                           handPosition: event.handPosition,
-                                          isRepeat: isRepeat,
-                                          velocity: event.velocity)
-            let inputStr = "gesture_analyze type=\(event.gestureType) dist=0.0"
-            let outputStr = "gesture=\(finalEvent.gestureType) confidence=\(String(format: "%.2f", finalEvent.confidence)) isRepeat=\(finalEvent.isRepeat)"
-            EventLogger.log(event: "gesture_analyze", frame: nil, input: inputStr, output: outputStr, duration: nil)
-
+                                          isRepeat: isRepeat, velocity: event.velocity)
+            EventLogger.log(event: "gesture_analyze", frame: nil,
+                            input: "gesture_analyze type=\(event.gestureType)",
+                            output: "gesture=\(finalEvent.gestureType) confidence=\(String(format: "%.2f", finalEvent.confidence)) isRepeat=\(finalEvent.isRepeat)", duration: nil)
             lastEventType = event.gestureType
             lastEventTime = now
             return finalEvent
         }
 
-        // 无手势
         let noneEvent = GestureEvent(gestureType: .none, confidence: 0, timestamp: now,
                                      handPosition: handPos, velocity: velocity)
         EventLogger.log(event: "gesture_analyze", frame: nil,
-                        input: "gesture_analyze type=none dist=0.0",
+                        input: "gesture_analyze type=none",
                         output: "gesture=none confidence=0.00 isRepeat=false", duration: nil)
-
         lastEventType = .none
         lastEventTime = now
         return noneEvent

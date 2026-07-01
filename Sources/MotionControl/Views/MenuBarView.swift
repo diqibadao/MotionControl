@@ -1,0 +1,365 @@
+import Cocoa
+import SwiftUI
+
+/// 菜单栏控制器：NSStatusBar + 药丸图标 + NSMenu
+/// 100% 还原原型设计
+final class MenuBarController: NSObject {
+    static let shared = MenuBarController()
+    private var statusItem: NSStatusItem?
+    
+    var text: String = "空闲"
+    var isGreen: Bool = false
+    var gestureEnabled: Bool = true
+    var cursorEnabled: Bool = true
+    var cameraEnabled: Bool = true
+    var onDebugWindow: (() -> Void)?
+    var onQuit: (() -> Void)?
+    
+    // MARK: - Lifecycle
+    
+    func start() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        guard let button = statusItem?.button else { return }
+        button.imagePosition = .imageOnly
+        button.bezelStyle = .regularSquare
+        renderPill()
+        statusItem?.menu = buildMenu()
+    }
+    
+    func stop() {
+        if let item = statusItem { NSStatusBar.system.removeStatusItem(item) }
+        statusItem = nil
+    }
+    
+    func refresh(text: String, isGreen: Bool) {
+        self.text = text
+        self.isGreen = isGreen
+        DispatchQueue.main.async { self.renderPill() }
+    }
+    
+    // MARK: - Pill rendering
+    
+    private func renderPill() {
+        guard let button = statusItem?.button else { return }
+        
+        // 原型 CSS 参数
+        let pillH: CGFloat = 24
+        let padLeft: CGFloat = 8
+        let padRight: CGFloat = 17
+        let gap: CGFloat = 5
+        let iconSize: CGFloat = 17
+        let dotSize: CGFloat = 6
+        
+        let font = NSFont.systemFont(ofSize: 12, weight: .medium)
+        let textW = (text as NSString).size(withAttributes: [.font: font]).width
+        let pillW = padLeft + iconSize + gap + textW + padRight
+        
+        let image = NSImage(size: NSSize(width: pillW, height: pillH))
+        image.lockFocus()
+        
+        // ── 背景：半透明蓝色药丸 + 左右边框 ──
+        let bgPath = NSBezierPath(roundedRect: NSRect(x: 0, y: 0, width: pillW, height: pillH),
+                                   xRadius: pillH/2, yRadius: pillH/2)
+        NSColor(calibratedRed: 48/255, green: 132/255, blue: 1, alpha: 0.30).setFill()
+        bgPath.fill()
+        // 左边框
+        let leftBorder = NSBezierPath()
+        leftBorder.move(to: NSPoint(x: 0.5, y: 0))
+        leftBorder.line(to: NSPoint(x: 0.5, y: pillH))
+        leftBorder.lineWidth = 1
+        NSColor.white.withAlphaComponent(0.22).setStroke()
+        leftBorder.stroke()
+        // 右边框
+        let rightBorder = NSBezierPath()
+        rightBorder.move(to: NSPoint(x: pillW - 0.5, y: 0))
+        rightBorder.line(to: NSPoint(x: pillW - 0.5, y: pillH))
+        rightBorder.lineWidth = 1
+        NSColor.white.withAlphaComponent(0.18).setStroke()
+        rightBorder.stroke()
+        
+        // ── 手形图标：原型 SVG 路径逐坐标转换 ──
+        let sx = padLeft
+        let sy: CGFloat = (pillH - iconSize) / 2
+        let scale = iconSize / 24.0  // 原型 viewBox 0 0 24 24
+        
+        func px(_ x: CGFloat) -> CGFloat { sx + x * scale }
+        func py(_ y: CGFloat) -> CGFloat { sy + y * scale }
+        
+        NSGraphicsContext.current?.saveGraphicsState()
+        // 白色投影
+        let handShadow = NSShadow()
+        handShadow.shadowColor = NSColor.black.withAlphaComponent(0.15)
+        handShadow.shadowBlurRadius = 1.5
+        handShadow.shadowOffset = NSSize(width: 0, height: -1)
+        handShadow.set()
+        NSColor.white.setStroke()
+        
+        // 路径1：手掌 + 食指（原型 stroke-width:1.85）
+        let hand = NSBezierPath()
+        hand.move(to: NSPoint(x: px(8.6), y: py(13.9)))
+        hand.line(to: NSPoint(x: px(5.4), y: py(11)))
+        hand.curve(to: NSPoint(x: px(5.3), y: py(8.5)),
+                   controlPoint1: NSPoint(x: px(4.6), y: py(10.3)),
+                   controlPoint2: NSPoint(x: px(4.6), y: py(9.2)))
+        hand.curve(to: NSPoint(x: px(7.8), y: py(8.5)),
+                   controlPoint1: NSPoint(x: px(6), y: py(7.8)),
+                   controlPoint2: NSPoint(x: px(7), y: py(7.8)))
+        hand.line(to: NSPoint(x: px(9.7), y: py(10.3)))
+        hand.line(to: NSPoint(x: px(9.7), y: py(5.1)))
+        hand.curve(to: NSPoint(x: px(11.5), y: py(3.3)),
+                   controlPoint1: NSPoint(x: px(9.7), y: py(4.1)),
+                   controlPoint2: NSPoint(x: px(10.5), y: py(3.3)))
+        hand.curve(to: NSPoint(x: px(13.3), y: py(5.1)),
+                   controlPoint1: NSPoint(x: px(12.5), y: py(3.3)),
+                   controlPoint2: NSPoint(x: px(13.3), y: py(4.1)))
+        hand.line(to: NSPoint(x: px(13.3), y: py(11.2)))
+        hand.line(to: NSPoint(x: px(14.2), y: py(10.1)))
+        hand.curve(to: NSPoint(x: px(16.7), y: py(9.7)),
+                   controlPoint1: NSPoint(x: px(14.8), y: py(9.3)),
+                   controlPoint2: NSPoint(x: px(15.9), y: py(9.1)))
+        hand.curve(to: NSPoint(x: px(17), y: py(12.2)),
+                   controlPoint1: NSPoint(x: px(17.5), y: py(10.3)),
+                   controlPoint2: NSPoint(x: px(17.6), y: py(11.4)))
+        hand.line(to: NSPoint(x: px(13.6), y: py(16.9)))
+        hand.curve(to: NSPoint(x: px(9.1), y: py(18.7)),
+                   controlPoint1: NSPoint(x: px(12.8), y: py(18)),
+                   controlPoint2: NSPoint(x: px(10.1), y: py(18.7)))
+        hand.lineWidth = 1.85 * scale
+        hand.lineCapStyle = .round
+        hand.lineJoinStyle = .round
+        hand.stroke()
+        
+        // 路径2+3：信号线（原型 stroke-width:1.7）
+        let signal = NSBezierPath()
+        signal.move(to: NSPoint(x: px(16.8), y: py(4.5)))
+        signal.curve(to: NSPoint(x: px(18.7), y: py(5.7)),
+                      controlPoint1: NSPoint(x: px(17.5), y: py(4.7)),
+                      controlPoint2: NSPoint(x: px(18.2), y: py(5.1)))
+        signal.move(to: NSPoint(x: px(18.7), y: py(2.1)))
+        signal.curve(to: NSPoint(x: px(21.5), y: py(4.2)),
+                      controlPoint1: NSPoint(x: px(19.8), y: py(2.5)),
+                      controlPoint2: NSPoint(x: px(20.8), y: py(3.2)))
+        signal.lineWidth = 1.7 * scale
+        signal.lineCapStyle = .round
+        signal.stroke()
+        
+        NSGraphicsContext.current?.restoreGraphicsState()
+        
+        // ── 文字（白色, 12px, weight:620 = .medium）──
+        let textAttr: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: NSColor.white
+        ]
+        let textX = padLeft + iconSize + gap
+        let textY = (pillH - font.pointSize) / 2 - 1
+        (text as NSString).draw(at: NSPoint(x: textX, y: textY), withAttributes: textAttr)
+        
+        // ── 圆点（原型 right:5px, top:6px, 6x6, #34c759 + 白环发光）──
+        let dotX = pillW - dotSize - 5
+        let dotY = pillH - dotSize - 6  // top:6px → y= pillH - 6 - 6
+        if isGreen {
+            // 白环（box-shadow: 0 0 0 2px rgba(255,255,255,.28)）
+            NSColor.white.withAlphaComponent(0.28).setFill()
+            let ringPath = NSBezierPath(ovalIn: NSRect(x: dotX - 2, y: dotY - 2, width: 10, height: 10))
+            ringPath.fill()
+            // 绿色实心 + 发光
+            let glow = NSShadow()
+            glow.shadowColor = NSColor(calibratedRed: 52/255, green: 199/255, blue: 89/255, alpha: 0.72)
+            glow.shadowBlurRadius = 8
+            glow.set()
+            NSColor(calibratedRed: 52/255, green: 199/255, blue: 89/255, alpha: 1).setFill()
+            let dotPath = NSBezierPath(ovalIn: NSRect(x: dotX, y: dotY, width: 6, height: 6))
+            dotPath.fill()
+        } else {
+            // 白色实心圆
+            NSColor.white.setFill()
+            let dotPath = NSBezierPath(ovalIn: NSRect(x: dotX, y: dotY, width: 6, height: 6))
+            dotPath.fill()
+        }
+        
+        image.unlockFocus()
+        image.isTemplate = false
+        button.image = image
+        button.imagePosition = .imageOnly
+    }
+    
+    // MARK: - Menu building
+    
+    private func buildMenu() -> NSMenu {
+        let menu = NSMenu()
+        menu.autoenablesItems = false
+        
+        // 头部标题
+        let headerItem = NSMenuItem()
+        headerItem.view = menuHeaderView()
+        headerItem.isEnabled = false
+        menu.addItem(headerItem)
+        menu.addItem(.separator())
+        
+        // 手势控制
+        let gestureItem = NSMenuItem()
+        gestureItem.view = toggleMenuItemView(title: "手势控制", isOn: gestureEnabled, action: #selector(toggleGesture))
+        menu.addItem(gestureItem)
+        
+        // 光标控制
+        let cursorItem = NSMenuItem()
+        cursorItem.view = toggleMenuItemView(title: "光标控制", isOn: cursorEnabled, action: #selector(toggleCursor))
+        menu.addItem(cursorItem)
+        
+        menu.addItem(.separator())
+        
+        // 摄像头
+        let cameraToggleItem = NSMenuItem()
+        cameraToggleItem.view = toggleMenuItemView(title: "摄像头", isOn: cameraEnabled, action: #selector(toggleCamera))
+        menu.addItem(cameraToggleItem)
+        
+        menu.addItem(.separator())
+        
+        // 打开调试窗口
+        let debugItem = NSMenuItem(title: "调试设置", action: #selector(openDebug), keyEquivalent: "")
+        debugItem.target = self
+        menu.addItem(debugItem)
+        
+        menu.addItem(.separator())
+        
+        // Camera 子菜单
+        let cameraMenuItem = NSMenuItem(title: "切换摄像头", action: nil, keyEquivalent: "")
+        let cameraMenu = NSMenu()
+        for cam in CameraService.availableCameras() {
+            let item = NSMenuItem(title: cam.name, action: #selector(switchCamera(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = cam.id
+            item.state = cam.id == CameraService.shared?.activeCameraID ? .on : .off
+            cameraMenu.addItem(item)
+        }
+        cameraMenuItem.submenu = cameraMenu
+        menu.addItem(cameraMenuItem)
+        
+        menu.addItem(.separator())
+        
+        // 退出
+        let quitItem = NSMenuItem(title: "退出 MotionControl", action: #selector(quitApp), keyEquivalent: "q")
+        quitItem.keyEquivalentModifierMask = .command
+        quitItem.target = self
+        menu.addItem(quitItem)
+        
+        return menu
+    }
+    
+    private func menuHeaderView() -> NSView {
+        let v = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 40))
+        let title = NSTextField(labelWithString: "MotionControl")
+        title.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        title.frame = NSRect(x: 10, y: 18, width: 180, height: 16)
+        v.addSubview(title)
+        
+        let subtitle = NSTextField(labelWithString: gestureEnabled || cursorEnabled ? "控制已开启" : "控制已关闭")
+        subtitle.font = NSFont.systemFont(ofSize: 11)
+        subtitle.textColor = .secondaryLabelColor
+        subtitle.frame = NSRect(x: 10, y: 4, width: 180, height: 14)
+        v.addSubview(subtitle)
+        return v
+    }
+    
+    private func toggleMenuItemView(title: String, isOn: Bool, action: Selector) -> NSView {
+        let v = NSView(frame: NSRect(x: 0, y: 0, width: 212, height: 34))
+        v.wantsLayer = true
+        
+        let label = NSTextField(labelWithString: title)
+        label.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+        label.textColor = .labelColor
+        label.frame = NSRect(x: 12, y: 8, width: 104, height: 18)
+        v.addSubview(label)
+        
+        let button = NSButton(frame: NSRect(x: 150, y: 6, width: 48, height: 22))
+        button.setButtonType(.momentaryPushIn)
+        button.isBordered = false
+        button.target = self
+        button.action = action
+        button.wantsLayer = true
+        styleToggleButton(button, isOn: isOn)
+        v.addSubview(button)
+        return v
+    }
+
+    private func styleToggleButton(_ button: NSButton, isOn: Bool) {
+        button.title = isOn ? "启用" : "禁用"
+        button.font = NSFont.systemFont(ofSize: 11, weight: .semibold)
+        button.contentTintColor = isOn
+            ? NSColor(calibratedRed: 0.08, green: 0.36, blue: 0.63, alpha: 1)
+            : NSColor.secondaryLabelColor
+        button.layer?.cornerRadius = 6
+        button.layer?.masksToBounds = true
+        button.layer?.backgroundColor = isOn
+            ? NSColor(calibratedRed: 0.88, green: 0.94, blue: 1.0, alpha: 1).cgColor
+            : NSColor(calibratedRed: 0.88, green: 0.89, blue: 0.91, alpha: 1).cgColor
+        button.layer?.borderWidth = 1
+        button.layer?.borderColor = isOn
+            ? NSColor(calibratedRed: 0.70, green: 0.84, blue: 1.0, alpha: 1).cgColor
+            : NSColor.black.withAlphaComponent(0.05).cgColor
+    }
+    
+    private func updateMenuStates() {
+        guard let menu = statusItem?.menu else { return }
+        var toggleIndex = 0
+        let expectedStates: [Bool] = [gestureEnabled, cursorEnabled, cameraEnabled]
+        for item in menu.items {
+            for sv in item.view?.subviews ?? [] {
+                if let button = sv as? NSButton, toggleIndex < expectedStates.count {
+                    styleToggleButton(button, isOn: expectedStates[toggleIndex])
+                    toggleIndex += 1
+                }
+            }
+        }
+        // 更新 header 副标题
+        if let headerItem = menu.item(at: 0),
+           let headerView = headerItem.view {
+            for sv in headerView.subviews {
+                if let tf = sv as? NSTextField, tf.font?.pointSize == 11 {
+                    tf.stringValue = gestureEnabled || cursorEnabled ? "控制已开启" : "控制已关闭"
+                }
+            }
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func toggleGesture() {
+        gestureEnabled.toggle()
+        updateMenuStates()
+    }
+    
+    @objc private func toggleCursor() {
+        cursorEnabled.toggle()
+        updateMenuStates()
+    }
+    
+    @objc private func toggleCamera() {
+        cameraEnabled.toggle()
+        if cameraEnabled {
+            CameraService.shared?.start()
+        } else {
+            CameraService.shared?.stop()
+        }
+        updateMenuStates()
+    }
+    
+    @objc private func openDebug() { onDebugWindow?() }
+    @objc private func quitApp() { onQuit?() }
+    
+    @objc private func switchCamera(_ sender: NSMenuItem) {
+        guard let deviceID = sender.representedObject as? String,
+              let cameraService = CameraService.shared else { return }
+        cameraService.switchCamera(to: deviceID)
+        // 刷新子菜单选中状态
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self = self, let menu = self.statusItem?.menu else { return }
+            if let cameraItem = menu.items.first(where: { $0.title == "切换摄像头" }),
+               let submenu = cameraItem.submenu {
+                for item in submenu.items {
+                    item.state = (item.representedObject as? String) == cameraService.activeCameraID ? .on : .off
+                }
+            }
+        }
+    }
+}

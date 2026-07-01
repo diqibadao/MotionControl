@@ -7,6 +7,8 @@ enum GestureType: String, Codable, CaseIterable {
     case indexDoubleTap = "INDEX_DOUBLE_TAP"
     case scrollUp = "SCROLL_UP"
     case scrollDown = "SCROLL_DOWN"
+    case dragStart = "DRAG_START"
+    case dragEnd = "DRAG_END"
     
     var displayName: String {
         switch self {
@@ -15,6 +17,8 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "食指双击"
         case .scrollUp: return "向上滚"
         case .scrollDown: return "向下滚"
+        case .dragStart: return "拖拽开始"
+        case .dragEnd: return "拖拽结束"
         }
     }
     
@@ -25,6 +29,8 @@ enum GestureType: String, Codable, CaseIterable {
         case .indexDoubleTap: return "hand.point.up.fill"
         case .scrollUp: return "arrow.up"
         case .scrollDown: return "arrow.down"
+        case .dragStart: return "arrow.up.forward"
+        case .dragEnd: return "arrow.up.forward"
         }
     }
 }
@@ -170,6 +176,8 @@ struct GestureConfig: Codable {
         map["INDEX_DOUBLE_TAP"] = GestureAction(gesture: .indexDoubleTap, actionType: .doubleClick, actionName: "双击")
         map["SCROLL_UP"] = GestureAction(gesture: .scrollUp, actionType: .scrollUp, actionName: "向上滚")
         map["SCROLL_DOWN"] = GestureAction(gesture: .scrollDown, actionType: .scrollDown, actionName: "向下滚")
+        map["DRAG_START"] = GestureAction(gesture: .dragStart, actionType: .dragStart, actionName: "拖拽开始")
+        map["DRAG_END"] = GestureAction(gesture: .dragEnd, actionType: .dragEnd, actionName: "拖拽结束")
         return map
     }
     

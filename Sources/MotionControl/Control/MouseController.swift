@@ -59,6 +59,26 @@ class MouseController {
         up.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
+    /// 左键按下（不释放，配合 mouseUp 实现拖拽）
+    func mouseDown() {
+        guard isTrusted else { EventLogger.log(event:"mouseDown",frame:nil,input:"trust=false",output:"",duration:nil); return }
+        let pos = flipToQuartz(NSEvent.mouseLocation)
+        EventLogger.log(event:"mouseDown",frame:nil,input:"pos=\(pos)",output:"posting",duration:nil)
+        guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown,
+                                 mouseCursorPosition: pos, mouseButton: .left) else { return }
+        down.post(tap: CGEventTapLocation.cghidEventTap)
+    }
+
+    /// 左键释放
+    func mouseUp() {
+        guard isTrusted else { EventLogger.log(event:"mouseUp",frame:nil,input:"trust=false",output:"",duration:nil); return }
+        let pos = flipToQuartz(NSEvent.mouseLocation)
+        EventLogger.log(event:"mouseUp",frame:nil,input:"pos=\(pos)",output:"posting",duration:nil)
+        guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp,
+                               mouseCursorPosition: pos, mouseButton: .left) else { return }
+        up.post(tap: CGEventTapLocation.cghidEventTap)
+    }
+
     /// 右键单击
     func rightClick(at point: CGPoint? = nil) {
         guard isTrusted else {

@@ -680,6 +680,7 @@ struct ContentView: View {
                 NSApp.applicationIconImage = icon
             }
             EventLogger.startLogFile()
+            AppDetector.shared.start()
             cameraService.onSampleBuffer = { [weak detectionPipeline] sampleBuffer in
                 detectionPipeline?.didOutputFrame(sampleBuffer)
             }

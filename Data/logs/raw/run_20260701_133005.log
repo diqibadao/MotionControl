@@ -1,0 +1,795 @@
+[2026-07-01 13:30:05] [axHelper] IN: register failed, fallback to spawn → OUT: 未能完成该操作。Codesigning failure loading plist: com.motioncontrol.axhelper code: -67028 (0ms)
+[2026-07-01 13:30:05] [axHelper] IN: spawned → OUT: pid=19763 (0ms)
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (72012ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.4453261 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (8270ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.47504333 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (6906ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.48363447 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (7526ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.44330075 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (6441ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.46839213 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (5254ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.44823456 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (6863ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.46313155 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (4794ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45253906 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (4866ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.44909734 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (7526ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.46112663 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [axScan] IN: windows=6 → OUT: raw=623 visible=551 [pid61336=14 pid79582=295 pid1109=1 pid2480=8 pid2478=30 pid2479=1 pid81283=202] (927ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXButton → OUT: title= frame=(1140,162,20,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXScrollBar → OUT: title= frame=(1140,180,19,338) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXButton → OUT: title= frame=(649,140,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXButton → OUT: title= frame=(695,140,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXButton → OUT: title= frame=(672,140,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXImage → OUT: title=diqibadao frame=(722,138,18,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXStaticText → OUT: title= frame=(741,140,407,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=Apple frame=(10,0,34,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=终端 frame=(43,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=Shell frame=(89,0,50,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=编辑 frame=(138,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=显示 frame=(184,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=窗口 frame=(230,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=61336 role=AXMenuBarItem → OUT: title=帮助 frame=(276,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title=开启读屏标签 frame=(93,56,4,4) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(93,56,16,131) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(117,56,24,64) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,136,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,167,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,196,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,227,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,256,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,287,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,316,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,347,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,376,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,407,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,436,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,467,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,513,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,544,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(103,573,52,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(117,604,24,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(117,887,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(117,927,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(117,967,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXTextField → OUT: title= frame=(175,65,232,38) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title=搜索 frame=(410,65,80,38) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(424,75,18,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(445,73,32,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(778,63,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(780,90,20,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(819,64,22,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(820,90,20,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(859,64,22,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(860,90,20,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(874,65,22,13) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXTextField → OUT: title= frame=(316,126,189,33) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(539,124,36,36) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title= frame=(883,729,32,33) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(923,729,32,33) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(963,729,32,33) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(899,64,22,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(900,90,20,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(936,67,34,34) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(1004,68,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=全部 frame=(189,124,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(189,123,32,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=公开课 frame=(253,124,48,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=游戏 frame=(333,124,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=二次元 frame=(397,124,48,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=音乐 frame=(477,124,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=影视 frame=(541,124,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=美食 frame=(605,124,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(549,365,35,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(201,366,16,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(219,365,29,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(189,401,393,47) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(189,455,13,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(203,455,85,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(287,455,17,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(303,455,37,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(624,366,16,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(612,455,12,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(549,707,35,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(201,709,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(219,707,30,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(189,744,398,23) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(189,773,13,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(203,773,71,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(273,773,17,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(289,773,46,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(971,707,35,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(624,709,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(642,707,30,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(612,744,400,47) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(612,797,12,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(626,797,42,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(668,797,16,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(684,797,44,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(148,111,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(101,56,32,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(140,56,35,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(182,56,7,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(195,56,38,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(669,56,32,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(633,56,32,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(597,56,32,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(523,56,28,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(657,56,37,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(651,56,48,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(650,56,51,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(654,56,43,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(655,56,41,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(647,56,57,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(657,56,37,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(657,56,37,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(657,56,37,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(650,56,51,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(655,56,41,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(149,56,513,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(109,56,124,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(238,56,56,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(109,56,317,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(111,56,37,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(149,56,6,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(156,56,78,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(235,56,6,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(242,56,65,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(109,56,277,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(117,56,16,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(137,56,56,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(193,56,14,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(207,56,153,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(362,56,16,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(356,56,98,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(93,56,960,1) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(101,977,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(141,983,33,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(182,983,7,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(198,983,32,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(254,977,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(669,977,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(633,977,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(597,977,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(523,983,28,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(650,498,51,52) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(656,550,39,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(657,634,37,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(647,663,57,57) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(656,717,39,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(654,801,43,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(657,839,37,37) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(650,882,51,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(655,911,41,41) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(115,753,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(135,751,87,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(223,755,13,12) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(109,793,148,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(261,797,56,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(109,821,14,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(123,821,9,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(131,821,29,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(159,821,193,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(109,843,320,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(111,865,93,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(205,865,75,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(281,865,107,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(117,904,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(137,902,112,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(266,904,68,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(109,938,320,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(109,942,14,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(125,941,139,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=详情 frame=(733,56,28,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=TA的作品 frame=(772,56,60,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=评论 frame=(843,56,28,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=合集 frame=(882,56,28,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=问AI frame=(921,56,27,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXRadioButton → OUT: title=相关推荐 frame=(958,56,57,49) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(1009,61,36,36) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(733,118,72,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(805,115,96,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(805,118,84,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(891,117,8,8) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title=展开5条回复 frame=(783,107,254,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(818,109,26,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(843,109,9,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(851,109,38,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(889,111,13,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(783,618,59,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title=展开58条回复 frame=(783,680,254,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(818,682,26,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(843,682,16,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(859,682,38,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(897,684,13,13) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(733,713,42,42) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(783,740,247,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(787,762,16,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(783,784,59,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title=展开24条回复 frame=(783,845,254,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(818,847,26,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(843,847,16,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(859,847,38,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(897,849,13,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXLink → OUT: title= frame=(733,878,42,43) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(783,905,39,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(826,906,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(846,905,130,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(980,906,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(783,927,59,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXStaticText → OUT: title= frame=(745,969,126,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(925,961,36,36) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(961,961,36,36) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(997,961,36,36) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXImage → OUT: title= frame=(1007,969,32,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title= frame=(106,68,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title= frame=(146,68,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXButton → OUT: title= frame=(126,68,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title=Apple frame=(10,0,34,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title=抖音 frame=(43,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title=文件 frame=(89,0,47,30) (0ms)
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title=编辑 frame=(135,0,46,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title=窗口 frame=(180,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXMenuBarItem → OUT: title= frame=(1480,3,34,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXLink → OUT: title=跳到输入框 frame=(1482,10,82,35) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1494,19,58,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title=展开导航 frame=(1151,489,26,47) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXHeading → OUT: title=重命名会话 frame=(1161,77,176,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=重命名会话 frame=(1161,77,176,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=复制会话 frame=(1675,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title=导出会话 frame=(1711,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title=改动 frame=(1747,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=键盘快捷键 frame=(1783,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=命令 frame=(1819,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title=展开工作区 frame=(1855,76,30,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,-6,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,-6,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,-6,225,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,14,8,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,14,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,33,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,33,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,33,140,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,52,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,52,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,52,611,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,72,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,72,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,72,472,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,91,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,91,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,91,426,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,111,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,111,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,111,387,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,130,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,130,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,130,1106,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,149,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,149,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,149,658,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,169,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,169,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,169,642,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,188,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,188,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,188,71,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,207,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,207,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,207,411,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,227,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,227,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,227,40,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,246,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,246,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,246,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1207,159,189,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,28,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,104,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,132,100,29) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,168,8,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,168,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,168,102,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,187,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,187,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,206,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,206,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,206,424,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,226,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,226,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,226,295,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,245,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,245,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,245,194,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,265,8,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,265,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,265,287,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,284,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,284,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,284,225,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,303,8,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,303,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1280,323,8,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,323,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,323,140,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,342,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,342,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,342,611,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,361,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,361,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,361,472,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,381,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,381,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,381,426,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,400,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,400,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,400,387,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,420,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,420,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,420,488,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,439,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,439,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,439,71,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,458,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,458,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,458,411,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,478,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,478,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,478,40,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,497,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,497,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,516,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,516,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,516,132,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,536,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,536,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,536,210,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,555,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,555,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,555,148,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,575,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,575,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,575,40,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,594,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,594,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,594,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,146,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,222,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,251,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,265,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,341,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,369,94,29) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,404,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,404,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,404,380,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,423,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,423,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,423,102,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,443,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,443,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,443,295,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,462,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,462,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,462,295,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,482,24,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,482,24,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,482,658,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,501,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,501,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,501,488,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1227,520,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1264,520,24,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,520,102,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,383,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,459,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,487,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,501,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,577,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,605,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,619,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,695,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,723,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,737,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,813,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,841,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,855,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,931,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,960,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,974,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,52,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,81,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,95,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,95,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,171,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,199,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,213,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,213,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,289,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,317,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,331,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,331,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,407,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,435,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1181,8,588,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,50,167,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=复制 frame=(1177,80,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,80,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title= frame=(1237,80,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title= frame=(1267,80,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,129,524,72) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1770,212,31,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=复制 frame=(1809,210,22,23) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=编辑 frame=(1839,210,22,23) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=工具调用已处理 frame=(1181,251,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,287,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,287,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=已探索 1 次读取 frame=(1181,363,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,391,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考思考过程 frame=(1181,288,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1181,318,663,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1181,353,201,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=5 条 Memory v5 编译引用 frame=(1181,395,167,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=复制 frame=(1177,425,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,425,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title= frame=(1237,425,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title= frame=(1267,425,28,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1394,473,457,20) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1770,504,31,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=复制 frame=(1809,501,22,23) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=编辑 frame=(1839,501,22,23) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=工具调用已处理 4s frame=(1181,543,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,580,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,609,167,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=已修改 1 次编辑 frame=(1181,654,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,683,59,29) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,718,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,718,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,718,542,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,737,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,737,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,737,194,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,757,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1272,757,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,776,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,776,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,776,329,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,795,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,795,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,795,735,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,815,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,815,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,815,542,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,834,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,834,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,834,666,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,854,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,854,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,854,163,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,873,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,873,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,873,123,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,892,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,892,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,892,302,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,912,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,912,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,912,387,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,931,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,931,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,931,418,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,950,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,950,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,950,248,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,970,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,970,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,970,449,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,989,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,989,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,989,210,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,1009,16,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,1009,9,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,1009,123,15) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1235,1028,16,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1293,1028,9,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1318,1028,310,16) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考 frame=(1181,697,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1181,697,684,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=Shell 1 次命令 frame=(1181,773,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,801,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=工具调用已处理 2s frame=(1181,568,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=Shell 1 次命令 frame=(1181,595,684,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1207,624,658,10) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=深度思考思考过程 frame=(1181,605,69,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=5 条 Memory v5 编译引用 frame=(1181,635,167,25) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1166,712,26,19) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1206,716,8,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1213,716,7,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1219,716,8,17) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1166,738,86,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=展开 frame=(1166,767,41,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=关闭 frame=(1212,767,41,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1413,817,178,18) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=停止 frame=(1597,815,54,22) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXTextArea → OUT: title=给 Reasonix 发消息… ( / 命令 · @ 文件 · ! 终端 ) frame=(1173,862,706,42) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXStaticText → OUT: title= frame=(1175,865,344,21) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title=协作方式 frame=(1168,921,28,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title= frame=(1210,924,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title= frame=(1238,924,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXCheckBox → OUT: title= frame=(1266,924,24,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title=deepseek-v4-pro · DeepSeek 官方 frame=(1655,921,141,28) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXPopUpButton → OUT: title=更多控制 frame=(1808,919,66,32) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1156,67,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1196,67,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXButton → OUT: title= frame=(1176,67,12,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXMenuBarItem → OUT: title=Apple frame=(10,0,34,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXMenuBarItem → OUT: title=Reasonix frame=(43,0,79,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXMenuBarItem → OUT: title=File frame=(121,0,43,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXMenuBarItem → OUT: title=Edit frame=(163,0,44,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=79582 role=AXMenuBarItem → OUT: title=Window frame=(206,0,69,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=1109 role=AXStaticText → OUT: title= frame=(34,358,39,14) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=Apple frame=(10,0,34,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=访达 frame=(43,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=文件 frame=(89,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=编辑 frame=(135,0,46,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=显示 frame=(180,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=前往 frame=(226,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=窗口 frame=(272,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2480 role=AXMenuBarItem → OUT: title=帮助 frame=(318,0,47,30) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=访达 frame=(295,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=App frame=(341,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=地图 frame=(387,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=App Store frame=(433,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=iPhone镜像 frame=(479,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=tntcloud_Lite frame=(525,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=豆包 frame=(571,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=微信 frame=(617,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=ima.copilot frame=(663,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=Google Chrome frame=(709,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=Claude frame=(755,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=飞书 frame=(801,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=终端 frame=(847,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=Visual Studio Code frame=(893,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=Codex frame=(939,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=Reasonix frame=(985,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title= frame=(1031,1017,20,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=屏幕共享 frame=(1052,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=飞鸟加速 frame=(1098,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=预览 frame=(1144,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=网易云音乐 frame=(1190,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=抖音 frame=(1236,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title= frame=(1282,1017,20,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=下载 frame=(1302,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=所有连接 frame=(1348,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=飞鸟加速 frame=(1394,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=豆包 frame=(1440,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=网易云音乐 frame=(1486,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=夏天的短发🪻 - 小红书 frame=(1532,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2478 role=AXDockItem → OUT: title=废纸篓 frame=(1578,1017,46,58) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=2479 role=AXMenuBarItem → OUT: title=Siri frame=(1752,3,16,24) (0ms)
+[2026-07-01 13:30:06] [axEl] IN: pid=81283 role=AXWebArea → OUT: title=抖音精选电脑版 - 抖音旗下优质视频平台 frame=(93,56,960,959) (0ms)
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (6157ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45181632 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (5152ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [axMatch] IN: cursor=(348,657) → OUT: role=AXWebArea title=抖音精选电脑版 - 抖音旗下优质视频平台 (0ms)
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (4727ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.46128088 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [axScan] IN: windows=6 → OUT: raw=0 visible=0 [] (24ms)
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (5594ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45356196 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19328158 yaw=0.05368933 (6133ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.4635965 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05368933 pitch=-0.19328158 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (11103ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45866174 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (9309ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.46667328 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12703ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.45849648 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (11218ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.4490973 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (10555ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.4548481 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (10715ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.4575758 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:06] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (13441ms)
+[2026-07-01 13:30:06] [mouth_detect] IN: mouth_detect ratio=0.48703766 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:06] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:06] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (14009ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.44573736 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12671ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.45879337 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [axScan] IN: windows=6 → OUT: raw=0 visible=0 [] (6ms)
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (10805ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4426386 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (11601ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46706596 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12122ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4663398 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12388ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4665403 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12055ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4608145 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.03681554 pitch=-0.19481558 yaw=0.05829127 (12781ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.45284086 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.05829127 pitch=-0.19481558 → OUT: yawOffset=0.0 pitchOffset=0.0 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (20264ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4598845 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.004371841 pitchOffset=-0.0025310577 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9774ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.45529032 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.0074321297 pitchOffset=-0.004302798 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9598ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46613485 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.009574331 pitchOffset=-0.0055430164 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (10788ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46112666 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.011073872 pitchOffset=-0.006411169 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9688ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.47310853 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.012123551 pitchOffset=-0.0070188763 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (11585ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46143395 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.012858327 pitchOffset=-0.007444271 hasFace=true
+[2026-07-01 13:30:07] [axMatch] IN: cursor=(1176,642) → OUT: lost (0ms)
+[2026-07-01 13:30:07] [axHelper] IN: dead, respawning → OUT: failures=3 (0ms)
+[2026-07-01 13:30:07] [axHelper] IN: spawned → OUT: pid=19766 (0ms)
+[2026-07-01 13:30:07] [axScan] IN: windows=6 → OUT: raw=0 visible=0 [] (4ms)
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9855ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46174228 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.01337267 pitchOffset=-0.0077420473 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (6687ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4446337 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.01373271 pitchOffset=-0.00795049 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9109ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4552687 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.013984738 pitchOffset=-0.008096401 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (11865ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4664063 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014161157 pitchOffset=-0.008198538 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (11273ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.46113056 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014284651 pitchOffset=-0.008270035 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (16527ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.44655925 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014371096 pitchOffset=-0.008320082 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (14446ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4559892 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014431608 pitchOffset=-0.008355115 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (13930ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.43520978 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014473966 pitchOffset=-0.008379638 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.033747576 pitch=-0.20248547 yaw=0.07056312 (9534ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.4602308 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=0.07056312 pitch=-0.20248547 → OUT: yawOffset=0.014503618 pitchOffset=-0.008396804 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:07] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (35428ms)
+[2026-07-01 13:30:07] [mouth_detect] IN: mouth_detect ratio=0.47629657 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:07] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.026432917 pitchOffset=-0.033489406 hasFace=true
+[2026-07-01 13:30:07] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [APP-DETECT] IN: bundle=com.bytedance.douyin.desktop name=抖音 → OUT: 
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (53140ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.43859005 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.05508849 pitchOffset=-0.051054228 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (76161ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.4287405 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.07514739 pitchOffset=-0.063349605 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (40755ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.45099095 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.08918862 pitchOffset=-0.07195637 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (31031ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.45173615 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.09901748 pitchOffset=-0.0779811 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (10417ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.44293448 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.10589768 pitchOffset=-0.08219841 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (11274ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.45455107 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.110713825 pitchOffset=-0.08515053 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (7106ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.44927296 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.11408512 pitchOffset=-0.08721702 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (5128ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.46287957 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.116445035 pitchOffset=-0.088663556 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (5025ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.46142638 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.11809697 pitchOffset=-0.089676134 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (4656ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.47357005 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.11925333 pitchOffset=-0.09038494 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (5497ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.47121978 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.120062776 pitchOffset=-0.0908811 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0
+[2026-07-01 13:30:08] [face_detect] IN: face_detect → OUT: detected=true landmarks=76 roll=0.015339808 pitch=-0.28608742 yaw=-0.065961175 (4700ms)
+[2026-07-01 13:30:08] [mouth_detect] IN: mouth_detect ratio=0.47235867 → OUT: status=CLOSED confirmed=CLOSED
+[2026-07-01 13:30:08] [gaze_estimate] IN: yaw=-0.065961175 pitch=-0.28608742 → OUT: yawOffset=-0.12062939 pitchOffset=-0.09122842 hasFace=true
+[2026-07-01 13:30:08] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=false landmarks=nil confidence=0

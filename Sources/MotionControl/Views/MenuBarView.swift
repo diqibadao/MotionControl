@@ -67,26 +67,6 @@ final class MenuBarController: NSObject {
         let image = NSImage(size: NSSize(width: pillW, height: pillH))
         image.lockFocus()
         
-        // ── 背景：半透明蓝色药丸 + 左右边框 ──
-        let bgPath = NSBezierPath(roundedRect: NSRect(x: 0, y: 0, width: pillW, height: pillH),
-                                   xRadius: pillH/2, yRadius: pillH/2)
-        NSColor(calibratedRed: 48/255, green: 132/255, blue: 1, alpha: 0.30).setFill()
-        bgPath.fill()
-        // 左边框
-        let leftBorder = NSBezierPath()
-        leftBorder.move(to: NSPoint(x: 0.5, y: 0))
-        leftBorder.line(to: NSPoint(x: 0.5, y: pillH))
-        leftBorder.lineWidth = 1
-        NSColor.white.withAlphaComponent(0.22).setStroke()
-        leftBorder.stroke()
-        // 右边框
-        let rightBorder = NSBezierPath()
-        rightBorder.move(to: NSPoint(x: pillW - 0.5, y: 0))
-        rightBorder.line(to: NSPoint(x: pillW - 0.5, y: pillH))
-        rightBorder.lineWidth = 1
-        NSColor.white.withAlphaComponent(0.18).setStroke()
-        rightBorder.stroke()
-        
         // ── 手形图标：原型 SVG 路径逐坐标转换 ──
         let sx = padLeft
         let sy: CGFloat = (pillH - iconSize) / 2

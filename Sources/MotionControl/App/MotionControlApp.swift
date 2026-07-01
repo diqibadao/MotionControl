@@ -480,10 +480,15 @@ struct ContentView: View {
                     fillCapsule(CGRect(x: 31 - amount * 4, y: 13 - amount, width: 8, height: 31), rotation: .degrees(-34))
 
                 case .double:
-                    let pulseOpacity = isActive ? (0.35 + amount * 0.65) : 1.0
-                    let bottomOpacity = isActive ? pulseOpacity : 0.55
-                    context.stroke(Path(roundedRect: CGRect(x: 15, y: 14, width: 27, height: 15), cornerRadius: 7.5), with: .color(blue.opacity(pulseOpacity)), lineWidth: 2)
-                    context.stroke(Path(roundedRect: CGRect(x: 15, y: 29, width: 27, height: 15), cornerRadius: 7.5), with: .color(blue.opacity(bottomOpacity)), lineWidth: 2)
+                    // 第一次捏合
+                    fillCapsule(CGRect(x: 16, y: 8, width: 6, height: 22), rotation: .degrees(34))
+                    fillCapsule(CGRect(x: 25, y: 8, width: 6, height: 22), rotation: .degrees(-34))
+                    // 第二次捏合（半透明）
+                    let secondAlpha: CGFloat = isActive ? (0.4 + amount * 0.6) : 0.55
+                    context.opacity = min(1, secondAlpha)
+                    fillCapsule(CGRect(x: 23, y: 16, width: 6, height: 22), rotation: .degrees(34))
+                    fillCapsule(CGRect(x: 32, y: 16, width: 6, height: 22), rotation: .degrees(-34))
+                    context.opacity = 1
 
                 case .scroll:
                     let dy = amount * 5

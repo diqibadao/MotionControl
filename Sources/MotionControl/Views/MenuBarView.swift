@@ -211,9 +211,9 @@ final class MenuBarController: NSObject {
         cameraToggleItem.view = checkMenuItemView(title: AppLanguage.shared.t("menu.camera.toggle"), isOn: cameraEnabled, action: #selector(toggleCamera))
         menu.addItem(cameraToggleItem)
         
-        // 调试设置 — 同款对齐
-        let debugItem = NSMenuItem()
-        debugItem.view = plainItemView(title: AppLanguage.shared.t("menu.debug"), action: #selector(openDebug))
+        // 调试设置
+        let debugItem = NSMenuItem(title: AppLanguage.shared.t("menu.debug"), action: #selector(openDebug), keyEquivalent: "")
+        debugItem.target = self
         menu.addItem(debugItem)
         
         // Camera 子菜单

@@ -198,32 +198,26 @@ final class MenuBarController: NSObject {
         
         // 手势控制
         let gestureItem = NSMenuItem()
-        gestureItem.view = toggleMenuItemView(title: "手势控制", isOn: gestureEnabled, action: #selector(toggleGesture))
+        gestureItem.view = checkMenuItemView(title: AppLanguage.shared.t("menu.gesture"), isOn: gestureEnabled, action: #selector(toggleGesture))
         menu.addItem(gestureItem)
         
         // 光标控制
         let cursorItem = NSMenuItem()
-        cursorItem.view = toggleMenuItemView(title: "光标控制", isOn: cursorEnabled, action: #selector(toggleCursor))
+        cursorItem.view = checkMenuItemView(title: AppLanguage.shared.t("menu.cursor"), isOn: cursorEnabled, action: #selector(toggleCursor))
         menu.addItem(cursorItem)
-        
-        menu.addItem(.separator())
         
         // 摄像头
         let cameraToggleItem = NSMenuItem()
-        cameraToggleItem.view = toggleMenuItemView(title: "摄像头", isOn: cameraEnabled, action: #selector(toggleCamera))
+        cameraToggleItem.view = checkMenuItemView(title: AppLanguage.shared.t("menu.camera.toggle"), isOn: cameraEnabled, action: #selector(toggleCamera))
         menu.addItem(cameraToggleItem)
         
-        menu.addItem(.separator())
-        
-        // 打开调试窗口
-        let debugItem = NSMenuItem(title: "调试设置", action: #selector(openDebug), keyEquivalent: "")
-        debugItem.target = self
+        // 调试设置 — 同款对齐
+        let debugItem = NSMenuItem()
+        debugItem.view = plainItemView(title: AppLanguage.shared.t("menu.debug"), action: #selector(openDebug))
         menu.addItem(debugItem)
         
-        menu.addItem(.separator())
-        
         // Camera 子菜单
-        let cameraMenuItem = NSMenuItem(title: "切换摄像头", action: nil, keyEquivalent: "")
+        let cameraMenuItem = NSMenuItem(title: AppLanguage.shared.t("menu.camera"), action: nil, keyEquivalent: "")
         let cameraMenu = NSMenu()
         for cam in CameraService.availableCameras() {
             let item = NSMenuItem(title: cam.name, action: #selector(switchCamera(_:)), keyEquivalent: "")
@@ -235,10 +229,24 @@ final class MenuBarController: NSObject {
         cameraMenuItem.submenu = cameraMenu
         menu.addItem(cameraMenuItem)
         
+        // 语言
+        let langItem = NSMenuItem(title: AppLanguage.shared.t("menu.language"), action: nil, keyEquivalent: "")
+        let langMenu = NSMenu()
+        let zhItem = NSMenuItem(title: AppLanguage.shared.t("menu.lang.zh"), action: #selector(switchLanguage(_:)), keyEquivalent: "")
+        zhItem.target = self
+        zhItem.state = AppLanguage.shared.isChinese ? .on : .off
+        langMenu.addItem(zhItem)
+        let enItem = NSMenuItem(title: AppLanguage.shared.t("menu.lang.en"), action: #selector(switchLanguage(_:)), keyEquivalent: "")
+        enItem.target = self
+        enItem.state = AppLanguage.shared.isChinese ? .off : .on
+        langMenu.addItem(enItem)
+        langItem.submenu = langMenu
+        menu.addItem(langItem)
+        
         menu.addItem(.separator())
         
         // 退出
-        let quitItem = NSMenuItem(title: "退出 MotionControl", action: #selector(quitApp), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: AppLanguage.shared.t("menu.quit"), action: #selector(quitApp), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = .command
         quitItem.target = self
         menu.addItem(quitItem)
@@ -258,6 +266,33 @@ final class MenuBarController: NSObject {
         subtitle.textColor = .secondaryLabelColor
         subtitle.frame = NSRect(x: 10, y: 4, width: 180, height: 14)
         v.addSubview(subtitle)
+        return v
+    }
+    
+    private func checkMenuItemView(title: String, isOn: Bool, action: Selector) -> NSView {
+        let v = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 22))
+        let label = NSTextField(frame: NSRect(x: 15, y: 3, width: 135, height: 16))
+        label.stringValue = title
+        label.isBordered = false
+        label.isBezeled = false
+        label.isEditable = false
+        label.isSelectable = false
+        label.drawsBackground = false
+        label.font = NSFont.systemFont(ofSize: 13)
+        label.textColor = .labelColor
+        v.addSubview(label)
+        let mark = NSTextField(labelWithString: isOn ? "✓" : "")
+        mark.font = NSFont.systemFont(ofSize: 12, weight: .semibold)
+        mark.textColor = .labelColor
+        mark.frame = NSRect(x: 165, y: 3, width: 20, height: 16)
+        mark.alignment = .right
+        v.addSubview(mark)
+        let btn = NSButton(frame: v.bounds)
+        btn.isBordered = false
+        btn.isTransparent = true
+        btn.target = self
+        btn.action = action
+        v.addSubview(btn)
         return v
     }
     
@@ -301,22 +336,23 @@ final class MenuBarController: NSObject {
     
     private func updateMenuStates() {
         guard let menu = statusItem?.menu else { return }
-        var toggleIndex = 0
-        let expectedStates: [Bool] = [gestureEnabled, cursorEnabled, cameraEnabled]
+        let states: [Bool] = [gestureEnabled, cursorEnabled, cameraEnabled]
+        var idx = 0
         for item in menu.items {
             for sv in item.view?.subviews ?? [] {
-                if let button = sv as? NSButton, toggleIndex < expectedStates.count {
-                    styleToggleButton(button, isOn: expectedStates[toggleIndex])
-                    toggleIndex += 1
+                if let btn = sv as? NSButton, btn.action != nil, idx < states.count {
+                    if let superview = btn.superview {
+                        let fields = superview.subviews.compactMap { $0 as? NSTextField }
+                        if fields.count >= 2 { fields[1].stringValue = states[idx] ? "✓" : "" }
+                    }
+                    idx += 1
                 }
             }
         }
-        // 更新 header 副标题
-        if let headerItem = menu.item(at: 0),
-           let headerView = headerItem.view {
-            for sv in headerView.subviews {
+        if let hv = menu.item(at: 0)?.view {
+            for sv in hv.subviews {
                 if let tf = sv as? NSTextField, tf.font?.pointSize == 11 {
-                    tf.stringValue = gestureEnabled || cursorEnabled ? "控制已开启" : "控制已关闭"
+                    tf.stringValue = gestureEnabled || cursorEnabled ? AppLanguage.shared.t("menu.header.running") : AppLanguage.shared.t("menu.header.stopped")
                 }
             }
         }
@@ -346,6 +382,12 @@ final class MenuBarController: NSObject {
     
     @objc private func openDebug() { onDebugWindow?() }
     @objc private func quitApp() { onQuit?() }
+    
+    @objc private func switchLanguage(_ sender: NSMenuItem) {
+        AppLanguage.shared.isChinese = (sender.title == AppLanguage.shared.t("menu.lang.zh"))
+        statusItem?.menu = buildMenu()
+        renderPill()
+    }
     
     @objc private func switchCamera(_ sender: NSMenuItem) {
         guard let deviceID = sender.representedObject as? String,

@@ -13,7 +13,7 @@ let package = Package(
         .executableTarget(
             name: "MotionControl",
             dependencies: [],
-            resources: [],
+            resources: [.process("Resources")],
             swiftSettings: [
                 .define("DEBUG", .when(configuration: .debug))
             ],

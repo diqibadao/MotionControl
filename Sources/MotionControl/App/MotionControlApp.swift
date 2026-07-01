@@ -21,6 +21,8 @@ struct MotionControlApp: App {
                             window.titlebarAppearsTransparent = false
                             window.backgroundColor = NSColor(red: 0.94, green: 0.95, blue: 0.96, alpha: 1.0)
                             window.standardWindowButton(.zoomButton)?.isHidden = true
+                            // 拦截关闭 → 隐藏
+                            WindowHider.install(on: window)
                         }
                     }
                 }
@@ -35,14 +37,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         mb.onDebugWindow = {
             NSApp.setActivationPolicy(.regular)
             NSApp.activate(ignoringOtherApps: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                for win in NSApp.windows where win.isVisible {
-                    win.makeKeyAndOrderFront(nil)
-                }
+            // 找到隐藏的窗口并显示
+            for win in NSApp.windows {
+                if win.isVisible { win.makeKeyAndOrderFront(nil) }
+                else { win.orderFront(nil) }
             }
         }
         mb.onQuit = { NSApplication.shared.terminate(nil) }
         mb.start()
+    }
+}
+
+/// 拦截窗口关闭事件，隐藏而非销毁
+final class WindowHider: NSObject, NSWindowDelegate {
+    static func install(on window: NSWindow) {
+        let hider = WindowHider()
+        window.delegate = hider
+        objc_setAssociatedObject(window, "hider", hider, .OBJC_ASSOCIATION_RETAIN)
+    }
+    
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        sender.orderOut(nil)
+        return false  // 不关闭，只隐藏
     }
 }
 
@@ -73,6 +89,13 @@ private enum InspectorTab: String, CaseIterable, Identifiable {
     case settings = "设置"
 
     var id: String { rawValue }
+    
+    var title: String {
+        switch self {
+        case .gestures: return AppLanguage.shared.t("tab.gestures")
+        case .settings: return AppLanguage.shared.t("tab.settings")
+        }
+    }
 }
 
 
@@ -105,6 +128,7 @@ struct ContentView: View {
     @State private var selectedInspectorTab: InspectorTab = .gestures
     @State private var hoveredGesture: GestureKind? = nil
     @State private var gestureAnimationPhase: Bool = false
+    @State private var languageToggle: Bool = false
     
     var body: some View {
         HStack(spacing: 0) {
@@ -117,6 +141,7 @@ struct ContentView: View {
         .onAppear { setupPipeline() }
         .onDisappear { teardownPipeline() }
         .task {
+            AppLanguage.shared.onToggle = { languageToggle.toggle() }
             let perms = await PermissionManager.shared.checkAll()
             state.cameraGranted = perms.camera; state.micGranted = perms.mic
             state.speechGranted = perms.speech; state.accessibilityGranted = perms.accessibility
@@ -128,7 +153,7 @@ struct ContentView: View {
     private func CameraPane() -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("摄像头预览")
+                Text(AppLanguage.shared.t("camera.preview"))
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(Color(red: 0.29, green: 0.32, blue: 0.36))
             }
@@ -147,8 +172,8 @@ struct ContentView: View {
 
                     HStack(spacing: 6) {
                         HUDChip(String(format: "%.0f FPS", state.currentFPS))
-                        HUDChip("手势: \(state.currentGesture)")
-                        HUDChip("模式: \(state.fingerMode)")
+                        HUDChip("\(AppLanguage.shared.t("hud.gesture")): \(state.currentGesture)")
+                        HUDChip("\(AppLanguage.shared.t("hud.mode")): \(state.fingerMode)")
                         Spacer()
                     }
                     .padding(10)
@@ -176,8 +201,8 @@ struct ContentView: View {
 
     private func BottomControlBar() -> some View {
         HStack(spacing: 8) {
-            InlineToggleControl(title: "点位追踪", isOn: $debugSkeleton)
-            InlineToggleControl(title: "界面扫描", isOn: $debugOverlayEnabled) { enabled in
+            InlineToggleControl(title: AppLanguage.shared.t("toggle.skeleton"), isOn: $debugSkeleton)
+            InlineToggleControl(title: AppLanguage.shared.t("toggle.uiscan"), isOn: $debugOverlayEnabled) { enabled in
                 toggleDebugOverlay(enabled)
             }
             Spacer()
@@ -197,7 +222,7 @@ struct ContentView: View {
                     .foregroundStyle(MC.ink)
                     .lineLimit(1)
 
-                Text(isOn.wrappedValue ? "启用" : "禁用")
+                Text(isOn.wrappedValue ? AppLanguage.shared.t("toggle.enabled") : AppLanguage.shared.t("toggle.disabled"))
                     .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(isOn.wrappedValue ? Color(red: 0.08, green: 0.36, blue: 0.63) : MC.muted)
                     .frame(width: 36, height: 20)
@@ -295,7 +320,7 @@ struct ContentView: View {
     private func InspectorTabs() -> some View {
         HStack(spacing: 0) {
             ForEach(InspectorTab.allCases) { tab in
-                Text(tab.rawValue)
+                Text(tab.title)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(selectedInspectorTab == tab ? MC.ink : MC.muted)
                     .frame(maxWidth: .infinity)
@@ -328,14 +353,14 @@ struct ContentView: View {
 
     private func ControlInspector() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            SectionTitle("核心参数").padding(.top, 0)
+            SectionTitle(AppLanguage.shared.t("settings.coreParams")).padding(.top, 0)
             ParamGroup()
         }
     }
 
     private func DebugInspector() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            SectionTitle("调试选项").padding(.top, 0)
+            SectionTitle(AppLanguage.shared.t("settings.debugOptions")).padding(.top, 0)
             DebugGroup()
         }
     }
@@ -351,13 +376,13 @@ struct ContentView: View {
     
     private func GestureRef() -> some View {
         VStack(spacing: 0) {
-            GestureRow(kind: .point, title: "伸出食指", subtitle: "光标跟随手移动")
+            GestureRow(kind: .point, title: AppLanguage.shared.t("gesture.point"), subtitle: AppLanguage.shared.t("gesture.point.desc"))
             Divider().padding(.leading, 92).opacity(0.64)
-            GestureRow(kind: .pinch, title: "捏合一下", subtitle: "鼠标左键单击")
+            GestureRow(kind: .pinch, title: AppLanguage.shared.t("gesture.pinch"), subtitle: AppLanguage.shared.t("gesture.pinch.desc"))
             Divider().padding(.leading, 92).opacity(0.64)
-            GestureRow(kind: .double, title: "连续捏合", subtitle: "鼠标双击")
+            GestureRow(kind: .double, title: AppLanguage.shared.t("gesture.double"), subtitle: AppLanguage.shared.t("gesture.double.desc"))
             Divider().padding(.leading, 92).opacity(0.64)
-            GestureRow(kind: .scroll, title: "捏住上下移动", subtitle: "像触控板一样滚动")
+            GestureRow(kind: .scroll, title: AppLanguage.shared.t("gesture.scroll"), subtitle: AppLanguage.shared.t("gesture.scroll.desc"))
         }
         .background(MC.card)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -413,10 +438,10 @@ struct ContentView: View {
 
     private func gestureHint(_ kind: GestureKind) -> String {
         switch kind {
-        case .point: return "伸出食指，手移动时光标同步移动"
-        case .pinch: return "拇指与食指轻触一次，松开完成点击"
-        case .double: return "在双击间隔内连续捏合两次"
-        case .scroll: return "保持捏合，手上下移动进行滚动"
+        case .point: return AppLanguage.shared.t("gesture.point.hint")
+        case .pinch: return AppLanguage.shared.t("gesture.pinch.hint")
+        case .double: return AppLanguage.shared.t("gesture.double.hint")
+        case .scroll: return AppLanguage.shared.t("gesture.scroll.hint")
         }
     }
 
@@ -477,9 +502,9 @@ struct ContentView: View {
     
     private func ParamGroup() -> some View {
         VStack(spacing: 0) {
-            SliderRow(title: "光标速度", value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
-            SliderRow(title: "捏合灵敏度", value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
-            SliderRow(title: "双击间隔", value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
+            SliderRow(title: AppLanguage.shared.t("settings.cursorSpeed"), value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
+            SliderRow(title: AppLanguage.shared.t("settings.pinchSens"), value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
+            SliderRow(title: AppLanguage.shared.t("settings.doubleClick"), value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
             SegmentRow()
         }
         .background(MC.card)
@@ -491,13 +516,13 @@ struct ContentView: View {
 
     private func SettingsGroup() -> some View {
         VStack(spacing: 0) {
-            SliderRow(title: "光标速度", value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
-            SliderRow(title: "捏合灵敏度", value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
-            SliderRow(title: "双击间隔", value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
+            SliderRow(title: AppLanguage.shared.t("settings.cursorSpeed"), value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
+            SliderRow(title: AppLanguage.shared.t("settings.pinchSens"), value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
+            SliderRow(title: AppLanguage.shared.t("settings.doubleClick"), value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
             SegmentRow()
             Divider().padding(.leading, 15).opacity(0.64)
-            ToggleRow(title: "光标吸附", isOn: $debugSnap)
-            ToggleRow(title: "点击音效", isOn: $debugClickSound)
+            ToggleRow(title: AppLanguage.shared.t("settings.snap"), isOn: $debugSnap)
+            ToggleRow(title: AppLanguage.shared.t("settings.clickSound"), isOn: $debugClickSound)
         }
         .background(MC.card)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -577,8 +602,8 @@ struct ContentView: View {
     private func DebugGroup() -> some View {
         VStack(spacing: 0) {
             ToggleRow(title: "UI 元素蒙层", isOn: $debugOverlayEnabled)
-            ToggleRow(title: "光标吸附", isOn: $debugSnap)
-            ToggleRow(title: "点击音效", isOn: $debugClickSound)
+            ToggleRow(title: AppLanguage.shared.t("settings.snap"), isOn: $debugSnap)
+            ToggleRow(title: AppLanguage.shared.t("settings.clickSound"), isOn: $debugClickSound)
         }
         .background(MC.card)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -590,8 +615,8 @@ struct ContentView: View {
     private func ExperienceGroup() -> some View {
         VStack(spacing: 0) {
             ToggleRow(title: "UI 元素蒙层", isOn: $debugOverlayEnabled)
-            ToggleRow(title: "光标吸附", isOn: $debugSnap)
-            ToggleRow(title: "点击音效", isOn: $debugClickSound)
+            ToggleRow(title: AppLanguage.shared.t("settings.snap"), isOn: $debugSnap)
+            ToggleRow(title: AppLanguage.shared.t("settings.clickSound"), isOn: $debugClickSound)
         }
         .background(MC.card)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -747,7 +772,7 @@ struct ContentView: View {
 
                 // ⚡ SPIKE: 用 indexMCP 做光标，但只在「单食指伸直」模式激活
                 let mode = handResult.fingerMode
-                state.fingerMode = mode.rawValue
+                state.fingerMode = mode.displayName
                 
                 // 更新菜单栏状态
                 let pinching = detectionPipeline.isPinching

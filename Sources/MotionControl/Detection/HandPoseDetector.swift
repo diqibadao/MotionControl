@@ -26,6 +26,17 @@ enum FingerMode: String {
     case scroll = "SCROLL"   // ✌️ 食指+中指
     case zoom = "ZOOM"       // ✋ 五指
     case idle = "IDLE"       // 其他（握拳等）
+    
+    var displayName: String {
+        let key: String
+        switch self {
+        case .cursor: key = "finger.cursor"
+        case .scroll: key = "finger.scroll"
+        case .zoom:   key = "finger.zoom"
+        case .idle:   key = "finger.idle"
+        }
+        return AppLanguage.shared.t(key)
+    }
 }
 
 struct HandPoseResult {

@@ -40,7 +40,7 @@ class GestureAnalyzer {
     private var lastClickTime: Date = .distantPast
     private var pinchReleasedBetweenClicks = true
     private let doubleClickWindow: TimeInterval = 0.3
-    private let pinchRatioThreshold: CGFloat = 0.25  // 放宽到 0.25
+    private let pinchRatioThreshold: CGFloat = 0.18
     private var scrollTick: CGFloat = 0.05
 
     // MARK: - 关键点丢失容错
@@ -82,7 +82,7 @@ class GestureAnalyzer {
 
             consecutiveLostFrames = 0
             let fingerDist = hypot(thumbTip.x - indexTip.x, thumbTip.y - indexTip.y)
-            let handSpan = hypot(wrist.x - middleTip.x, wrist.y - middleTip.y)
+            let handSpan = hypot(wrist.x - (hand.indexMCP?.x ?? middleTip.x), wrist.y - (hand.indexMCP?.y ?? middleTip.y))
             let pinchRatio = handSpan > 0.001 ? fingerDist / handSpan : 999
 
             let rawPinch = pinchRatio < pinchRatioThreshold

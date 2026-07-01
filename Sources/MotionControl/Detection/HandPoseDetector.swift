@@ -154,10 +154,10 @@ struct HandPoseResult {
         let littleStr = littleTipY >= littlePIPY + CGFloat(threshold)
 
         let straightCount = [indexStr, middleStr, ringStr, littleStr].filter { $0 }.count
-        switch straightCount {
-        case 1 where indexStr:   return .cursor   // ☝️ 只食指
-        default: return .idle    // 其他
-        }
+        // cursor: 食指伸出（不管弯直），但其他三指不能同时伸直
+        if middleStr == false, ringStr == false, littleStr == false { return .cursor }
+        if straightCount == 2 { return .scroll }
+        return .idle
     }
 
     /// 拇指指尖到食指指尖的欧氏距离

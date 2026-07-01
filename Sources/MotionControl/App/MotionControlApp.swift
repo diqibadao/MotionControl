@@ -793,14 +793,20 @@ struct ContentView: View {
                 MenuBarController.shared.refresh(text: state.menuBarText, isGreen: state.menuBarGreenDot)
                 
                 if let center = handResult.indexMCP, handResult.confidence > 0.15, mode == .cursor,
-                   !detectionPipeline.cursorFrozen, MenuBarController.shared.cursorEnabled {  // ← 光标控制开关
+                   !detectionPipeline.cursorFrozen, MenuBarController.shared.cursorEnabled {
+                    // 混合指尖偏移：手指弯向某方向→光标跟过去
+                    let tipGain: CGFloat = 1.0
+                    var adjusted = center
+                    if let tip = handResult.indexTip {
+                        adjusted.x += (tip.x - center.x) * tipGain
+                        adjusted.y += (tip.y - center.y) * tipGain
+                    }
                     lostFrameCount = 0
-                    // 手首次出现时重置滤波器
                     if !cursorController.fingerActive {
                         cursorController.handAppeared()
                     }
                     cursorController.updateWithAbsolutePosition(
-                        handCenter: center,
+                        handCenter: adjusted,
                         screenSize: screen,
                         gain: config.mouseSensitivity,
                         handedness: handResult.handSide

@@ -121,6 +121,10 @@ struct ContentView: View {
     @State private var pinchSensitivity: CGFloat = 0.74
     @State private var doubleClickInterval: CGFloat = 0.48
     @State private var scrollNatural: Bool = true
+    @State private var scrollSpeed: CGFloat = {
+        let v = UserDefaults.standard.double(forKey: "scrollSpeed")
+        return v > 0 ? v : 0.4
+    }()
     @State private var debugSkeleton: Bool = true
     @State private var debugOverlayEnabled: Bool = false
     @State private var debugSnap: Bool = true
@@ -140,6 +144,9 @@ struct ContentView: View {
         .frame(width: 940, height: 500)
         .onAppear { setupPipeline() }
         .onDisappear { teardownPipeline() }
+        .onChange(of: scrollSpeed) { _, newVal in
+            UserDefaults.standard.set(Double(newVal), forKey: "scrollSpeed")
+        }
         .task {
             AppLanguage.shared.onToggle = { languageToggle.toggle() }
             let perms = await PermissionManager.shared.checkAll()
@@ -510,6 +517,7 @@ struct ContentView: View {
             SliderRow(title: AppLanguage.shared.t("settings.cursorSpeed"), value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
             SliderRow(title: AppLanguage.shared.t("settings.pinchSens"), value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
             SliderRow(title: AppLanguage.shared.t("settings.doubleClick"), value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
+            SliderRow(title: AppLanguage.shared.t("settings.scrollSpeed"), value: "\(Int(scrollSpeed * 100))%", progress: $scrollSpeed, configKey: "")
             SegmentRow()
         }
         .background(MC.card)
@@ -524,6 +532,7 @@ struct ContentView: View {
             SliderRow(title: AppLanguage.shared.t("settings.cursorSpeed"), value: "\(Int(cursorSpeed * 100))%", progress: $cursorSpeed, configKey: "mouseSensitivity")
             SliderRow(title: AppLanguage.shared.t("settings.pinchSens"), value: "\(Int(pinchSensitivity * 100))%", progress: $pinchSensitivity, configKey: "pinchThreshold")
             SliderRow(title: AppLanguage.shared.t("settings.doubleClick"), value: "\(Int(200 + doubleClickInterval * 300)) ms", progress: $doubleClickInterval, configKey: "")
+            SliderRow(title: AppLanguage.shared.t("settings.scrollSpeed"), value: "\(Int(scrollSpeed * 100))%", progress: $scrollSpeed, configKey: "")
             SegmentRow()
             Divider().padding(.leading, 15).opacity(0.64)
             ToggleRow(title: AppLanguage.shared.t("settings.snap"), isOn: $debugSnap)
@@ -581,15 +590,15 @@ struct ContentView: View {
     
     private func SegmentRow() -> some View {
         HStack {
-            Text("滚动方向").foregroundStyle(MC.ink)
+            Text(AppLanguage.shared.t("settings.scrollDir")).foregroundStyle(MC.ink)
             Spacer()
             HStack(spacing: 0) {
-                Text("自然").font(.system(size: 12)).frame(width: 56, height: 24)
+                Text(AppLanguage.shared.t("settings.natural")).font(.system(size: 12)).frame(width: 56, height: 24)
                     .background(scrollNatural ? Color.white.opacity(0.90) : Color.clear)
                     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                     .shadow(color: scrollNatural ? Color.black.opacity(0.12) : .clear, radius: 1.5, y: 1)
                     .onTapGesture { scrollNatural = true }
-                Text("反转").font(.system(size: 12)).frame(width: 56, height: 24)
+                Text(AppLanguage.shared.t("settings.reversed")).font(.system(size: 12)).frame(width: 56, height: 24)
                     .foregroundStyle(!scrollNatural ? Color(red: 0.17, green: 0.20, blue: 0.24) : Color(red: 0.36, green: 0.40, blue: 0.44))
                     .background(!scrollNatural ? Color.white.opacity(0.90) : Color.clear)
                     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
@@ -693,8 +702,8 @@ struct ContentView: View {
                 case .leftClick: mouseCtrl.leftClick(); if debugClickSound { NSSound(named: "Pop")?.play() }
                 case .rightClick: mouseCtrl.rightClick()
                 case .doubleClick: mouseCtrl.doubleClick(); if debugClickSound { NSSound(named: "Pop")?.play() }
-                case .scrollUp: mouseCtrl.scroll(deltaY: Int32(max(1.0, event.confidence * 10)) * (scrollNatural ? 1 : -1))
-                case .scrollDown: mouseCtrl.scroll(deltaY: -Int32(max(1.0, event.confidence * 10)) * (scrollNatural ? 1 : -1))
+                case .scrollUp: mouseCtrl.scroll(deltaY: Int32(max(1.0, scrollSpeed * 8)) * (scrollNatural ? 1 : -1))
+                case .scrollDown: mouseCtrl.scroll(deltaY: -Int32(max(1.0, scrollSpeed * 8)) * (scrollNatural ? 1 : -1))
                 case .dragStart: mouseCtrl.mouseDown()
                 case .dragEnd: mouseCtrl.mouseUp()
                 case .keyPress: keyboardCtrl.pressKey(CGKeyCode(action.actionValue.flatMap { UInt16($0) } ?? 36))
@@ -742,6 +751,10 @@ struct ContentView: View {
                 guard let handResult = handResult else {
                     handKeypoints = []
                     cursorController.handDisappeared()
+                    state.fingerMode = AppLanguage.shared.t("finger.idle")
+                    state.currentGesture = AppLanguage.shared.t("finger.idle")
+                    state.menuBarText = "空闲"; state.menuBarGreenDot = false
+                    MenuBarController.shared.refresh(text: "空闲", isGreen: false)
                     return
                 }
                 var points: [CGPoint] = []
@@ -781,7 +794,9 @@ struct ContentView: View {
                 
                 // 更新菜单栏状态
                 let pinching = detectionPipeline.isPinching
-                if pinching {
+                if pinching && !detectionPipeline.cursorFrozen {
+                    state.menuBarText = "滚动"; state.menuBarGreenDot = true
+                } else if pinching {
                     state.menuBarText = "点击"; state.menuBarGreenDot = true
                 } else if mode == .cursor {
                     state.menuBarText = "移动"; state.menuBarGreenDot = true

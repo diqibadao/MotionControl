@@ -51,7 +51,17 @@ final class MenuBarController: NSObject {
         let dotSize: CGFloat = 6
         
         let font = NSFont.systemFont(ofSize: 12, weight: .medium)
-        let textW = (text as NSString).size(withAttributes: [.font: font]).width
+        let displayText: String = {
+            switch text {
+            case "空闲": return AppLanguage.shared.t("pill.idle")
+            case "就绪": return AppLanguage.shared.t("pill.ready")
+            case "移动": return AppLanguage.shared.t("pill.move")
+            case "点击": return AppLanguage.shared.t("pill.click")
+            case "滚动": return AppLanguage.shared.t("pill.scroll")
+            default: return text
+            }
+        }()
+        let textW = (displayText as NSString).size(withAttributes: [.font: font]).width
         let pillW = padLeft + iconSize + gap + textW + padRight
         
         let image = NSImage(size: NSSize(width: pillW, height: pillH))
@@ -152,7 +162,7 @@ final class MenuBarController: NSObject {
         ]
         let textX = padLeft + iconSize + gap
         let textY = (pillH - font.pointSize) / 2 - 1
-        (text as NSString).draw(at: NSPoint(x: textX, y: textY), withAttributes: textAttr)
+        (displayText as NSString).draw(at: NSPoint(x: textX, y: textY), withAttributes: textAttr)
         
         // ── 圆点（原型 right:5px, top:6px, 6x6, #34c759 + 白环发光）──
         let dotX = pillW - dotSize - 5
@@ -194,6 +204,13 @@ final class MenuBarController: NSObject {
         headerItem.view = menuHeaderView()
         headerItem.isEnabled = false
         menu.addItem(headerItem)
+        menu.addItem(.separator())
+        
+        // 全部控制
+        let allItem = NSMenuItem()
+        allItem.view = checkMenuItemView(title: AppLanguage.shared.t("menu.all"), isOn: gestureEnabled && cursorEnabled && cameraEnabled, action: #selector(toggleAll))
+        menu.addItem(allItem)
+        
         menu.addItem(.separator())
         
         // 手势控制
@@ -336,7 +353,8 @@ final class MenuBarController: NSObject {
     
     private func updateMenuStates() {
         guard let menu = statusItem?.menu else { return }
-        let states: [Bool] = [gestureEnabled, cursorEnabled, cameraEnabled]
+        let states: [Bool] = [gestureEnabled && cursorEnabled && cameraEnabled,
+                               gestureEnabled, cursorEnabled, cameraEnabled]
         var idx = 0
         for item in menu.items {
             for sv in item.view?.subviews ?? [] {
@@ -376,6 +394,20 @@ final class MenuBarController: NSObject {
             CameraService.shared?.start()
         } else {
             CameraService.shared?.stop()
+        }
+        updateMenuStates()
+    }
+    
+    @objc private func toggleAll() {
+        let allOn = gestureEnabled && cursorEnabled && cameraEnabled
+        gestureEnabled = !allOn
+        cursorEnabled = !allOn
+        if !allOn {
+            CameraService.shared?.start()
+            cameraEnabled = true
+        } else {
+            CameraService.shared?.stop()
+            cameraEnabled = false
         }
         updateMenuStates()
     }

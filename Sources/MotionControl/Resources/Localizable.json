@@ -17,6 +17,10 @@
   "settings.cursorSpeed":  {"zh":"光标速度", "en":"Cursor Speed"},
   "settings.pinchSens":    {"zh":"捏合灵敏度", "en":"Pinch Sensitivity"},
   "settings.doubleClick":  {"zh":"双击间隔", "en":"Double-Click Interval"},
+  "settings.scrollSpeed":  {"zh":"滚动速度", "en":"Scroll Speed"},
+  "settings.scrollDir":    {"zh":"滚动方向", "en":"Scroll Direction"},
+  "settings.natural":      {"zh":"自然", "en":"Natural"},
+  "settings.reversed":     {"zh":"反转", "en":"Reversed"},
   "settings.coreParams":   {"zh":"核心参数", "en":"Core Parameters"},
   "settings.snap":         {"zh":"光标吸附", "en":"Cursor Snap"},
   "settings.clickSound":   {"zh":"点击音效", "en":"Click Sound"},
@@ -35,6 +39,7 @@
   "menu.gesture":          {"zh":"手势控制", "en":"Gesture Control"},
   "menu.cursor":           {"zh":"光标控制", "en":"Cursor Control"},
   "menu.camera.toggle":    {"zh":"摄像头", "en":"Camera"},
+  "menu.all":              {"zh":"全部控制", "en":"All Controls"},
   "menu.quit":             {"zh":"退出 MotionControl", "en":"Quit MotionControl"},
   "menu.header.running":   {"zh":"控制已开启", "en":"Control Active"},
   "menu.header.stopped":   {"zh":"控制已关闭", "en":"Control Inactive"},
@@ -45,5 +50,6 @@
   "pill.idle":             {"zh":"空闲", "en":"Idle"},
   "pill.ready":            {"zh":"就绪", "en":"Ready"},
   "pill.move":             {"zh":"移动", "en":"Move"},
-  "pill.click":            {"zh":"点击", "en":"Click"}
+  "pill.click":            {"zh":"点击", "en":"Click"},
+  "pill.scroll":           {"zh":"滚动", "en":"Scroll"}
 }

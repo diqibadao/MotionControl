@@ -14,6 +14,7 @@ final class MenuBarController: NSObject {
     var cameraEnabled: Bool = true
     var onDebugWindow: (() -> Void)?
     var onQuit: (() -> Void)?
+    private var pillWidth: CGFloat = 0
     
     // MARK: - Lifecycle
     
@@ -21,8 +22,8 @@ final class MenuBarController: NSObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         guard let button = statusItem?.button else { return }
         button.imagePosition = .imageOnly
-        button.bezelStyle = .regularSquare
         renderPill()
+        statusItem?.length = pillWidth
         statusItem?.menu = buildMenu()
     }
     
@@ -44,9 +45,10 @@ final class MenuBarController: NSObject {
         
         // 原型 CSS 参数
         let pillH: CGFloat = 24
-        let padLeft: CGFloat = 8
-        let padRight: CGFloat = 17
+        let padLeft: CGFloat = 3
+        let padRight: CGFloat = 6
         let gap: CGFloat = 5
+        let dotGap: CGFloat = 6
         let iconSize: CGFloat = 17
         let dotSize: CGFloat = 6
         
@@ -62,7 +64,7 @@ final class MenuBarController: NSObject {
             }
         }()
         let textW = (displayText as NSString).size(withAttributes: [.font: font]).width
-        let pillW = padLeft + iconSize + gap + textW + padRight
+        let pillW = padLeft + iconSize + gap + textW + dotGap + dotSize + padRight
         
         let image = NSImage(size: NSSize(width: pillW, height: pillH))
         image.lockFocus()
@@ -169,6 +171,7 @@ final class MenuBarController: NSObject {
         
         image.unlockFocus()
         image.isTemplate = false
+        pillWidth = pillW
         button.image = image
         button.imagePosition = .imageOnly
     }

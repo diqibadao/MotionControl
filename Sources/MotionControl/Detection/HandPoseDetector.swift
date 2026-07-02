@@ -154,8 +154,17 @@ struct HandPoseResult {
         let littleStr = littleTipY >= littlePIPY + CGFloat(threshold)
 
         let straightCount = [indexStr, middleStr, ringStr, littleStr].filter { $0 }.count
-        // cursor: 食指伸出（不管弯直），但其他三指不能同时伸直
-        if middleStr == false, ringStr == false, littleStr == false { return .cursor }
+        // cursor：食指关节 MCP→PIP→Tip 大致同向（夹角 < 30° = 手指伸出）
+        var indexExtended = false
+        if let mcp = indexMCP, let pip = indexPIP, let tip = indexTip {
+            let dx1 = pip.x - mcp.x; let dy1 = pip.y - mcp.y
+            let dx2 = tip.x - pip.x; let dy2 = tip.y - pip.y
+            let len1 = hypot(dx1, dy1); let len2 = hypot(dx2, dy2)
+            if len1 > 0.01 && len2 > 0.01 {
+                indexExtended = (dx1*dx2 + dy1*dy2) / (len1 * len2) > 0.85
+            }
+        }
+        if indexExtended, middleStr == false, ringStr == false, littleStr == false { return .cursor }
         if straightCount == 2 { return .scroll }
         return .idle
     }

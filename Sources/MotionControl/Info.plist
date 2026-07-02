@@ -15,9 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.7.1</string>
+	<string>0.8.3</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
 	<key>NSCameraUsageDescription</key>
 	<string>MotionControl 使用摄像头进行手势识别，实现肢体动作控制鼠标和键盘。</string>
 	<key>NSMicrophoneUsageDescription</key>

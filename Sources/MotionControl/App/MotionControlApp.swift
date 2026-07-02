@@ -676,7 +676,9 @@ struct ContentView: View {
     
     private func setupPipeline() {
         // 设置 Dock 图标
-            if NSApp.applicationIconImage == nil, let icon = NSImage(contentsOfFile: "/tmp/mc-app.icns") {
+            if NSApp.applicationIconImage == nil,
+               let iconURL = Bundle.main.url(forResource: "AppIcon", withExtension: "icns"),
+               let icon = NSImage(contentsOf: iconURL) {
                 NSApp.applicationIconImage = icon
             }
             EventLogger.startLogFile()
@@ -936,7 +938,7 @@ struct ContentView: View {
         } catch {
             EventLogger.log(event: "axHelper", frame: nil, input: "register failed, fallback to spawn", output: error.localizedDescription, duration: 0)
         }
-        // 2. 签名失败 → 委托 UIElementScanner spawn AXHelper
+        // 2. 委托 UIElementScanner spawn AXHelper
         uiScanner.spawnAXHelper()
     }
 }

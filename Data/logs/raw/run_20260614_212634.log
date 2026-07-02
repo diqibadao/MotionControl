@@ -1,5 +1,0 @@
-[2026-06-14 21:26:35] [axHelper] IN: register failed → OUT: 未能完成该操作。Codesigning failure loading plist: com.motioncontrol.axhelper code: -67028 (0ms)
-[2026-06-14 21:26:35] [axScan] IN: app=Code → OUT: elements=0 (0ms)
-[2026-06-14 21:26:35] [hand_detect] IN: hand_detect 1920x1080 → OUT: detected=true landmarks=21 confidence=0.7397461
-[2026-06-14 21:26:35] [gesture_analyze] IN: gesture_analyze type=none dist=0.0 → OUT: gesture=none confidence=0.00 isRepeat=false
-[2026-06-14 21:26:35] [KEYPOINTS] IN: handSide=unknown wrist=0.488,0.108,1 indexMCP=0.520,0.229,1 middleMCP=0.530,0.184,1 ringMCP=0.536,0.138,1 littleMCP=0.546,0.088,1 palmCenter=0.529,0.184 → OUT: 

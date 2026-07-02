@@ -82,7 +82,6 @@ private class OverlayView: NSView {
         }
 
         // 最近目标：亮黄色高亮 + 中心大点 + 连线
-        // nearestCenter 已在屏幕坐标，无需再翻转
         if let nc = nearestCenter {
             ctx.setFillColor(CGColor(red: 1, green: 0.8, blue: 0, alpha: 0.7))
             ctx.fillEllipse(in: CGRect(x: nc.x - 6, y: nc.y - 6, width: 12, height: 12))

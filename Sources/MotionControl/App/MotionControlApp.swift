@@ -897,19 +897,28 @@ struct ContentView: View {
             // 调试蒙层定时器：只在 overlay 开启后工作
             let t = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 guard ConfigManager.shared.currentConfig.debugOverlayEnabled else { return }
-                let cursor = NSEvent.mouseLocation
-                var bestCenter: CGPoint? = nil
-                var bestDist = CGFloat.greatestFiniteMagnitude
+                let cursor = NSEvent.mouseLocation  // Cocoa（y=0 底）
                 let screenH = NSScreen.main?.frame.height ?? 1080
-                for el in uiScanner.cachedElements {
-                    let cx = el.frame.midX
-                    let cy = el.frame.midY  // 统一坐标系：el.frame 和 cursor 均为 Quartz
-                    let dx = cx - cursor.x
-                    let dy = cy - cursor.y
-                    let d = sqrt(dx*dx + dy*dy)
-                    if d < bestDist { bestDist = d; bestCenter = CGPoint(x: cx, y: cy) }
+                var nearestQC: CGPoint? = nil
+                if let near = uiScanner.nearElement {
+                    nearestQC = CGPoint(x: near.frame.midX, y: near.frame.midY)  // Quartz
                 }
-                debugOverlay.update(elements: uiScanner.cachedElements, cursor: cursor, nearestCenter: bestCenter)
+                // 没命中时 fallback：找所有元素中圆心最近的
+                if nearestQC == nil {
+                    var bestDist = CGFloat.greatestFiniteMagnitude
+                    for el in uiScanner.cachedElements {
+                        let dx = el.frame.midX - cursor.x
+                        let dy = (screenH - el.frame.midY) - cursor.y  // 翻到 Cocoa 算距离
+                        let d = sqrt(dx*dx + dy*dy)
+                        if d < bestDist { bestDist = d; nearestQC = CGPoint(x: el.frame.midX, y: el.frame.midY) }
+                    }
+                }
+                // nearestCenter 从 AX 的 Quartz 翻到 Cocoa
+                var nearestCocoa: CGPoint? = nil
+                if let nc = nearestQC {
+                    nearestCocoa = CGPoint(x: nc.x, y: screenH - nc.y)
+                }
+                debugOverlay.update(elements: uiScanner.cachedElements, cursor: cursor, nearestCenter: nearestCocoa)
             }
             RunLoop.current.add(t, forMode: .common)
             self.overlayTimer = t

@@ -27,7 +27,7 @@ struct ScanRequest: Codable {
 let interactiveRoles = Set([
     "AXButton", "AXRadioButton", "AXPopUpButton", "AXCheckBox",
     "AXMenuButton", "AXComboBox", "AXTextField", "AXTextArea",
-    "AXSlider", "AXTab", "AXScrollBar", "AXTabGroup", "AXToolbar",
+    "AXSlider", "AXTab",
     "AXMenuItem", "AXMenuBarItem", "AXDockItem", "AXImage",
 ])
 

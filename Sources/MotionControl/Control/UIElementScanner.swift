@@ -108,7 +108,16 @@ public class UIElementScanner: ObservableObject {
                     EventLogger.log(event: "axEl", frame: nil,
                         input: "pid=\(el.owningPID) role=\(el.role)", output: "title=\(el.title) frame=(\(Int(el.frame.origin.x)),\(Int(el.frame.origin.y)),\(Int(el.frame.width)),\(Int(el.frame.height)))", duration: 0)
                 }
-                self.cachedElements = visible
+                if visible.isEmpty {
+                    if CFAbsoluteTimeGetCurrent() - self.lastScanSuccess < 3.0 {
+                        // AXHelper 暂时掉线，保留旧缓存避免蒙层闪烁
+                    } else {
+                        self.cachedElements = []
+                    }
+                } else {
+                    self.lastScanSuccess = CFAbsoluteTimeGetCurrent()
+                    self.cachedElements = visible
+                }
             }
         }
     }
@@ -214,6 +223,9 @@ public class UIElementScanner: ObservableObject {
             guard let myIdx = windows.firstIndex(where: { $0.pid == el.owningPID }) else {
                 return true  // Dock/系统元素无窗口 → 保留
             }
+
+            // 元素必须在所属窗口范围内（杀滚动溢出的隐藏元素）
+            guard windows[myIdx].bounds.contains(center) else { return false }
 
             // 检查更高层窗口是否盖住了中心点
             for i in 0..<myIdx {

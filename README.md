@@ -58,14 +58,6 @@ This repository contains privacy-proof source files:
 
 Nothing is transmitted. No analytics. No telemetry.
 
-## Roadmap & Star goals
-
-MotionControl is built by a solo developer. If you find this useful, **give it a Star ⭐️**.
-
-- **100 Stars** — customizable gesture sensitivity settings  
-- **500 Stars** — multi-monitor support  
-- **1000 Stars** — 🚀 I will completely open source the core gesture recognition engine  
-
 ## License
 
 CC BY-NC-ND 4.0 — view only, no commercial use, no derivatives.

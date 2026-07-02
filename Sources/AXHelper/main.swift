@@ -28,6 +28,7 @@ let interactiveRoles = Set([
     "AXButton", "AXRadioButton", "AXPopUpButton", "AXCheckBox",
     "AXMenuButton", "AXComboBox", "AXTextField", "AXTextArea",
     "AXSlider", "AXTab", "AXScrollBar", "AXTabGroup", "AXToolbar",
+    "AXMenuItem", "AXMenuBarItem", "AXDockItem", "AXImage",
 ])
 
 func getAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
@@ -48,6 +49,16 @@ func performAXScan(windows: [ScanRequest.WindowInfo]) -> [ElementDTO] {
     // 扫 CGWindowList 里的所有 APP 窗口
     for w in windows {
         scanAppWindow(pid_t(w.pid))
+    }
+
+    // 底部 Dock
+    if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
+        scanAppWindow(dock.processIdentifier)
+    }
+
+    // 右上角系统图标
+    if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
+        scanAppWindow(sysui.processIdentifier)
     }
 
     // 焦点元素

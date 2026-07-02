@@ -27,6 +27,7 @@ public class UIElementScanner: ObservableObject {
     private var consecutiveFailures = 0
     private let maxFailures = 3
     private var axHelperProcess: Process?
+    private var lastScanSuccess: CFAbsoluteTime = 0
 
     public init() {}
 

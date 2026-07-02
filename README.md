@@ -2,8 +2,6 @@
 
 Control your Mac with hand gestures — using just your webcam.
 
-![screenshot](https://github.com/diqibadao/MotionControl/raw/main/screenshot.png)
-
 ## Features
 
 | Gesture | Action |
@@ -18,13 +16,6 @@ Control your Mac with hand gestures — using just your webcam.
 - **Menu bar** — toggle gesture/cursor/camera independently
 
 All processing runs locally. No data leaves your machine.
-
-## Download
-
-[Download latest DMG](https://github.com/diqibadao/MotionControl/releases/latest)
-
-> Requires macOS 14+ and a built-in/external webcam.
-> Currently free. No account required.
 
 ## Build from source
 

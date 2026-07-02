@@ -28,7 +28,14 @@ All processing runs **100% locally**. No data ever leaves your machine.
 - Built-in or external webcam (720p+ recommended)
 - Xcode 15+ (for building from source)
 
-## Build from source
+## Try it out
+
+### Option 1: Download pre-built app (recommended)
+
+Pre-built `.dmg` coming once Developer ID certificate is approved.  
+For now, build from source below.
+
+### Option 2: Build from source (open-source modules only)
 
 ```bash
 git clone https://github.com/diqibadao/MotionControl.git
@@ -38,7 +45,7 @@ swift build -c release
 ```
 
 > Core gesture recognition and cursor algorithms are not in this repository.
-> For the full experience, build the complete project from your local copy.
+> This build includes the privacy-proof modules only (camera, scanning, permissions).
 
 ## Privacy
 
@@ -50,6 +57,14 @@ This repository contains privacy-proof source files:
 - `PermissionManager.swift` — all permission requests and their purpose
 
 Nothing is transmitted. No analytics. No telemetry.
+
+## Roadmap & Star goals
+
+MotionControl is built by a solo developer. If you find this useful, **give it a Star ⭐️**.
+
+- **100 Stars** — customizable gesture sensitivity settings  
+- **500 Stars** — multi-monitor support  
+- **1000 Stars** — 🚀 I will completely open source the core gesture recognition engine  
 
 ## License
 

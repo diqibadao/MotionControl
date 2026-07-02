@@ -92,7 +92,7 @@ class CursorController {
     private var smoothVx: CGFloat = 0
     private var smoothVy: CGFloat = 0
     private let velocityEMAAlpha: CGFloat = 0.5
-    private var lastUpdateTime: Date = .distantPast
+    private var lastUpdateTime: CFAbsoluteTime = 0
 
     /// 60fps 补帧用的 velocity（只读，由 updateWithDelta 更新）
     var displayVelocityX: CGFloat { smoothVx }
@@ -122,7 +122,7 @@ class CursorController {
     ///   - sensitivity: 灵敏度倍率
     ///   - dt: 两帧之间的时间间隔（秒），用于速度自适应
     func updateWithDelta(tip: CGPoint, lastTip: CGPoint, screenSize: CGSize, sensitivity: Float, dt: TimeInterval = 1.0/15.0) {
-        lastUpdateTime = Date()  // 重置衰减计时，避免定时器衰减打架
+        lastUpdateTime = CFAbsoluteTimeGetCurrent()  // 重置衰减计时，避免定时器衰减打架
 
         let rawDx = (lastTip.x - tip.x)
         let rawDy = (tip.y - lastTip.y)
@@ -196,13 +196,11 @@ class CursorController {
     private let gapThreshold: TimeInterval = 0.2        // >200ms 视为帧丢失
     private let gapRecoveryWindow: TimeInterval = 0.3   // 300ms 内从预测收敛到真实目标
 
-    /// 手进入画面时重置滤波器，光标从当前位置开始
+    /// 手进入画面时，仅长时间断联才重置滤波器，短间隙平滑过渡
     func handAppeared() {
-        filterX.reset()
-        filterY.reset()
-        filterTimeBase = 0
+        let now = CFAbsoluteTimeGetCurrent()
         fingerActive = true
-        prevUpdateTime = 0
+        prevUpdateTime = ProcessInfo.processInfo.systemUptime
         prevTarget = .zero
         screenVelocityX = 0
         screenVelocityY = 0
@@ -215,9 +213,6 @@ class CursorController {
 
     /// 手离开画面时重置
     func handDisappeared() {
-        filterX.reset()
-        filterY.reset()
-        filterTimeBase = 0
         fingerActive = false
         prevUpdateTime = 0
         prevTarget = .zero
@@ -378,7 +373,7 @@ class CursorController {
                             duration: nil)
         }
 
-        lastUpdateTime = Date()
+        lastUpdateTime = CFAbsoluteTimeGetCurrent()
         fingerActive = true
 
         // 边界裁剪
@@ -416,7 +411,7 @@ class CursorController {
     /// 衰减速度（补帧定时器每帧调用）
     /// 仅在 updateWithDelta 超过 50ms 未调用时才衰减，避免和 EMA 更新打架
     func decayVelocity(by factor: CGFloat = 0.95) {
-        guard Date().timeIntervalSince(lastUpdateTime) > 0.05 else { return }
+        guard CFAbsoluteTimeGetCurrent() - lastUpdateTime > 0.05 else { return }
         smoothVx *= factor
         smoothVy *= factor
     }

@@ -8,7 +8,7 @@ class PermissionManager {
     
     func checkAll() async -> (camera: Bool, mic: Bool, speech: Bool, accessibility: Bool) {
         async let camera = checkCamera()
-        async let mic = checkMicrophone()
+        async let mic: Bool = false
         // Speech 权限检查仅在 App Bundle 环境下执行（CLI 调用 SFSpeechRecognizer API 会 TCC SIGABRT）
         let speech = await checkSpeechSafe()
         let accessibility = checkAccessibility()
@@ -30,16 +30,6 @@ class PermissionManager {
         switch status {
         case .authorized: return true
         case .notDetermined: return await AVCaptureDevice.requestAccess(for: .video)
-        case .denied, .restricted: return false
-        @unknown default: return false
-        }
-    }
-    
-    func checkMicrophone() async -> Bool {
-        let status = AVCaptureDevice.authorizationStatus(for: .audio)
-        switch status {
-        case .authorized: return true
-        case .notDetermined: return await AVCaptureDevice.requestAccess(for: .audio)
         case .denied, .restricted: return false
         @unknown default: return false
         }

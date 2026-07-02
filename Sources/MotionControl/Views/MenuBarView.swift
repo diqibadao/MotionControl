@@ -245,6 +245,11 @@ final class MenuBarController: NSObject {
         
         menu.addItem(.separator())
         
+        // 关于
+        let aboutItem = NSMenuItem(title: AppLanguage.shared.t("menu.about"), action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+        
         // 退出
         let quitItem = NSMenuItem(title: AppLanguage.shared.t("menu.quit"), action: #selector(quitApp), keyEquivalent: "q")
         quitItem.keyEquivalentModifierMask = .command
@@ -397,6 +402,16 @@ final class MenuBarController: NSObject {
     
     @objc private func openDebug() { onDebugWindow?() }
     @objc private func quitApp() { onQuit?() }
+    
+    @objc private func showAbout() {
+        let alert = NSAlert()
+        alert.messageText = "MotionControl"
+        let ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        alert.informativeText = "v\(ver)\n\n\(AppLanguage.shared.isChinese ? "当前版本免费试用，无功能限制。\n未来版本将推出付费计划。" : "This version is free with all features.\nFuture versions will include paid plans.")"
+        alert.alertStyle = .informational
+        alert.icon = NSApp.applicationIconImage
+        alert.runModal()
+    }
     
     @objc private func switchLanguage(_ sender: NSMenuItem) {
         AppLanguage.shared.isChinese = (sender.title == AppLanguage.shared.t("menu.lang.zh"))

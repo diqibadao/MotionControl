@@ -41,6 +41,7 @@
   "menu.camera.toggle":    {"zh":"摄像头", "en":"Camera"},
   "menu.all":              {"zh":"全部控制", "en":"All Controls"},
   "menu.quit":             {"zh":"退出 MotionControl", "en":"Quit MotionControl"},
+  "menu.about":            {"zh":"关于 MotionControl", "en":"About MotionControl"},
   "menu.header.running":   {"zh":"控制已开启", "en":"Control Active"},
   "menu.header.stopped":   {"zh":"控制已关闭", "en":"Control Inactive"},
   "finger.cursor":         {"zh":"光标", "en":"CURSOR"},

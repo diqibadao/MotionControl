@@ -30,9 +30,9 @@ All processing runs **100% locally**. No data ever leaves your machine.
 
 ## Status
 
-MotionControl 处于早期开发阶段。此仓库中的源代码仅用于**安全审查**，不包含核心手势引擎，因此不可编译运行。
+MotionControl 处于早期开发阶段。此仓库中的源代码仅用于**安全审查**，不包含核心手势引擎。
 
-安装包将在开发者证书就绪后发布。
+安装包已发布：[**Download MotionControl.dmg**](https://github.com/diqibadao/MotionControl/releases/latest)（macOS 14+，需要摄像头）
 
 ## Privacy
 

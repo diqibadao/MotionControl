@@ -51,7 +51,7 @@ class PermissionManager {
     }
     
     func checkAccessibility() -> Bool {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: false]
+        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
         return AXIsProcessTrustedWithOptions(options)
     }
     

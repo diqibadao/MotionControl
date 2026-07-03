@@ -3,17 +3,29 @@
 <plist version="1.0">
 <dict>
 	<key>files</key>
-	<dict/>
+	<dict>
+		<key>Resources/AppIcon.icns</key>
+		<data>
+		QK2A0ZvmCloZvOvOSKrOSqDqMWY=
+		</data>
+	</dict>
 	<key>files2</key>
 	<dict>
 		<key>MacOS/AXHelper</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			M3M7al+FcSMIcK5sM72SGyg5g/I=
+			uSCTGHWcD/09jS21kUzCX6FfY2c=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"33733b6a5f8571230870ae6c33bd921b283983f2"</string>
+			<string>identifier AXHelper and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J5V4KAAAY3</string>
+		</dict>
+		<key>Resources/AppIcon.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ox8JT06/mqdNANGbVcm09reBYTjpjXOle+ekJiBYUt8=
+			</data>
 		</dict>
 	</dict>
 	<key>rules</key>

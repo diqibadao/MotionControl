@@ -5,7 +5,7 @@ import ApplicationServices
 /// 鼠标控制器，使用 CGEvent 模拟鼠标操作。
 class MouseController {
 
-    private let isTrusted = AXIsProcessTrusted()
+    private var isTrusted: Bool { AXIsProcessTrusted() }
 
     init() {
         print("[AX] trusted=\(isTrusted)")
@@ -42,9 +42,9 @@ class MouseController {
     /// 左键单击
     func leftClick(at point: CGPoint? = nil) {
         guard isTrusted else {
-            EventLogger.log(event: "leftClick", frame: nil,
-                            input: "point: \(point ?? NSEvent.mouseLocation)",
-                            output: "Accessibility permission not granted", duration: nil)
+            EventLogger.log(event: "leftClick", frame: nil, input: "requesting", output: "prompting", duration: nil)
+            let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
+            AXIsProcessTrustedWithOptions(options)
             return
         }
         let rawPos = point ?? NSEvent.mouseLocation

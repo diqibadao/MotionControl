@@ -41,7 +41,6 @@ public class UIElementScanner: ObservableObject {
 
     public func stop() {
         cursorTimer?.cancel(); cursorTimer = nil; cachedElements = []
-        killAXHelper()
     }
 
     // MARK: - Tick（0.5s 定时，无任何触发条件）
@@ -82,24 +81,18 @@ public class UIElementScanner: ObservableObject {
             // 1. 拿屏幕上所有可见窗口
             let windows = self.visibleWindows()
             // 2. 构建请求 → 发 AXHelper → 收结果
-            let rawElements = self.socketScan(windows: windows)
+let reqWindows = windows.map { AXScanner.WindowInfo(pid: $0.pid, bounds: [Double($0.bounds.origin.x),Double($0.bounds.origin.y),Double($0.bounds.width),Double($0.bounds.height)], layer: $0.layer) }
+            let scanResult = AXScanner.scan(windows: reqWindows)
+            let rawElements: [UIElementInfo] = scanResult.compactMap { el in
+                guard el.frame.count == 4 else { return nil }
+                return UIElementInfo(role: el.role, title: el.title, frame: CGRect(x: el.frame[0], y: el.frame[1], width: el.frame[2], height: el.frame[3]), isEnabled: true, subrole: nil, owningPID: el.pid)
+            }
             // 3. 遮挡过滤
             let visible = self.filterVisible(rawElements, windows: windows)
             let elapsed = CFAbsoluteTimeGetCurrent() - t0
 
             DispatchQueue.main.async {
                 self.isScanning = false
-                // AXHelper 挂了检测：连续失败 N 次 → 自动重启
-                if visible.isEmpty && !windows.isEmpty {
-                    self.consecutiveFailures += 1
-                    if self.consecutiveFailures >= self.maxFailures {
-                        EventLogger.log(event: "axHelper", frame: nil, input: "dead, respawning", output: "failures=\(self.consecutiveFailures)", duration: 0)
-                        self.spawnAXHelper()
-                        self.consecutiveFailures = 0
-                    }
-                } else {
-                    self.consecutiveFailures = 0
-                }
                 let pidBreakdown = Dictionary(grouping: visible, by: { $0.owningPID }).map { "pid\($0.key)=\($0.value.count)" }.joined(separator: " ")
                 EventLogger.log(event: "axScan", frame: nil,
                     input: "windows=\(windows.count)", output: "raw=\(rawElements.count) visible=\(visible.count) [\(pidBreakdown)]", duration: elapsed)
@@ -120,35 +113,6 @@ public class UIElementScanner: ObservableObject {
                 }
             }
         }
-    }
-
-    // MARK: - AXHelper 生命周期
-
-    /// 启动（或重启）AXHelper 进程。先杀旧进程，再 spawn 新的。
-    public func spawnAXHelper() {
-        killAXHelper()
-        guard let execURL = Bundle.main.executableURL else { return }
-        let axHelperURL = execURL.deletingLastPathComponent().appendingPathComponent("AXHelper")
-        let task = Process()
-        task.executableURL = axHelperURL
-        task.standardOutput = FileHandle.nullDevice
-        task.standardError = FileHandle.nullDevice
-        do {
-            try task.run()
-            axHelperProcess = task
-            EventLogger.log(event: "axHelper", frame: nil, input: "spawned", output: "pid=\(task.processIdentifier)", duration: 0)
-        } catch {
-            EventLogger.log(event: "axHelper", frame: nil, input: "spawn failed", output: error.localizedDescription, duration: 0)
-        }
-    }
-
-    /// 终止 AXHelper 进程并清理 socket
-    public func killAXHelper() {
-        if let p = axHelperProcess {
-            p.terminate()
-            axHelperProcess = nil
-        }
-        unlink(socketPath)
     }
 
     // MARK: - 窗口列表
@@ -236,71 +200,5 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
-    // MARK: - Socket 通信
 
-    private func socketScan(windows: [WindowInfo]) -> [UIElementInfo] {
-        let request: [String: Any] = [
-            "windows": windows.map { [
-                "pid": $0.pid,
-                "bounds": [Double($0.bounds.origin.x), Double($0.bounds.origin.y), Double($0.bounds.width), Double($0.bounds.height)],
-                "layer": $0.layer
-            ] }
-        ]
-        guard let reqJSON = try? JSONSerialization.data(withJSONObject: request) else { return [] }
-
-        var addr = sockaddr_un(); addr.sun_family = sa_family_t(AF_UNIX)
-        socketPath.withCString { strcpy(&addr.sun_path.0, $0) }
-        let addrLen = socklen_t(MemoryLayout<sockaddr_un>.size)
-
-        let sock = socket(AF_UNIX, SOCK_STREAM, 0)
-        guard sock >= 0 else { return [] }
-        defer { close(sock) }
-
-        let flags = fcntl(sock, F_GETFL, 0)
-        _ = fcntl(sock, F_SETFL, flags | O_NONBLOCK)
-
-        let addrPtr = withUnsafePointer(to: &addr) { $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { $0 } }
-        let connResult = connect(sock, addrPtr, addrLen)
-        if connResult < 0 && errno == EINPROGRESS {
-            var pfd = pollfd(fd: sock, events: Int16(POLLOUT), revents: 0)
-            if poll(&pfd, 1, 3000) <= 0 { return [] }
-        } else if connResult < 0 {
-            return []
-        }
-
-        _ = fcntl(sock, F_SETFL, flags)
-
-        // 发送请求
-        var lenBE = UInt32(reqJSON.count).bigEndian
-        _ = reqJSON.withUnsafeBytes { ptr in
-            write(sock, &lenBE, 4)
-            write(sock, ptr.baseAddress!, reqJSON.count)
-        }
-
-        // 读取响应
-        var tv = timeval(tv_sec: 5, tv_usec: 0)
-        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, socklen_t(MemoryLayout<timeval>.size))
-
-        var respLenBE: UInt32 = 0
-        guard read(sock, &respLenBE, 4) == 4 else { return [] }
-        let respLen = Int(UInt32(bigEndian: respLenBE))
-        guard respLen > 0, respLen < 10_000_000 else { return [] }
-
-        var data = Data(); var remaining = respLen
-        var buf = [UInt8](repeating: 0, count: min(remaining, 4096))
-        while remaining > 0 {
-            let n = read(sock, &buf, min(remaining, buf.count))
-            guard n > 0 else { return [] }
-            data.append(contentsOf: buf[0..<n]); remaining -= n
-        }
-
-        struct H: Codable { let role: String; let frame: [Double]; let title: String; let pid: Int }
-        guard let list = try? JSONDecoder().decode([H].self, from: data) else { return [] }
-        return list.compactMap { el in
-            guard el.frame.count == 4 else { return nil }
-            return UIElementInfo(role: el.role, title: el.title,
-                frame: CGRect(x: el.frame[0], y: el.frame[1], width: el.frame[2], height: el.frame[3]),
-                isEnabled: true, subrole: nil, owningPID: el.pid)
-        }
-    }
 }

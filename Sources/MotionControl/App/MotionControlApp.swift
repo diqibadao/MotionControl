@@ -948,6 +948,5 @@ struct ContentView: View {
             EventLogger.log(event: "axHelper", frame: nil, input: "register failed, fallback to spawn", output: error.localizedDescription, duration: 0)
         }
         // 2. 委托 UIElementScanner spawn AXHelper
-        uiScanner.spawnAXHelper()
     }
 }

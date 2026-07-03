@@ -28,11 +28,11 @@ All processing runs **100% locally**. No data ever leaves your machine.
 - Built-in or external webcam (720p+ recommended)
 - Xcode 15+ (for building from source)
 
-## Status
+## Download
 
-MotionControl 处于早期开发阶段。此仓库中的源代码仅用于**安全审查**，不包含核心手势引擎。
+[**Download MotionControl.dmg**](https://github.com/diqibadao/MotionControl/releases/latest)
 
-安装包已发布：[**Download MotionControl.dmg**](https://github.com/diqibadao/MotionControl/releases/latest)（macOS 14+，需要摄像头）
+macOS 14+ · Apple Silicon · 需要摄像头 + 辅助功能权限
 
 ## Privacy
 

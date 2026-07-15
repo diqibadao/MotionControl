@@ -234,6 +234,7 @@ if CommandLine.arguments.contains("--xpc") {
         }
 
         let t0 = CFAbsoluteTimeGetCurrent()
+        fputs("[AXHelper] trusted=\(AXIsProcessTrusted()) windows=\(windows.map { String($0.pid) }.joined(separator: ","))\n", stderr)
         let elements = performAXScan(windows: windows)
         let elapsed = (CFAbsoluteTimeGetCurrent() - t0) * 1000
         fputs("[AXHelper] scanned \(elements.count) elements from \(windows.count) windows in \(Int(elapsed))ms\n", stderr)

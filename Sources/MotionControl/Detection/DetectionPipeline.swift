@@ -63,6 +63,9 @@ class DetectionPipeline: CameraOutputDelegate {
             if let handResult = self.handPoseDetector.detect(in: sampleBuffer) {
                 self.lastHand = handResult
                 let gestureEvent = self.gestureAnalyzer.analyze(handResult)
+                if gestureEvent.gestureType != .none {
+                    EventLogger.log(event: "pipeline", frame: nil, input: "dispatching \(gestureEvent.gestureType.rawValue)", output: "onGesture=\(self.onGesture != nil ? "set" : "nil")", duration: nil)
+                }
                 DispatchQueue.main.async {
                     self.onGesture?(gestureEvent)
                     self.onHandResult?(handResult, frameDt)

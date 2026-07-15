@@ -688,14 +688,17 @@ struct ContentView: View {
             }
             // 手势事件 → 动作映射管线
             detectionPipeline.onGesture = { event in
-                // 食指弯曲(.indexTap)=左键单击，其他手势按配置映射
-#if DEBUG
-                print("[DEBUG] onGesture called, type=\(event.gestureType)")
-#endif
+                EventLogger.log(event: "onGesture", frame: nil, input: "type=\(event.gestureType.rawValue) repeat=\(event.isRepeat)", output: "", duration: nil)
                 guard !event.isRepeat else { return }
-                guard MenuBarController.shared.gestureEnabled else { return }  // ← 手势控制开关
+                guard MenuBarController.shared.gestureEnabled else {
+                    EventLogger.log(event: "onGesture", frame: nil, input: "gestureDisabled", output: "skip", duration: nil)
+                    return
+                }
                 let config = ConfigManager.shared.currentConfig
-                guard let action = config.gestureMapping[event.gestureType.rawValue], action.isEnabled else { return }
+                guard let action = config.gestureMapping[event.gestureType.rawValue], action.isEnabled else {
+                    EventLogger.log(event: "onGesture", frame: nil, input: "no mapping for \(event.gestureType.rawValue)", output: "skip", duration: nil)
+                    return
+                }
                 switch action.actionType {
                 case .mouseMove:
                     let screen = NSScreen.main?.frame.size ?? CGSize(width: 1440, height: 900)
@@ -880,15 +883,18 @@ struct ContentView: View {
             let configuredDeviceID = ConfigManager.shared.currentConfig.cameraDeviceID
             // 请求权限后启动摄像头（延迟等窗口完全进入前台）
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                EventLogger.log(event: "camera", frame: nil, input: "requestAccess", output: "status=\(status.rawValue)", duration: nil)
                 AVCaptureDevice.requestAccess(for: .video) { granted in
                     DispatchQueue.main.async {
                         state.cameraGranted = granted
-                        cameraService.start(withDeviceID: configuredDeviceID.isEmpty ? nil : configuredDeviceID)
+                        EventLogger.log(event: "camera", frame: nil, input: "granted=\(granted)", output: granted ? "starting" : "denied", duration: nil)
+                        if granted {
+                            cameraService.start(withDeviceID: configuredDeviceID.isEmpty ? nil : configuredDeviceID)
+                        }
                     }
                 }
             }
-            // 注册 AXHelper LaunchAgent（首次需用户授权）
-            registerAXHelper()
             // 初始化：关闭调试蒙层
             ConfigManager.shared.currentConfig.debugOverlayEnabled = false
             debugOverlay.stop()
@@ -935,18 +941,5 @@ struct ContentView: View {
         debugOverlay.stop()
         EventLogger.stopLogFile()
     }
-    
-    /// 启动 AXHelper：优先 LaunchAgent，签名失败则委托 uiScanner spawn
-    private func registerAXHelper() {
-        // 1. 尝试 LaunchAgent 注册
-        do {
-            let agent = SMAppService.agent(plistName: "com.motioncontrol.axhelper")
-            try agent.register()
-            EventLogger.log(event: "axHelper", frame: nil, input: "launchAgent registered", output: "status=\(agent.status.rawValue)", duration: 0)
-            return
-        } catch {
-            EventLogger.log(event: "axHelper", frame: nil, input: "register failed, fallback to spawn", output: error.localizedDescription, duration: 0)
-        }
-        // 2. 委托 UIElementScanner spawn AXHelper
-    }
+
 }

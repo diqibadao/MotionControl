@@ -137,12 +137,14 @@ class CameraService: NSObject {
 
             guard let selectedDevice = device else {
                 print("CameraService: no camera available")
+                EventLogger.log(event: "camera", frame: nil, input: "configure", output: "no device", duration: nil)
                 return
             }
 
             guard let input = try? AVCaptureDeviceInput(device: selectedDevice),
                   self.session.canAddInput(input) else {
                 print("CameraService: could not add camera input")
+                EventLogger.log(event: "camera", frame: nil, input: "configure", output: "input failed: \(selectedDevice.localizedName)", duration: nil)
                 return
             }
             self.session.addInput(input)
@@ -163,6 +165,7 @@ class CameraService: NSObject {
             self.session.addOutput(self.videoOutput)
 
             self.isConfigured = true
+            EventLogger.log(event: "camera", frame: nil, input: "configure", output: "ok device=\(selectedDevice.localizedName) preset=640x480", duration: nil)
         }
     }
 }

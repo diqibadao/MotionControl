@@ -8,6 +8,18 @@
 		<data>
 		QK2A0ZvmCloZvOvOSKrOSqDqMWY=
 		</data>
+		<key>Resources/Localizable.json</key>
+		<data>
+		UHvTyYb+tS+EFLBdwsuzDqmwO00=
+		</data>
+		<key>Resources/MotionControl_MotionControl.bundle/Localizable.json</key>
+		<data>
+		UHvTyYb+tS+EFLBdwsuzDqmwO00=
+		</data>
+		<key>Resources/MotionControl_MotionControl.bundle/MotionControl_MotionControl.bundle/Localizable.json</key>
+		<data>
+		UHvTyYb+tS+EFLBdwsuzDqmwO00=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -15,16 +27,37 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			uSCTGHWcD/09jS21kUzCX6FfY2c=
+			0A6ClC1IudCtg+OkVcQDGHFgnFs=
 			</data>
 			<key>requirement</key>
-			<string>identifier AXHelper and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J5V4KAAAY3</string>
+			<string>identifier "com.motioncontrol.axhelper" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J5V4KAAAY3</string>
 		</dict>
 		<key>Resources/AppIcon.icns</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			ox8JT06/mqdNANGbVcm09reBYTjpjXOle+ekJiBYUt8=
+			</data>
+		</dict>
+		<key>Resources/Localizable.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TWs07kwtdzCkFxptAcTJIPbMIiMY9tgdtpdM7wx2VpI=
+			</data>
+		</dict>
+		<key>Resources/MotionControl_MotionControl.bundle/Localizable.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TWs07kwtdzCkFxptAcTJIPbMIiMY9tgdtpdM7wx2VpI=
+			</data>
+		</dict>
+		<key>Resources/MotionControl_MotionControl.bundle/MotionControl_MotionControl.bundle/Localizable.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			TWs07kwtdzCkFxptAcTJIPbMIiMY9tgdtpdM7wx2VpI=
 			</data>
 		</dict>
 	</dict>

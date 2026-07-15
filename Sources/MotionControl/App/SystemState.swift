@@ -19,6 +19,10 @@ final class SystemState {
     var mouthOpenRatio: Float = 0
     var mouthStatus: MouthStatus = .closed
     
+    var fingerMode: String = "IDLE"
+    var menuBarText: String = "空闲"
+    var menuBarGreenDot: Bool = false
+    
     // 语音
     var voiceState: String = "idle"
     var voiceText: String = ""

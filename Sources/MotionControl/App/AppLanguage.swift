@@ -28,7 +28,8 @@ final class AppLanguage {
     }
     
     private func loadJSON() {
-        guard let url = Bundle.module.url(forResource: "Localizable", withExtension: "json"),
+        let url = Bundle.main.url(forResource: "Localizable", withExtension: "json")
+        guard let url = url,
               let data = try? Data(contentsOf: url),
               let json = try? JSONSerialization.jsonObject(with: data) as? [String: [String: String]]
         else { return }

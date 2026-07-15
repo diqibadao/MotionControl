@@ -1,54 +1,36 @@
 # MotionControl
 
-Control your Mac with hand gestures — using just your webcam.
+**Gesture-based Mac control — assistive technology for everyone**
 
-All processing runs **100% locally**. No data ever leaves your machine.
+MotionControl is a macOS assistive application that enables hands-free computer control using an ordinary USB or built-in camera. It allows users to move the cursor, click, and scroll through intuitive hand gestures — no keyboard, mouse, or trackpad required.
+
+## Who is this for?
+
+- Users with limited hand or arm mobility
+- Individuals seeking to reduce repetitive strain injuries
+- Anyone exploring more natural human-computer interaction
 
 ## Features
 
-| Gesture | Action |
-|---------|--------|
-| ✋ Extend index finger | Move cursor |
-| 👆 Pinch index + thumb | Left click |
-| 👇 Pinch twice quickly | Double click |
-| ✊ Pinch & drag up/down | Scroll |
-| ✋ Pinch & hold | Drag start / end |
+- **Cursor Control** — Move the mouse pointer by moving your hand
+- **Pinch to Click** — Pinch thumb and index finger together for a left click
+- **Pinch to Scroll** — Pinch and move your hand vertically to scroll through content
+- **UI Element Snap** — Automatic detection and magnetic snap of buttons and text fields
 
-**Element overlay** — every clickable element on screen is highlighted with a green box. See exactly where you can click before you move your hand.
+## How It Works
 
-**Cursor snap** — cursor automatically snaps to the nearest button center when your hand is close. No more pixel-hunting.
+MotionControl uses Apple's Vision framework to track 21 hand keypoints and 76 facial landmarks in real time. A 1-Euro adaptive filter ensures smooth, jitter-free cursor movement. All processing is performed locally on your device.
 
-**Privacy-first design** — camera stream stays on your machine. Open source privacy proof files let anyone verify.
+## System Requirements
 
-**Menu bar control** — independent toggles for gesture detection, cursor movement, and camera preview.
-
-## Requirements
-
-- macOS 14 (Sonoma) or later
-- Built-in or external webcam (720p+ recommended)
-- Xcode 15+ (for building from source)
-
-## Download
-
-[**Download MotionControl.dmg**](https://github.com/diqibadao/MotionControl/releases/latest)
-
-macOS 14+ · Apple Silicon · 需要摄像头 + 辅助功能权限
+- macOS 14.0 (Sonoma) or later
+- Any USB or built-in camera
+- Accessibility permission (granted via System Settings)
 
 ## Privacy
 
-This repository contains privacy-proof source files:
+All video processing runs locally on your device. No data is collected, stored, or transmitted. No network connection is required.
 
-- `CameraService.swift` — the entire camera pipeline, open for inspection
-- `UIElementScanner.swift` — accessibility scanning scope and depth
-- `AXHelper/main.swift` — AX tree traversal implementation
-- `PermissionManager.swift` — all permission requests and their purpose
+## Support
 
-Nothing is transmitted. No analytics. No telemetry.
-
-## License
-
-CC BY-NC-ND 4.0 — view only, no commercial use, no derivatives.
-
----
-
-**Bug reports & feature requests**: [Open an issue](https://github.com/diqibadao/MotionControl/issues)
+For questions or issues, please open an issue on [GitHub Issues](https://github.com/diqibadao/MotionControl/issues).

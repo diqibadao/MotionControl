@@ -1,23 +1,36 @@
 # MotionControl
 
-**手势操控你的 Mac，免触控辅助工具**
+**Gesture-based Mac control — assistive technology for everyone**
 
-通过普通摄像头实现免触控电脑操控，专为行动不便和有特殊需求的用户设计。
+MotionControl is a macOS assistive application that enables hands-free computer control using an ordinary USB or built-in camera. It allows users to move the cursor, click, and scroll through intuitive hand gestures — no keyboard, mouse, or trackpad required.
 
-## 功能
+## Who is this for?
 
-- 手指移动控制光标
-- 捏合点击、双击、滚动
-- 界面元素自动吸附
+- Users with limited hand or arm mobility
+- Individuals seeking to reduce repetitive strain injuries
+- Anyone exploring more natural human-computer interaction
 
-## 下载
+## Features
 
-从 Mac App Store 搜索 "MotionControl" 安装。
+- **Cursor Control** — Move the mouse pointer by moving your hand
+- **Pinch to Click** — Pinch thumb and index finger together for a left click
+- **Pinch to Scroll** — Pinch and move your hand vertically to scroll through content
+- **UI Element Snap** — Automatic detection and magnetic snap of buttons and text fields
 
-## 系统要求
+## How It Works
 
-macOS 14.0+，需要摄像头和辅助功能权限。
+MotionControl uses Apple's Vision framework to track 21 hand keypoints and 76 facial landmarks in real time. A 1-Euro adaptive filter ensures smooth, jitter-free cursor movement. All processing is performed locally on your device.
 
-## 支持
+## System Requirements
 
-如有问题请通过 GitHub Issues 联系我们。
+- macOS 14.0 (Sonoma) or later
+- Any USB or built-in camera
+- Accessibility permission (granted via System Settings)
+
+## Privacy
+
+All video processing runs locally on your device. No data is collected, stored, or transmitted. No network connection is required.
+
+## Support
+
+For questions or issues, please open an issue on [GitHub Issues](https://github.com/diqibadao/MotionControl/issues).

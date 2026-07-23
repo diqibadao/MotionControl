@@ -9,8 +9,8 @@ class PermissionManager {
     func checkAll() async -> (camera: Bool, mic: Bool, speech: Bool, accessibility: Bool) {
         async let camera = checkCamera()
         async let mic: Bool = false
-        // Speech 权限检查仅在 App Bundle 环境下执行（CLI 调用 SFSpeechRecognizer API 会 TCC SIGABRT）
-        let speech = await checkSpeechSafe()
+        // 语音识别暂未启用（v1.0 不包含此功能）
+        let speech = false
         let accessibility = checkAccessibility()
         return await (camera, mic, speech, accessibility)
     }

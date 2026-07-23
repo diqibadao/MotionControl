@@ -1,5 +1,5 @@
 // Sources/MotionControl/Control/UIElementScanner.swift
-// 所见即所得：CGWindowList → 所有屏幕窗口 → 遮挡过滤 → 只标用户看得见的按钮
+// 沙盒兼容版：AXUIElementCopyElementAtPosition（光标点查）+ 前台 App 一层扫描
 import AppKit
 import Combine
 import Foundation
@@ -21,10 +21,9 @@ public struct UIElementInfo: Identifiable, Equatable {
 public class UIElementScanner: ObservableObject {
     @Published public var nearElement: UIElementInfo? = nil
     public private(set) var cachedElements: [UIElementInfo] = []
-    private var cursorTimer: DispatchSourceTimer?
+    private var tickTimer: DispatchSourceTimer?
+    private var scanTimer: DispatchSourceTimer?
     private var isScanning = false
-    private var consecutiveFailures = 0
-    private let maxFailures = 3
     private var lastScanSuccess: CFAbsoluteTime = 0
 
     public init() {}
@@ -34,39 +33,47 @@ public class UIElementScanner: ObservableObject {
         t.schedule(deadline: .now() + 0.5, repeating: .milliseconds(500), leeway: .milliseconds(50))
         t.setEventHandler { [weak self] in self?.tick() }
         t.activate()
-        cursorTimer = t
+        tickTimer = t
+
+        let st = DispatchSource.makeTimerSource(queue: .global())
+        st.schedule(deadline: .now() + 1.0, repeating: .seconds(5), leeway: .seconds(1))
+        st.setEventHandler { [weak self] in self?.triggerScan() }
+        st.activate()
+        scanTimer = st
     }
 
     public func stop() {
-        cursorTimer?.cancel(); cursorTimer = nil; cachedElements = []
+        tickTimer?.cancel(); tickTimer = nil
+        scanTimer?.cancel(); scanTimer = nil
+        cachedElements = []
     }
 
-    // MARK: - Tick（0.5s 定时，无任何触发条件）
+    // MARK: - Tick（0.5s）
 
     private func tick() {
         let cursor = NSEvent.mouseLocation
-        let screenSize = NSScreen.main?.frame.size ?? CGSize(width: 1920, height: 1080)
-        let axCursor = cursor  // 统一坐标系：cursor 和 el.frame 均为 Quartz，无需翻转
 
-        triggerScan()
-
-        // nearElement 匹配
-        if let near = nearElement, near.frame.contains(axCursor) { return }
-        for el in cachedElements {
-            if el.frame.contains(axCursor) {
-                if nearElement?.id != el.id {
-                    EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(axCursor.x)),\(Int(axCursor.y)))", output: "role=\(el.role) title=\(el.title)", duration: 0)
+        // 用 AXUIElementCopyElementAtPosition 点查光标位置
+        if let el = elementAt(position: cursor), isInteractive(role: el.role) {
+            nearElement = el
+        } else {
+            // fallback：从缓存匹配
+            if let near = nearElement, near.frame.contains(cursor) { return }
+            for el in cachedElements {
+                if el.frame.contains(cursor) {
+                    nearElement = el; return
                 }
-                nearElement = el; return
             }
+            nearElement = nil
         }
-        if nearElement != nil {
-            EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(axCursor.x)),\(Int(axCursor.y)))", output: "lost", duration: 0)
+
+        // 首次启动后立即触发一次扫描
+        if cachedElements.isEmpty && !isScanning {
+            triggerScan()
         }
-        nearElement = nil
     }
 
-    // MARK: - 扫描
+    // MARK: - 扫描（5s 间隔）
 
     private func triggerScan() {
         guard !isScanning else { return }
@@ -77,17 +84,12 @@ public class UIElementScanner: ObservableObject {
             let t0 = CFAbsoluteTimeGetCurrent()
 
             let windows = self.visibleWindows()
-            let rawElements = self.directScan(windows: windows)
+            let rawElements = self.scanElements(windows: windows)
             let visible = self.filterVisible(rawElements, windows: windows)
             let elapsed = CFAbsoluteTimeGetCurrent() - t0
 
             DispatchQueue.main.async {
                 self.isScanning = false
-                if visible.isEmpty && !windows.isEmpty {
-                    self.consecutiveFailures += 1
-                } else {
-                    self.consecutiveFailures = 0
-                }
                 let pidBreakdown = Dictionary(grouping: visible, by: { $0.owningPID }).map { "pid\($0.key)=\($0.value.count)" }.joined(separator: " ")
                 EventLogger.log(event: "axScan", frame: nil,
                     input: "windows=\(windows.count)", output: "raw=\(rawElements.count) visible=\(visible.count) [\(pidBreakdown)]", duration: elapsed)
@@ -95,111 +97,126 @@ public class UIElementScanner: ObservableObject {
                     EventLogger.log(event: "axEl", frame: nil,
                         input: "pid=\(el.owningPID) role=\(el.role)", output: "title=\(el.title) frame=(\(Int(el.frame.origin.x)),\(Int(el.frame.origin.y)),\(Int(el.frame.width)),\(Int(el.frame.height)))", duration: 0)
                 }
-                if visible.isEmpty {
-                    if CFAbsoluteTimeGetCurrent() - self.lastScanSuccess < 3.0 {
-                        // AXHelper 暂时掉线，保留旧缓存避免蒙层闪烁
-                    } else {
-                        self.cachedElements = []
-                    }
-                } else {
+                if !visible.isEmpty {
                     self.lastScanSuccess = CFAbsoluteTimeGetCurrent()
                     self.cachedElements = visible
+                } else if CFAbsoluteTimeGetCurrent() - self.lastScanSuccess > 10.0 {
+                    self.cachedElements = []
                 }
             }
         }
     }
 
-    // MARK: - 直接 AX 扫描（主 App 有 AX 权限，无需子进程）
+    // MARK: - AXUIElementCopyElementAtPosition（沙盒兼容）
+
+    /// 查询指定屏幕坐标处的 UI 元素（系统级 API，沙盒 + AX 权限下可用）
+    public func elementAt(position: CGPoint) -> UIElementInfo? {
+        let systemWide = AXUIElementCreateSystemWide()
+        var element: AXUIElement?
+        let err = AXUIElementCopyElementAtPosition(systemWide, Float(position.x), Float(position.y), &element)
+        guard err == .success, let elem = element else { return nil }
+        return extractInfo(from: elem)
+    }
+
+    // MARK: - 一层扫描（只读前台 App + Dock + SystemUIServer 的窗口直接子元素）
 
     private let interactiveRoles = Set([
         "AXButton", "AXRadioButton", "AXPopUpButton", "AXCheckBox",
         "AXMenuButton", "AXComboBox", "AXTextField", "AXTextArea",
-        "AXSlider", "AXTab",
+        "AXSlider", "AXTab", "AXDisclosureTriangle", "AXLink",
         "AXMenuItem", "AXMenuBarItem", "AXDockItem", "AXImage",
+        "AXRow", "AXCell", "AXScrollBar",
     ])
 
-    private func directScan(windows: [WindowInfo]) -> [UIElementInfo] {
+    private func isInteractive(role: String) -> Bool {
+        interactiveRoles.contains(role)
+    }
+
+    private func scanElements(windows: [WindowInfo]) -> [UIElementInfo] {
         var collected: [UIElementInfo] = []
 
-        func walk(element: AXUIElement, depth: Int, pid: pid_t) {
-            guard depth <= 25 else { return }
-            var roleCF: CFTypeRef?
-            guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &roleCF) == .success,
-                  let role = roleCF as? String else { return }
-
-            var frame = CGRect.zero
-            if let posVal = getAXAttr(element, kAXPositionAttribute as String) {
-                let axVal = unsafeBitCast(posVal, to: AXValue.self)
-                if AXValueGetType(axVal) == .cgPoint { var p = CGPoint.zero; AXValueGetValue(axVal, .cgPoint, &p); frame.origin = p }
-            }
-            if let sizeVal = getAXAttr(element, kAXSizeAttribute as String) {
-                let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
-                if AXValueGetType(axVal) == .cgSize { var s = CGSize.zero; AXValueGetValue(axVal, .cgSize, &s); frame.size = s }
-            }
-
-            let area = frame.width * frame.height
-            let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
-            if interactiveRoles.contains(role), frame.width > 0, frame.height > 0, area < 50000, frame.intersects(screenFrame) {
-                let title = (getAXAttr(element, kAXTitleAttribute as String) as? String) ?? ""
-                collected.append(UIElementInfo(role: role, title: title, frame: frame,
-                    isEnabled: true, subrole: nil, owningPID: Int(pid)))
-            }
-
-            guard let children = getAXAttr(element, kAXChildrenAttribute as String) else { return }
-            guard CFGetTypeID(children) == CFArrayGetTypeID() else { return }
-            let arr = children as! CFArray
-            for i in 0..<CFArrayGetCount(arr) {
-                walk(element: unsafeBitCast(CFArrayGetValueAtIndex(arr, i), to: AXUIElement.self), depth: depth + 1, pid: pid)
-            }
-        }
-
-        func scanApp(pid: pid_t) {
-            guard pid > 0 else { return }
-            walk(element: AXUIElementCreateApplication(pid), depth: 0, pid: pid)
-        }
-
+        // 扫描所有可见窗口所属 App（一层：窗口 → 子元素，不递归）
+        var scannedPIDs = Set<pid_t>()
         for w in windows {
-            scanApp(pid: pid_t(w.pid))
+            let pid = pid_t(w.pid)
+            guard pid > 0, !scannedPIDs.contains(pid) else { continue }
+            scannedPIDs.insert(pid)
+            scanAppOneLevel(pid: pid, into: &collected)
+            if collected.count >= 200 { break }
         }
+
         // Dock
         if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-            scanApp(pid: dock.processIdentifier)
-        }
-        // SystemUIServer
-        if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
-            scanApp(pid: sysui.processIdentifier)
+            scanAppOneLevel(pid: dock.processIdentifier, into: &collected)
         }
 
-        // 焦点元素
-        let sysWide = AXUIElementCreateSystemWide()
-        var focusedEl: CFTypeRef?
-        if AXUIElementCopyAttributeValue(sysWide, kAXFocusedUIElementAttribute as CFString, &focusedEl) == .success,
-           let el = focusedEl {
-            let axEl = el as! AXUIElement
-            var roleCF: CFTypeRef?
-            if AXUIElementCopyAttributeValue(axEl, kAXRoleAttribute as CFString, &roleCF) == .success,
-               let role = roleCF as? String {
-                var frame = CGRect.zero
-                if let pv = getAXAttr(axEl, kAXPositionAttribute as String) {
-                    let av = unsafeBitCast(pv, to: AXValue.self)
-                    if AXValueGetType(av) == .cgPoint { var p = CGPoint.zero; AXValueGetValue(av, .cgPoint, &p); frame.origin = p }
-                }
-                if let sv = getAXAttr(axEl, kAXSizeAttribute as String) {
-                    let av = unsafeBitCast(sv, to: AXValue.self)
-                    if AXValueGetType(av) == .cgSize { var s = CGSize.zero; AXValueGetValue(av, .cgSize, &s); frame.size = s }
-                }
-                if frame.width > 0, frame.height > 0 {
-                    var elPid: pid_t = 0; AXUIElementGetPid(axEl, &elPid)
-                    let title = (getAXAttr(axEl, kAXTitleAttribute as String) as? String)
-                        ?? (getAXAttr(axEl, kAXValueAttribute as String) as? String) ?? ""
-                    let info = UIElementInfo(role: role, title: title, frame: frame,
-                        isEnabled: true, subrole: nil, owningPID: Int(elPid))
+        // SystemUIServer（菜单栏）
+        if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
+            scanAppOneLevel(pid: sysui.processIdentifier, into: &collected)
+        }
+
+        return collected
+    }
+
+    /// 只扫描一层：App → 窗口 → 窗口的直接子元素（不递归孙子节点）
+    private func scanAppOneLevel(pid: pid_t, into collected: inout [UIElementInfo]) {
+        let appEl = AXUIElementCreateApplication(pid)
+
+        guard let windowsRef = getAXAttr(appEl, kAXWindowsAttribute as String) else { return }
+        guard CFGetTypeID(windowsRef) == CFArrayGetTypeID() else { return }
+        let windowArr = windowsRef as! CFArray
+        let windowCount = CFArrayGetCount(windowArr)
+
+        for wi in 0..<min(windowCount, 50) {
+            guard collected.count < 200 else { break }
+            let winEl = unsafeBitCast(CFArrayGetValueAtIndex(windowArr, wi), to: AXUIElement.self)
+
+            guard let childrenRef = getAXAttr(winEl, kAXChildrenAttribute as String) else { continue }
+            guard CFGetTypeID(childrenRef) == CFArrayGetTypeID() else { continue }
+            let childArr = childrenRef as! CFArray
+            let childCount = CFArrayGetCount(childArr)
+
+            for ci in 0..<min(childCount, 500) {
+                guard collected.count < 200 else { break }
+                let childEl = unsafeBitCast(CFArrayGetValueAtIndex(childArr, ci), to: AXUIElement.self)
+                if let info = extractInfo(from: childEl, pid: Int(pid)), isInteractive(role: info.role) {
                     collected.append(info)
                 }
             }
         }
+    }
 
-        return collected
+    // MARK: - 提取 UIElementInfo
+
+    private func extractInfo(from element: AXUIElement, pid: Int? = nil) -> UIElementInfo? {
+        guard let role = getAXAttr(element, kAXRoleAttribute as String) as? String else { return nil }
+
+        var frame = CGRect.zero
+        if let posVal = getAXAttr(element, kAXPositionAttribute as String) {
+            let axVal = unsafeBitCast(posVal, to: AXValue.self)
+            if AXValueGetType(axVal) == .cgPoint { var p = CGPoint.zero; AXValueGetValue(axVal, .cgPoint, &p); frame.origin = p }
+        }
+        if let sizeVal = getAXAttr(element, kAXSizeAttribute as String) {
+            let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
+            if AXValueGetType(axVal) == .cgSize { var s = CGSize.zero; AXValueGetValue(axVal, .cgSize, &s); frame.size = s }
+        }
+
+        let area = frame.width * frame.height
+        guard frame.width > 0, frame.height > 0, area < 50000 else { return nil }
+
+        let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
+        guard frame.intersects(screenFrame) else { return nil }
+
+        let title = (getAXAttr(element, kAXTitleAttribute as String) as? String) ?? ""
+        let owningPID: Int
+        if let p = pid {
+            owningPID = p
+        } else {
+            var elPid: pid_t = 0; AXUIElementGetPid(element, &elPid); owningPID = Int(elPid)
+        }
+
+        return UIElementInfo(role: role, title: title, frame: frame,
+            isEnabled: true, subrole: nil, owningPID: owningPID)
     }
 
     private func getAXAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
@@ -207,7 +224,7 @@ public class UIElementScanner: ObservableObject {
         return AXUIElementCopyAttributeValue(el, attr as CFString, &v) == .success ? v : nil
     }
 
-    // MARK: - 窗口列表
+    // MARK: - 窗口列表（CGWindowList，沙盒 OK）
 
     private struct WindowInfo {
         let pid: Int; let bounds: CGRect; let layer: Int
@@ -219,9 +236,8 @@ public class UIElementScanner: ObservableObject {
         let myPID = ProcessInfo.processInfo.processIdentifier
         let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸", "程序坞"])
 
-        var result: [WindowInfo] = []
-        var pidBounds: [Int: CGRect] = [:]  // PID → 所有窗口的并集矩形
-        var pidLayer: [Int: Int] = [:]      // PID → 最上层窗口的 layer
+        var pidBounds: [Int: CGRect] = [:]
+        var pidLayer: [Int: Int] = [:]
         for win in list {
             let pid = win[kCGWindowOwnerPID as String] as? pid_t ?? 0
             let name = win[kCGWindowOwnerName as String] as? String ?? ""
@@ -236,13 +252,14 @@ public class UIElementScanner: ObservableObject {
             let intPID = Int(pid)
             let rect = CGRect(x: bounds["X"] ?? 0, y: bounds["Y"] ?? 0, width: bw, height: bh)
             if let existing = pidBounds[intPID] {
-                pidBounds[intPID] = existing.union(rect)  // 并集矩形
+                pidBounds[intPID] = existing.union(rect)
             } else {
                 pidBounds[intPID] = rect
                 pidLayer[intPID] = Int(layer)
             }
         }
-        // 按 CGWindowList 原始顺序输出（顶到底），PID 去重，bounds 取并集
+
+        var result: [WindowInfo] = []
         var seenPID = Set<Int>()
         for win in list {
             let pid = win[kCGWindowOwnerPID as String] as? pid_t ?? 0
@@ -259,7 +276,7 @@ public class UIElementScanner: ObservableObject {
             let unionBounds = pidBounds[intPID] ?? .zero
             result.append(WindowInfo(pid: intPID, bounds: unionBounds, layer: pidLayer[intPID] ?? 0))
         }
-        return result  // CGWindowList 原始顺序 = 从顶到底
+        return result
     }
 
     // MARK: - 遮挡过滤
@@ -270,26 +287,18 @@ public class UIElementScanner: ObservableObject {
 
         return elements.filter { el in
             let center = CGPoint(x: el.frame.midX, y: el.frame.midY)
-
-            // 中心点必须在屏幕内，底部留 30px 杀 Finder 隐藏工具栏
             guard center.x > 0 && center.x < screenRect.maxX,
                   center.y > 0 && center.y < screenRect.maxY - 30 else { return false }
 
-            // 用 PID 匹配元素所属窗口
             guard let myIdx = windows.firstIndex(where: { $0.pid == el.owningPID }) else {
-                return true  // Dock/系统元素无窗口 → 保留
+                return true
             }
-
-            // 元素必须在所属窗口范围内（杀滚动溢出的隐藏元素）
             guard windows[myIdx].bounds.contains(center) else { return false }
 
-            // 检查更高层窗口是否盖住了中心点
             for i in 0..<myIdx {
-                let upper = windows[i]
-                if upper.bounds.contains(center) { return false }
+                if windows[i].bounds.contains(center) { return false }
             }
             return true
         }
     }
-
 }

@@ -105,7 +105,12 @@ public class UIElementScanner: ObservableObject {
 
     // MARK: - AX 扫描（UNIX Socket → 独立 AXHelper 进程）
 
-    private let axSocketPath = "/tmp/com.motioncontrol.axhelper.sock"
+    // 关键：socket 必须在 App 沙盒容器内！
+    // 沙盒 App 中 NSHomeDirectory() 已经指向容器内 Data/ 目录
+    // 所以 socket 路径就是 NSHomeDirectory() + "tmp/axhelper.sock"
+    private var axSocketPath: String {
+        return NSHomeDirectory() + "/tmp/axhelper.sock"
+    }
 
     private func scanElements(windows: [WindowInfo]) -> [UIElementInfo] {
         let windowDTOs: [[String: Any]] = windows.map { w in
@@ -123,6 +128,7 @@ public class UIElementScanner: ObservableObject {
         let addrLen = socklen_t(MemoryLayout<sockaddr_un>.size)
 
         guard connect(sock, UnsafeRawPointer(&addr).assumingMemoryBound(to: sockaddr.self), addrLen) == 0 else {
+            let err = String(cString: strerror(errno))
             return []
         }
 

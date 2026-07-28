@@ -116,11 +116,17 @@ func walk(element: AXUIElement, depth: Int, collected: inout [ElementDTO], maxDe
 
 // MARK: - UNIX Socket Server
 
+// 关键：socket 必须在 App 沙盒容器内！
+// 沙盒 App 无法访问 /tmp 等沙盒外路径
+// postinstall 用 launchctl asuser 启动，HOME 指向 console user
 let socketPath: String
 if let idx = CommandLine.arguments.firstIndex(of: "--socket") {
     socketPath = CommandLine.arguments[idx + 1]
 } else {
-    socketPath = "/tmp/com.motioncontrol.axhelper.sock"
+    // 默认在 console user 的 home 容器内（postinstall 启动，HOME 是 user 的）
+    // 例如：/Users/diqibadao/Library/Containers/com.motioncontrol.app/Data/tmp/axhelper.sock
+    let home = ProcessInfo.processInfo.environment["HOME"] ?? NSHomeDirectory()
+    socketPath = "\(home)/Library/Containers/com.motioncontrol.app/Data/tmp/axhelper.sock"
 }
 
 let sock = socket(AF_UNIX, SOCK_STREAM, 0)
@@ -134,7 +140,10 @@ guard bind(sock, UnsafeRawPointer(&addr).assumingMemoryBound(to: sockaddr.self),
     fputs("[AXHelper] bind failed: \(String(cString: strerror(errno)))\n", stderr); exit(1)
 }
 guard listen(sock, 5) == 0 else { fputs("[AXHelper] listen failed\n", stderr); exit(1) }
-fputs("[AXHelper] listening on \(socketPath)\n", stderr)
+
+// 关键：设置 socket 权限为 0666（rw-rw-rw-），让 sandbox App 可连
+chmod(socketPath, 0o666)
+fputs("[AXHelper] listening on \(socketPath) (perms=0666)\n", stderr)
 
 signal(SIGTERM) { _ in fputs("[AXHelper] exiting\n", stderr); exit(0) }
 signal(SIGINT)  { _ in fputs("[AXHelper] exiting\n", stderr); exit(0) }

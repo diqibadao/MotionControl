@@ -1,5 +1,5 @@
 // Sources/MotionControl/Control/UIElementScanner.swift
-// 沙盒兼容版：AXUIElementCopyElementAtPosition（光标点查）+ 前台 App 一层扫描
+// 沙盒兼容版：CGWindowList 窗口发现 → UNIX Socket → 独立 AXHelper 进程（无沙盒）做 AX 扫描
 import AppKit
 import Combine
 import Foundation
@@ -53,21 +53,21 @@ public class UIElementScanner: ObservableObject {
     private func tick() {
         let cursor = NSEvent.mouseLocation
 
-        // 用 AXUIElementCopyElementAtPosition 点查光标位置
-        if let el = elementAt(position: cursor), isInteractive(role: el.role) {
-            nearElement = el
-        } else {
-            // fallback：从缓存匹配
-            if let near = nearElement, near.frame.contains(cursor) { return }
-            for el in cachedElements {
-                if el.frame.contains(cursor) {
-                    nearElement = el; return
+        // nearElement 匹配
+        if let near = nearElement, near.frame.contains(cursor) { return }
+        for el in cachedElements {
+            if el.frame.contains(cursor) {
+                if nearElement?.id != el.id {
+                    EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))", output: "role=\(el.role) title=\(el.title)", duration: nil)
                 }
+                nearElement = el; return
             }
-            nearElement = nil
         }
+        if nearElement != nil {
+            EventLogger.log(event: "axMatch", frame: nil, input: "cursor=(\(Int(cursor.x)),\(Int(cursor.y)))", output: "lost", duration: nil)
+        }
+        nearElement = nil
 
-        // 首次启动后立即触发一次扫描
         if cachedElements.isEmpty && !isScanning {
             triggerScan()
         }
@@ -93,10 +93,6 @@ public class UIElementScanner: ObservableObject {
                 let pidBreakdown = Dictionary(grouping: visible, by: { $0.owningPID }).map { "pid\($0.key)=\($0.value.count)" }.joined(separator: " ")
                 EventLogger.log(event: "axScan", frame: nil,
                     input: "windows=\(windows.count)", output: "raw=\(rawElements.count) visible=\(visible.count) [\(pidBreakdown)]", duration: elapsed)
-                for el in visible {
-                    EventLogger.log(event: "axEl", frame: nil,
-                        input: "pid=\(el.owningPID) role=\(el.role)", output: "title=\(el.title) frame=(\(Int(el.frame.origin.x)),\(Int(el.frame.origin.y)),\(Int(el.frame.width)),\(Int(el.frame.height)))", duration: 0)
-                }
                 if !visible.isEmpty {
                     self.lastScanSuccess = CFAbsoluteTimeGetCurrent()
                     self.cachedElements = visible
@@ -107,121 +103,104 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
-    // MARK: - AXUIElementCopyElementAtPosition（沙盒兼容）
+    // MARK: - AX 扫描（UNIX Socket → 独立 AXHelper 进程）
 
-    /// 查询指定屏幕坐标处的 UI 元素（系统级 API，沙盒 + AX 权限下可用）
-    public func elementAt(position: CGPoint) -> UIElementInfo? {
-        let systemWide = AXUIElementCreateSystemWide()
-        var element: AXUIElement?
-        let err = AXUIElementCopyElementAtPosition(systemWide, Float(position.x), Float(position.y), &element)
-        guard err == .success, let elem = element else { return nil }
-        return extractInfo(from: elem)
+    private var axSocketPath: String {
+        return NSHomeDirectory() + "/Data/tmp/axhelper.sock"
     }
 
-    // MARK: - 一层扫描（只读前台 App + Dock + SystemUIServer 的窗口直接子元素）
+    /// 安装并启动 AXHelper LaunchAgent（首次启动时调用）
+    /// App Store 审核注意：LaunchAgent 注册属于标准 macOS 行为，辅助功能类 App（如 Alfred、BetterTouchTool）均使用此模式
+    private func ensureAXHelperRunning() {
+        guard !FileManager.default.fileExists(atPath: axSocketPath) else { return }
 
-    private let interactiveRoles = Set([
-        "AXButton", "AXRadioButton", "AXPopUpButton", "AXCheckBox",
-        "AXMenuButton", "AXComboBox", "AXTextField", "AXTextArea",
-        "AXSlider", "AXTab", "AXDisclosureTriangle", "AXLink",
-        "AXMenuItem", "AXMenuBarItem", "AXDockItem", "AXImage",
-        "AXRow", "AXCell", "AXScrollBar",
-    ])
+        let bundlePath = Bundle.main.bundlePath
+        let helperBin = bundlePath + "/Contents/MacOS/AXHelper"
+        let plistSrc = bundlePath + "/Contents/Resources/com.motioncontrol.axhelper.plist"
+        let plistDst = NSHomeDirectory() + "/Library/LaunchAgents/com.motioncontrol.axhelper.plist"
 
-    private func isInteractive(role: String) -> Bool {
-        interactiveRoles.contains(role)
+        guard FileManager.default.fileExists(atPath: helperBin) else { return }
+
+        // 写入 LaunchAgent plist（替换占位符）
+        if FileManager.default.fileExists(atPath: plistSrc),
+           let tmpl = try? String(contentsOfFile: plistSrc, encoding: .utf8) {
+            let plist = tmpl.replacingOccurrences(of: "__AXHELPER_PATH__", with: helperBin)
+                          .replacingOccurrences(of: "__SOCKET_PATH__", with: axSocketPath)
+            try? FileManager.default.createDirectory(atPath: NSHomeDirectory() + "/Library/LaunchAgents", withIntermediateDirectories: true)
+            try? plist.write(toFile: plistDst, atomically: true, encoding: .utf8)
+        }
+
+        // 启动 LaunchAgent
+        let proc = Process()
+        proc.executableURL = URL(fileURLWithPath: "/bin/launchctl")
+        proc.arguments = ["bootstrap", "gui/\(getuid())", plistDst]
+        proc.standardOutput = FileHandle.nullDevice
+        proc.standardError = FileHandle.nullDevice
+        try? proc.run(); proc.waitUntilExit()
+
+        // 等 socket 就绪（最多 5s）
+        for _ in 0..<50 {
+            if FileManager.default.fileExists(atPath: axSocketPath) { break }
+            Thread.sleep(forTimeInterval: 0.1)
+        }
     }
 
     private func scanElements(windows: [WindowInfo]) -> [UIElementInfo] {
-        var collected: [UIElementInfo] = []
+        ensureAXHelperRunning()
 
-        // 扫描所有可见窗口所属 App（一层：窗口 → 子元素，不递归）
-        var scannedPIDs = Set<pid_t>()
-        for w in windows {
-            let pid = pid_t(w.pid)
-            guard pid > 0, !scannedPIDs.contains(pid) else { continue }
-            scannedPIDs.insert(pid)
-            scanAppOneLevel(pid: pid, into: &collected)
-            if collected.count >= 200 { break }
+        let windowDTOs: [[String: Any]] = windows.map { w in
+            return ["pid": w.pid, "bounds": [Double(w.bounds.origin.x), Double(w.bounds.origin.y), Double(w.bounds.width), Double(w.bounds.height)], "layer": w.layer]
+        }
+        guard let reqData = try? JSONSerialization.data(withJSONObject: ["windows": windowDTOs]) else { return [] }
+
+        let sock = socket(AF_UNIX, SOCK_STREAM, 0)
+        guard sock >= 0 else { return [] }
+        defer { close(sock) }
+
+        var addr = sockaddr_un()
+        addr.sun_family = sa_family_t(AF_UNIX)
+        axSocketPath.withCString { strcpy(&addr.sun_path.0, $0) }
+        let addrLen = socklen_t(MemoryLayout<sockaddr_un>.size)
+
+        guard connect(sock, UnsafeRawPointer(&addr).assumingMemoryBound(to: sockaddr.self), addrLen) == 0 else {
+            return []
         }
 
-        // Dock
-        if let dock = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-            scanAppOneLevel(pid: dock.processIdentifier, into: &collected)
+        var len = UInt32(reqData.count).bigEndian
+        _ = reqData.withUnsafeBytes { ptr in
+            write(sock, &len, 4)
+            write(sock, ptr.baseAddress!, reqData.count)
         }
 
-        // SystemUIServer（菜单栏）
-        if let sysui = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.systemuiserver").first {
-            scanAppOneLevel(pid: sysui.processIdentifier, into: &collected)
+        var respLenBE: UInt32 = 0
+        guard read(sock, &respLenBE, 4) == 4 else { return [] }
+        let respLen = Int(UInt32(bigEndian: respLenBE))
+        guard respLen > 0, respLen < 500_000 else { return [] }
+
+        var respData = Data()
+        var remaining = respLen
+        var buf = [UInt8](repeating: 0, count: min(remaining, 8192))
+        while remaining > 0 {
+            let n = read(sock, &buf, min(remaining, buf.count))
+            guard n > 0 else { break }
+            respData.append(contentsOf: buf[0..<n])
+            remaining -= n
         }
 
-        return collected
+        guard let list = try? JSONDecoder().decode([ElementDTO].self, from: respData) else { return [] }
+        return list.compactMap { el -> UIElementInfo? in
+            guard el.frame.count == 4 else { return nil }
+            let f = el.frame
+            let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
+            let rect = CGRect(x: f[0], y: f[1], width: f[2], height: f[3])
+            guard rect.width > 0, rect.height > 0, rect.width * rect.height < 50000, rect.intersects(screenFrame) else { return nil }
+            return UIElementInfo(role: el.role, title: el.title, frame: rect,
+                                 isEnabled: true, subrole: nil, owningPID: el.pid)
+        }
     }
 
-    /// 只扫描一层：App → 窗口 → 窗口的直接子元素（不递归孙子节点）
-    private func scanAppOneLevel(pid: pid_t, into collected: inout [UIElementInfo]) {
-        let appEl = AXUIElementCreateApplication(pid)
-
-        guard let windowsRef = getAXAttr(appEl, kAXWindowsAttribute as String) else { return }
-        guard CFGetTypeID(windowsRef) == CFArrayGetTypeID() else { return }
-        let windowArr = windowsRef as! CFArray
-        let windowCount = CFArrayGetCount(windowArr)
-
-        for wi in 0..<min(windowCount, 50) {
-            guard collected.count < 200 else { break }
-            let winEl = unsafeBitCast(CFArrayGetValueAtIndex(windowArr, wi), to: AXUIElement.self)
-
-            guard let childrenRef = getAXAttr(winEl, kAXChildrenAttribute as String) else { continue }
-            guard CFGetTypeID(childrenRef) == CFArrayGetTypeID() else { continue }
-            let childArr = childrenRef as! CFArray
-            let childCount = CFArrayGetCount(childArr)
-
-            for ci in 0..<min(childCount, 500) {
-                guard collected.count < 200 else { break }
-                let childEl = unsafeBitCast(CFArrayGetValueAtIndex(childArr, ci), to: AXUIElement.self)
-                if let info = extractInfo(from: childEl, pid: Int(pid)), isInteractive(role: info.role) {
-                    collected.append(info)
-                }
-            }
-        }
-    }
-
-    // MARK: - 提取 UIElementInfo
-
-    private func extractInfo(from element: AXUIElement, pid: Int? = nil) -> UIElementInfo? {
-        guard let role = getAXAttr(element, kAXRoleAttribute as String) as? String else { return nil }
-
-        var frame = CGRect.zero
-        if let posVal = getAXAttr(element, kAXPositionAttribute as String) {
-            let axVal = unsafeBitCast(posVal, to: AXValue.self)
-            if AXValueGetType(axVal) == .cgPoint { var p = CGPoint.zero; AXValueGetValue(axVal, .cgPoint, &p); frame.origin = p }
-        }
-        if let sizeVal = getAXAttr(element, kAXSizeAttribute as String) {
-            let axVal = unsafeBitCast(sizeVal, to: AXValue.self)
-            if AXValueGetType(axVal) == .cgSize { var s = CGSize.zero; AXValueGetValue(axVal, .cgSize, &s); frame.size = s }
-        }
-
-        let area = frame.width * frame.height
-        guard frame.width > 0, frame.height > 0, area < 50000 else { return nil }
-
-        let screenFrame = NSScreen.main?.frame ?? CGRect(x: 0, y: 0, width: 1920, height: 1080)
-        guard frame.intersects(screenFrame) else { return nil }
-
-        let title = (getAXAttr(element, kAXTitleAttribute as String) as? String) ?? ""
-        let owningPID: Int
-        if let p = pid {
-            owningPID = p
-        } else {
-            var elPid: pid_t = 0; AXUIElementGetPid(element, &elPid); owningPID = Int(elPid)
-        }
-
-        return UIElementInfo(role: role, title: title, frame: frame,
-            isEnabled: true, subrole: nil, owningPID: owningPID)
-    }
-
-    private func getAXAttr(_ el: AXUIElement, _ attr: String) -> CFTypeRef? {
-        var v: CFTypeRef?
-        return AXUIElementCopyAttributeValue(el, attr as CFString, &v) == .success ? v : nil
+    private struct ElementDTO: Codable {
+        let role: String; let frame: [Double]; let title: String; let pid: Int
     }
 
     // MARK: - 窗口列表（CGWindowList，沙盒 OK）
@@ -234,7 +213,7 @@ public class UIElementScanner: ObservableObject {
         guard let list = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as? [[String: Any]] else { return [] }
 
         let myPID = ProcessInfo.processInfo.processIdentifier
-        let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸", "程序坞"])
+        let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸"])
 
         var pidBounds: [Int: CGRect] = [:]
         var pidLayer: [Int: Int] = [:]
@@ -290,13 +269,17 @@ public class UIElementScanner: ObservableObject {
             guard center.x > 0 && center.x < screenRect.maxX,
                   center.y > 0 && center.y < screenRect.maxY - 30 else { return false }
 
+            // Dock、SystemUIServer、没有窗口匹配的元素 → 保留
             guard let myIdx = windows.firstIndex(where: { $0.pid == el.owningPID }) else {
                 return true
             }
             guard windows[myIdx].bounds.contains(center) else { return false }
 
+            // 遮挡检查：仅当更高层窗口来自不同 PID 时才算遮挡（同 App 多窗口不遮挡自己）
             for i in 0..<myIdx {
-                if windows[i].bounds.contains(center) { return false }
+                let upper = windows[i]
+                if upper.pid == el.owningPID { continue }
+                if upper.bounds.contains(center) { return false }
             }
             return true
         }

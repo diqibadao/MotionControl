@@ -27,10 +27,10 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			0A6ClC1IudCtg+OkVcQDGHFgnFs=
+			BQDtm4wDTvxgOel9b1ied3GKpqU=
 			</data>
 			<key>requirement</key>
-			<string>identifier "com.motioncontrol.axhelper" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = J5V4KAAAY3</string>
+			<string>identifier "com.motioncontrol.axhelper" and anchor apple generic and certificate leaf[subject.CN] = "3rd Party Mac Developer Application: wang bangdong (J5V4KAAAY3)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
 		<key>Resources/AppIcon.icns</key>
 		<dict>

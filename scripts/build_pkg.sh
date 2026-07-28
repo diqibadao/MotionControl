@@ -7,7 +7,7 @@ BUILD_DIR="$PROJECT_DIR/build"
 VERSION="0.9.0"
 SIGN_APP="E8C6A3F3FD92B4EF51BD9DA41151883D1EBBFFB8"
 SIGN_PKG="3rd Party Mac Developer Installer: wang bangdong (J5V4KAAAY3)"
-OUTPUT_PKG="/tmp/MotionControl-${VERSION}.pkg"
+OUTPUT_PKG="$BUILD_DIR/MotionControl-${VERSION}.pkg"
 SOCKET="/tmp/com.motioncontrol.axhelper.sock"
 HELPER_PATH="/Applications/MotionControl.app/Contents/MacOS/AXHelper"
 
@@ -36,8 +36,31 @@ codesign --force --sign "$SIGN_APP" --entitlements "$BUILD_DIR/Entitlements-NoSa
 
 echo "[4/6] Resources..."
 cp Sources/MotionControl/Info.plist "$PKG_ROOT/Applications/MotionControl.app/Contents/"
-[ -f AppIcon.icns ] && cp AppIcon.icns "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/" || true
-[ -f Localizable.json ] && cp Localizable.json "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/" || true
+
+# AppIcon
+if [ -f "$BUILD_DIR/MotionControl.app/Contents/Resources/AppIcon.icns" ]; then
+    cp "$BUILD_DIR/MotionControl.app/Contents/Resources/AppIcon.icns" "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
+    echo "  ✓ AppIcon.icns"
+else
+    echo "  ⚠️  AppIcon.icns not found, skipping"
+fi
+
+# Localizable.json
+if [ -f $BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json ]; then
+    cp $BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
+    echo "  ✓ Localizable.json"
+fi
+
+# Resource bundle (SPM generates this)
+if [ -d ".build/release/MotionControl_MotionControl.bundle" ]; then
+    cp -R ".build/release/MotionControl_MotionControl.bundle" "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
+    echo "  ✓ MotionControl_MotionControl.bundle"
+fi
+
+# Sign the .app bundle
+codesign --force --sign "$SIGN_APP" --timestamp=none \
+    "$PKG_ROOT/Applications/MotionControl.app" 2>&1
+echo "  ✓ App bundle signed"
 
 echo "[5/6] Postinstall..."
 cat > "$PKG_ROOT/scripts/postinstall" << POSTINSTALL

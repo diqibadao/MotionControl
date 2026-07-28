@@ -1,5 +1,5 @@
 // Sources/MotionControl/Control/UIElementScanner.swift
-// 沙盒兼容版：CGWindowList 窗口发现 → XPC Service（AXHelper）做 AX 扫描
+// 沙盒兼容版：CGWindowList 窗口发现 → UNIX Socket → 独立 AXHelper 进程做 AX 扫描
 import AppKit
 import Combine
 import Foundation
@@ -103,7 +103,7 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
-    // MARK: - AX 扫描（UNIX Socket → XPC Service AXHelper）
+    // MARK: - AX 扫描（UNIX Socket → 独立 AXHelper 进程）
 
     private let axSocketPath = "/tmp/com.motioncontrol.axhelper.sock"
 

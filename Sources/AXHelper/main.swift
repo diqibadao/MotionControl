@@ -1,6 +1,6 @@
 // Sources/AXHelper/main.swift
-// AXHelper — 独立 AX 扫描进程（无沙盒签名），通过 UNIX Socket 接收窗口列表，返回扫描结果
-// 由 launchd LaunchAgent 拉起：com.motioncontrol.axhelper
+// AXHelper — 独立 AX 扫描进程，通过 UNIX Socket 接收窗口列表，返回扫描结果
+// 由主 App 通过 UIElementScanner.scanElements() 连接，扫描结果返回后 filterVisible 过滤
 import Foundation
 import AppKit
 import ApplicationServices

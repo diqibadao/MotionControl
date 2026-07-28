@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo "=== MotionControl PKG Builder ==="
+echo "=== MotionControl PKG Builder v0.9.0 ==="
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_DIR="$PROJECT_DIR/build"
@@ -29,12 +29,20 @@ cp .build/release/AXHelper "$PKG_ROOT/Applications/MotionControl.app/Contents/Ma
 chmod +x "$PKG_ROOT/Applications/MotionControl.app/Contents/MacOS/MotionControl"
 chmod +x "$PKG_ROOT/Applications/MotionControl.app/Contents/MacOS/AXHelper"
 
-codesign --force --sign "$SIGN_APP" --entitlements "$BUILD_DIR/Entitlements.plist" --timestamp=none \
-  "$PKG_ROOT/Applications/MotionControl.app/Contents/MacOS/MotionControl" 2>&1
-codesign --force --sign "$SIGN_APP" --entitlements "$BUILD_DIR/Entitlements-NoSandbox.plist" --timestamp=none \
+# Sign AXHelper first (no sandbox)
+codesign --force --sign "$SIGN_APP" \
+  --entitlements "$BUILD_DIR/Entitlements-NoSandbox.plist" \
+  --timestamp=none \
   "$PKG_ROOT/Applications/MotionControl.app/Contents/MacOS/AXHelper" 2>&1
 
+# Sign MotionControl (sandbox)
+codesign --force --sign "$SIGN_APP" \
+  --entitlements "$BUILD_DIR/Entitlements.plist" \
+  --timestamp=none \
+  "$PKG_ROOT/Applications/MotionControl.app/Contents/MacOS/MotionControl" 2>&1
+
 echo "[4/6] Resources..."
+# Info.plist from Sources (with all required keys)
 cp Sources/MotionControl/Info.plist "$PKG_ROOT/Applications/MotionControl.app/Contents/"
 
 # AppIcon
@@ -42,22 +50,25 @@ if [ -f "$BUILD_DIR/MotionControl.app/Contents/Resources/AppIcon.icns" ]; then
     cp "$BUILD_DIR/MotionControl.app/Contents/Resources/AppIcon.icns" "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
     echo "  ✓ AppIcon.icns"
 else
-    echo "  ⚠️  AppIcon.icns not found, skipping"
+    echo "  ⚠️  AppIcon.icns not found"
 fi
 
 # Localizable.json
-if [ -f $BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json ]; then
-    cp $BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
+if [ -f "$BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json" ]; then
+    cp "$BUILD_DIR/MotionControl.app/Contents/Resources/Localizable.json" "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
     echo "  ✓ Localizable.json"
+elif [ -f Sources/MotionControl/Resources/Localizable.json ]; then
+    cp Sources/MotionControl/Resources/Localizable.json "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
+    echo "  ✓ Localizable.json (from Sources)"
 fi
 
-# Resource bundle (SPM generates this)
+# Resource bundle (SPM)
 if [ -d ".build/release/MotionControl_MotionControl.bundle" ]; then
     cp -R ".build/release/MotionControl_MotionControl.bundle" "$PKG_ROOT/Applications/MotionControl.app/Contents/Resources/"
     echo "  ✓ MotionControl_MotionControl.bundle"
 fi
 
-# Sign the .app bundle
+# Sign the .app bundle (after all resources are copied)
 codesign --force --sign "$SIGN_APP" --timestamp=none \
     "$PKG_ROOT/Applications/MotionControl.app" 2>&1
 echo "  ✓ App bundle signed"
@@ -70,11 +81,9 @@ HELPER="$HELPER_PATH"
 SOCKET="$SOCKET"
 chmod +x "\$HELPER"
 
-# Kill old instance, clean socket
 pkill -f AXHelper 2>/dev/null || true
 rm -f "\$SOCKET"
 
-# Start AXHelper as LaunchAgent for current user
 CONSOLE_USER=\$(stat -f%Su /dev/console 2>/dev/null || echo "")
 if [ -n "\$CONSOLE_USER" ] && [ "\$CONSOLE_USER" != "root" ]; then
     USER_UID=\$(id -u "\$CONSOLE_USER" 2>/dev/null || echo "501")
@@ -104,19 +113,21 @@ PLIST_EOF
     chown "\$CONSOLE_USER:staff" "\$PLIST" 2>/dev/null || true
     launchctl asuser "\$USER_UID" launchctl bootout "gui/\$USER_UID/com.motioncontrol.axhelper" 2>/dev/null || true
     launchctl asuser "\$USER_UID" launchctl bootstrap "gui/\$USER_UID" "\$PLIST" 2>/dev/null || true
-    
-    # Wait for socket
-    for i in \$(seq 1 30); do [ -S "\$SOCKET" ] && break; sleep 0.2; done
+    for i in \$(seq 1 60); do [ -S "\$SOCKET" ] && break; sleep 0.2; done
 fi
 exit 0
 POSTINSTALL
 chmod +x "$PKG_ROOT/scripts/postinstall"
 
 echo "[6/6] Building PKG..."
-pkgbuild --root "$PKG_ROOT/Applications" --identifier com.motioncontrol.app --version "$VERSION" \
-  --install-location "/Applications" --scripts "$PKG_ROOT/scripts" --sign "$SIGN_PKG" "$OUTPUT_PKG"
+pkgbuild --root "$PKG_ROOT/Applications" \
+    --identifier com.motioncontrol.app \
+    --version "$VERSION" \
+    --install-location "/Applications" \
+    --scripts "$PKG_ROOT/scripts" \
+    --sign "$SIGN_PKG" \
+    "$OUTPUT_PKG"
 
 echo ""
 echo "✅ PKG built: $OUTPUT_PKG ($(ls -lh "$OUTPUT_PKG" | awk '{print $5}'))"
-echo "   Install: sudo installer -pkg $OUTPUT_PKG -target /"
 rm -rf "$PKG_ROOT"

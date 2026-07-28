@@ -213,7 +213,7 @@ public class UIElementScanner: ObservableObject {
         guard let list = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as? [[String: Any]] else { return [] }
 
         let myPID = ProcessInfo.processInfo.processIdentifier
-        let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸"])
+        let skipOwners = Set(["MotionControl", "AXHelper", "Window Server", "墙纸", "程序坞"])
 
         var pidBounds: [Int: CGRect] = [:]
         var pidLayer: [Int: Int] = [:]

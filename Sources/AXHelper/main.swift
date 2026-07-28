@@ -120,7 +120,7 @@ let socketPath: String
 if let idx = CommandLine.arguments.firstIndex(of: "--socket") {
     socketPath = CommandLine.arguments[idx + 1]
 } else {
-    socketPath = "/tmp/axhelper.sock"
+    socketPath = "/tmp/com.motioncontrol.axhelper.sock"
 }
 
 let sock = socket(AF_UNIX, SOCK_STREAM, 0)
@@ -133,7 +133,7 @@ let addrLen = socklen_t(MemoryLayout<sockaddr_un>.size)
 guard bind(sock, UnsafeRawPointer(&addr).assumingMemoryBound(to: sockaddr.self), addrLen) == 0 else {
     fputs("[AXHelper] bind failed: \(String(cString: strerror(errno)))\n", stderr); exit(1)
 }
-guard listen(sock, 5) == 0 else { fputs("[AXHelper] listen failed: \(String(cString: strerror(errno)))\n", stderr); exit(1) }
+guard listen(sock, 5) == 0 else { fputs("[AXHelper] listen failed\n", stderr); exit(1) }
 fputs("[AXHelper] listening on \(socketPath)\n", stderr)
 
 signal(SIGTERM) { _ in fputs("[AXHelper] exiting\n", stderr); exit(0) }
@@ -143,7 +143,6 @@ while true {
     let client = accept(sock, nil, nil)
     guard client >= 0 else { continue }
 
-    // 读 4 字节大端长度 + JSON 请求
     var reqLenBE: UInt32 = 0
     guard read(client, &reqLenBE, 4) == 4 else { close(client); continue }
     let reqLen = Int(UInt32(bigEndian: reqLenBE))

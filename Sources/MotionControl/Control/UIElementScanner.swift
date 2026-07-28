@@ -1,5 +1,5 @@
 // Sources/MotionControl/Control/UIElementScanner.swift
-// 沙盒兼容版：CGWindowList 窗口发现 → UNIX Socket → 独立 AXHelper 进程（无沙盒）做 AX 扫描
+// 沙盒兼容版：CGWindowList 窗口发现 → XPC Service（AXHelper）做 AX 扫描
 import AppKit
 import Combine
 import Foundation
@@ -103,51 +103,11 @@ public class UIElementScanner: ObservableObject {
         }
     }
 
-    // MARK: - AX 扫描（UNIX Socket → 独立 AXHelper 进程）
+    // MARK: - AX 扫描（UNIX Socket → XPC Service AXHelper）
 
-    private var axSocketPath: String {
-        return NSHomeDirectory() + "/Data/tmp/axhelper.sock"
-    }
-
-    /// 安装并启动 AXHelper LaunchAgent（首次启动时调用）
-    /// App Store 审核注意：LaunchAgent 注册属于标准 macOS 行为，辅助功能类 App（如 Alfred、BetterTouchTool）均使用此模式
-    private func ensureAXHelperRunning() {
-        guard !FileManager.default.fileExists(atPath: axSocketPath) else { return }
-
-        let bundlePath = Bundle.main.bundlePath
-        let helperBin = bundlePath + "/Contents/MacOS/AXHelper"
-        let plistSrc = bundlePath + "/Contents/Resources/com.motioncontrol.axhelper.plist"
-        let plistDst = NSHomeDirectory() + "/Library/LaunchAgents/com.motioncontrol.axhelper.plist"
-
-        guard FileManager.default.fileExists(atPath: helperBin) else { return }
-
-        // 写入 LaunchAgent plist（替换占位符）
-        if FileManager.default.fileExists(atPath: plistSrc),
-           let tmpl = try? String(contentsOfFile: plistSrc, encoding: .utf8) {
-            let plist = tmpl.replacingOccurrences(of: "__AXHELPER_PATH__", with: helperBin)
-                          .replacingOccurrences(of: "__SOCKET_PATH__", with: axSocketPath)
-            try? FileManager.default.createDirectory(atPath: NSHomeDirectory() + "/Library/LaunchAgents", withIntermediateDirectories: true)
-            try? plist.write(toFile: plistDst, atomically: true, encoding: .utf8)
-        }
-
-        // 启动 LaunchAgent
-        let proc = Process()
-        proc.executableURL = URL(fileURLWithPath: "/bin/launchctl")
-        proc.arguments = ["bootstrap", "gui/\(getuid())", plistDst]
-        proc.standardOutput = FileHandle.nullDevice
-        proc.standardError = FileHandle.nullDevice
-        try? proc.run(); proc.waitUntilExit()
-
-        // 等 socket 就绪（最多 5s）
-        for _ in 0..<50 {
-            if FileManager.default.fileExists(atPath: axSocketPath) { break }
-            Thread.sleep(forTimeInterval: 0.1)
-        }
-    }
+    private let axSocketPath = "/tmp/com.motioncontrol.axhelper.sock"
 
     private func scanElements(windows: [WindowInfo]) -> [UIElementInfo] {
-        ensureAXHelperRunning()
-
         let windowDTOs: [[String: Any]] = windows.map { w in
             return ["pid": w.pid, "bounds": [Double(w.bounds.origin.x), Double(w.bounds.origin.y), Double(w.bounds.width), Double(w.bounds.height)], "layer": w.layer]
         }

@@ -26,9 +26,16 @@ class MouseController {
         CGWarpMouseCursorPosition(flippedPoint)
     }
 
+    /// Y 轴翻转：NSEvent.mouseLocation 是 Cocoa 坐标（原点左下），CGEvent 需要 Quartz（原点左上）
+    private func flipY(_ p: CGPoint) -> CGPoint {
+        let h = NSScreen.main?.frame.height ?? 1080
+        return CGPoint(x: p.x, y: h - p.y)
+    }
+
     /// 左键单击
     func leftClick(at point: CGPoint? = nil) {
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipY(rawPos)
         EventLogger.log(event: "leftClick", frame: nil, input: "pos=\(pos) trusted=\(AXIsProcessTrusted())", output: "", duration: nil)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: pos, mouseButton: .left) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: pos, mouseButton: .left) else { return }
@@ -39,21 +46,22 @@ class MouseController {
 
     /// 左键按下（拖拽开始）
     func mouseDown() {
-        let pos = NSEvent.mouseLocation
+        let pos = flipY(NSEvent.mouseLocation)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: pos, mouseButton: .left) else { return }
         down.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
     /// 左键释放（拖拽结束）
     func mouseUp() {
-        let pos = NSEvent.mouseLocation
+        let pos = flipY(NSEvent.mouseLocation)
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: pos, mouseButton: .left) else { return }
         up.post(tap: CGEventTapLocation.cghidEventTap)
     }
 
     /// 右键单击
     func rightClick(at point: CGPoint? = nil) {
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipY(rawPos)
         guard let down = CGEvent(mouseEventSource: nil, mouseType: .rightMouseDown, mouseCursorPosition: pos, mouseButton: .right) else { return }
         guard let up = CGEvent(mouseEventSource: nil, mouseType: .rightMouseUp, mouseCursorPosition: pos, mouseButton: .right) else { return }
         down.post(tap: CGEventTapLocation.cghidEventTap)
@@ -62,7 +70,8 @@ class MouseController {
 
     /// 双击
     func doubleClick(at point: CGPoint? = nil) {
-        let pos = point ?? NSEvent.mouseLocation
+        let rawPos = point ?? NSEvent.mouseLocation
+        let pos = flipY(rawPos)
         EventLogger.log(event: "doubleClick", frame: nil, input: "pos=\(pos)", output: "", duration: nil)
         for _ in 0..<2 {
             guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: pos, mouseButton: .left) else { continue }
@@ -76,11 +85,12 @@ class MouseController {
 
     /// 拖拽
     func drag(from start: CGPoint, to end: CGPoint) {
-        guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: start, mouseButton: .left) else { return }
+        let qStart = flipY(start), qEnd = flipY(end)
+        guard let down = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDown, mouseCursorPosition: qStart, mouseButton: .left) else { return }
         down.post(tap: CGEventTapLocation.cghidEventTap)
-        let move = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged, mouseCursorPosition: end, mouseButton: .left)
+        let move = CGEvent(mouseEventSource: nil, mouseType: .leftMouseDragged, mouseCursorPosition: qEnd, mouseButton: .left)
         move?.post(tap: CGEventTapLocation.cghidEventTap)
-        guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: end, mouseButton: .left) else { return }
+        guard let up = CGEvent(mouseEventSource: nil, mouseType: .leftMouseUp, mouseCursorPosition: qEnd, mouseButton: .left) else { return }
         up.post(tap: CGEventTapLocation.cghidEventTap)
     }
 

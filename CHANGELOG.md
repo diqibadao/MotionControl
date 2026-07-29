@@ -2,6 +2,55 @@
 
 ---
 
+## v0.9.0 (2026-07-28) — App Store 沙盒兼容版
+
+| 属性 | 内容 |
+|------|------|
+| **分支** | `fix/ax-scan-sandbox-click` |
+| **目标** | `appstore` |
+| **作者** | Claude Fable 5 |
+
+### 🔧 修复
+
+**沙盒版 AX 界面扫描 raw=0 — UNIX Socket + 独立进程架构**
+
+- **根因**: App Sandbox 阻止 `AXUIElementCreateApplication(pid)` 跨进程访问
+- **方案**: 主 App (沙盒) → UNIX Socket → 独立 AXHelper 进程 (无沙盒) → 25层递归扫描
+- **关键点**:
+  - socket 路径在 App 沙盒容器内（`~/Library/Containers/com.motioncontrol.app/Data/tmp/axhelper.sock`）
+  - `postinstall` 用 `launchctl asuser` 启动 AXHelper（用户身份，非 root）
+  - `chmod(socketPath, 0o666)` 让沙盒 App 可连
+  - `--preserve-metadata=entitlements` 防止 bundle 签名覆盖内嵌 AXHelper 的空 entitlements
+
+### 📊 验证
+
+| 修复前 | 修复后 |
+|------|------|
+| raw=0 visible=0 | raw=121 visible=103 |
+| 4 个窗口扫不到任何元素 | 4 个窗口 121 个元素 |
+
+### 📁 新增/修改文件
+
+- `Sources/AXHelper/main.swift` — UNIX Socket server，socket 0666
+- `Sources/MotionControl/Control/UIElementScanner.swift` — Socket 客户端
+- `scripts/build_pkg.sh` — 一键构建签名打包
+- `build/Entitlements-NoSandbox.plist` — AXHelper 空 entitlements（新建）
+- `Sources/MotionControl/Info.plist` — 补充 App Store 必需字段
+- `AX_SCAN_FIX.md` — 详细修复文档（新建，380行）
+- `BRANCH_STRATEGY.md` — 分支策略文档（新建）
+
+### 🔀 分支合并
+
+修复分支需合并到：
+- `appstore`（主要）— App Store 上架版 v0.9.0
+- `main`（可选）— GitHub 公开版，如果需要同步此修复
+
+### 📋 详细修复内容
+
+见 [AX_SCAN_FIX.md](./AX_SCAN_FIX.md)
+
+---
+
 ## v0.7.6-WIP (2026-06-21)
 
 | 属性 | 内容 |

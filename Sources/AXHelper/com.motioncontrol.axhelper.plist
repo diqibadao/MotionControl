@@ -6,13 +6,10 @@
     <string>com.motioncontrol.axhelper</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/diqibadao/Desktop/vibe项目/MotionControl/.build/debug/AXHelper</string>
+        <string>__AXHELPER_PATH__</string>
+        <string>--socket</string>
+        <string>__SOCKET_PATH__</string>
     </array>
-    <key>MachServices</key>
-    <dict>
-        <key>com.motioncontrol.axhelper</key>
-        <true/>
-    </dict>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>

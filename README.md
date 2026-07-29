@@ -43,7 +43,8 @@ Swift 5.9 / SwiftUI + AppKit + Vision Framework + Core Graphics
 ## 文档
 
 - **CHANGELOG.md** — 版本日志（自动生成）
-- **[docs/adr/](docs/adr/)** — 重要技术决策记录
+- **[Docs/adr/](Docs/adr/)** — 重要技术决策记录
+- **[Docs/](Docs/)** — 需求文档 / 技术方案 / 质量标准
 - 内联代码注释 — 关键逻辑解释
 
 ## 贡献
